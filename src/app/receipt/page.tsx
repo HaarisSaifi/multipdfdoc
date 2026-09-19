@@ -19,6 +19,7 @@ import {
   Building,
   Calendar,
   Clock,
+  RotateCcw,
 } from "lucide-react";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
@@ -32,23 +33,22 @@ interface ReceiptItem {
 export default function ReceiptMakerPage() {
   const [template, setTemplate] = useState<"taxi" | "restaurant" | "hotel" | "retail">("taxi");
 
-  // Merchant details
-  const [merchantName, setMerchantName] = useState("Uber Technologies Inc.");
-  const [merchantAddress, setMerchantAddress] = useState("1455 Market St #400, San Francisco, CA");
-  const [receiptNumber, setReceiptNumber] = useState(`REC-${Date.now().toString().slice(-6)}`);
+  // Merchant details (Clean empty default)
+  const [merchantName, setMerchantName] = useState("");
+  const [merchantAddress, setMerchantAddress] = useState("");
+  const [receiptNumber, setReceiptNumber] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [time, setTime] = useState("18:45");
-  const [paymentMethod, setPaymentMethod] = useState("Visa •••• 4242");
+  const [time, setTime] = useState("12:00");
+  const [paymentMethod, setPaymentMethod] = useState("");
 
-  // Items
+  // Items (1 clean single row by default)
   const [items, setItems] = useState<ReceiptItem[]>([
-    { id: "1", description: "Standard Rideshare Fare (SFO to Downtown)", amount: 42.50 },
-    { id: "2", description: "Airport Access Fee & Toll Surcharge", amount: 5.75 },
+    { id: "1", description: "", amount: 0 },
   ]);
 
-  // Tax & Tip
-  const [taxAmount, setTaxAmount] = useState<number>(3.85);
-  const [tipAmount, setTipAmount] = useState<number>(8.00);
+  // Tax & Tip (0 default)
+  const [taxAmount, setTaxAmount] = useState<number>(0);
+  const [tipAmount, setTipAmount] = useState<number>(0);
 
   const [generating, setGenerating] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
@@ -77,6 +77,8 @@ export default function ReceiptMakerPage() {
     if (type === "taxi") {
       setMerchantName("Uber Technologies Inc.");
       setMerchantAddress("1455 Market St #400, San Francisco, CA");
+      setReceiptNumber(`REC-${Date.now().toString().slice(-6)}`);
+      setPaymentMethod("Visa •••• 4242");
       setItems([
         { id: "1", description: "Rideshare Trip (Airport to Client Office)", amount: 38.50 },
         { id: "2", description: "City Congestion Surcharge", amount: 4.25 },
@@ -86,6 +88,8 @@ export default function ReceiptMakerPage() {
     } else if (type === "restaurant") {
       setMerchantName("The Capital Grille & Bistro");
       setMerchantAddress("1330 Avenue of the Americas, New York, NY");
+      setReceiptNumber(`REC-${Date.now().toString().slice(-6)}`);
+      setPaymentMethod("Mastercard •••• 8812");
       setItems([
         { id: "1", description: "Client Business Dinner (2 Entrees)", amount: 84.00 },
         { id: "2", description: "Beverages & Sparkling Water", amount: 16.50 },
@@ -95,6 +99,8 @@ export default function ReceiptMakerPage() {
     } else if (type === "hotel") {
       setMerchantName("Marriott Downtown Central");
       setMerchantAddress("555 S West Temple, Salt Lake City, UT");
+      setReceiptNumber(`REC-${Date.now().toString().slice(-6)}`);
+      setPaymentMethod("Amex •••• 1009");
       setItems([
         { id: "1", description: "Standard King Room (1 Night)", amount: 189.00 },
         { id: "2", description: "High-Speed Business WiFi", amount: 14.95 },
@@ -104,6 +110,8 @@ export default function ReceiptMakerPage() {
     } else {
       setMerchantName("Staples Office Supply Store #0412");
       setMerchantAddress("300 Main Street, Cambridge, MA");
+      setReceiptNumber(`REC-${Date.now().toString().slice(-6)}`);
+      setPaymentMethod("Visa •••• 5531");
       setItems([
         { id: "1", description: "Recycled Printer Paper (Box of 5 Reams)", amount: 39.99 },
         { id: "2", description: "USB-C Presentation Dongle", amount: 24.50 },
@@ -113,8 +121,20 @@ export default function ReceiptMakerPage() {
     }
   };
 
+  const clearAllFields = () => {
+    setMerchantName("");
+    setMerchantAddress("");
+    setReceiptNumber("");
+    setPaymentMethod("");
+    setItems([{ id: Date.now().toString(), description: "", amount: 0 }]);
+    setTaxAmount(0);
+    setTipAmount(0);
+    setDownloadUrl(null);
+    setErrorMsg(null);
+  };
+
   const addItem = () => {
-    setItems([...items, { id: Date.now().toString(), description: "Expense Item", amount: 10.00 }]);
+    setItems([...items, { id: Date.now().toString(), description: "", amount: 0 }]);
   };
 
   const removeItem = (id: string) => {
@@ -327,6 +347,15 @@ export default function ReceiptMakerPage() {
             </button>
           );
         })}
+        <button
+          type="button"
+          onClick={clearAllFields}
+          className="flex items-center gap-1.5 px-4 py-2.5 rounded-full text-xs font-bold bg-slate-100 hover:bg-slate-200/80 text-slate-600 border border-slate-200 transition-all shadow-sm"
+          title="Clear all fields"
+        >
+          <RotateCcw className="w-3.5 h-3.5" />
+          <span>Clear All</span>
+        </button>
       </div>
 
       {/* Editor & Preview Split */}
@@ -339,9 +368,10 @@ export default function ReceiptMakerPage() {
               <label className="text-xs font-bold text-slate-800">Merchant / Business Name</label>
               <input
                 type="text"
+                placeholder="e.g. Uber Technologies, Starbucks, or Hotel"
                 value={merchantName}
                 onChange={(e) => setMerchantName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 outline-none focus:border-violet-500 focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500 focus:bg-white transition-all"
               />
             </div>
 
@@ -349,9 +379,10 @@ export default function ReceiptMakerPage() {
               <label className="text-xs font-bold text-slate-800">Merchant Address / Location</label>
               <input
                 type="text"
+                placeholder="e.g. 1455 Market St #400, San Francisco, CA"
                 value={merchantAddress}
                 onChange={(e) => setMerchantAddress(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 outline-none focus:border-violet-500 focus:bg-white transition-all"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500 focus:bg-white transition-all"
               />
             </div>
           </div>
@@ -361,9 +392,10 @@ export default function ReceiptMakerPage() {
               <label className="text-xs font-bold text-slate-800">Receipt #</label>
               <input
                 type="text"
+                placeholder="e.g. REC-001"
                 value={receiptNumber}
                 onChange={(e) => setReceiptNumber(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-900 outline-none"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-900 placeholder:text-slate-400 outline-none"
               />
             </div>
 
@@ -392,9 +424,10 @@ export default function ReceiptMakerPage() {
             <label className="text-xs font-bold text-slate-800">Payment Method</label>
             <input
               type="text"
+              placeholder="e.g. Visa •••• 4242 or Corporate Amex"
               value={paymentMethod}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 outline-none"
+              className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-400 outline-none"
             />
           </div>
 
@@ -417,17 +450,19 @@ export default function ReceiptMakerPage() {
                 <div key={item.id} className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
                   <input
                     type="text"
+                    placeholder="e.g. Expense Item or Fare Description"
                     value={item.description}
                     onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                    className="flex-1 px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-900 font-medium outline-none"
+                    className="flex-1 px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-900 font-medium placeholder:text-slate-400 outline-none"
                   />
                   <div className="w-24">
                     <input
                       type="number"
                       step="0.01"
-                      value={item.amount}
+                      placeholder="0.00"
+                      value={item.amount === 0 ? "" : item.amount}
                       onChange={(e) => updateItem(item.id, "amount", parseFloat(e.target.value) || 0)}
-                      className="w-full px-2 py-1.5 rounded-lg bg-white border border-slate-200 text-xs text-right font-bold text-slate-900 outline-none"
+                      className="w-full px-2 py-1.5 rounded-lg bg-white border border-slate-200 text-xs text-right font-bold text-slate-900 placeholder:text-slate-400 outline-none"
                     />
                   </div>
                   <button
@@ -450,9 +485,10 @@ export default function ReceiptMakerPage() {
               <input
                 type="number"
                 step="0.01"
-                value={taxAmount}
+                placeholder="0.00"
+                value={taxAmount === 0 ? "" : taxAmount}
                 onChange={(e) => setTaxAmount(parseFloat(e.target.value) || 0)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 placeholder:text-slate-400"
               />
             </div>
             <div className="space-y-1">
@@ -460,9 +496,10 @@ export default function ReceiptMakerPage() {
               <input
                 type="number"
                 step="0.01"
-                value={tipAmount}
+                placeholder="0.00"
+                value={tipAmount === 0 ? "" : tipAmount}
                 onChange={(e) => setTipAmount(parseFloat(e.target.value) || 0)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 placeholder:text-slate-400"
               />
             </div>
           </div>
@@ -474,14 +511,14 @@ export default function ReceiptMakerPage() {
             {/* Visual Receipt Slip Representation */}
             <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-inner font-mono text-xs space-y-3">
               <div className="text-center space-y-1 border-b border-dashed border-slate-300 pb-3">
-                <div className="font-bold text-slate-900 uppercase text-sm">{merchantName}</div>
-                <div className="text-[10px] text-slate-500">{merchantAddress}</div>
+                <div className="font-bold text-slate-900 uppercase text-sm">{merchantName || "MERCHANT NAME"}</div>
+                <div className="text-[10px] text-slate-500">{merchantAddress || "123 Business Way, City, State"}</div>
               </div>
 
               <div className="space-y-1 text-[11px] text-slate-600 border-b border-dashed border-slate-300 pb-3">
                 <div className="flex justify-between">
                   <span>REC #:</span>
-                  <span className="font-bold text-slate-900">{receiptNumber}</span>
+                  <span className="font-bold text-slate-900">{receiptNumber || "REC-001"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>DATE:</span>
@@ -489,15 +526,15 @@ export default function ReceiptMakerPage() {
                 </div>
                 <div className="flex justify-between">
                   <span>METHOD:</span>
-                  <span>{paymentMethod}</span>
+                  <span>{paymentMethod || "Cash / Card"}</span>
                 </div>
               </div>
 
               <div className="space-y-1.5 text-[11px] border-b border-dashed border-slate-300 pb-3">
                 {items.map((it) => (
                   <div key={it.id} className="flex justify-between">
-                    <span className="truncate max-w-[170px]">{it.description}</span>
-                    <span className="font-bold">${it.amount.toFixed(2)}</span>
+                    <span className="truncate max-w-[170px]">{it.description || "Expense Item"}</span>
+                    <span className="font-bold">${it.amount ? it.amount.toFixed(2) : "0.00"}</span>
                   </div>
                 ))}
               </div>

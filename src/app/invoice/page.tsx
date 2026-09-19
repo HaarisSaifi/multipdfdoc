@@ -17,6 +17,7 @@ import {
   User,
   Calendar,
   Percent,
+  RotateCcw,
 } from "lucide-react";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
@@ -33,34 +34,69 @@ export default function InvoiceGeneratorPage() {
   const [currency, setCurrency] = useState<{ symbol: string; code: string }>({ symbol: "$", code: "USD" });
 
   // Invoice Meta
-  const [invoiceNumber, setInvoiceNumber] = useState(`INV-${Date.now().toString().slice(-6)}`);
+  const [invoiceNumber, setInvoiceNumber] = useState("");
   const [invoiceDate, setInvoiceDate] = useState(new Date().toISOString().split("T")[0]);
   const [dueDate, setDueDate] = useState(
     new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
   );
 
-  // Sender / From
-  const [fromName, setFromName] = useState("Apex Digital Solutions LLC");
-  const [fromEmail, setFromEmail] = useState("billing@apexdigital.com");
-  const [fromAddress, setFromAddress] = useState("100 Innovation Way, Suite 400\nSan Francisco, CA 94105");
+  // Sender / From (Clean empty default)
+  const [fromName, setFromName] = useState("");
+  const [fromEmail, setFromEmail] = useState("");
+  const [fromAddress, setFromAddress] = useState("");
 
-  // Client / To
-  const [toName, setToName] = useState("Vanguard Media Partners");
-  const [toEmail, setToEmail] = useState("accounts@vanguardmedia.com");
-  const [toAddress, setToAddress] = useState("742 Evergreen Terrace\nNew York, NY 10001");
+  // Client / To (Clean empty default)
+  const [toName, setToName] = useState("");
+  const [toEmail, setToEmail] = useState("");
+  const [toAddress, setToAddress] = useState("");
 
-  // Line items
+  // Line items (1 clean single row by default)
   const [items, setItems] = useState<LineItem[]>([
-    { id: "1", description: "Full-Stack Web Application Architecture & Development", quantity: 40, rate: 85 },
-    { id: "2", description: "Client-Side Security Audit & HIPAA Compliance Hardening", quantity: 1, rate: 1200 },
-    { id: "3", description: "Automated Testing & End-to-End CI/CD Pipeline Setup", quantity: 12, rate: 75 },
+    { id: "1", description: "", quantity: 1, rate: 0 },
   ]);
 
-  // Tax & Discount
-  const [taxPercent, setTaxPercent] = useState<number>(8.5);
+  // Tax & Discount (0 default)
+  const [taxPercent, setTaxPercent] = useState<number>(0);
   const [discountPercent, setDiscountPercent] = useState<number>(0);
-  const [notes, setNotes] = useState("Payment terms: Net 14 days. Thank you for your business!");
-  const [paymentDetails, setPaymentDetails] = useState("Bank Wire: Chase Bank | Routing: 121000358 | Account: 9876543210\nPayPal: billing@apexdigital.com");
+  const [notes, setNotes] = useState("");
+  const [paymentDetails, setPaymentDetails] = useState("");
+
+  const loadSampleData = () => {
+    setInvoiceNumber("INV-004291");
+    setFromName("Apex Digital Solutions LLC");
+    setFromEmail("billing@apexdigital.com");
+    setFromAddress("100 Innovation Way, Suite 400\nSan Francisco, CA 94105");
+    setToName("Vanguard Media Partners");
+    setToEmail("accounts@vanguardmedia.com");
+    setToAddress("742 Evergreen Terrace\nNew York, NY 10001");
+    setItems([
+      { id: "1", description: "Full-Stack Web Application Architecture & Development", quantity: 40, rate: 85 },
+      { id: "2", description: "Client-Side Security Audit & HIPAA Compliance Hardening", quantity: 1, rate: 1200 },
+      { id: "3", description: "Automated Testing & CI/CD Pipeline Setup", quantity: 12, rate: 75 },
+    ]);
+    setTaxPercent(8.5);
+    setDiscountPercent(0);
+    setNotes("Payment terms: Net 14 days. Thank you for your business!");
+    setPaymentDetails("Bank Wire: Chase Bank | Routing: 121000358 | Account: 9876543210\nPayPal: billing@apexdigital.com");
+    setErrorMsg(null);
+  };
+
+  const clearAllFields = () => {
+    setInvoiceNumber("");
+    setFromName("");
+    setFromEmail("");
+    setFromAddress("");
+    setToName("");
+    setToEmail("");
+    setToAddress("");
+    setItems([{ id: Date.now().toString(), description: "", quantity: 1, rate: 0 }]);
+    setTaxPercent(0);
+    setDiscountPercent(0);
+    setNotes("");
+    setPaymentDetails("");
+    setDownloadUrl(null);
+    setErrorMsg(null);
+  };
 
   const [generating, setGenerating] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
@@ -94,7 +130,7 @@ export default function InvoiceGeneratorPage() {
   const addItem = () => {
     setItems([
       ...items,
-      { id: Date.now().toString(), description: "Consulting Services", quantity: 1, rate: 100 },
+      { id: Date.now().toString(), description: "", quantity: 1, rate: 0 },
     ]);
   };
 
@@ -134,7 +170,10 @@ export default function InvoiceGeneratorPage() {
       let y = height - 50;
 
       // Header Brand
-      page.drawText(sanitizePdfText(fromName.toUpperCase()) || "INVOICE", {
+      const displayFromName = sanitizePdfText(fromName.toUpperCase()) || "YOUR COMPANY";
+      const safeInvoiceNum = invoiceNumber.trim() || `INV-${Date.now().toString().slice(-6)}`;
+
+      page.drawText(displayFromName, {
         x: 50,
         y,
         size: 18,
@@ -151,8 +190,8 @@ export default function InvoiceGeneratorPage() {
       });
 
       y -= 18;
-      page.drawText(sanitizePdfText(fromEmail), { x: 50, y, size: 9, font: fontRegular, color: mutedColor });
-      page.drawText(`# ${sanitizePdfText(invoiceNumber)}`, { x: width - 140, y, size: 10, font: fontBold, color: primaryColor });
+      page.drawText(sanitizePdfText(fromEmail) || "billing@yourdomain.com", { x: 50, y, size: 9, font: fontRegular, color: mutedColor });
+      page.drawText(`# ${sanitizePdfText(safeInvoiceNum)}`, { x: width - 140, y, size: 10, font: fontBold, color: primaryColor });
 
       y -= 14;
       const fromLines = fromAddress.split("\n");
@@ -388,14 +427,35 @@ export default function InvoiceGeneratorPage() {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <label className="text-xs font-bold text-slate-600">Invoice #:</label>
-              <input
-                type="text"
-                value={invoiceNumber}
-                onChange={(e) => setInvoiceNumber(e.target.value)}
-                className="w-32 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-900 outline-none focus:border-violet-500"
-              />
+            <div className="flex flex-wrap items-center gap-2.5">
+              <button
+                type="button"
+                onClick={loadSampleData}
+                className="px-3 py-1.5 rounded-full text-xs font-bold bg-violet-50 hover:bg-violet-100 text-violet-700 border border-violet-200 transition-all flex items-center gap-1.5 shadow-sm"
+                title="Fill sample invoice data for quick preview"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Load Sample</span>
+              </button>
+              <button
+                type="button"
+                onClick={clearAllFields}
+                className="px-3 py-1.5 rounded-full text-xs font-bold bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 transition-all flex items-center gap-1.5 shadow-sm"
+                title="Clear all fields"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Clear</span>
+              </button>
+              <div className="flex items-center gap-1.5 sm:ml-2">
+                <label className="text-xs font-bold text-slate-600">Invoice #:</label>
+                <input
+                  type="text"
+                  placeholder="e.g. INV-001"
+                  value={invoiceNumber}
+                  onChange={(e) => setInvoiceNumber(e.target.value)}
+                  className="w-28 sm:w-32 px-2.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                />
+              </div>
             </div>
           </div>
 
@@ -409,24 +469,24 @@ export default function InvoiceGeneratorPage() {
               </div>
               <input
                 type="text"
-                placeholder="Company / Freelancer Name"
+                placeholder="e.g. Your Company Name"
                 value={fromName}
                 onChange={(e) => setFromName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500"
               />
               <input
                 type="email"
-                placeholder="billing@yourdomain.com"
+                placeholder="e.g. yourname@company.com"
                 value={fromEmail}
                 onChange={(e) => setFromEmail(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
               />
               <textarea
                 rows={2}
-                placeholder="Address, City, State, ZIP, Country"
+                placeholder="e.g. 100 Innovation Way, Suite 400&#10;San Francisco, CA 94105"
                 value={fromAddress}
                 onChange={(e) => setFromAddress(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
               />
             </div>
 
@@ -438,24 +498,24 @@ export default function InvoiceGeneratorPage() {
               </div>
               <input
                 type="text"
-                placeholder="Client Name or Organization"
+                placeholder="e.g. Client or Company Name"
                 value={toName}
                 onChange={(e) => setToName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500"
               />
               <input
                 type="email"
-                placeholder="accounts@client.com"
+                placeholder="e.g. client@example.com"
                 value={toEmail}
                 onChange={(e) => setToEmail(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
               />
               <textarea
                 rows={2}
-                placeholder="Client Address, City, State, Country"
+                placeholder="e.g. 742 Evergreen Terrace&#10;New York, NY 10001"
                 value={toAddress}
                 onChange={(e) => setToAddress(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
               />
             </div>
           </div>
@@ -500,27 +560,27 @@ export default function InvoiceGeneratorPage() {
             </div>
 
             <div className="space-y-2">
-              {items.map((item, index) => (
+              {items.map((item) => (
                 <div
                   key={item.id}
                   className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 p-3 rounded-2xl bg-slate-50/80 border border-slate-200"
                 >
                   <input
                     type="text"
-                    placeholder="Description of service or product"
+                    placeholder="e.g. Web Development, Consulting, or Project Deliverable"
                     value={item.description}
                     onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-900 outline-none focus:border-violet-500"
+                    className="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500"
                   />
                   <div className="flex items-center gap-2">
                     <div className="w-20">
                       <input
                         type="number"
                         min="1"
-                        placeholder="Qty"
-                        value={item.quantity}
+                        placeholder="1"
+                        value={item.quantity || ""}
                         onChange={(e) => updateItem(item.id, "quantity", parseFloat(e.target.value) || 0)}
-                        className="w-full px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center font-bold text-slate-900 outline-none"
+                        className="w-full px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center font-bold text-slate-900 placeholder:text-slate-400 outline-none"
                       />
                     </div>
                     <div className="w-24">
@@ -528,10 +588,10 @@ export default function InvoiceGeneratorPage() {
                         type="number"
                         min="0"
                         step="0.01"
-                        placeholder="Rate"
-                        value={item.rate}
+                        placeholder="0.00"
+                        value={item.rate === 0 ? "" : item.rate}
                         onChange={(e) => updateItem(item.id, "rate", parseFloat(e.target.value) || 0)}
-                        className="w-full px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center font-bold text-slate-900 outline-none"
+                        className="w-full px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center font-bold text-slate-900 placeholder:text-slate-400 outline-none"
                       />
                     </div>
                     <div className="w-24 text-right font-mono font-bold text-xs text-slate-900">
@@ -559,8 +619,8 @@ export default function InvoiceGeneratorPage() {
                 rows={3}
                 value={paymentDetails}
                 onChange={(e) => setPaymentDetails(e.target.value)}
-                placeholder="Bank account coordinates, PayPal address, or routing number..."
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 outline-none focus:border-violet-500"
+                placeholder="e.g. Bank Wire: Chase Bank | Routing: 121000358 | Account: 9876543210&#10;PayPal: billing@yourdomain.com"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
               />
             </div>
             <div className="space-y-1.5">
@@ -569,8 +629,8 @@ export default function InvoiceGeneratorPage() {
                 rows={3}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Payment terms, late fee policy, or thank you message..."
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 outline-none focus:border-violet-500"
+                placeholder="e.g. Payment terms: Net 14 days. Thank you for your business!"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
               />
             </div>
           </div>
@@ -604,9 +664,10 @@ export default function InvoiceGeneratorPage() {
                   type="number"
                   min="0"
                   max="100"
-                  value={discountPercent}
+                  placeholder="0"
+                  value={discountPercent === 0 ? "" : discountPercent}
                   onChange={(e) => setDiscountPercent(parseFloat(e.target.value) || 0)}
-                  className="w-16 px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-right font-bold text-xs"
+                  className="w-16 px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-right font-bold text-xs placeholder:text-slate-400"
                 />
               </div>
 
@@ -627,9 +688,10 @@ export default function InvoiceGeneratorPage() {
                   min="0"
                   max="100"
                   step="0.1"
-                  value={taxPercent}
+                  placeholder="0"
+                  value={taxPercent === 0 ? "" : taxPercent}
                   onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
-                  className="w-16 px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-right font-bold text-xs"
+                  className="w-16 px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-right font-bold text-xs placeholder:text-slate-400"
                 />
               </div>
 
