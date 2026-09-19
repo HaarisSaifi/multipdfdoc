@@ -1,6 +1,6 @@
 # 🧠 Antigravity Persistent Brain & Memory Hub
 ### *MultiPDF Doc (multipdfdoc.com): 100% Private In-Browser Document Suite*
-*Last Checkpointed: 2026-09-19 20:50 IST | Version 3.5.0 (Clean Empty Form Defaults + Instant Route Prefetch & Top Progress Bar)*
+*Last Checkpointed: 2026-09-20 02:15 IST | Version 4.0.0 (True WebAssembly & Verified E-E-A-T Engine Overhaul)*
 
 ---
 
@@ -12,8 +12,8 @@
 > - **Header Standard:** Floating wide capsule (`max-w-[1520px]`, `h-14 sm:h-16`, `bg-white/95 shadow-clay-nav`).
 > - **Single-Line Text Rule:** ALL navigation labels and badges MUST use `whitespace-nowrap`. Two-line wrapping is strictly forbidden.
 > - **Tactile Surfaces:** White `.bubble-card` with soft clay ambient shadows and inner white highlights (`inset 0 1px 1px #FFFFFF`).
-> - **Value Wrapper Rule:** Every single tool page MUST feature 700+ words of E-E-A-T guides and schema-compliant `<ValueWrapper />` with automated `FAQPage` JSON-LD schema.
-> - **Zero Server Upload Law:** Core document tools execute 100% client-side inside the user's browser via WebAssembly (`pdf-lib` and HTML5 Canvas). Hostinger CPU & RAM load: 0%.
+> - **Value Wrapper Rule:** Every single tool page MUST feature 700+ words of E-E-A-T guides and schema-compliant `<ValueWrapper />` with automated `FAQPage` JSON-LD schema and verified technical source citations (ISO 32000-1, QPDF, Mozilla, IRS, USCIS).
+> - **Zero Server Upload Law:** Core document tools execute 100% client-side inside the user's browser via JavaScript and WebAssembly (`pdfstudio` qpdf v12, Mozilla PDF.js, `pdf-lib`, and Tesseract.js). Hostinger CPU & RAM load: 0%.
 > - **Server-Side Metadata Standard:** Every route MUST maintain its own dedicated `layout.tsx` providing custom `<title>`, `<meta name="description">`, `alternates.canonical`, and `openGraph` tags. Client components alone must never be left without server metadata.
 > - **Zero Native Alert Law:** NEVER use browser-native `alert(...)` or `confirm(...)`. All errors MUST render via graceful inline error states (`errorMsg`).
 > - **Critical Tool Rule:** NEVER trigger or launch `browser_subagent` unless explicitly requested by the user.
@@ -27,29 +27,29 @@
 - **Master Design System PRD:** [design.prd](file:///d:/adsense/design.prd)
 - **Master PRD:** [masterplanprd.md](file:///d:/adsense/masterplanprd.md)
 - **30-Day Master Growth & Maintenance Blueprint:** [propermonth.md](file:///d:/adsense/propermonth.md)
-- **Core Value Proposition (USP):** *"Your files NEVER leave your computer. Zero server uploads, zero daily caps, zero paywalls."*
+- **Core Value Proposition (USP):** *"Core document operations execute locally in your browser. Zero server uploads for standard tools. Privacy-architected."*
 - **Target Audience:** US, UK, Canada, Australia professionals, legal teams, students, educators, and freelancers handling sensitive records.
 - **Target Monetization:** Google AdSense with high CPC ($18.00 – $45.00+) across legal, invoicing, and academic niches.
 
 ---
 
-## 🚀 2. COMPLETE INVENTORY (KITNA HO GAYA HAI - 100% COMPILED & PRODUCTION READY)
-Next.js 15 App Router compiles all **31 routes (30 static pre-rendered + 1 dynamic API endpoint)** cleanly with **Exit Code 0**:
+## 🚀 2. VERIFIED PRODUCTION ARCHITECTURE (32 TOTAL ROUTES)
+Next.js 15 App Router compiles all **32 routes (30 static pre-rendered + 2 dynamic API endpoints)** cleanly with **Exit Code 0**:
 
 ### 📄 Suite 1: Core Client-Side PDF Utilities (100% In-Browser & Private)
 1. **Private PDF Merger** (`/pdf/merge`): Multi-file drag-and-drop, visual card reordering, client-side concatenation via `pdf-lib`.
 2. **PDF Split & Page Extractor** (`/pdf/split`): Continuous & discontinuous range extraction (`1-3, 5`), instant client-side page isolation.
-3. **Target Size PDF Compressor** (`/pdf/compress`): 100KB, 200KB (USCIS/Passport standard), 500KB presets with clean ISO-32000 object stream deflating (zero binary truncation).
-4. **PDF to High-Res Images** (`/pdf/to-image`): 300 DPI ultra-print / 150 DPI web export into PNG or JPEG.
-5. **Images to Single PDF Compiler** (`/pdf/from-image`): Multi-image photo and receipt compiler with thumbnail sequence reordering.
+3. **Target Size PDF Compressor** (`/pdf/compress`): Dual-Engine: Stage 1 QPDF WebAssembly structural lossless optimization + Stage 2 adaptive raster recompression (PDF.js + canvas JPEG quality binary search) to strictly meet target KB limits (100KB, 200KB, 500KB, 1MB, or Custom).
+4. **PDF to High-Res Images** (`/pdf/to-image`): Real Mozilla PDF.js canvas vector rendering at 150 DPI & 300 DPI, sequential page queue, and one-click JSZip multi-image bundle download.
+5. **Images to Single PDF Compiler** (`/pdf/from-image`): Multi-image photo and scan compiler with thumbnail sequence reordering.
 6. **Rotate & Organize PDF Pages** (`/pdf/organize`): 90°/180° page rotation, deletion, and visual card reordering.
-7. **Password Protect & Encrypt PDF** (`/pdf/protect`): 128-bit / 256-bit client-side encryption with owner permissions. Inline error validation (zero `alert`).
-8. **Unlock & Decrypt PDF** (`/pdf/unlock`): Instant client-side permission and password removal. Inline error validation (zero `alert`).
+7. **Password Protect & Encrypt PDF** (`/pdf/protect`): Real 256-bit AES cryptographic encryption via `pdfstudio` (qpdf WebAssembly v12) with programmatic verification (`info.encrypted === true`, 256-bit).
+8. **Unlock & Decrypt PDF** (`/pdf/unlock`): Real password-validated decryption via `pdfstudio` (qpdf WebAssembly v12), returning specific errors for incorrect passwords or damaged files.
 9. **Bates Numbering & Page Stamper** (`/pdf/page-numbers`): Header/Footer, Left/Center/Right positioning, custom formats ("Page X of Y"), cover page skip. Inline error validation (zero `alert`).
 
 ### 💼 Suite 2: High-CPC Business & Financial Generators ($26 – $35+ CPC)
-10. **Free Professional Invoice Generator** (`/invoice`): Multi-currency (USD $, EUR €, GBP £, INR Rs., CAD, AUD), live tax & discount auto-totaling, client/vendor cards, WinAnsi unicode string sanitization, NaN protection, instant vector PDF without watermarks.
-11. **Expense Reimbursement Receipt Maker** (`/receipt`): Itemized thermal receipt creator with Uber/Taxi, Restaurant, Hotel, and Office Supply presets, barcode simulation, unicode sanitization, bullet-proof character safety, instant PDF export.
+10. **Free Professional Invoice Generator** (`/invoice`): Multi-currency (USD $, EUR €, GBP £, INR Rs., CAD, AUD), live tax & discount auto-totaling, client/vendor cards, default clean blank inputs, instant vector PDF without watermarks.
+11. **Personal Expense Record & Bookkeeping Log Generator** (`/receipt`): Conforms to IRS Publication 463 recordkeeping standards. Eliminates fake merchant simulations (Uber/Marriott) and replaces with legitimate contemporaneous expense vouchers featuring prominent disclaimer: `USER-ENTERED EXPENSE VOUCHER — NOT AN OFFICIAL MERCHANT INVOICE`.
 
 ### 🎓 Suite 3: High-Volume US Academic & Productivity Calculators ($12 – $16+ CPC)
 12. **Final Exam Target Grade Calculator** (`/calc/final-grade`): Visual Panic vs. Chill speedometer gauge, curve buffer simulation, printable cram study roadmap. Zero-division and NaN safe math.
@@ -57,68 +57,46 @@ Next.js 15 App Router compiles all **31 routes (30 static pre-rendered + 1 dynam
 14. **Words to Pages & Speech Presentation Timer** (`/calc/words-to-pages`): Real-time word/character count, Times/Arial/Calibri double/single spaced converter, oral speech delivery pacing (110–150 wpm).
 
 ### 🔍 Suite 4: Dual-Engine OCR & Document Recognition
-15. **Dual-Engine PDF & Image to Text OCR** (`/pdf/to-text`): In-browser WebAssembly mode (100% private, zero upload) + AI Deep Scan & Handwriting mode (Oracle 12GB FastAPI backend + Gemini 2.0 Flash fallback).
+15. **Dual-Engine PDF & Image to Text OCR** (`/pdf/to-text`):
+   - Engine 1: Mozilla PDF.js native digital text extraction layer (instant, lossless).
+   - Engine 2: Tesseract.js WebAssembly OCR on rendered canvas for scanned photocopies (100% in-browser, zero data upload).
+   - Engine 3: Optional Cloud AI Deep Scan with transparent disclosure before transmission.
 
 ### 📚 Suite 5: Editorial Pillar Blog Hub (1,200+ Words Each, Schema.org Article + FAQPage)
 16. **Editorial Blog Hub** (`/blog`): Category filters, estimated reading times, author badges, and direct links to tools.
-17. **USCIS 200KB Compression Guide** (`/blog/compress-pdf-200kb-uscis-passport-guide`): Exact guide on USCIS 240KB limits, passport photo DPI standards, and client-side compression.
-18. **Freelance Invoice Payment Terms Guide** (`/blog/freelance-invoice-payment-terms-guide`): IRS Section 6041 requirements, Net 30 terms, late payment penalty clauses, and vector PDF invoicing.
+17. **USCIS 200KB Compression Guide** (`/blog/compress-pdf-200kb-uscis-passport-guide`): Exact guide on USCIS portal limits (6MB-12MB primary packages vs sub-attachments) and client-side compression.
+18. **Freelance Invoice Payment Terms Guide** (`/blog/freelance-invoice-payment-terms-guide`): Updated with IRS Form 1099-NEC 2026 rule ($2,000 threshold), Net 30 terms, late payment penalty clauses.
 19. **College Admissions GPA Guide** (`/blog/weighted-vs-unweighted-gpa-college-admissions`): Real admissions cutoff breakdown (Ivy League, UC System, Big 10), AP/IB honors boosts, and GPA recalculation formulas.
-20. **Zero-Knowledge PDF Privacy Guide** (`/blog/zero-knowledge-pdf-privacy-cloud-converter-risks`): Security breakdown of cloud converter risks vs WebAssembly zero-upload for HIPAA, GDPR, and NDA compliance.
+20. **Zero-Knowledge PDF Privacy Guide** (`/blog/zero-knowledge-pdf-privacy-cloud-converter-risks`): Security breakdown of cloud converter risks vs client-side zero-upload for confidentiality.
 
 ### 🏛️ Suite 6: Trust, Legal & Sitemaps
-21. **Homepage** (`/`): Master Clay Bento Launchpad + Interactive Comparison Table + FAQ with dedicated canonical tag.
-22. **Privacy Policy** (`/privacy-policy`): GDPR, CCPA, and Google AdSense DART cookie compliant zero-storage disclosures.
+21. **Homepage** (`/`): Master Clay Bento Launchpad + Interactive Comparison Matrix + FAQ with truthful architecture claims.
+22. **Privacy Policy** (`/privacy-policy`): Transparent breakdown of local tools vs optional Cloud AI OCR transmission, Google AdSense cookies, GDPR & CCPA rights.
 23. **Terms of Service** (`/terms`): Fair use, no warranty, and client-side processing liability terms.
 24. **About MultiPDF Doc** (`/about`): E-E-A-T engineering mission, privacy ethos, and creator background.
-25. **Contact Portal** (`/contact`): Direct support channels (`support@multipdfdoc.com`), feedback submission.
-26. **Automated XML Sitemap** (`/sitemap.xml` via `src/app/sitemap.ts`): All 25 priority URLs dynamically generated with changefreq and priorities.
+25. **Contact Portal** (`/contact`): Real `/api/contact` endpoint with body validation, delivery receipt, and direct email link (`support@multipdfdoc.com`).
+26. **Automated XML Sitemap** (`/sitemap.xml` via `src/app/sitemap.ts`): All priority URLs dynamically generated with changefreq and priorities.
 27. **Robots.txt** (`/robots.txt` via `src/app/robots.ts`): Optimized indexing directives.
 
-### ⚙️ Suite 7: Backend & Microservices
-28. **Dynamic Next.js OCR API** (`/api/ocr` via `src/app/api/ocr/route.ts`): Hybrid router connecting to Oracle backend with automatic failover to Gemini 2.0 Flash API.
-29. **Oracle Cloud Backend Suite** (`oracle-backend/`): FastAPI microservice (`main.py`) with PaddleOCR v4, Microsoft TrOCR, Systemd service, Nginx reverse proxy, and Anti-Idle Keep-Alive Cron Shield.
+### ⚙️ Suite 7: Dynamic API Routes & Backend
+28. **Contact API** (`/api/contact` via `src/app/api/contact/route.ts`): Server-side validation for inquiries, spam protection, and confirmed response receipt.
+29. **Dynamic OCR API** (`/api/ocr` via `src/app/api/ocr/route.ts`): Configurable model (`GEMINI_MODEL || "gemini-2.5-flash"`), native `application/pdf` MIME type, removed fake confidence claims.
+30. **Oracle Cloud Backend Suite** (`oracle-backend/`): FastAPI image OCR microservice with PaddleOCR and TrOCR.
 
 ---
 
-## 🎯 3. TRAFFIC & SUCCESS PROBABILITY INDEX (PER TOOL BREAKDOWN)
-
-| Priority | Tool Route | Primary Search Query | Monthly Volume | Target CPC | Success Chance | Strategic Advantage |
-|---|---|---|---|---|---|---|
-| 🥇 **1** | [`/invoice`](file:///d:/adsense/src/app/invoice/page.tsx) | *"free invoice generator without watermark"* | 350k+ | **$32.00 – $42.00+** | **95% (Extreme)** | Competitors (Wave, Adobe) require signups/credit cards or add watermarks. Ours is instant vector PDF with zero signup. |
-| 🥈 **2** | [`/pdf/compress`](file:///d:/adsense/src/app/pdf/compress/page.tsx) | *"compress pdf to 200kb for uscis"* | 180k+ | **$22.00 – $28.00** | **92% (Very High)** | Strict 240KB limit on US immigration and visa portals. Exact presets prevent file rejection. |
-| 🥉 **3** | [`/calc/final-grade`](file:///d:/adsense/src/app/calc/final-grade/page.tsx) | *"what do I need on my final exam to pass"* | 450k+ (Seasonal) | **$12.00 – $16.00** | **90% (High / Viral)** | Viral "Panic vs Chill" speedometer meter and curve buffer. Strong Reddit & TikTok organic referral spikes in Nov/Dec & Apr/May. |
-| 4 | [`/pdf/to-text`](file:///d:/adsense/src/app/pdf/to-text/page.tsx) | *"extract text from scanned pdf online free"* | 220k+ | **$22.00 – $35.00** | **88% (High)** | Dual-Engine choice: In-browser 100% private extraction or AI Neural Vision OCR for handwriting. |
-| 5 | [`/calc/gpa`](file:///d:/adsense/src/app/calc/gpa/page.tsx) | *"weighted to unweighted gpa converter"* | 200k+ | **$14.00 – $18.00** | **85% (High)** | Course roster + AP/IB honors boosts + Top 50 US college admissions cutoffs match. |
-| 6 | [`/receipt`](file:///d:/adsense/src/app/receipt/page.tsx) | *"expense reimbursement receipt maker"* | 90k+ | **$26.00 – $32.00** | **82% (Moderate-High)** | Pre-formatted for Uber, dining, hotel, and office supplies conforming to IRS $75 rule. |
-| 7 | [`/calc/words-to-pages`](file:///d:/adsense/src/app/calc/words-to-pages/page.tsx) | *"words to pages calculator double spaced"* | 120k+ | **$12.00 – $15.00** | **80% (Moderate-High)** | Exact typography mapping (Times, Arial, Calibri) + speech delivery speed timer. |
-| 8–15 | `/pdf/*` (Merge, Split, Protect, Unlock, Organize, etc.) | *"merge pdf without uploading"* | Millions (Global) | **$18.00 – $25.00** | **70%–75% (Steady Organic)** | Dominates long-tail zero-upload privacy intent while establishing high platform authority. |
+## 🧪 3. AUTOMATED INVARIANT VERIFICATION
+Automated test suite (`scratch/test-core-invariants.js`) verifies all critical operations with exit code 0:
+- [x] Sample PDF generation in memory
+- [x] QPDF WebAssembly initialization
+- [x] AES-256 cryptographic lock with 256-bit key verification
+- [x] Password decryption rejection on wrong password
+- [x] Password decryption success on valid password (`isEncrypted === false`)
+- [x] Multi-image JSZip bundle archive generation
 
 ---
 
-## ☁️ 4. ORACLE CLOUD 12GB BACKEND SUITE
-- **VM Configuration:** 12GB RAM instance (Ubuntu 22.04 LTS on Ampere ARM64 or AMD64).
-- **RAM Math Verification:**
-  - Ubuntu OS: ~600MB
-  - FastAPI runtime: ~300MB
-  - Baidu PaddleOCR v4: ~1.0GB
-  - Microsoft TrOCR: ~3.5GB
-  - **Total Peak Footprint:** ~5.4GB RAM
-  - **Headroom Remaining:** ~6.6GB Free RAM (100% stable without swap thrashing).
-- **Anti-Idle Keep-Alive Shield:** Cron script `/usr/local/bin/oracle-anti-idle.sh` generates periodic 20% safe CPU activity to prevent free tier VM reclamation.
-- **Failover:** Next.js API automatically routes to Gemini 2.0 Flash API (0.8s, 99.8% accuracy) if Oracle VM is cold or offline.
-
----
-
-## 🛠️ 5. REPOSITORY & BUILD STATUS
-- **Repository URL:** `https://github.com/HaarisSaifi/multipdfdoc`
-- **Active Branch:** `main` (clean, fully synced with `origin/main`)
-- **Dev Command:** `npm run dev`
-- **Build Command:** `npm run build` (Pre-renders all 31 routes with exit code 0)
-- **Form UX Standard:** Both `/invoice` and `/receipt` initialize with 100% clean, empty inputs and subtle gray placeholders (`e.g. Your Company Name`, `client@example.com`, `0.00`). Line items start with exactly 1 single clean empty row. Includes "✨ Load Sample" / template presets and "🗑️ Clear" buttons.
-- **Instant Route Transition Architecture:** 
-  - `Navbar.tsx` implements aggressive `<Link prefetch={true}>` across all desktop links, search modal items, and mobile drawer.
-  - Hover-based intent preloading (`onMouseEnter` & `onTouchStart` invoke `router.prefetch(href)` before click).
-  - Global `src/app/loading.tsx` Suspense skeleton for 0ms transition swapping.
-  - Instant 0ms visual top gradient progress indicator (`isNavigating`).
-  - Global `Ctrl+K` / `⌘K` keyboard listener for instant search access.
+## 📦 4. REPOSITORY & ARCHIVE STATE
+- **Git Branch:** `main` (clean working directory, pushed to GitHub remote `origin/main`).
+- **Latest Commit:** `dc1f3b2` ("feat: complete 18-point architectural overhaul - genuine WASM/PDF.js engines, honest E-E-A-T, real contact API, and IRS/USCIS audit compliance").
+- **Offline Zip Bundle:** Stored and updated at `D:\adsense\multipdfdoc.zip` and `D:\multipdfdoc.zip`.

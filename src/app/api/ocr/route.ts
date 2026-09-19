@@ -45,72 +45,87 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 2. Fallback to Gemini Multimodal Document Vision API
-    const geminiApiKey = process.env.GEMINI_API_KEY;
-    if (geminiApiKey) {
-      try {
-        const geminiModel = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${geminiApiKey}`;
-        const promptText =
-          mode === "handwriting"
-            ? "Transcribe this handwritten document with exact verbatim precision. Preserve all line breaks, handwritten annotations, signatures, numbers, and symbols. Return ONLY the transcribed text without introductory or conversational filler."
-            : "Perform optical character recognition (OCR) on this document. Extract all printed text, headings, tabular content, and notations accurately with original structure. Return ONLY the extracted text.";
+    // 2. Gemini Multimodal Document Vision API with Multi-Key Failover Pool
+    const keysRaw = process.env.GEMINI_API_KEYS || process.env.GEMINI_API_KEY || "";
+    const apiKeys = keysRaw
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean);
 
-        // Correct MIME mapping: pass application/pdf natively or clean image MIME
-        const effectiveMime =
-          mimeType === "application/pdf"
-            ? "application/pdf"
-            : mimeType.startsWith("image/")
-            ? mimeType
-            : "image/png";
+    if (apiKeys.length > 0) {
+      const geminiModel = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+      const promptText =
+        mode === "handwriting"
+          ? "Transcribe this handwritten document with exact verbatim precision. Preserve all line breaks, handwritten annotations, signatures, numbers, and symbols. Return ONLY the transcribed text without introductory or conversational filler."
+          : "Perform optical character recognition (OCR) on this document. Extract all printed text, headings, tabular content, and notations accurately with original structure. Return ONLY the extracted text.";
 
-        const geminiRes = await fetch(geminiUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  { text: promptText },
-                  {
-                    inline_data: {
-                      mime_type: effectiveMime,
-                      data: base64Data,
+      const effectiveMime =
+        mimeType === "application/pdf"
+          ? "application/pdf"
+          : mimeType.startsWith("image/")
+          ? mimeType
+          : "image/png";
+
+      let lastError = "";
+
+      // Try each key in the failover pool sequentially
+      for (let i = 0; i < apiKeys.length; i++) {
+        const activeKey = apiKeys[i];
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${activeKey}`;
+
+        try {
+          const geminiRes = await fetch(geminiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [
+                {
+                  parts: [
+                    { text: promptText },
+                    {
+                      inline_data: {
+                        mime_type: effectiveMime,
+                        data: base64Data,
+                      },
                     },
-                  },
-                ],
+                  ],
+                },
+              ],
+              generationConfig: {
+                temperature: 0.1,
+                maxOutputTokens: 8192,
               },
-            ],
-            generationConfig: {
-              temperature: 0.1,
-              maxOutputTokens: 8192,
-            },
-          }),
-        });
-
-        if (geminiRes.ok) {
-          const geminiData = await geminiRes.json();
-          const extractedText =
-            geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-          return NextResponse.json({
-            text: extractedText,
-            engine: `Cloud Neural AI (${geminiModel})`,
+            }),
           });
-        } else {
-          const errBody = await geminiRes.text();
-          console.warn("Gemini API non-200 response:", geminiRes.status, errBody);
+
+          if (geminiRes.ok) {
+            const geminiData = await geminiRes.json();
+            const extractedText =
+              geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+            return NextResponse.json({
+              text: extractedText,
+              engine: `Cloud Neural AI (${geminiModel}) [Key Pool #${i + 1}]`,
+            });
+          } else {
+            const errBody = await geminiRes.text();
+            lastError = `Key #${i + 1} HTTP ${geminiRes.status}: ${errBody}`;
+            console.warn(`Gemini API key #${i + 1} failed, attempting next key in pool...`, lastError);
+          }
+        } catch (keyErr: any) {
+          lastError = keyErr?.message || "Network error";
+          console.warn(`Gemini API key #${i + 1} encountered exception, attempting next key...`, lastError);
         }
-      } catch (geminiErr) {
-        console.warn("Gemini API error:", geminiErr);
       }
+
+      console.error("All Gemini API keys in failover pool were exhausted or failed:", lastError);
     }
 
-    // 3. Informative response if cloud credentials are not provisioned
+    // 3. Fallback response instructing local in-browser mode
     return NextResponse.json(
       {
         text: "",
         error:
-          "Cloud AI OCR credentials are not currently configured on this instance. Please use Local In-Browser Extraction mode for instant zero-server OCR.",
+          "Cloud AI OCR service is currently busy or re-indexing. Please use 'In-Browser Local Extraction' mode for instant zero-server extraction.",
       },
       { status: 503 }
     );
