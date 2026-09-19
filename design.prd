@@ -1,0 +1,123 @@
+# 🎨 PAPERPULSE MASTER DESIGN SYSTEM SPECIFICATION (PRD)
+### *Soft 3D Claymorphism & Modern Tactile SaaS Design Standard*
+**Document Version:** 1.0.0 | **Last Updated:** September 2026  
+**Master Authority Link:** Referenced & Enforced in [brain.md](file:///d:/adsense/brain.md)
+
+---
+
+## 🏛️ 1. DESIGN PHILOSOPHY & AESTHETIC LAWS
+
+PaperPulse is an ultra-premium, privacy-first web document utility suite. The visual language bridges **Soft 3D Claymorphism** with **Linear / Apple Vision-Grade SaaS Cleanliness**:
+
+1. **Light Theme Supremacy:** Crisp, clean, trustworthy porcelain surfaces (`#F8FAFC` to `#FFFFFF`) paired with soft ambient pastel glows (subtle violet, sky, and mint radial auras).
+2. **Tactile Physicality (Claymorphism):** Elements do not look like flat digital stickers. They feel like physical, soft-molded tactile objects with double-layered outer ambient shadows and bright inner white bevels (`inset 0 1px 1px #FFFFFF`).
+3. **Aerodynamic & Un-cluttered:** No bulky, chunky, or 2-line wrapped text blocks in navigation. All interfaces must prioritize breathing room, widescreen layouts (`max-w-[1520px]`), and crisp typographic hierarchy.
+4. **Zero-Lag 60 FPS Performance:** All micro-animations and bouncy spring physics MUST be hardware-accelerated using GPU primitives (`transform: translate3d`, `will-change: transform`).
+
+---
+
+## 🎨 2. CORE COLOR PALETTE & SEMANTIC TOKENS
+
+### **A. Neutral Canvas & Surfaces**
+* **Page Canvas Background:** `#F8FAFC` (Slate-50) with ambient fixed radial gradients:
+  ```css
+  background-image: 
+    radial-gradient(circle at 10% 12%, rgba(124, 58, 237, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(2, 132, 199, 0.06) 0%, transparent 45%),
+    radial-gradient(circle at 50% 45%, rgba(5, 150, 105, 0.03) 0%, transparent 50%);
+  ```
+* **Bento Card Surface:** `#FFFFFF` (Pure White)
+* **Secondary Surface / Shells:** `#F1F5F9` (Slate-100)
+* **Subtle Structural Borders:** `#E2E8F0` (Slate-200) / `rgba(226, 232, 240, 0.9)`
+
+### **B. Typography & Readability Palette**
+* **Primary Headings (H1, H2):** `#0F172A` (Obsidian Slate 900) - Font: `Space Grotesk`, Extrabold
+* **Section Subtitles (H3, H4):** `#1E293B` (Slate 800) - Font: `Space Grotesk`, Bold
+* **Body / Paragraphs:** `#334155` to `#475569` (Slate 700/600) - Font: `Plus Jakarta Sans`, Medium
+* **Metadata / Timestamps / Labels:** `#64748B` (Slate 500) - Font: `Plus Jakarta Sans` or Monospace
+
+### **C. Vibrantly Curated SaaS Accents**
+| Role | Primary Color | Soft Pastel BG | Border Accent | Use Case |
+| :--- | :--- | :--- | :--- | :--- |
+| **Brand Primary** | `#7C3AED` (Violet-600) | `#F5F3FF` (Violet-50) | `#DDD6FE` (Violet-200) | Hero buttons, logo accent, active links |
+| **Security & Success** | `#059669` (Emerald-600) | `#ECFDF5` (Emerald-50) | `#A7F3D0` (Emerald-200) | "100% In-Browser" badges, download success cards |
+| **Action & Target** | `#0284C7` (Sky-600) | `#F0F9FF` (Sky-50) | `#BAE6FD` (Sky-200) | File size presets (100KB/200KB), compression |
+| **High Speed & Extraction** | `#E11D48` (Rose-600) | `#FFF1F2` (Rose-50) | `#FECDD3` (Rose-200) | Page extraction, deletion buttons, error alerts |
+| **Resolution & Presets** | `#D97706` (Amber-600) | `#FFFBEB` (Amber-50) | `#FDE68A` (Amber-200) | 300 DPI canvas toggles, image format pills |
+
+---
+
+## 🔘 3. COMPONENT BLUEPRINTS & DESIGN RULES
+
+### **Rule 1: Floating Capsule Header (`Navbar.tsx`)**
+* **Layout:** Must ALWAYS be a wide floating island (`w-full max-w-[1520px] mx-auto sticky top-3.5 z-50`).
+* **Height:** Slim and aerodynamic (`h-14 sm:h-16 px-4 sm:px-6`). Never allow it to become thick or bulky.
+* **Single-Line Text (`whitespace-nowrap`):** Every tool link in the navbar MUST use `whitespace-nowrap`. Multi-line text wrapping is strictly prohibited.
+* **Claymorphic Glass:**
+  ```css
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 32px -8px rgba(100, 116, 139, 0.12),
+              0 2px 6px -1px rgba(100, 116, 139, 0.06),
+              inset 0 1px 1px #FFFFFF,
+              inset 0 -1px 2px rgba(0, 0, 0, 0.02);
+  ```
+
+### **Rule 2: The Soft 3D Clay Card (`.bubble-card`)**
+* Every content box, tool console, and bento card MUST use `.bubble-card`:
+  ```css
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 24px;
+  box-shadow: 0 10px 30px -5px rgba(100, 116, 139, 0.07),
+              0 4px 6px -2px rgba(100, 116, 139, 0.03),
+              inset 0 1px 1px #FFFFFF,
+              inset 0 -2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  ```
+
+### **Rule 3: Interactive Clay Dropzones (`.bubble-dropzone`)**
+* File upload containers MUST NOT look like bare grey rectangles.
+* Must feature:
+  * Soft gradient background (`linear-gradient(180deg, #FAFAFE 0%, #F5F3FF 100%)`).
+  * 2px dashed border in `#C4B5FD` (Violet-300).
+  * Rounded corners: `rounded-[28px]`.
+  * Animated bouncing icon inside a soft white clay tile.
+  * Hover / Drag state: border transitions to `#7C3AED`, background shifts to `#F5F3FF`, and card smoothly scales by 1.008x.
+
+### **Rule 4: Tactile Bouncy Pill Buttons (`.btn-bubble`)**
+* All CTA buttons must be pill-shaped (`rounded-full`) with tactile physical depth:
+  * **Violet Hero Button (`.btn-bubble-violet`):**
+    ```css
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
+    box-shadow: 0 6px 20px -3px rgba(124, 58, 237, 0.45),
+                inset 0 2px 2px rgba(255, 255, 255, 0.45),
+                inset 0 -2px 3px rgba(0, 0, 0, 0.15);
+    ```
+  * **Hover State:** `transform: translateY(-2px) scale(1.015);`
+  * **Active (Click) State:** `transform: translateY(2px) scale(0.98);`
+
+### **Rule 5: The AdSense "Value Wrapper" Mandate**
+* Every single tool route MUST render the `<ValueWrapper />` component underneath the interactive console.
+* Content requirements:
+  * Minimum 700 to 1,000 words of authentic procedural guides.
+  * Step-by-step instructions.
+  * Mathematical / algorithmic complexity breakdown.
+  * Interactive FAQ accordion rendering schema-compliant `<JsonLd type="FAQPage" />`.
+  * Institutional E-E-A-T audit signature line.
+
+### **Rule 6: AdSense Ad Containers (`<AdPlaceholder />`)**
+* Anti-Accidental-Click Margin: At least **30px vertical clearance** from all action buttons, dropzones, and download links.
+* Strict Zero CLS: Containers must maintain pre-reserved heights (`min-h-[90px]` for horizontal/leaderboard, `min-h-[250px]` for rectangle).
+
+---
+
+## 🔒 4. FUTURE IMPLEMENTATION PROTOCOL (FOR ALL AGENTS & DEVELOPERS)
+
+Whenever a new tool, page, modal, or component is added to PaperPulse:
+1. **Read this file (`design.prd`) first.**
+2. Do NOT introduce random dark backgrounds or mismatched neon schemes.
+3. Use the semantic Tailwind classes (`bubble-card`, `bubble-dropzone`, `btn-bubble`, `shadow-clay-nav`, `shadow-clay-pill`).
+4. Ensure all header and navigation items remain strictly on a single line (`whitespace-nowrap`).
+5. Guarantee 100% responsive testing across mobile (375px), tablet (768px), and widescreen desktop (1440px+).
