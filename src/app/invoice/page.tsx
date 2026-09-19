@@ -64,12 +64,31 @@ export default function InvoiceGeneratorPage() {
 
   const [generating, setGenerating] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Calculations
-  const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.rate), 0);
-  const discountAmount = subtotal * (discountPercent / 100);
-  const taxableAmount = subtotal - discountAmount;
-  const taxAmount = taxableAmount * (taxPercent / 100);
+  // Helper to sanitize any arbitrary text to valid WinAnsi characters for pdf-lib Helvetica
+  const sanitizePdfText = (text: string | undefined | null): string => {
+    if (!text) return "";
+    return text
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/[\u201C\u201D]/g, '"')
+      .replace(/[\u2013\u2014]/g, "-")
+      .replace(/\u2026/g, "...")
+      .replace(/[^\x00-\x7F]/g, " ")
+      .trim();
+  };
+
+  // Calculations with NaN safety
+  const safeTaxPercent = Number.isFinite(taxPercent) ? Math.max(0, taxPercent) : 0;
+  const safeDiscountPercent = Number.isFinite(discountPercent) ? Math.max(0, discountPercent) : 0;
+  const subtotal = items.reduce((sum, item) => {
+    const q = Number.isFinite(item.quantity) ? Math.max(0, item.quantity) : 0;
+    const r = Number.isFinite(item.rate) ? Math.max(0, item.rate) : 0;
+    return sum + (q * r);
+  }, 0);
+  const discountAmount = subtotal * (safeDiscountPercent / 100);
+  const taxableAmount = Math.max(0, subtotal - discountAmount);
+  const taxAmount = taxableAmount * (safeTaxPercent / 100);
   const grandTotal = taxableAmount + taxAmount;
 
   const addItem = () => {
@@ -93,6 +112,7 @@ export default function InvoiceGeneratorPage() {
   // 100% Client-Side Vector PDF Generator
   const generatePdf = async () => {
     setGenerating(true);
+    setErrorMsg(null);
     try {
       const pdfDoc = await PDFDocument.create();
       const page = pdfDoc.addPage(PageSizes.Letter); // 612 x 792 pts
@@ -114,7 +134,7 @@ export default function InvoiceGeneratorPage() {
       let y = height - 50;
 
       // Header Brand
-      page.drawText(fromName.toUpperCase() || "INVOICE", {
+      page.drawText(sanitizePdfText(fromName.toUpperCase()) || "INVOICE", {
         x: 50,
         y,
         size: 18,
@@ -131,14 +151,17 @@ export default function InvoiceGeneratorPage() {
       });
 
       y -= 18;
-      page.drawText(fromEmail, { x: 50, y, size: 9, font: fontRegular, color: mutedColor });
-      page.drawText(`# ${invoiceNumber}`, { x: width - 140, y, size: 10, font: fontBold, color: primaryColor });
+      page.drawText(sanitizePdfText(fromEmail), { x: 50, y, size: 9, font: fontRegular, color: mutedColor });
+      page.drawText(`# ${sanitizePdfText(invoiceNumber)}`, { x: width - 140, y, size: 10, font: fontBold, color: primaryColor });
 
       y -= 14;
       const fromLines = fromAddress.split("\n");
       fromLines.forEach((line) => {
-        page.drawText(line, { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
-        y -= 11;
+        const clean = sanitizePdfText(line);
+        if (clean) {
+          page.drawText(clean, { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
+          y -= 11;
+        }
       });
 
       // Dates strip
@@ -157,18 +180,21 @@ export default function InvoiceGeneratorPage() {
       page.drawText(invoiceDate, { x: width - 110, y, size: 8.5, font: fontRegular, color: primaryColor });
 
       y -= 14;
-      page.drawText(toName || "Client Name", { x: 50, y, size: 11, font: fontBold, color: primaryColor });
+      page.drawText(sanitizePdfText(toName) || "Client Name", { x: 50, y, size: 11, font: fontBold, color: primaryColor });
       page.drawText("DUE DATE:", { x: width - 200, y, size: 8.5, font: fontBold, color: mutedColor });
-      page.drawText(dueDate, { x: width - 110, y, size: 8.5, font: fontBold, color: accentColor });
+      page.drawText(sanitizePdfText(dueDate), { x: width - 110, y, size: 8.5, font: fontBold, color: accentColor });
 
       y -= 14;
-      page.drawText(toEmail, { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
+      page.drawText(sanitizePdfText(toEmail), { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
 
       y -= 12;
       const toLines = toAddress.split("\n");
       toLines.forEach((line) => {
-        page.drawText(line, { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
-        y -= 11;
+        const clean = sanitizePdfText(line);
+        if (clean) {
+          page.drawText(clean, { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
+          y -= 11;
+        }
       });
 
       // Table Header
@@ -190,9 +216,11 @@ export default function InvoiceGeneratorPage() {
 
       // Table Items
       items.forEach((item) => {
-        const itemTotal = item.quantity * item.rate;
+        const q = Number.isFinite(item.quantity) ? Math.max(0, item.quantity) : 0;
+        const r = Number.isFinite(item.rate) ? Math.max(0, item.rate) : 0;
+        const itemTotal = q * r;
 
-        page.drawText(item.description.slice(0, 48), {
+        page.drawText(sanitizePdfText(item.description).slice(0, 48) || "Line item", {
           x: 60,
           y,
           size: 9,
@@ -200,7 +228,7 @@ export default function InvoiceGeneratorPage() {
           color: primaryColor,
         });
 
-        page.drawText(item.quantity.toString(), {
+        page.drawText(q.toString(), {
           x: 335,
           y,
           size: 9,
@@ -208,7 +236,7 @@ export default function InvoiceGeneratorPage() {
           color: primaryColor,
         });
 
-        page.drawText(`${safeSymbol}${item.rate.toFixed(2)}`, {
+        page.drawText(`${safeSymbol}${r.toFixed(2)}`, {
           x: 400,
           y,
           size: 9,
@@ -284,10 +312,11 @@ export default function InvoiceGeneratorPage() {
       }
 
       y -= 15;
+      y -= 15;
       if (notes) {
         page.drawText("TERMS & NOTES:", { x: 50, y, size: 8.5, font: fontBold, color: mutedColor });
         y -= 12;
-        page.drawText(notes, { x: 50, y, size: 8, font: fontRegular, color: mutedColor });
+        page.drawText(sanitizePdfText(notes), { x: 50, y, size: 8, font: fontRegular, color: mutedColor });
       }
 
       // Footer notice
@@ -305,7 +334,7 @@ export default function InvoiceGeneratorPage() {
       setDownloadUrl(url);
     } catch (err) {
       console.error(err);
-      alert("Failed to compile invoice PDF.");
+      setErrorMsg("Failed to compile invoice PDF. Please verify all entries are valid.");
     } finally {
       setGenerating(false);
     }
@@ -624,6 +653,11 @@ export default function InvoiceGeneratorPage() {
 
             {/* Actions */}
             <div className="space-y-3 pt-2">
+              {errorMsg && (
+                <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                  {errorMsg}
+                </div>
+              )}
               <button
                 type="button"
                 onClick={generatePdf}

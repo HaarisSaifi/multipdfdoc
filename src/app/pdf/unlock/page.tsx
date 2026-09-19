@@ -33,7 +33,7 @@ export default function UnlockPdfPage() {
     if (!selected) return;
 
     if (selected.type !== "application/pdf" && !selected.name.endsWith(".pdf")) {
-      alert("Please select a valid PDF file.");
+      setErrorMsg("Please select a valid PDF file.");
       return;
     }
 

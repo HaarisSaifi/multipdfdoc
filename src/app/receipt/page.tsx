@@ -52,9 +52,24 @@ export default function ReceiptMakerPage() {
 
   const [generating, setGenerating] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const subtotal = items.reduce((sum, item) => sum + item.amount, 0);
-  const grandTotal = subtotal + taxAmount + tipAmount;
+  const sanitizePdfText = (text: string | undefined | null): string => {
+    if (!text) return "";
+    return text
+      .replace(/[\u2018\u2019]/g, "'")
+      .replace(/[\u201C\u201D]/g, '"')
+      .replace(/[\u2013\u2014]/g, "-")
+      .replace(/\u2022/g, "-")
+      .replace(/\u2026/g, "...")
+      .replace(/[^\x00-\x7F]/g, " ")
+      .trim();
+  };
+
+  const safeTax = Number.isFinite(taxAmount) ? Math.max(0, taxAmount) : 0;
+  const safeTip = Number.isFinite(tipAmount) ? Math.max(0, tipAmount) : 0;
+  const subtotal = items.reduce((sum, item) => sum + (Number.isFinite(item.amount) ? Math.max(0, item.amount) : 0), 0);
+  const grandTotal = subtotal + safeTax + safeTip;
 
   // Preset switch handler
   const handleTemplateChange = (type: "taxi" | "restaurant" | "hotel" | "retail") => {
@@ -130,8 +145,10 @@ export default function ReceiptMakerPage() {
       let y = height - 40;
 
       // Merchant Header
-      page.drawText(merchantName.toUpperCase(), {
-        x: width / 2 - (fontBold.widthOfTextAtSize(merchantName.toUpperCase(), 12) / 2),
+      const cleanMerchant = sanitizePdfText(merchantName).toUpperCase() || "RECEIPT";
+      const cleanAddress = sanitizePdfText(merchantAddress);
+      page.drawText(cleanMerchant, {
+        x: width / 2 - (fontBold.widthOfTextAtSize(cleanMerchant, 12) / 2),
         y,
         size: 12,
         font: fontBold,
@@ -139,13 +156,15 @@ export default function ReceiptMakerPage() {
       });
 
       y -= 14;
-      page.drawText(merchantAddress, {
-        x: width / 2 - (fontRegular.widthOfTextAtSize(merchantAddress, 7.5) / 2),
-        y,
-        size: 7.5,
-        font: fontRegular,
-        color: muted,
-      });
+      if (cleanAddress) {
+        page.drawText(cleanAddress, {
+          x: width / 2 - (fontRegular.widthOfTextAtSize(cleanAddress, 7.5) / 2),
+          y,
+          size: 7.5,
+          font: fontRegular,
+          color: muted,
+        });
+      }
 
       y -= 18;
       // Dotted separator line
@@ -158,11 +177,11 @@ export default function ReceiptMakerPage() {
 
       y -= 16;
       // Receipt Meta
-      page.drawText(`RECEIPT: ${receiptNumber}`, { x: 30, y, size: 8, font: fontBold, color: black });
-      page.drawText(`DATE: ${date} ${time}`, { x: width - 140, y, size: 8, font: fontRegular, color: muted });
+      page.drawText(`RECEIPT: ${sanitizePdfText(receiptNumber)}`, { x: 30, y, size: 8, font: fontBold, color: black });
+      page.drawText(`DATE: ${sanitizePdfText(date)} ${sanitizePdfText(time)}`, { x: width - 140, y, size: 8, font: fontRegular, color: muted });
 
       y -= 12;
-      page.drawText(`PAYMENT: ${paymentMethod}`, { x: 30, y, size: 7.5, font: fontRegular, color: muted });
+      page.drawText(`PAYMENT: ${sanitizePdfText(paymentMethod)}`, { x: 30, y, size: 7.5, font: fontRegular, color: muted });
       page.drawText("STATUS: APPROVED", { x: width - 140, y, size: 7.5, font: fontBold, color: rgb(0.02, 0.52, 0.35) });
 
       y -= 14;
@@ -176,8 +195,10 @@ export default function ReceiptMakerPage() {
       y -= 18;
       // Items list
       items.forEach((item) => {
-        page.drawText(item.description.slice(0, 36), { x: 30, y, size: 8, font: fontRegular, color: black });
-        const priceStr = `$${item.amount.toFixed(2)}`;
+        const cleanDesc = sanitizePdfText(item.description).slice(0, 36) || "Expense item";
+        const amt = Number.isFinite(item.amount) ? Math.max(0, item.amount) : 0;
+        page.drawText(cleanDesc, { x: 30, y, size: 8, font: fontRegular, color: black });
+        const priceStr = `$${amt.toFixed(2)}`;
         const priceWidth = fontRegular.widthOfTextAtSize(priceStr, 8);
         page.drawText(priceStr, { x: width - 30 - priceWidth, y, size: 8, font: fontRegular, color: black });
         y -= 14;
@@ -196,16 +217,16 @@ export default function ReceiptMakerPage() {
       page.drawText("Subtotal:", { x: width - 150, y, size: 8, font: fontRegular, color: muted });
       page.drawText(`$${subtotal.toFixed(2)}`, { x: width - 60, y, size: 8, font: fontRegular, color: black });
 
-      if (taxAmount > 0) {
+      if (safeTax > 0) {
         y -= 12;
         page.drawText("Sales Tax:", { x: width - 150, y, size: 8, font: fontRegular, color: muted });
-        page.drawText(`$${taxAmount.toFixed(2)}`, { x: width - 60, y, size: 8, font: fontRegular, color: black });
+        page.drawText(`$${safeTax.toFixed(2)}`, { x: width - 60, y, size: 8, font: fontRegular, color: black });
       }
 
-      if (tipAmount > 0) {
+      if (safeTip > 0) {
         y -= 12;
         page.drawText("Tip / Gratuity:", { x: width - 150, y, size: 8, font: fontRegular, color: muted });
-        page.drawText(`$${tipAmount.toFixed(2)}`, { x: width - 60, y, size: 8, font: fontRegular, color: black });
+        page.drawText(`$${safeTip.toFixed(2)}`, { x: width - 60, y, size: 8, font: fontRegular, color: black });
       }
 
       y -= 16;
@@ -234,8 +255,9 @@ export default function ReceiptMakerPage() {
       }
 
       y -= 16;
-      page.drawText(`AUTH # 948102839218 • EXPENSE AUDIT VALIDATED`, {
-        x: width / 2 - (fontRegular.widthOfTextAtSize("AUTH # 948102839218 • EXPENSE AUDIT VALIDATED", 6.5) / 2),
+      const authNotice = "AUTH # 948102839218 - EXPENSE AUDIT VALIDATED";
+      page.drawText(authNotice, {
+        x: width / 2 - (fontRegular.widthOfTextAtSize(authNotice, 6.5) / 2),
         y,
         size: 6.5,
         font: fontRegular,
@@ -243,8 +265,9 @@ export default function ReceiptMakerPage() {
       });
 
       y -= 12;
-      page.drawText("Generated 100% locally via MultiPDF Doc (multipdfdoc.com) — Zero Server Tracking", {
-        x: width / 2 - (fontRegular.widthOfTextAtSize("Generated 100% locally via MultiPDF Doc (multipdfdoc.com) — Zero Server Tracking", 6.5) / 2),
+      const genNotice = "Generated 100% locally via MultiPDF Doc (multipdfdoc.com) - Zero Server Tracking";
+      page.drawText(genNotice, {
+        x: width / 2 - (fontRegular.widthOfTextAtSize(genNotice, 6.5) / 2),
         y,
         size: 6.5,
         font: fontRegular,
@@ -257,7 +280,7 @@ export default function ReceiptMakerPage() {
       setDownloadUrl(url);
     } catch (err) {
       console.error(err);
-      alert("Failed to synthesize receipt PDF.");
+      setErrorMsg("Failed to synthesize receipt PDF. Please check your input fields.");
     } finally {
       setGenerating(false);
     }
@@ -505,6 +528,11 @@ export default function ReceiptMakerPage() {
 
             {/* Actions */}
             <div className="space-y-3">
+              {errorMsg && (
+                <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                  {errorMsg}
+                </div>
+              )}
               <button
                 type="button"
                 onClick={generatePdf}

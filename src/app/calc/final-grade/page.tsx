@@ -22,14 +22,20 @@ export default function FinalGradeCalculatorPage() {
   const [finalWeight, setFinalWeight] = useState<number>(25);
   const [curveBuffer, setCurveBuffer] = useState<number>(0);
 
+  const safeCurrentGrade = Number.isFinite(currentGrade) ? currentGrade : 0;
+  const safeTargetGrade = Number.isFinite(targetGrade) ? targetGrade : 0;
+  const safeFinalWeight = Number.isFinite(finalWeight) && finalWeight > 0 ? Math.min(100, Math.max(1, finalWeight)) : 25;
+  const safeCurveBuffer = Number.isFinite(curveBuffer) ? Math.max(0, curveBuffer) : 0;
+
   // Math formula:
   // Current * (100 - Weight) + (Required * Weight) = Target - Curve
   // Required = ((Target - Curve) - (Current * (1 - Weight/100))) / (Weight/100)
-  const currentWeightFrac = (100 - finalWeight) / 100;
-  const finalWeightFrac = finalWeight / 100;
-  const adjustedTarget = targetGrade - curveBuffer;
-  const currentContribution = currentGrade * currentWeightFrac;
-  const requiredScore = (adjustedTarget - currentContribution) / finalWeightFrac;
+  const currentWeightFrac = (100 - safeFinalWeight) / 100;
+  const finalWeightFrac = safeFinalWeight / 100;
+  const adjustedTarget = safeTargetGrade - safeCurveBuffer;
+  const currentContribution = safeCurrentGrade * currentWeightFrac;
+  const rawRequiredScore = finalWeightFrac > 0 ? (adjustedTarget - currentContribution) / finalWeightFrac : 0;
+  const requiredScore = Number.isFinite(rawRequiredScore) ? rawRequiredScore : 0;
 
   // Status gauge
   let statusBadge = {

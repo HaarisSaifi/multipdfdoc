@@ -29,6 +29,7 @@ export default function ProtectPdfPage() {
   const [processing, setProcessing] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [outputFileName, setOutputFileName] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -37,10 +38,11 @@ export default function ProtectPdfPage() {
     if (!selected) return;
 
     if (selected.type !== "application/pdf" && !selected.name.endsWith(".pdf")) {
-      alert("Please select a valid PDF file.");
+      setErrorMsg("Please select a valid PDF file.");
       return;
     }
 
+    setErrorMsg(null);
     setFile(selected);
     setDownloadUrl(null);
 
@@ -50,21 +52,22 @@ export default function ProtectPdfPage() {
       setPageCount(pdfDoc.getPageCount());
     } catch (err) {
       console.error(err);
-      alert("Unable to read PDF file.");
+      setErrorMsg("Unable to read PDF file. It may be corrupt or encrypted.");
     }
   };
 
   const handleProtect = async () => {
     if (!file) return;
     if (!password) {
-      alert("Please enter a security password.");
+      setErrorMsg("Please enter a security password.");
       return;
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match. Please verify.");
+      setErrorMsg("Passwords do not match. Please verify.");
       return;
     }
 
+    setErrorMsg(null);
     setProcessing(true);
 
     try {
@@ -85,7 +88,7 @@ export default function ProtectPdfPage() {
       setOutputFileName(`protected_${file.name.replace(/\.pdf$/i, "")}.pdf`);
     } catch (err) {
       console.error(err);
-      alert("Failed to protect document.");
+      setErrorMsg("Failed to protect document. Please try a different PDF file.");
     } finally {
       setProcessing(false);
     }
@@ -234,6 +237,11 @@ export default function ProtectPdfPage() {
             </div>
 
             <div className="space-y-3">
+              {errorMsg && (
+                <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                  {errorMsg}
+                </div>
+              )}
               <button
                 type="button"
                 onClick={handleProtect}

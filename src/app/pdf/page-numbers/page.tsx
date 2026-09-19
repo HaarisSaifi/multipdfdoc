@@ -31,6 +31,7 @@ export default function PageNumbersPage() {
   const [processing, setProcessing] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [outputFileName, setOutputFileName] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -39,10 +40,11 @@ export default function PageNumbersPage() {
     if (!selected) return;
 
     if (selected.type !== "application/pdf" && !selected.name.endsWith(".pdf")) {
-      alert("Please select a valid PDF document.");
+      setErrorMsg("Please select a valid PDF document.");
       return;
     }
 
+    setErrorMsg(null);
     setFile(selected);
     setDownloadUrl(null);
 
@@ -52,7 +54,7 @@ export default function PageNumbersPage() {
       setPageCount(pdfDoc.getPageCount());
     } catch (err) {
       console.error(err);
-      alert("Could not parse PDF. File may be encrypted or corrupted.");
+      setErrorMsg("Could not parse PDF. File may be encrypted or corrupted.");
     }
   };
 
@@ -120,7 +122,7 @@ export default function PageNumbersPage() {
       setOutputFileName(`numbered_${file.name.replace(/\.pdf$/i, "")}.pdf`);
     } catch (err) {
       console.error(err);
-      alert("Failed to stamp page numbers onto PDF.");
+      setErrorMsg("Failed to stamp page numbers onto PDF. File structure may be unsupported.");
     } finally {
       setProcessing(false);
     }
@@ -341,6 +343,11 @@ export default function PageNumbersPage() {
             </div>
 
             <div className="space-y-3">
+              {errorMsg && (
+                <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                  {errorMsg}
+                </div>
+              )}
               <button
                 type="button"
                 onClick={stampPageNumbers}

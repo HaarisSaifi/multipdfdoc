@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     template: "%s | MultiPDF Doc",
   },
   description: "Merge, split, compress, invoice, receipt, and organize documents with zero server uploads. 100% client-side WebAssembly execution for absolute privacy at multipdfdoc.com.",
+  alternates: {
+    canonical: "https://multipdfdoc.com",
+  },
   keywords: [
     "multipdf doc",
     "multipdfdoc",
