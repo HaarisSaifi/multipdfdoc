@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Technical & Security Team — MultiPDF Doc",
-  description: "Get in touch with the MultiPDF Doc security engineering board for bug bounties, technical inquiries, or institutional feedback at multipdfdoc.com.",
+  title: "Contact Developer & Support Team — MultiPDF Doc",
+  description: "Get in touch with the MultiPDF Doc development and technical support team for inquiries, feedback, or format assistance at multipdfdoc.com.",
   alternates: {
     canonical: "https://multipdfdoc.com/contact",
   },
   openGraph: {
-    title: "Contact Technical & Security Team | MultiPDF Doc",
-    description: "Submit bug bounties, technical inquiries, or institutional feedback to the MultiPDF Doc review board.",
+    title: "Contact Developer & Support Team | MultiPDF Doc",
+    description: "Submit technical inquiries, bug reports, or feature feedback to the MultiPDF Doc team.",
     url: "https://multipdfdoc.com/contact",
   },
 };

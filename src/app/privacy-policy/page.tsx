@@ -1,9 +1,13 @@
 import React from "react";
-import { ShieldCheck, Lock, Eye, CheckCircle2 } from "lucide-react";
+import { ShieldCheck, Lock, Eye, CheckCircle2, Server, Cpu } from "lucide-react";
 
 export const metadata = {
   title: "Privacy Policy — MultiPDF Doc",
-  description: "Comprehensive privacy policy detailing client-side WebAssembly isolation, zero server uploads, Google AdSense cookies, GDPR, and CCPA compliance on multipdfdoc.com.",
+  description:
+    "Transparent privacy policy detailing local in-browser document processing, optional cloud AI OCR disclosures, and Google AdSense cookie guidelines on multipdfdoc.com.",
+  alternates: {
+    canonical: "https://multipdfdoc.com/privacy-policy",
+  },
 };
 
 export default function PrivacyPolicyPage() {
@@ -13,70 +17,122 @@ export default function PrivacyPolicyPage() {
         <div className="border-b border-slate-200 pb-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 mb-3 shadow-sm">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>GDPR & CCPA Compliant • Zero Server Storage</span>
+            <span>Privacy-By-Design • Client-Side Document Isolation</span>
           </div>
           <h1 className="font-display font-extrabold text-2xl sm:text-4xl text-slate-900 tracking-tight">
             Privacy Policy
           </h1>
           <p className="text-xs text-slate-500 mt-1.5 font-medium">
-            Last Updated & Security Audited: September 19, 2026
+            Last Updated & Verified: September 2026
           </p>
         </div>
 
-        <section className="space-y-3">
-          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
-            1. Core Architectural Privacy: Zero Server File Uploads
-          </h2>
-          <p>
-            At MultiPDF Doc (accessible from multipdfdoc.com), privacy is not an afterthought—it is the foundational architecture of our platform. Unlike conventional cloud PDF converters that require users to transmit confidential files to remote servers, MultiPDF Doc executes 100% of document processing locally in your client device’s web browser via WebAssembly and typed array memory buffers.
-          </p>
-          <p className="font-semibold text-slate-800">
-            We never upload, inspect, store, or transmit your PDF files, document text, images, or metadata to any external server or third-party database. Once you close your browser tab, all temporary memory allocations are automatically purged.
-          </p>
-        </section>
-
+        {/* Section 1: Local Tools */}
         <section className="space-y-3">
           <h2 className="font-display font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
-            <Lock className="w-4 h-4 text-violet-600" />
-            <span>2. Google AdSense & Third-Party Advertising Cookies</span>
+            <Cpu className="w-4 h-4 text-emerald-600" />
+            <span>1. Core Document Utilities: 100% Local In-Browser Processing</span>
           </h2>
           <p>
-            Google is a third-party advertising vendor on our website. Google uses cookies, known as DART cookies, to serve advertisements to site visitors based on their visit to multipdfdoc.com and other websites across the internet.
+            At MultiPDF Doc (accessible at <strong className="text-slate-800">multipdfdoc.com</strong>), we architect our core tools to minimize document data transmission. For all standard document operations—including Merge, Split, Compress, Protect, Unlock, Organize, Page Numbers, PDF to Image, Images to PDF, Invoice Generation, Expense Log, and Academic Calculators:
           </p>
           <ul className="list-disc pl-5 space-y-1.5">
             <li>
-              Third-party vendors, including Google, use cookies to serve ads based on prior user visits to this website or other web properties.
+              <strong>Zero File Uploads:</strong> Document bytes are processed entirely within your device&apos;s local browser memory using JavaScript and WebAssembly (QPDF and Mozilla PDF.js).
             </li>
             <li>
-              Google’s use of advertising cookies enables it and its certified advertising network partners to serve contextual advertisements.
+              <strong>No Intermediate Storage:</strong> Files never touch an external server or cloud bucket.
             </li>
             <li>
-              Users may opt out of personalized advertising by visiting Google Ads Settings (https://www.google.com/settings/ads) or through the Network Advertising Initiative opt-out portal (https://www.aboutads.info).
+              <strong>Automatic Memory Purge:</strong> When you close or refresh your browser tab, the local memory allocation is instantly freed by your operating system.
             </li>
           </ul>
         </section>
 
+        {/* Section 2: Cloud AI OCR */}
         <section className="space-y-3">
-          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
-            3. California Consumer Privacy Act (CCPA) Rights
+          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+            <Server className="w-4 h-4 text-violet-600" />
+            <span>2. Optional AI Deep Scan / Cloud OCR Processing</span>
           </h2>
           <p>
-            Under the CCPA, California consumers maintain the right to request disclosure of categories and specific pieces of personal data collected, request deletion of personal information, and opt out of the sale of personal information. Because MultiPDF Doc does not collect, sell, or retain your document files or personal identification data, no confidential document data exists to be disclosed or sold.
+            Our PDF to Text tool offers two distinct processing options:
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5">
+            <li>
+              <strong>Local Extraction Mode (Default):</strong> Operates 100% inside your browser via Mozilla PDF.js (for digital text) and Tesseract.js WebAssembly (for scanned pages). No document data is sent across the network.
+            </li>
+            <li>
+              <strong>AI Deep Scan Mode (Optional):</strong> Designed for difficult cursive handwriting or complex layouts. When you explicitly choose this mode, the selected file is transmitted over encrypted TLS connections to our secure OCR processing service (utilizing Google Generative AI / specialized OCR models) solely for the purpose of character extraction. The data is processed ephemerally in-memory and is not retained or used for training.
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 3: AdSense & Cookies */}
+        <section className="space-y-3">
+          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+            <Lock className="w-4 h-4 text-violet-600" />
+            <span>3. Advertising Cookies &amp; Third-Party Partners</span>
+          </h2>
+          <p>
+            Google is a third-party vendor on MultiPDF Doc. Google uses cookies, including the DoubleClick/DART cookie, to serve advertisements based on a user&apos;s prior visits to this website or other web properties.
+          </p>
+          <ul className="list-disc pl-5 space-y-1.5">
+            <li>
+              Third-party advertising partners serve ads based on non-personally identifiable visit signals. Document contents are never accessed, analyzed, or shared for advertising purposes.
+            </li>
+            <li>
+              Users may opt out of personalized advertising by visiting{" "}
+              <a
+                href="https://www.google.com/settings/ads"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-violet-600 underline font-semibold"
+              >
+                Google Ads Settings
+              </a>{" "}
+              or through the{" "}
+              <a
+                href="https://www.aboutads.info"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-violet-600 underline font-semibold"
+              >
+                Network Advertising Initiative
+              </a>.
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 4: Data Subject Rights */}
+        <section className="space-y-3">
+          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
+            4. User Privacy Rights (GDPR, CCPA &amp; Global Standards)
+          </h2>
+          <p>
+            Under regulations such as GDPR (EEA/UK) and CCPA (California), users have specific rights regarding data access, disclosure, and deletion. Because our core tools do not transmit or store your files on external databases, MultiPDF Doc does not maintain personal document repositories to inspect, share, or sell.
           </p>
         </section>
 
+        {/* Section 5: Contact */}
         <section className="space-y-3">
           <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
-            4. General Data Protection Regulation (GDPR) Compliance
+            5. Questions and Inquiries
           </h2>
           <p>
-            For users residing within the European Economic Area (EEA), we ensure strict compliance with all GDPR mandates. The processing of document files occurs exclusively under client-side execution, meaning no international data transfer occurs when you merge, split, or compress documents on MultiPDF Doc.
+            If you have questions regarding this Privacy Policy or our technical architecture, please contact our support team at{" "}
+            <a
+              href="mailto:support@multipdfdoc.com"
+              className="text-violet-600 font-semibold underline"
+            >
+              support@multipdfdoc.com
+            </a>.
           </p>
         </section>
 
-        <div className="pt-6 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
-          <span>Security & Data Protection Officer: dpo@multipdfdoc.com</span>
-          <span className="font-mono text-emerald-700 font-bold">100% Client-Side Verified</span>
+        <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+          <span>Inquiries: support@multipdfdoc.com</span>
+          <span className="font-mono text-emerald-700 font-bold">Privacy Architected</span>
         </div>
       </div>
     </div>

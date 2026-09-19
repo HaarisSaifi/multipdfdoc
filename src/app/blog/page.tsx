@@ -105,7 +105,7 @@ export default function BlogIndexPage() {
             </span>
           </h1>
           <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-            In-depth procedural guides, legal compliance breakdowns, and academic calculation manuals written by the MultiPDF Doc Security & Engineering Review Board.
+            In-depth procedural guides, document format breakdowns, and calculation manuals prepared by the MultiPDF Doc Technology & Editorial Team.
           </p>
         </div>
 

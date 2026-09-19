@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { PDFDocument } from "pdf-lib";
+import { getPdfToolkit } from "@/lib/pdf/qpdf-toolkit";
 import {
   Lock,
   UploadCloud,
@@ -72,23 +73,30 @@ export default function ProtectPdfPage() {
 
     try {
       const buffer = await file.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+      const toolkit = await getPdfToolkit();
 
-      // Embed document security metadata
-      pdfDoc.setTitle(`[PROTECTED] ${file.name.replace(/\.pdf$/i, "")}`);
-      pdfDoc.setSubject("Encrypted client-side with MultiPDF Doc (multipdfdoc.com)");
-      pdfDoc.setProducer("MultiPDF Doc Client-Side Security Engine");
-      pdfDoc.setCreator("MultiPDF Doc (https://multipdfdoc.com)");
+      const encryptedBytes = await toolkit.lock(new Uint8Array(buffer), {
+        userPassword: password,
+        keyLength: 256,
+        permissions: {
+          print: restrictPrinting ? "none" : "full",
+          extract: !restrictCopying,
+        },
+      });
 
-      // Note: Full standard 128/256-bit encryption trailer flags
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+      // Automated cryptographic verification
+      const info = await toolkit.getInfo(encryptedBytes, { password });
+      if (!info.encrypted) {
+        throw new Error("Client-side encryption verification failed.");
+      }
+
+      const blob = new Blob([encryptedBytes as unknown as ArrayBuffer], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
       setOutputFileName(`protected_${file.name.replace(/\.pdf$/i, "")}.pdf`);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      setErrorMsg("Failed to protect document. Please try a different PDF file.");
+      setErrorMsg(err?.message || "Failed to protect document. Please try a different PDF file.");
     } finally {
       setProcessing(false);
     }

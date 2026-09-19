@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { PDFDocument, rgb, StandardFonts, PageSizes } from "pdf-lib";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import {
   Receipt,
   Download,
@@ -20,33 +20,37 @@ import {
   Calendar,
   Clock,
   RotateCcw,
+  FileCheck2,
+  AlertCircle,
 } from "lucide-react";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
-interface ReceiptItem {
+interface ExpenseItem {
   id: string;
   description: string;
   amount: number;
 }
 
-export default function ReceiptMakerPage() {
-  const [template, setTemplate] = useState<"taxi" | "restaurant" | "hotel" | "retail">("taxi");
+export default function ExpenseRecordPage() {
+  const [category, setCategory] = useState<"travel" | "meals" | "lodging" | "supplies">("travel");
 
-  // Merchant details (Clean empty default)
-  const [merchantName, setMerchantName] = useState("");
-  const [merchantAddress, setMerchantAddress] = useState("");
-  const [receiptNumber, setReceiptNumber] = useState("");
+  // Record details (Clean empty defaults)
+  const [vendorName, setVendorName] = useState("");
+  const [vendorLocation, setVendorLocation] = useState("");
+  const [recordNumber, setRecordNumber] = useState("");
+  const [businessPurpose, setBusinessPurpose] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [time, setTime] = useState("12:00");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [receiptAttached, setReceiptAttached] = useState("Original Receipt On File");
 
   // Items (1 clean single row by default)
-  const [items, setItems] = useState<ReceiptItem[]>([
+  const [items, setItems] = useState<ExpenseItem[]>([
     { id: "1", description: "", amount: 0 },
   ]);
 
-  // Tax & Tip (0 default)
+  // Tax & Tip
   const [taxAmount, setTaxAmount] = useState<number>(0);
   const [tipAmount, setTipAmount] = useState<number>(0);
 
@@ -72,49 +76,53 @@ export default function ReceiptMakerPage() {
   const grandTotal = subtotal + safeTax + safeTip;
 
   // Preset switch handler
-  const handleTemplateChange = (type: "taxi" | "restaurant" | "hotel" | "retail") => {
-    setTemplate(type);
-    if (type === "taxi") {
-      setMerchantName("Uber Technologies Inc.");
-      setMerchantAddress("1455 Market St #400, San Francisco, CA");
-      setReceiptNumber(`REC-${Date.now().toString().slice(-6)}`);
-      setPaymentMethod("Visa •••• 4242");
+  const handleCategoryChange = (type: "travel" | "meals" | "lodging" | "supplies") => {
+    setCategory(type);
+    if (type === "travel") {
+      setVendorName("Transportation & Rideshare Service");
+      setVendorLocation("Airport / Client Office Transit");
+      setBusinessPurpose("Client Onsite Consultation Transit");
+      setRecordNumber(`EXP-${Date.now().toString().slice(-6)}`);
+      setPaymentMethod("Corporate Card •••• 4242");
       setItems([
-        { id: "1", description: "Rideshare Trip (Airport to Client Office)", amount: 38.50 },
-        { id: "2", description: "City Congestion Surcharge", amount: 4.25 },
+        { id: "1", description: "Transit Fare (Airport to Client Office)", amount: 38.50 },
+        { id: "2", description: "Toll & Bridge Surcharge", amount: 4.25 },
       ]);
       setTaxAmount(3.20);
       setTipAmount(7.00);
-    } else if (type === "restaurant") {
-      setMerchantName("The Capital Grille & Bistro");
-      setMerchantAddress("1330 Avenue of the Americas, New York, NY");
-      setReceiptNumber(`REC-${Date.now().toString().slice(-6)}`);
+    } else if (type === "meals") {
+      setVendorName("Client Working Dinner & Bistro");
+      setVendorLocation("1330 Avenue of the Americas, New York, NY");
+      setBusinessPurpose("Quarterly Partnership Review Dinner");
+      setRecordNumber(`EXP-${Date.now().toString().slice(-6)}`);
       setPaymentMethod("Mastercard •••• 8812");
       setItems([
         { id: "1", description: "Client Business Dinner (2 Entrees)", amount: 84.00 },
-        { id: "2", description: "Beverages & Sparkling Water", amount: 16.50 },
+        { id: "2", description: "Sparkling Water & Beverages", amount: 16.50 },
       ]);
       setTaxAmount(8.90);
       setTipAmount(18.00);
-    } else if (type === "hotel") {
-      setMerchantName("Marriott Downtown Central");
-      setMerchantAddress("555 S West Temple, Salt Lake City, UT");
-      setReceiptNumber(`REC-${Date.now().toString().slice(-6)}`);
+    } else if (type === "lodging") {
+      setVendorName("Downtown Business Hotel");
+      setVendorLocation("555 S West Temple, Salt Lake City, UT");
+      setBusinessPurpose("Annual Tech Conference Attendance");
+      setRecordNumber(`EXP-${Date.now().toString().slice(-6)}`);
       setPaymentMethod("Amex •••• 1009");
       setItems([
-        { id: "1", description: "Standard King Room (1 Night)", amount: 189.00 },
+        { id: "1", description: "Standard Business Room (1 Night)", amount: 189.00 },
         { id: "2", description: "High-Speed Business WiFi", amount: 14.95 },
       ]);
       setTaxAmount(24.47);
       setTipAmount(0.00);
     } else {
-      setMerchantName("Staples Office Supply Store #0412");
-      setMerchantAddress("300 Main Street, Cambridge, MA");
-      setReceiptNumber(`REC-${Date.now().toString().slice(-6)}`);
+      setVendorName("Office Supply & Electronics Store");
+      setVendorLocation("300 Main Street, Cambridge, MA");
+      setBusinessPurpose("Client Presentation Hardware & Paper", );
+      setRecordNumber(`EXP-${Date.now().toString().slice(-6)}`);
       setPaymentMethod("Visa •••• 5531");
       setItems([
-        { id: "1", description: "Recycled Printer Paper (Box of 5 Reams)", amount: 39.99 },
-        { id: "2", description: "USB-C Presentation Dongle", amount: 24.50 },
+        { id: "1", description: "Recycled Presentation Paper (5 Reams)", amount: 39.99 },
+        { id: "2", description: "USB-C Multiport Display Adapter", amount: 24.50 },
       ]);
       setTaxAmount(4.03);
       setTipAmount(0.00);
@@ -122,9 +130,10 @@ export default function ReceiptMakerPage() {
   };
 
   const clearAllFields = () => {
-    setMerchantName("");
-    setMerchantAddress("");
-    setReceiptNumber("");
+    setVendorName("");
+    setVendorLocation("");
+    setRecordNumber("");
+    setBusinessPurpose("");
     setPaymentMethod("");
     setItems([{ id: Date.now().toString(), description: "", amount: 0 }]);
     setTaxAmount(0);
@@ -142,17 +151,18 @@ export default function ReceiptMakerPage() {
     setItems(items.filter((item) => item.id !== id));
   };
 
-  const updateItem = (id: string, field: keyof ReceiptItem, val: any) => {
+  const updateItem = (id: string, field: keyof ExpenseItem, val: any) => {
     setItems(items.map((item) => (item.id === id ? { ...item, [field]: val } : item)));
   };
 
   // 100% Client-Side Vector PDF Generator
   const generatePdf = async () => {
     setGenerating(true);
+    setErrorMsg(null);
     try {
       const pdfDoc = await PDFDocument.create();
-      // Compact receipt format: 360 x 540 pts
-      const page = pdfDoc.addPage([360, 540]);
+      // Compact record voucher format: 400 x 580 pts
+      const page = pdfDoc.addPage([400, 580]);
       const { width, height } = page.getSize();
 
       const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
@@ -161,14 +171,36 @@ export default function ReceiptMakerPage() {
       const black = rgb(0.08, 0.08, 0.09);
       const muted = rgb(0.35, 0.38, 0.45);
       const borderGray = rgb(0.85, 0.88, 0.92);
+      const headerBg = rgb(0.96, 0.97, 0.99);
 
-      let y = height - 40;
+      let y = height - 35;
 
-      // Merchant Header
-      const cleanMerchant = sanitizePdfText(merchantName).toUpperCase() || "RECEIPT";
-      const cleanAddress = sanitizePdfText(merchantAddress);
-      page.drawText(cleanMerchant, {
-        x: width / 2 - (fontBold.widthOfTextAtSize(cleanMerchant, 12) / 2),
+      // Top Disclaimer Box (Explicit Anti-Forgery & Audit Compliance)
+      page.drawRectangle({
+        x: 25,
+        y: y - 18,
+        width: width - 50,
+        height: 22,
+        color: rgb(0.98, 0.95, 0.91),
+        borderColor: rgb(0.92, 0.82, 0.65),
+        borderWidth: 0.8,
+      });
+
+      const notice = "USER-ENTERED EXPENSE VOUCHER — NOT AN OFFICIAL MERCHANT INVOICE";
+      page.drawText(notice, {
+        x: width / 2 - (fontBold.widthOfTextAtSize(notice, 7) / 2),
+        y: y - 10,
+        size: 7,
+        font: fontBold,
+        color: rgb(0.68, 0.38, 0.1),
+      });
+
+      y -= 38;
+
+      // Header Title
+      const title = "EXPENSE RECORD & BOOKKEEPING LOG";
+      page.drawText(title, {
+        x: width / 2 - (fontBold.widthOfTextAtSize(title, 12) / 2),
         y,
         size: 12,
         font: fontBold,
@@ -176,119 +208,123 @@ export default function ReceiptMakerPage() {
       });
 
       y -= 14;
-      if (cleanAddress) {
-        page.drawText(cleanAddress, {
-          x: width / 2 - (fontRegular.widthOfTextAtSize(cleanAddress, 7.5) / 2),
-          y,
-          size: 7.5,
-          font: fontRegular,
-          color: muted,
-        });
-      }
+      const subTitle = "Self-Employed & Independent Contractor Recordkeeping";
+      page.drawText(subTitle, {
+        x: width / 2 - (fontRegular.widthOfTextAtSize(subTitle, 8) / 2),
+        y,
+        size: 8,
+        font: fontRegular,
+        color: muted,
+      });
 
-      y -= 18;
-      // Dotted separator line
+      y -= 16;
       page.drawLine({
-        start: { x: 30, y },
-        end: { x: width - 30, y },
+        start: { x: 25, y },
+        end: { x: width - 25, y },
         thickness: 0.8,
         color: borderGray,
       });
 
       y -= 16;
-      // Receipt Meta
-      page.drawText(`RECEIPT: ${sanitizePdfText(receiptNumber)}`, { x: 30, y, size: 8, font: fontBold, color: black });
-      page.drawText(`DATE: ${sanitizePdfText(date)} ${sanitizePdfText(time)}`, { x: width - 140, y, size: 8, font: fontRegular, color: muted });
+      // Record Details
+      const safeRecordNum = recordNumber.trim() || `EXP-${Date.now().toString().slice(-6)}`;
+      page.drawText(`VOUCHER #: ${sanitizePdfText(safeRecordNum)}`, { x: 25, y, size: 8, font: fontBold, color: black });
+      page.drawText(`DATE: ${sanitizePdfText(date)} ${sanitizePdfText(time)}`, { x: width - 150, y, size: 8, font: fontRegular, color: muted });
 
-      y -= 12;
-      page.drawText(`PAYMENT: ${sanitizePdfText(paymentMethod)}`, { x: 30, y, size: 7.5, font: fontRegular, color: muted });
-      page.drawText("STATUS: APPROVED", { x: width - 140, y, size: 7.5, font: fontBold, color: rgb(0.02, 0.52, 0.35) });
+      y -= 13;
+      page.drawText(`PAYEE / VENDOR: ${sanitizePdfText(vendorName) || "Unspecified Payee"}`, { x: 25, y, size: 8, font: fontRegular, color: black });
+      page.drawText(`PAYMENT: ${sanitizePdfText(paymentMethod) || "Cash / Card"}`, { x: width - 150, y, size: 8, font: fontRegular, color: muted });
 
-      y -= 14;
-      page.drawLine({
-        start: { x: 30, y },
-        end: { x: width - 30, y },
-        thickness: 0.8,
-        color: borderGray,
+      y -= 13;
+      page.drawText(`PURPOSE: ${sanitizePdfText(businessPurpose) || "General Business Expense"}`, { x: 25, y, size: 8, font: fontRegular, color: muted });
+
+      y -= 13;
+      page.drawText(`STATUS: ${sanitizePdfText(receiptAttached)}`, { x: 25, y, size: 7.5, font: fontBold, color: rgb(0.1, 0.5, 0.3) });
+
+      y -= 15;
+      // Items Table Header
+      page.drawRectangle({
+        x: 25,
+        y: y - 4,
+        width: width - 50,
+        height: 18,
+        color: headerBg,
       });
 
-      y -= 18;
-      // Items list
+      page.drawText("DESCRIPTION", { x: 32, y: y + 2, size: 7.5, font: fontBold, color: black });
+      page.drawText("AMOUNT (USD)", { x: width - 100, y: y + 2, size: 7.5, font: fontBold, color: black });
+
+      y -= 16;
+      // Item rows
       items.forEach((item) => {
-        const cleanDesc = sanitizePdfText(item.description).slice(0, 36) || "Expense item";
+        const cleanDesc = sanitizePdfText(item.description).slice(0, 42) || "General expense item";
         const amt = Number.isFinite(item.amount) ? Math.max(0, item.amount) : 0;
-        page.drawText(cleanDesc, { x: 30, y, size: 8, font: fontRegular, color: black });
+        page.drawText(cleanDesc, { x: 32, y, size: 8, font: fontRegular, color: black });
         const priceStr = `$${amt.toFixed(2)}`;
         const priceWidth = fontRegular.widthOfTextAtSize(priceStr, 8);
-        page.drawText(priceStr, { x: width - 30 - priceWidth, y, size: 8, font: fontRegular, color: black });
-        y -= 14;
+        page.drawText(priceStr, { x: width - 35 - priceWidth, y, size: 8, font: fontRegular, color: black });
+        y -= 13;
       });
 
-      y -= 8;
+      y -= 5;
       page.drawLine({
-        start: { x: 30, y },
-        end: { x: width - 30, y },
-        thickness: 0.5,
+        start: { x: 25, y },
+        end: { x: width - 25, y },
+        thickness: 0.6,
         color: borderGray,
       });
 
-      y -= 16;
-      // Subtotal
+      y -= 15;
+      // Financial Summary
       page.drawText("Subtotal:", { x: width - 150, y, size: 8, font: fontRegular, color: muted });
-      page.drawText(`$${subtotal.toFixed(2)}`, { x: width - 60, y, size: 8, font: fontRegular, color: black });
+      page.drawText(`$${subtotal.toFixed(2)}`, { x: width - 65, y, size: 8, font: fontRegular, color: black });
 
       if (safeTax > 0) {
         y -= 12;
-        page.drawText("Sales Tax:", { x: width - 150, y, size: 8, font: fontRegular, color: muted });
-        page.drawText(`$${safeTax.toFixed(2)}`, { x: width - 60, y, size: 8, font: fontRegular, color: black });
+        page.drawText("Taxes & Fees:", { x: width - 150, y, size: 8, font: fontRegular, color: muted });
+        page.drawText(`$${safeTax.toFixed(2)}`, { x: width - 65, y, size: 8, font: fontRegular, color: black });
       }
 
       if (safeTip > 0) {
         y -= 12;
-        page.drawText("Tip / Gratuity:", { x: width - 150, y, size: 8, font: fontRegular, color: muted });
-        page.drawText(`$${safeTip.toFixed(2)}`, { x: width - 60, y, size: 8, font: fontRegular, color: black });
+        page.drawText("Gratuity / Tip:", { x: width - 150, y, size: 8, font: fontRegular, color: muted });
+        page.drawText(`$${safeTip.toFixed(2)}`, { x: width - 65, y, size: 8, font: fontRegular, color: black });
       }
 
       y -= 16;
       page.drawLine({
-        start: { x: width - 160, y: y + 4 },
-        end: { x: width - 30, y: y + 4 },
+        start: { x: width - 160, y: y + 3 },
+        end: { x: width - 25, y: y + 3 },
         thickness: 1,
         color: black,
       });
 
       // Total
-      page.drawText("TOTAL PAID:", { x: width - 150, y, size: 10, font: fontBold, color: black });
-      page.drawText(`$${grandTotal.toFixed(2)}`, { x: width - 60, y, size: 11, font: fontBold, color: rgb(0.49, 0.23, 0.93) });
+      page.drawText("TOTAL EXPENSE:", { x: width - 150, y, size: 9.5, font: fontBold, color: black });
+      page.drawText(`$${grandTotal.toFixed(2)}`, { x: width - 65, y, size: 10.5, font: fontBold, color: rgb(0.12, 0.45, 0.85) });
 
-      // Barcode simulation
-      y -= 45;
-      for (let i = 40; i < width - 40; i += 4) {
-        const hBar = (i % 6 === 0 ? 24 : i % 3 === 0 ? 18 : 12);
-        page.drawRectangle({
-          x: i,
-          y,
-          width: i % 5 === 0 ? 2.5 : 1.2,
-          height: hBar,
-          color: rgb(0.2, 0.2, 0.2),
-        });
-      }
+      // Legal & Recordkeeping Note
+      y -= 38;
+      page.drawRectangle({
+        x: 25,
+        y: y - 18,
+        width: width - 50,
+        height: 28,
+        color: rgb(0.97, 0.98, 0.99),
+        borderColor: borderGray,
+        borderWidth: 0.5,
+      });
 
-      y -= 16;
-      const authNotice = "AUTH # 948102839218 - EXPENSE AUDIT VALIDATED";
-      page.drawText(authNotice, {
-        x: width / 2 - (fontRegular.widthOfTextAtSize(authNotice, 6.5) / 2),
-        y,
+      page.drawText("IRS Recordkeeping Note: Per IRS Pub. 463, taxpayers must maintain contemporaneous records", {
+        x: 32,
+        y: y - 2,
         size: 6.5,
         font: fontRegular,
         color: muted,
       });
-
-      y -= 12;
-      const genNotice = "Generated 100% locally via MultiPDF Doc (multipdfdoc.com) - Zero Server Tracking";
-      page.drawText(genNotice, {
-        x: width / 2 - (fontRegular.widthOfTextAtSize(genNotice, 6.5) / 2),
-        y,
+      page.drawText("listing business purpose, date, location, and amount. Generated with MultiPDF Doc (multipdfdoc.com).", {
+        x: 32,
+        y: y - 11,
         size: 6.5,
         font: fontRegular,
         color: muted,
@@ -300,49 +336,51 @@ export default function ReceiptMakerPage() {
       setDownloadUrl(url);
     } catch (err) {
       console.error(err);
-      setErrorMsg("Failed to synthesize receipt PDF. Please check your input fields.");
+      setErrorMsg("Failed to generate expense voucher. Please check inputs.");
     } finally {
       setGenerating(false);
     }
   };
 
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
       {/* Hero Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-          <span>No Watermark • Audit Ready • Instant PDF Download</span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-sky-50 text-sky-800 border border-sky-200/80 shadow-sm">
+          <FileCheck2 className="w-3.5 h-3.5 text-sky-600" />
+          <span>100% Client-Side • IRS Pub. 463 Bookkeeping Log • Zero Server Uploads</span>
         </div>
         <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-slate-900 tracking-tight">
-          Clean Reimbursement Receipt Maker
+          Personal Expense Record Generator
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-          Quickly generate itemized expense receipts for travel, client meals, rideshare, and office supplies. 100% client-side privacy protection at <strong className="text-slate-800">multipdfdoc.com</strong>.
+          Create structured, audit-compliant expense vouchers and contemporaneous bookkeeping records for travel, meals, and business supplies. Generated 100% locally on your device at <strong className="text-slate-800">multipdfdoc.com</strong>.
         </p>
       </div>
+
+      <AdPlaceholder slot="receipt-top" format="horizontal" />
 
       {/* Preset Category Switcher */}
       <div className="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto">
         {[
-          { id: "taxi", label: "Taxi / Rideshare", icon: Car },
-          { id: "restaurant", label: "Dining & Bistro", icon: Utensils },
-          { id: "hotel", label: "Hotel & Lodging", icon: Hotel },
-          { id: "retail", label: "Office Supplies", icon: ShoppingBag },
+          { id: "travel", label: "Business Travel / Transit", icon: Car },
+          { id: "meals", label: "Client Meals & Dining", icon: Utensils },
+          { id: "lodging", label: "Hotel & Lodging", icon: Hotel },
+          { id: "supplies", label: "Office Supplies & Software", icon: ShoppingBag },
         ].map((item) => {
           const Icon = item.icon;
-          const active = template === item.id;
+          const active = category === item.id;
           return (
             <button
               key={item.id}
-              onClick={() => handleTemplateChange(item.id as any)}
+              onClick={() => handleCategoryChange(item.id as any)}
               className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition-all ${
                 active
                   ? "bg-slate-900 text-white shadow-clay-pill scale-102 font-extrabold"
                   : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${active ? "text-emerald-400" : "text-slate-500"}`} />
+              <Icon className={`w-3.5 h-3.5 ${active ? "text-sky-400" : "text-slate-500"}`} />
               <span>{item.label}</span>
             </button>
           );
@@ -362,39 +400,38 @@ export default function ReceiptMakerPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left 2 Cols: Form Editor */}
         <div className="lg:col-span-2 bubble-card p-6 sm:p-8 border border-slate-200/90 space-y-6">
-          
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-800">Merchant / Business Name</label>
+              <label className="text-xs font-bold text-slate-800">Payee / Vendor Name</label>
               <input
                 type="text"
-                placeholder="e.g. Uber Technologies, Starbucks, or Hotel"
-                value={merchantName}
-                onChange={(e) => setMerchantName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500 focus:bg-white transition-all"
+                placeholder="e.g. City Transit, Restaurant, or Hotel Name"
+                value={vendorName}
+                onChange={(e) => setVendorName(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 placeholder:text-slate-400 outline-none focus:border-sky-500 focus:bg-white transition-all"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-800">Merchant Address / Location</label>
+              <label className="text-xs font-bold text-slate-800">Location / City & State</label>
               <input
                 type="text"
-                placeholder="e.g. 1455 Market St #400, San Francisco, CA"
-                value={merchantAddress}
-                onChange={(e) => setMerchantAddress(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500 focus:bg-white transition-all"
+                placeholder="e.g. 1455 Market St, San Francisco, CA"
+                value={vendorLocation}
+                onChange={(e) => setVendorLocation(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 outline-none focus:border-sky-500 focus:bg-white transition-all"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-800">Receipt #</label>
+              <label className="text-xs font-bold text-slate-800">Voucher / Record #</label>
               <input
                 type="text"
-                placeholder="e.g. REC-001"
-                value={receiptNumber}
-                onChange={(e) => setReceiptNumber(e.target.value)}
+                placeholder="e.g. EXP-001"
+                value={recordNumber}
+                onChange={(e) => setRecordNumber(e.target.value)}
                 className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-900 placeholder:text-slate-400 outline-none"
               />
             </div>
@@ -420,25 +457,51 @@ export default function ReceiptMakerPage() {
             </div>
           </div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-800">Business Purpose (IRS Requirement)</label>
+              <input
+                type="text"
+                placeholder="e.g. Client consultation meeting, Conference travel"
+                value={businessPurpose}
+                onChange={(e) => setBusinessPurpose(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-900 placeholder:text-slate-400 outline-none focus:border-sky-500"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-slate-800">Payment Method</label>
+              <input
+                type="text"
+                placeholder="e.g. Corporate Visa •••• 4242 or Bank ACH"
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-400 outline-none"
+              />
+            </div>
+          </div>
+
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-slate-800">Payment Method</label>
-            <input
-              type="text"
-              placeholder="e.g. Visa •••• 4242 or Corporate Amex"
-              value={paymentMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-              className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-400 outline-none"
-            />
+            <label className="text-xs font-bold text-slate-800">Receipt Documentation Status</label>
+            <select
+              value={receiptAttached}
+              onChange={(e) => setReceiptAttached(e.target.value)}
+              className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800 outline-none"
+            >
+              <option value="Original Receipt On File">Original Receipt On File (Physical / Digital Archive)</option>
+              <option value="Electronic Statement Attached">Electronic Bank / Card Statement Verified</option>
+              <option value="Self-Employed Daily Expense Diary">Self-Employed Daily Expense Diary Log</option>
+            </select>
           </div>
 
           {/* Items */}
           <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-800">Itemized Breakdown</span>
+              <span className="text-xs font-bold text-slate-800">Itemized Expense Breakdown</span>
               <button
                 type="button"
                 onClick={addItem}
-                className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition-all"
+                className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-sky-50 text-sky-700 text-xs font-bold hover:bg-sky-100 transition-all"
               >
                 <Plus className="w-3 h-3" />
                 <span>Add Item</span>
@@ -450,7 +513,7 @@ export default function ReceiptMakerPage() {
                 <div key={item.id} className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200">
                   <input
                     type="text"
-                    placeholder="e.g. Expense Item or Fare Description"
+                    placeholder="e.g. Flight ticket, Business meal, Office toner"
                     value={item.description}
                     onChange={(e) => updateItem(item.id, "description", e.target.value)}
                     className="flex-1 px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-xs text-slate-900 font-medium placeholder:text-slate-400 outline-none"
@@ -481,7 +544,7 @@ export default function ReceiptMakerPage() {
           {/* Tax & Tip inputs */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-700">Tax ($)</label>
+              <label className="text-xs font-bold text-slate-700">Taxes & Mandatory Fees ($)</label>
               <input
                 type="number"
                 step="0.01"
@@ -492,7 +555,7 @@ export default function ReceiptMakerPage() {
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-700">Tip / Gratuity ($)</label>
+              <label className="text-xs font-bold text-slate-700">Gratuity / Tip ($)</label>
               <input
                 type="number"
                 step="0.01"
@@ -505,29 +568,38 @@ export default function ReceiptMakerPage() {
           </div>
         </div>
 
-        {/* Right 1 Col: Thermal Slip Live Preview & Actions */}
+        {/* Right 1 Col: Voucher Live Preview & Actions */}
         <div className="space-y-6">
           <div className="bubble-card p-6 border border-slate-200/90 space-y-6 sticky top-24">
-            {/* Visual Receipt Slip Representation */}
+            {/* Visual Voucher Slip Representation */}
             <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-inner font-mono text-xs space-y-3">
-              <div className="text-center space-y-1 border-b border-dashed border-slate-300 pb-3">
-                <div className="font-bold text-slate-900 uppercase text-sm">{merchantName || "MERCHANT NAME"}</div>
-                <div className="text-[10px] text-slate-500">{merchantAddress || "123 Business Way, City, State"}</div>
+              <div className="p-2 rounded-lg bg-amber-50 border border-amber-200 text-[10px] text-amber-800 font-bold text-center">
+                USER-ENTERED EXPENSE VOUCHER
+              </div>
+
+              <div className="text-center space-y-1 border-b border-slate-200 pb-3">
+                <div className="font-bold text-slate-900 uppercase text-sm">{vendorName || "PAYEE / VENDOR NAME"}</div>
+                <div className="text-[10px] text-slate-500">{vendorLocation || "Location / City, State"}</div>
               </div>
 
               <div className="space-y-1 text-[11px] text-slate-600 border-b border-dashed border-slate-300 pb-3">
                 <div className="flex justify-between">
-                  <span>REC #:</span>
-                  <span className="font-bold text-slate-900">{receiptNumber || "REC-001"}</span>
+                  <span>RECORD #:</span>
+                  <span className="font-bold text-slate-900">{recordNumber || "EXP-001"}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>DATE:</span>
                   <span>{date} {time}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>METHOD:</span>
+                  <span>PAYMENT:</span>
                   <span>{paymentMethod || "Cash / Card"}</span>
                 </div>
+                {businessPurpose && (
+                  <div className="text-[10px] text-slate-500 pt-1">
+                    <strong>Purpose:</strong> {businessPurpose}
+                  </div>
+                )}
               </div>
 
               <div className="space-y-1.5 text-[11px] border-b border-dashed border-slate-300 pb-3">
@@ -546,19 +618,19 @@ export default function ReceiptMakerPage() {
                 </div>
                 {taxAmount > 0 && (
                   <div className="flex justify-between">
-                    <span>Tax:</span>
+                    <span>Tax / Fees:</span>
                     <span>${taxAmount.toFixed(2)}</span>
                   </div>
                 )}
                 {tipAmount > 0 && (
                   <div className="flex justify-between">
-                    <span>Tip:</span>
+                    <span>Gratuity:</span>
                     <span>${tipAmount.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between font-bold text-slate-900 text-sm pt-2 border-t border-slate-200">
-                  <span>TOTAL:</span>
-                  <span className="text-emerald-700">${grandTotal.toFixed(2)}</span>
+                  <span>TOTAL EXPENSE:</span>
+                  <span className="text-sky-700">${grandTotal.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -574,82 +646,107 @@ export default function ReceiptMakerPage() {
                 type="button"
                 onClick={generatePdf}
                 disabled={generating}
-                className="w-full py-4 rounded-full text-xs sm:text-sm font-extrabold btn-bubble btn-bubble-emerald flex items-center justify-center gap-2 shadow-clay-pill"
+                className="w-full py-4 rounded-full text-xs sm:text-sm font-extrabold btn-bubble btn-bubble-violet flex items-center justify-center gap-2 shadow-clay-pill"
               >
-                <Receipt className="w-4 h-4" />
-                <span>{generating ? "Creating Receipt PDF..." : "Generate Official Receipt PDF"}</span>
+                {generating ? (
+                  <>
+                    <Sparkles className="w-4 h-4 animate-spin" />
+                    <span>Compiling Expense Voucher...</span>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-4 h-4" />
+                    <span>Download Expense Voucher (PDF)</span>
+                  </>
+                )}
               </button>
 
               {downloadUrl && (
-                <a
-                  href={downloadUrl}
-                  download={`receipt_${receiptNumber}.pdf`}
-                  className="w-full py-3.5 rounded-full text-xs sm:text-sm font-extrabold btn-bubble btn-bubble-violet flex items-center justify-center gap-2 shadow-clay-pill"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>Download Clean Receipt (PDF)</span>
-                </a>
+                <div className="p-4 rounded-2xl bg-sky-50 border border-sky-200 text-center space-y-2 animate-in fade-in">
+                  <div className="flex items-center justify-center gap-1.5 text-xs font-bold text-sky-800">
+                    <CheckCircle2 className="w-4 h-4 text-sky-600" />
+                    <span>Expense Voucher Ready!</span>
+                  </div>
+                  <a
+                    href={downloadUrl}
+                    download={`expense_record_${date}.pdf`}
+                    className="inline-block px-6 py-2 rounded-full text-xs font-bold bg-sky-600 text-white hover:bg-sky-700 transition-all shadow-sm"
+                  >
+                    Save PDF Record
+                  </a>
+                </div>
               )}
             </div>
-
-            <div className="text-[11px] text-slate-500 flex items-center gap-2">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-              <span>Conforms to corporate $75 IRS reimbursement rules</span>
-            </div>
           </div>
-
-          <AdPlaceholder slot="sidebar-ad" format="rectangle" />
         </div>
       </div>
 
-      {/* AdSense Value Wrapper Layer */}
+      <AdPlaceholder slot="receipt-bottom" format="horizontal" />
+
+      {/* SEO & Procedural Value Wrapper */}
       <ValueWrapper
-        toolName="Clean Expense Reimbursement Receipt Maker"
-        title="Corporate Reimbursement Standards: IRS Accountable Plans & Audit Documentation"
-        subtitle="Step-by-step procedural guidelines for enterprise expense reports, per diem claims, and travel accounting."
-        sections={[
-          {
-            heading: "1. The IRS Accountable Plan & The $75 Receipt Rule",
-            content: `Under IRS Publication 463 (Travel, Gift, and Car Expenses), business expenses reimbursed by an employer are excluded from an employee's taxable gross wages only if paid under an 'Accountable Plan'.
-
-Key statutory requirements include:
-• Business Connection: The expense must have a direct, demonstrable nexus to the employer's commercial activities.
-• Adequate Accounting: Employees must substantiate expenses with documentary evidence (such as receipts, paid bills, or electronic invoices) showing amount, date, place, and essential business character.
-• The $75 Threshold: While the IRS generally does not require documentary receipts for non-lodging travel expenses under $75, corporate expense auditing software (e.g., Concur, Expensify) overwhelmingly mandates receipt attachments for every transaction to safeguard against internal financial audits.`
-          },
-          {
-            heading: "2. Itemized Receipts vs. Credit Card Statements: Why Slips Matter",
-            content: `A frequent pitfall in corporate expense auditing is the submission of a simple credit card statement or payment confirmation slip showing only the merchant name and grand total.
-
-Internal audit boards require itemized receipts to confirm the exclusion of personal non-reimbursable charges (such as minibar fees, personal souvenirs, or premium entertainment). Generating an itemized record with explicit line item breakdowns protects claims from administrative review holds.`
-          },
-          {
-            heading: "3. Complete Client-Side Security for Sensitive Financial Records",
-            content: `Unlike third-party receipt generators that log your credit card fragments, merchant destinations, and corporate expense codes into remote marketing databases, MultiPDF Doc executes all receipt compilation locally on your machine.
-
-No financial records are transmitted across the web, guaranteeing complete confidentiality for corporate executives, legal counsel, and consultants traveling for sensitive client accounts.`
-          }
+        title="IRS Publication 463 & Business Expense Recordkeeping Guide"
+        description="Comprehensive technical and procedural guide for self-employed professionals, independent contractors, and small business owners on contemporaneous expense tracking, deductible business expenses, and documentary proof standards."
+        breadcrumbs={[
+          { label: "Home", href: "/" },
+          { label: "Business Suite", href: "/invoice" },
+          { label: "Expense Record Generator", href: "/receipt" },
         ]}
-        formula={{
-          title: "Expense Reimbursement Ledger Formula",
-          formula: "Gross_Reimbursement = Σ(Line_Items) + Local_Sales_Tax + Approved_Gratuity",
-          explanation: "Calculates the total claimable reimbursement sum reconciling itemized base charges against local municipal sales taxes and capped discretionary tips."
-        }}
-        faqs={[
-          {
-            question: "Is this receipt maker free without watermarks?",
-            answer: "Yes. MultiPDF Doc generates clean, professional receipts with zero watermarks or ads embedded in the document."
-          },
-          {
-            question: "Are generated receipts accepted by corporate HR and accounting departments?",
-            answer: "Yes. The generated receipts include all standard fields required by corporate travel policies: merchant details, timestamp, itemized breakdown, tax calculation, and payment confirmation."
-          },
-          {
-            question: "Are my expense details saved on any external database?",
-            answer: "Never. All data entered into this tool resides strictly in your browser's temporary session memory and is destroyed when the tab is closed."
-          }
+        authorName="MultiPDF Doc Technology & Editorial Team"
+        lastUpdated="September 2026"
+        readingTime="9 min read"
+        tableOfContents={[
+          { id: "irs-requirements", title: "1. IRS Publication 463 Statutory Recordkeeping Rules" },
+          { id: "contemporaneous-records", title: "2. The Legal Meaning of Contemporaneous Records" },
+          { id: "the-75-dollar-rule", title: "3. The IRS $75 Documentary Evidence Threshold" },
+          { id: "travel-and-meals", title: "4. Business Travel, Meals & Transportation Deductions" },
+          { id: "step-by-step-guide", title: "5. How to Compile an Audit-Compliant Expense Log" },
+          { id: "faq", title: "6. Frequently Asked Questions (FAQ)" },
         ]}
-      />
+        faqItems={[
+          {
+            question: "Can I use an expense voucher as proof of purchase for tax deductions?",
+            answer: "Under IRS Publication 463, a contemporaneous expense log or account book serves as legal proof of elements such as date, location, amount, and business purpose. For expenses of $75 or more (and all lodging expenses regardless of amount), the IRS also requires documentary evidence (such as a canceled check, credit card statement, or formal receipt).",
+          },
+          {
+            question: "Are my expense records processed or stored on MultiPDF Doc servers?",
+            answer: "No. MultiPDF Doc generates all PDF byte sequences 100% locally inside your browser using client-side JavaScript. No expense data, payee names, or financial numbers are ever uploaded or transmitted across the internet.",
+          },
+          {
+            question: "What information must be recorded to substantiate a business travel deduction?",
+            answer: "The IRS requires four core elements for travel deductions: (1) Amount of each separate expense, (2) Dates of departure and return, (3) Destination city or town, and (4) Business reason for the travel or business benefit derived.",
+          },
+        ]}
+      >
+        <div className="space-y-8 text-slate-700 leading-relaxed text-sm">
+          <section id="irs-requirements" className="space-y-3">
+            <h2 className="text-xl font-display font-bold text-slate-900">
+              1. IRS Publication 463 Statutory Recordkeeping Rules
+            </h2>
+            <p>
+              United States tax law under Section 274(d) of the Internal Revenue Code strictly disallows deductions for business travel, gifts, and entertainment unless the taxpayer substantiates the expense with adequate contemporaneous records. IRS Publication 463 establishes the evidentiary standards that self-employed individuals, independent contractors (1099 recipients), and corporate employees must maintain.
+            </p>
+          </section>
+
+          <section id="contemporaneous-records" className="space-y-3">
+            <h2 className="text-xl font-display font-bold text-slate-900">
+              2. The Legal Meaning of Contemporaneous Records
+            </h2>
+            <p>
+              A contemporaneous record is one recorded at or near the time of the expenditure. The IRS gives significantly higher probative weight to logs, diaries, and vouchers recorded while the taxpayer has full, immediate knowledge of each element of the expenditure. Reconstructing expense logs months later during an audit is frequently rejected by the tax court.
+            </p>
+          </section>
+
+          <section id="the-75-dollar-rule" className="space-y-3">
+            <h2 className="text-xl font-display font-bold text-slate-900">
+              3. The IRS $75 Documentary Evidence Threshold
+            </h2>
+            <p>
+              Under Treasury Regulation § 1.274-5(c)(2)(iii), documentary evidence (such as an itemized invoice, bill, or receipt) is required for any business expense of <strong>$75 or more</strong>, with two strict exceptions: (1) Lodging expenses require documentary evidence regardless of amount, and (2) Transportation charges where documentary evidence is not readily available (such as metered public transit). For items under $75, a detailed contemporaneous expense log stating date, amount, vendor, and business purpose fulfills statutory requirements.
+            </p>
+          </section>
+        </div>
+      </ValueWrapper>
     </div>
   );
 }

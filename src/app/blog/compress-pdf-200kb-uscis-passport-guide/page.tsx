@@ -33,7 +33,7 @@ export default function UscisCompressGuidePage() {
       "A complete technical and procedural guide for immigration applicants navigating strict 240KB government portal file limits without corrupting barcodes or degrading text legibility.",
     author: {
       "@type": "Organization",
-      name: "MultiPDF Doc Security & Legal Review Board",
+      name: "MultiPDF Doc Editorial & Technical Team",
       url: "https://multipdfdoc.com/about",
     },
     publisher: {
@@ -90,7 +90,7 @@ export default function UscisCompressGuidePage() {
               </div>
               <div>
                 <p className="font-bold text-slate-800">
-                  Reviewed by MultiPDF Doc Legal Engineering Board
+                  Researched & Written by MultiPDF Doc Editorial Team
                 </p>
                 <p className="text-[11px] text-slate-400">
                   Compliance standards updated for USCIS ELIS & CEAC

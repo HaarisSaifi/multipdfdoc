@@ -33,7 +33,7 @@ export default function FreelanceInvoiceGuidePage() {
       "A comprehensive financial guide for freelancers, agencies, and independent contractors on structuring legally enforceable invoices, setting payment terms, and avoiding tax audit traps.",
     author: {
       "@type": "Organization",
-      name: "MultiPDF Doc Financial Review Board",
+      name: "MultiPDF Doc Editorial Team",
       url: "https://multipdfdoc.com/about",
     },
     publisher: {
@@ -90,7 +90,7 @@ export default function FreelanceInvoiceGuidePage() {
               </div>
               <div>
                 <p className="font-bold text-slate-800">
-                  Reviewed by MultiPDF Doc Financial Engineering Board
+                  Researched & Written by MultiPDF Doc Editorial Team
                 </p>
                 <p className="text-[11px] text-slate-400">
                   Standards compliant with IRS 1099-NEC & EU VAT Invoicing
@@ -206,13 +206,13 @@ export default function FreelanceInvoiceGuidePage() {
           </div>
 
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 pt-4">
-            The IRS Form 1099-NEC Threshold ($600 Rule)
+            The IRS Form 1099-NEC Guidelines (2026 Threshold Update)
           </h2>
           <p>
-            Under IRS regulations, any US business client that remits <strong>$600 or more to an unincorporated independent contractor during a calendar year</strong> is legally required to file Form 1099-NEC.
+            Under current IRS instructions for Form 1099-NEC, businesses remitting payments to unincorporated independent contractors must report payments once aggregate compensation reaches the relevant annual statutory threshold (<strong>$2,000 for payments made in 2026</strong>, adjusted for inflation in subsequent tax years; earlier tax years historically applied a $600 limit).
           </p>
           <p>
-            When issuing invoices near year-end, verify that your aggregate billing ledger matches your client’s records exactly. Retain vector PDF copies of every paid invoice for a minimum of <strong>7 years</strong> to comply with federal tax audit statutes.
+            When issuing invoices near year-end, verify that your aggregate billing ledger matches your client’s records exactly. Retain vector PDF copies of every paid invoice for a minimum of <strong>7 years</strong> to comply with federal tax audit and recordkeeping statutes (IRS Publication 463 &amp; 583).
           </p>
 
           <h2 className="text-xl sm:text-2xl font-bold text-slate-900 pt-4">

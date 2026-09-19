@@ -16,8 +16,12 @@ import {
   ShieldCheck,
   Zap,
   Search,
+  AlertCircle,
+  Eye,
+  Info,
 } from "lucide-react";
-import { PDFDocument } from "pdf-lib";
+import { getPdfJs } from "@/lib/pdf/pdfjs-loader";
+import { createWorker } from "tesseract.js";
 
 export default function PdfToTextPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -29,6 +33,7 @@ export default function PdfToTextPage() {
   const [copied, setCopied] = useState(false);
   const [ocrMode, setOcrMode] = useState<"client" | "ai">("client");
   const [searchQuery, setSearchQuery] = useState("");
+  const [showAiNotice, setShowAiNotice] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,56 +48,111 @@ export default function PdfToTextPage() {
   const processOCR = async () => {
     if (!file) return;
     setIsProcessing(true);
-    setProgress(15);
-    setStatusText("Reading file bytes...");
+    setProgress(10);
+    setStatusText("Reading document contents...");
 
     try {
       if (ocrMode === "client") {
-        // Mode 1: Client-Side PDF Text Extraction
-        setStatusText("Executing in-browser document extraction...");
-        setProgress(40);
+        // --- LOCAL CLIENT-SIDE EXTRACTION (PDF.js + Tesseract.js) ---
+        const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
 
-        if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
-          const arrayBuffer = await file.arrayBuffer();
-          const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-          const pages = pdfDoc.getPages();
-          
-          setProgress(75);
-          setStatusText(`Analyzing ${pages.length} pages in WebAssembly memory...`);
+        if (isPdf) {
+          setStatusText("Initializing Mozilla PDF.js text layer...");
+          setProgress(25);
 
-          let decodedText = `[MultiPDF Doc In-Browser OCR]\nDocument: ${file.name}\nPages: ${pages.length}\nDate: ${new Date().toLocaleDateString()}\n\n`;
-          decodedText += `--- EXTRACTED DOCUMENT TEXT ---\n\n`;
-          
-          const rawBytes = new Uint8Array(arrayBuffer);
-          const textDecoder = new TextDecoder("utf-8");
-          const rawString = textDecoder.decode(rawBytes);
-          
-          const textMatches: string[] = [];
-          const regex = /\(([^)]+)\)\s*Tj/g;
-          let match;
-          while ((match = regex.exec(rawString)) !== null) {
-            textMatches.push(match[1]);
+          const pdfjs = await getPdfJs();
+          const buffer = await file.arrayBuffer();
+          const loadingTask = pdfjs.getDocument({ data: new Uint8Array(buffer) });
+          const pdf = await loadingTask.promise;
+          const totalPages = pdf.numPages;
+
+          let digitalTextCombined = "";
+          let scannedPagesDetected = 0;
+
+          // Attempt digital text extraction first across pages
+          for (let p = 1; p <= totalPages; p++) {
+            setStatusText(`Extracting digital text from page ${p} of ${totalPages}...`);
+            setProgress(Math.round(25 + (p / totalPages) * 35));
+
+            const page = await pdf.getPage(p);
+            const textContent = await page.getTextContent();
+            const pageStrings = textContent.items
+              .map((item: any) => item.str)
+              .join(" ")
+              .trim();
+
+            if (pageStrings.length > 25) {
+              digitalTextCombined += `\n--- PAGE ${p} ---\n${pageStrings}\n`;
+            } else {
+              scannedPagesDetected++;
+            }
           }
 
-          if (textMatches.length > 5) {
-            decodedText += textMatches.join(" ");
-          } else {
-            decodedText += `Extracted ${pages.length} pages. For scanned image documents or cursive handwriting, switch to "AI Deep Scan / Handwriting" mode for 99.2% neural model accuracy.`;
+          // If digital text was found on pages, display it
+          if (digitalTextCombined.trim().length > 50 && scannedPagesDetected === 0) {
+            setExtractedText(digitalTextCombined.trim());
+            setEngineUsed("Mozilla PDF.js Native Text Extraction (Local)");
+            setProgress(100);
+            return;
           }
 
-          setExtractedText(decodedText);
-          setEngineUsed("100% In-Browser WebAssembly (Zero-Upload)");
+          // If pages had no digital text (scanned PDF), invoke local Tesseract.js WASM
+          setStatusText(`Scanned pages detected. Launching Tesseract.js WASM OCR...`);
+          setProgress(65);
+
+          const worker = await createWorker("eng");
+          let ocrOutput = digitalTextCombined ? `${digitalTextCombined}\n\n[OCR FOR SCANNED PAGES]:\n` : "";
+
+          const maxOcrPages = Math.min(totalPages, 10);
+          for (let p = 1; p <= maxOcrPages; p++) {
+            setStatusText(`Running local Tesseract OCR on page ${p}/${maxOcrPages}...`);
+            setProgress(Math.round(65 + (p / maxOcrPages) * 30));
+
+            const page = await pdf.getPage(p);
+            const viewport = page.getViewport({ scale: 2.0 }); // 144 DPI for crisp OCR
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.ceil(viewport.width);
+            canvas.height = Math.ceil(viewport.height);
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+              ctx.fillStyle = "#FFFFFF";
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              await page.render({ canvasContext: ctx, viewport }).promise;
+
+              const {
+                data: { text },
+              } = await worker.recognize(canvas);
+              ocrOutput += `\n--- PAGE ${p} (OCR) ---\n${text.trim()}\n`;
+            }
+          }
+
+          await worker.terminate();
+          setExtractedText(ocrOutput.trim() || "No text could be extracted from this document.");
+          setEngineUsed("Tesseract.js WebAssembly OCR (Local)");
           setProgress(100);
         } else {
-          setExtractedText(
-            `Image loaded: ${file.name} (${(file.size / 1024).toFixed(1)} KB).\n\nNotice: For visual photo scans and handwritten documents, please select "AI Deep Scan / Handwriting" mode to process via our high-accuracy Neural OCR Engine.`
-          );
-          setEngineUsed("Client-Side Canvas Loader");
+          // Image file (PNG / JPEG) -> Run directly through Tesseract.js
+          setStatusText("Initializing Tesseract.js OCR engine...");
+          setProgress(30);
+
+          const worker = await createWorker("eng");
+          setStatusText("Analyzing image characters...");
+          setProgress(70);
+
+          const imgUrl = URL.createObjectURL(file);
+          const {
+            data: { text },
+          } = await worker.recognize(imgUrl);
+          URL.revokeObjectURL(imgUrl);
+
+          await worker.terminate();
+          setExtractedText(text.trim() || "No text detected in image.");
+          setEngineUsed("Tesseract.js In-Browser WASM (Local)");
           setProgress(100);
         }
       } else {
-        // Mode 2: AI Deep Scan (Oracle 24GB Backend + Gemini Flash)
-        setStatusText("Routing to Neural OCR Engine (PaddleOCR / Vision AI)...");
+        // --- CLOUD AI DEEP SCAN MODE (/api/ocr) ---
+        setStatusText("Transmitting to Cloud AI OCR API...");
         setProgress(40);
 
         const formData = new FormData();
@@ -105,25 +165,27 @@ export default function PdfToTextPage() {
         });
 
         setProgress(85);
-        setStatusText("Formatting recognized text and linebreaks...");
+        setStatusText("Parsing neural transcription output...");
 
         if (res.ok) {
           const data = await res.json();
-          setExtractedText(data.text || "No text detected in document.");
-          setEngineUsed(data.engine || "AI Vision OCR");
+          setExtractedText(data.text || "No text returned by AI model.");
+          setEngineUsed(data.engine || "Cloud AI OCR");
           setProgress(100);
         } else {
           const errData = await res.json().catch(() => ({}));
           setExtractedText(
-            `⚠️ Notice from AI Neural Engine: ${errData.error || "The cloud backend service is currently initializing."}\n\nPlease switch to "In-Browser Fast OCR" mode for instant local extraction without server dependencies.`
+            `Cloud Service Notice: ${
+              errData.error || "Cloud AI endpoint is unavailable."
+            }\n\nYou can switch to 'In-Browser Local Extraction' to extract text 100% offline without server dependencies.`
           );
-          setEngineUsed("Fallback Engine");
+          setEngineUsed("Service Notice");
           setProgress(100);
         }
       }
     } catch (err: any) {
-      console.error(err);
-      setExtractedText(`Extraction Error: ${err?.message || "Failed to parse document"}`);
+      console.error("OCR Processing error:", err);
+      setExtractedText(`Extraction Error: ${err?.message || "Failed to process document."}`);
     } finally {
       setIsProcessing(false);
     }
@@ -142,7 +204,7 @@ export default function PdfToTextPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${file?.name?.replace(/\.[^/.]+$/, "") || "extracted"}_ocr.txt`;
+    link.download = `${file?.name?.replace(/\.[^/.]+$/, "") || "extracted"}_text.txt`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -166,9 +228,9 @@ export default function PdfToTextPage() {
         {/* Header Title */}
         <div className="text-center mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-50 border border-violet-100/80 shadow-clay-badge mb-4">
-            <Sparkles className="w-4 h-4 text-violet-600 animate-pulse" />
+            <Sparkles className="w-4 h-4 text-violet-600" />
             <span className="text-xs font-semibold text-violet-800 tracking-wide uppercase">
-              Dual-Engine OCR Suite
+              Dual-Engine Document OCR
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
@@ -178,15 +240,18 @@ export default function PdfToTextPage() {
             </span>
           </h1>
           <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-            Extract clean text, tables, and handwritten notes from PDFs and images. Choose between 100% private in-browser extraction or high-accuracy neural AI scanning.
+            Extract clean text, tables, and notes from PDFs and images. Choose between 100% private in-browser extraction (PDF.js + Tesseract.js) or optional Cloud AI scanning.
           </p>
         </div>
 
         {/* Engine Mode Selection Toggle */}
-        <div className="max-w-xl mx-auto mb-8">
+        <div className="max-w-xl mx-auto mb-6">
           <div className="p-1.5 bg-slate-100/80 rounded-2xl border border-slate-200/80 flex items-center shadow-inner">
             <button
-              onClick={() => setOcrMode("client")}
+              onClick={() => {
+                setOcrMode("client");
+                setShowAiNotice(false);
+              }}
               className={`flex-1 py-2.5 px-4 rounded-xl font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-200 ${
                 ocrMode === "client"
                   ? "bg-white text-violet-700 shadow-clay-card border border-violet-100"
@@ -194,14 +259,17 @@ export default function PdfToTextPage() {
               }`}
             >
               <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              <span>In-Browser Fast OCR</span>
+              <span>In-Browser Local Extraction</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold hidden sm:inline">
                 Zero-Upload
               </span>
             </button>
 
             <button
-              onClick={() => setOcrMode("ai")}
+              onClick={() => {
+                setOcrMode("ai");
+                setShowAiNotice(true);
+              }}
               className={`flex-1 py-2.5 px-4 rounded-xl font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-200 ${
                 ocrMode === "ai"
                   ? "bg-white text-violet-700 shadow-clay-card border border-violet-100"
@@ -211,11 +279,21 @@ export default function PdfToTextPage() {
               <Cpu className="w-4 h-4 text-violet-600" />
               <span>AI Deep Scan / Handwriting</span>
               <span className="text-[10px] px-1.5 py-0.5 rounded bg-violet-100 text-violet-700 font-bold hidden sm:inline">
-                99.2% SOTA
+                Cloud AI
               </span>
             </button>
           </div>
         </div>
+
+        {/* Transparent Cloud Notice when AI Mode is active */}
+        {ocrMode === "ai" && (
+          <div className="max-w-xl mx-auto mb-6 p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 flex items-start gap-2.5 animate-in fade-in-50">
+            <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-bold">Cloud Processing Notice:</strong> AI Deep Scan securely transmits this document to our OCR processing service for neural vision transcription. If you require zero data transmission, choose <strong>In-Browser Local Extraction</strong>.
+            </div>
+          </div>
+        )}
 
         {/* Main Work Area Card */}
         <div className="bubble-card p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-clay-card mb-10 bg-white">
@@ -228,10 +306,10 @@ export default function PdfToTextPage() {
                 <Upload className="w-8 h-8" />
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-1">
-                Drop your PDF or Image file here
+                Select or Drop Document / Image
               </h3>
               <p className="text-sm text-slate-500 max-w-md mx-auto mb-4">
-                Supports PDF, PNG, JPG, and WebP documents up to 50MB.
+                Supports PDF documents, PNG, JPG, and WebP images.
               </p>
               <button
                 type="button"
@@ -250,12 +328,12 @@ export default function PdfToTextPage() {
           ) : (
             <div>
               <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center font-bold">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-10 h-10 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center font-bold flex-shrink-0">
                     <FileText className="w-5 h-5" />
                   </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-800 line-clamp-1">
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-slate-800 truncate">
                       {file.name}
                     </p>
                     <p className="text-xs text-slate-500">
@@ -269,6 +347,7 @@ export default function PdfToTextPage() {
                     onClick={() => {
                       setFile(null);
                       setExtractedText("");
+                      setEngineUsed(null);
                     }}
                     className="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition"
                   >
@@ -394,60 +473,82 @@ export default function PdfToTextPage() {
 
         <AdPlaceholder slot="mid-rectangle" format="rectangle" />
 
-        {/* Value Wrapper with 700+ words E-E-A-T & FAQPage Schema */}
+        {/* Value Wrapper with Honest Sources & Technical Architecture */}
         <ValueWrapper
-          title="Complete Technical Guide: Optical Character Recognition (OCR) Architecture"
-          subtitle="Understand how client-side WebAssembly extraction and neural deep-learning architectures convert complex PDFs, images, and handwriting into editable text."
+          title="Document Text Extraction Architecture: Native Text Layers vs. OCR Rasterization"
+          subtitle="How client-side text parsers, WebAssembly Tesseract OCR, and neural vision models extract textual data from digital and scanned PDFs."
+          authorName="MultiPDF Doc Technology Team"
+          lastUpdated="Updated September 2026"
+          sources={[
+            {
+              title: "Adobe PDF Reference (ISO 32000-1): Text Operators and Font Metrics",
+              publisher: "Adobe Systems & ISO",
+              url: "https://www.adobe.com/devnet/pdf/pdf_reference.html",
+              accessed: "September 2026",
+            },
+            {
+              title: "Mozilla PDF.js: Text Layer Extraction Architecture",
+              publisher: "Mozilla Foundation",
+              url: "https://mozilla.github.io/pdf.js/",
+              accessed: "September 2026",
+            },
+            {
+              title: "Tesseract OCR Engine Overview and WebAssembly Compilation",
+              publisher: "Ray Smith / Apache 2.0 Open Source",
+              url: "https://github.com/tesseract-ocr/tesseract",
+              accessed: "September 2026",
+            },
+            {
+              title: "Google Generative AI Document Processing Specifications",
+              publisher: "Google AI for Developers",
+              url: "https://ai.google.dev/gemini-api/docs/document-processing",
+              accessed: "September 2026",
+            },
+          ]}
           sections={[
             {
-              heading: "1. The Evolution of Optical Character Recognition: Rule-Based vs Deep Neural Models",
-              content: `Optical Character Recognition (OCR) has evolved from early matrix-matching pattern algorithms into complex multi-stage deep learning pipelines. Traditional OCR relied heavily on threshold binarization (Otsu's method), structural contour detection, and rule-based segmentation to isolate individual character glyphs. While effective on crisp 300 DPI machine-printed text, these historical approaches catastrophically degrade when processing low-contrast scans, non-standard serif typography, skew distortion, or cursive handwriting.
+              heading: "1. Digital PDF Text Extraction vs. Scanned Optical Character Recognition",
+              content: `Understanding how text is stored inside a PDF determines the optimal extraction strategy:
 
-Modern neural OCR architectures operate on an end-to-end continuous sequence-to-sequence paradigm. Convolutional Neural Networks (CNNs) or Vision Transformers (ViT) first extract spatial visual features from arbitrary image matrices. These spatial tokens are subsequently decoded by recurrent connectionist temporal classification (CTC) layers or auto-regressive transformer decoders (such as Microsoft TrOCR or Baidu PP-OCRv4), predicting character probability distributions across entire text lines simultaneously without rigid character-level segmentation.`,
+• Digital Vector PDFs: Generated by software like Microsoft Word or LaTeX. Text glyphs are encoded alongside Unicode mappings and coordinate positioning matrices. Our Local Extraction engine uses Mozilla PDF.js to directly read these native character streams instantaneously with zero OCR overhead and 100% fidelity.
+• Scanned Image PDFs & Photos: Contain flat bitmap pictures without underlying character coordinates. These require rasterization followed by Optical Character Recognition (OCR), where neural or statistical filters identify glyph shapes, baseline angles, and word boundaries.`,
             },
             {
-              heading: "2. Comparing OCR Engines: Architecture, Accuracy, and Speed Benchmark",
-              content: `Choosing the optimal OCR pipeline depends on three core engineering constraints: local client-side privacy, inference latency, and character error rate (CER) across heterogeneous document types:
+              heading: "2. The Multi-Layer Extraction Architecture",
+              content: `To provide the highest accuracy without compromising user privacy, MultiPDF Doc uses a 3-tier extraction pipeline:
 
-• WebAssembly In-Browser (Wasm): Executes locally in your device's memory. Delivers 91.4% accuracy on standard printed typography with 1.2-second execution time and 100% data privacy.
-• Baidu PaddleOCR v4: Linux ARM64/x86 server inference. Features 96.8% printed accuracy, 86.5% handwriting accuracy, and ultra-fast 0.9-second latency per page.
-• Microsoft TrOCR: Vision Transformer encoder + RoBERTa text decoder trained on IAM Handwriting database. Achieves 94.2% accuracy on complex cursive lines.
-• Gemini 2.0 Flash Vision: Deep multimodal neural network delivering 99.2% character accuracy on difficult doctor handwriting and degraded historical scans with sub-second response times.`,
+1. Fast Local Text Layer (Mozilla PDF.js): Inspects native document streams inside browser memory. If selectable text exists, it is parsed directly.
+2. Local Scanned OCR (Tesseract.js WebAssembly): If a page is purely an image, the page is rendered onto an in-memory HTML5 Canvas and processed by Tesseract's neural LSTM model compiled to WebAssembly. Zero bytes leave your machine.
+3. Cloud AI Deep Scan (Multimodal Vision API): Designed for non-standard cursive handwriting, historical archives, or damaged photocopies. Prominently informs the user before transmitting the document to secure neural vision endpoints.`,
             },
             {
-              heading: "3. Step-by-Step Procedure: Extracting Text from Scanned Documents",
-              content: `Extracting text accurately requires appropriate pipeline configuration:
-
-Step 1: Upload Your Target Document
-Drag and drop your PDF, PNG, or JPEG file into the active workspace. Files up to 50MB are supported.
-
-Step 2: Select the Processing Mode
-For standard digital PDFs, legal contracts, and clean scans, choose 'In-Browser Fast OCR' to ensure 100% zero-upload confidentiality. For blurry scans, receipts, whiteboards, or cursive handwriting, choose 'AI Deep Scan / Handwriting' mode.
-
-Step 3: Copy, Search, or Export
-Inspect the extracted output in the responsive editor. Search for specific terms, copy the entire output to clipboard with one click, or export the document as a clean TXT file.`,
+              heading: "3. Best Practices for High OCR Recognition Accuracy",
+              content: `When scanning documents for OCR:
+• Resolution: Ensure scanned images are at least 150 to 300 DPI. Resolutions below 100 DPI merge letter stems (such as 'rn' into 'm').
+• Skew & Rotation: Use MultiPDF Doc's Organize tool to straighten rotated pages before running OCR.
+• Lighting: Ensure uniform contrast without harsh drop-shadows on smartphone receipts or contracts.`,
             },
           ]}
           formula={{
-            title: "Character Error Rate (CER) and Word Error Rate (WER) Formulations",
+            title: "Character Error Rate (CER) Metric Formulation",
             formula: "CER = (Substitutions + Insertions + Deletions) / Total_Ground_Truth_Characters",
-            explanation: "MultiPDF Doc's dual-engine architecture optimizes for the Levenshtein minimum edit distance across heterogeneous input matrices, dynamically routing degraded scans to specialized neural transformers to maintain CER below 2.5% on standard text."
+            explanation: "In academic character recognition evaluations, Character Error Rate measures the Levenshtein edit distance between the extracted sequence and the reference ground truth text."
           }}
           faqs={[
             {
-              question: "Are my uploaded documents stored on your servers?",
+              question: "Are my files uploaded when using In-Browser Local Extraction?",
               answer:
-                "No. When you select 'In-Browser Fast OCR', 100% of the extraction executes directly inside your browser using WebAssembly. Your files never touch any external server. In 'AI Deep Scan' mode, images are processed in-memory solely for character generation and discarded immediately after inference without logging or storage.",
+                "No. When 'In-Browser Local Extraction' is selected, 100% of the extraction executes directly inside your browser using Mozilla PDF.js and Tesseract.js WebAssembly. Your files never touch an external server.",
             },
             {
-              question: "Can this OCR tool transcribe cursive doctor handwriting?",
+              question: "When should I use 'AI Deep Scan / Handwriting' mode?",
               answer:
-                "Yes. By switching to 'AI Deep Scan / Handwriting' mode, the system invokes state-of-the-art multimodal vision neural transformers explicitly fine-tuned on historical and modern handwriting datasets, achieving greater than 98% transcription accuracy.",
+                "Use AI Deep Scan when your document contains doctor handwriting, cursive notes, complex multi-column scientific journals, or severely degraded historical scans that standard local OCR struggles to parse.",
             },
             {
-              question: "Is there any cost, subscription, or watermark on extracted text?",
+              question: "Why does scanned OCR take longer than digital extraction?",
               answer:
-                "No. MultiPDF Doc provides free, unrestricted optical character recognition without watermarks, registration barriers, or hidden subscriptions.",
+                "Digital text extraction simply reads pre-computed Unicode character strings. Scanned OCR must rasterize the image, compute gradient contours, and execute neural network inference across millions of individual pixels.",
             },
           ]}
         />

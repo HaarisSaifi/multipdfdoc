@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     "convert pdf to 300 dpi image",
     "rotate pdf pages online free"
   ],
-  authors: [{ name: "MultiPDF Doc Security & Engineering Review Board" }],
+  authors: [{ name: "MultiPDF Doc Technology & Editorial Team" }],
   openGraph: {
     title: "MultiPDF Doc — 100% Private In-Browser PDF & Document Suite",
     description: "Your files NEVER leave your computer. Merge, compress, invoice, and calculate with zero server uploads.",

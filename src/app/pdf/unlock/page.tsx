@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { PDFDocument } from "pdf-lib";
+import { getPdfToolkit } from "@/lib/pdf/qpdf-toolkit";
 import {
   KeyRound,
   UploadCloud,
@@ -49,25 +49,44 @@ export default function UnlockPdfPage() {
 
     try {
       const buffer = await file.arrayBuffer();
-      // Load and decrypt using client-side WebAssembly
-      const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+      const toolkit = await getPdfToolkit();
 
-      // Create a fresh unlocked document and copy pages
-      const unlockedDoc = await PDFDocument.create();
-      const pageCount = pdfDoc.getPageCount();
-      const pageIndices = Array.from({ length: pageCount }, (_, i) => i);
-      const copiedPages = await unlockedDoc.copyPages(pdfDoc, pageIndices);
+      // Check encryption status
+      const isEncrypted = await toolkit.isEncrypted(new Uint8Array(buffer));
+      if (!isEncrypted) {
+        setErrorMsg("This PDF is not password-protected and does not require unlocking.");
+        setProcessing(false);
+        return;
+      }
 
-      copiedPages.forEach((page) => unlockedDoc.addPage(page));
+      if (!password) {
+        setErrorMsg("Please enter the document password to unlock this file.");
+        setProcessing(false);
+        return;
+      }
 
-      const pdfBytes = await unlockedDoc.save();
-      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+      // Genuine client-side qpdf WebAssembly decryption
+      const decryptedBytes = await toolkit.unlock(new Uint8Array(buffer), {
+        password: password,
+      });
+
+      // Verification check
+      const info = await toolkit.getInfo(decryptedBytes);
+      if (info.encrypted) {
+        throw new Error("Decryption verification failed: document is still locked.");
+      }
+
+      const blob = new Blob([decryptedBytes as unknown as ArrayBuffer], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
       setOutputFileName(`unlocked_${file.name.replace(/\.pdf$/i, "")}.pdf`);
     } catch (err: any) {
       console.error(err);
-      setErrorMsg("Failed to unlock document. Please ensure the password is correct or the file is not corrupted.");
+      if (err?.name === "PdfPasswordError" || err?.message?.toLowerCase().includes("password")) {
+        setErrorMsg("Incorrect password. Please verify and enter the valid document password.");
+      } else {
+        setErrorMsg("Unable to unlock document. Please ensure the file is not corrupted.");
+      }
     } finally {
       setProcessing(false);
     }
@@ -79,13 +98,13 @@ export default function UnlockPdfPage() {
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-50 text-violet-800 border border-violet-200/80 shadow-sm">
           <Unlock className="w-3.5 h-3.5 text-violet-600" />
-          <span>Instant Client-Side Decryption • Zero Server Uploads</span>
+          <span>Client-Side WebAssembly Decryption • Zero Server Uploads</span>
         </div>
         <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-slate-900 tracking-tight">
-          Unlock PDF Password & Restrictions
+          Unlock Password-Protected PDF
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-          Remove passwords and printing/copying restrictions from secured PDF documents locally in your browser at <strong className="text-slate-800">multipdfdoc.com</strong>.
+          Remove passwords and decrypt PDF documents you are authorized to access locally inside your web browser at <strong className="text-slate-800">multipdfdoc.com</strong>.
         </p>
       </div>
 
