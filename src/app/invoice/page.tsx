@@ -108,6 +108,9 @@ export default function InvoiceGeneratorPage() {
       const lightBg = rgb(0.97, 0.98, 0.99); // Slate 50
       const borderGray = rgb(0.88, 0.91, 0.94); // Slate 200
 
+      // Safe ASCII currency symbol for PDF WinAnsi standard font compatibility
+      const safeSymbol = currency.code === "INR" || currency.symbol === "₹" ? "Rs. " : currency.symbol;
+
       let y = height - 50;
 
       // Header Brand
@@ -205,7 +208,7 @@ export default function InvoiceGeneratorPage() {
           color: primaryColor,
         });
 
-        page.drawText(`${currency.symbol}${item.rate.toFixed(2)}`, {
+        page.drawText(`${safeSymbol}${item.rate.toFixed(2)}`, {
           x: 400,
           y,
           size: 9,
@@ -213,7 +216,7 @@ export default function InvoiceGeneratorPage() {
           color: primaryColor,
         });
 
-        page.drawText(`${currency.symbol}${itemTotal.toFixed(2)}`, {
+        page.drawText(`${safeSymbol}${itemTotal.toFixed(2)}`, {
           x: 500,
           y,
           size: 9,
@@ -236,18 +239,18 @@ export default function InvoiceGeneratorPage() {
       const totalsX = width - 220;
 
       page.drawText("Subtotal:", { x: totalsX, y, size: 9, font: fontRegular, color: mutedColor });
-      page.drawText(`${currency.symbol}${subtotal.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: primaryColor });
+      page.drawText(`${safeSymbol}${subtotal.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: primaryColor });
 
       if (discountPercent > 0) {
         y -= 16;
         page.drawText(`Discount (${discountPercent}%):`, { x: totalsX, y, size: 9, font: fontRegular, color: mutedColor });
-        page.drawText(`-${currency.symbol}${discountAmount.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: rgb(0.88, 0.11, 0.28) });
+        page.drawText(`-${safeSymbol}${discountAmount.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: rgb(0.88, 0.11, 0.28) });
       }
 
       if (taxPercent > 0) {
         y -= 16;
         page.drawText(`Tax / VAT (${taxPercent}%):`, { x: totalsX, y, size: 9, font: fontRegular, color: mutedColor });
-        page.drawText(`${currency.symbol}${taxAmount.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: primaryColor });
+        page.drawText(`${safeSymbol}${taxAmount.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: primaryColor });
       }
 
       y -= 22;
@@ -260,7 +263,7 @@ export default function InvoiceGeneratorPage() {
       });
 
       page.drawText("TOTAL DUE:", { x: totalsX, y, size: 10, font: fontBold, color: primaryColor });
-      page.drawText(`${currency.symbol}${grandTotal.toFixed(2)} ${currency.code}`, {
+      page.drawText(`${safeSymbol}${grandTotal.toFixed(2)} ${currency.code}`, {
         x: totalsX + 70,
         y,
         size: 11,

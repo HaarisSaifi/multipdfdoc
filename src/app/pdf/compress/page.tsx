@@ -59,17 +59,13 @@ export default function CompressPDFPage() {
       pdfDoc.setProducer("");
       pdfDoc.setCreator("");
 
+      // Save with full object stream deflating and stripped metadata
       const compressedBytes = await pdfDoc.save({
         useObjectStreams: true,
         addDefaultPage: false,
       });
 
-      let finalBytes = compressedBytes;
-      if (compressedBytes.length > targetSizeKb * 1024) {
-        finalBytes = compressedBytes.slice(0, Math.max(targetSizeKb * 1024, Math.floor(compressedBytes.length * 0.75)));
-      }
-
-      const blob = new Blob([finalBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+      const blob = new Blob([compressedBytes.buffer as ArrayBuffer], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       setCompressedBlobUrl(url);
       setCompressedSize(blob.size);
