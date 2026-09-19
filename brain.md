@@ -1,6 +1,6 @@
 # 🧠 Antigravity Persistent Brain & Memory Hub
 ### *MultiPDF Doc (multipdfdoc.com): 100% Private In-Browser Document Suite*
-*Last Checkpointed: 2026-09-19 20:10 IST | Version 3.4.0 (Root-Cause Hardened & Server-Side SEO Synced)*
+*Last Checkpointed: 2026-09-19 20:50 IST | Version 3.5.0 (Clean Empty Form Defaults + Instant Route Prefetch & Top Progress Bar)*
 
 ---
 
@@ -115,3 +115,10 @@ Next.js 15 App Router compiles all **31 routes (30 static pre-rendered + 1 dynam
 - **Active Branch:** `main` (clean, fully synced with `origin/main`)
 - **Dev Command:** `npm run dev`
 - **Build Command:** `npm run build` (Pre-renders all 31 routes with exit code 0)
+- **Form UX Standard:** Both `/invoice` and `/receipt` initialize with 100% clean, empty inputs and subtle gray placeholders (`e.g. Your Company Name`, `client@example.com`, `0.00`). Line items start with exactly 1 single clean empty row. Includes "✨ Load Sample" / template presets and "🗑️ Clear" buttons.
+- **Instant Route Transition Architecture:** 
+  - `Navbar.tsx` implements aggressive `<Link prefetch={true}>` across all desktop links, search modal items, and mobile drawer.
+  - Hover-based intent preloading (`onMouseEnter` & `onTouchStart` invoke `router.prefetch(href)` before click).
+  - Global `src/app/loading.tsx` Suspense skeleton for 0ms transition swapping.
+  - Instant 0ms visual top gradient progress indicator (`isNavigating`).
+  - Global `Ctrl+K` / `⌘K` keyboard listener for instant search access.
