@@ -20,6 +20,7 @@
 - **Project Name:** MULTIPDF DOC (`https://multipdfdoc.com`)
 - **Master Design System PRD:** [design.prd](file:///d:/adsense/design.prd)
 - **Master PRD:** [masterplanprd.md](file:///d:/adsense/masterplanprd.md)
+- **30-Day Growth & Maintenance Blueprint:** [propermonth.md](file:///d:/adsense/propermonth.md)
 - **Core Value Proposition (USP):** *"Your files NEVER leave your computer. Zero server uploads."*
 - **Target Audience:** US, UK, Canada, Australia professionals, researchers, legal counsels, medical administrators, students, and freelancers handling sensitive documents.
 - **AdSense Baseline CPC:** $18.00 - $45.00+ (Business, Legal, Office & Productivity Software Category).

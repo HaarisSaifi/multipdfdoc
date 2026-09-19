@@ -7,7 +7,7 @@
 ## 🚨 MANDATORY AGENT BEHAVIORS & PROTOCOLS
 
 1. **AUTOMATIC CONTEXT RESTORATION:**
-   - Always read [brain.md](file:///d:/adsense/brain.md) and [design.prd](file:///d:/adsense/design.prd) at the start of any conversation or task.
+   - Always read [brain.md](file:///d:/adsense/brain.md), [propermonth.md](file:///d:/adsense/propermonth.md), and [design.prd](file:///d:/adsense/design.prd) at the start of any conversation or task.
    - Do NOT ask the user what the project is or reinvent the theme. The project is **MultiPDF Doc** (`https://multipdfdoc.com`), a client-side private document and utility suite.
 
 2. **SESSION RESUME PROTOCOL (WHEN USER SAYS "SHURU HO JAO"):**
