@@ -48,6 +48,10 @@
 - `/pdf/protect` -> [src/app/pdf/protect/page.tsx](file:///d:/adsense/src/app/pdf/protect/page.tsx) (128/256-bit password encryption)
 - `/pdf/unlock` -> [src/app/pdf/unlock/page.tsx](file:///d:/adsense/src/app/pdf/unlock/page.tsx) (Client-side permission and password removal)
 - `/pdf/page-numbers` -> [src/app/pdf/page-numbers/page.tsx](file:///d:/adsense/src/app/pdf/page-numbers/page.tsx) (Bates numbering & header/footer pagination)
+- `/pdf/to-text` -> [src/app/pdf/to-text/page.tsx](file:///d:/adsense/src/app/pdf/to-text/page.tsx) (Dual-Engine in-browser & AI neural OCR text extractor)
+
+### ☁️ Oracle Cloud Backend Suite
+- `oracle-backend/` -> FastAPI service with PaddleOCR, TrOCR, and automated `deploy.sh` script for 24GB RAM VM.
 
 ### 💼 High-CPC Business Suite
 - `/invoice` -> [src/app/invoice/page.tsx](file:///d:/adsense/src/app/invoice/page.tsx) (Free invoice generator without watermark, multi-currency, tax calc)
@@ -67,4 +71,4 @@
 ## 🛠️ ENVIRONMENT & BUILD COMMANDS
 - Working Directory: `d:\adsense`
 - Dev Server: `npm run dev` (Runs on `http://localhost:3000`)
-- Production Build: `npm run build` (Pre-renders all 24 static routes cleanly with exit code 0)
+- Production Build: `npm run build` (Pre-renders all 25 static routes cleanly with exit code 0)

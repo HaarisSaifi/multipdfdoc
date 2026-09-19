@@ -34,12 +34,13 @@ export function Navbar() {
     { name: "Merge PDF", href: "/pdf/merge", icon: Layers, color: "text-violet-600", hoverBg: "hover:bg-violet-50 hover:text-violet-700" },
     { name: "Split & Extract", href: "/pdf/split", icon: Scissors, color: "text-rose-600", hoverBg: "hover:bg-rose-50 hover:text-rose-700" },
     { name: "Compress (200KB)", href: "/pdf/compress", icon: Minimize2, color: "text-sky-600", hoverBg: "hover:bg-sky-50 hover:text-sky-700" },
+    { name: "OCR to Text", href: "/pdf/to-text", icon: Sparkles, color: "text-amber-600", hoverBg: "hover:bg-amber-50 hover:text-amber-700" },
     { name: "Invoice Maker", href: "/invoice", icon: FileText, color: "text-indigo-600", hoverBg: "hover:bg-indigo-50 hover:text-indigo-700" },
     { name: "Receipt Maker", href: "/receipt", icon: Receipt, color: "text-emerald-600", hoverBg: "hover:bg-emerald-50 hover:text-emerald-700" },
-    { name: "Organize", href: "/pdf/organize", icon: RotateCw, color: "text-purple-600", hoverBg: "hover:bg-purple-50 hover:text-purple-700" },
   ];
 
   const searchable = [
+    { title: "PDF & Image to Text OCR", desc: "Extract text and handwriting using in-browser or AI neural scan", href: "/pdf/to-text", badge: "AI OCR" },
     { title: "Merge PDF Files", desc: "Combine multiple PDFs into one document locally", href: "/pdf/merge", badge: "POPULAR" },
     { title: "Split PDF Pages", desc: "Extract specific page spans or single chapters", href: "/pdf/split", badge: "FAST" },
     { title: "Compress PDF to 200KB / 100KB", desc: "Reduce file size for government and job portals", href: "/pdf/compress", badge: "TARGET" },

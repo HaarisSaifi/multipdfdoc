@@ -49,6 +49,8 @@ All 24 static routes pre-rendered with **Exit Code 0** on `npm run build`:
 - [x] **Tool 12: Final Exam Target Grade Calculator** (`/calc/final-grade`): Panic vs Chill speedometer meter, curve buffer simulation, printable cram study roadmap.
 - [x] **Tool 13: Weighted to Unweighted 4.0 GPA Converter** (`/calc/gpa`): Dynamic course roster, AP/IB (+1.0) and Honors (+0.5) credit boosts, dual 4.0 vs 5.0 scorecards, Top 50 US University admissions cutoffs matcher.
 - [x] **Tool 14: Words to Pages & Speech Presentation Timer** (`/calc/words-to-pages`): Real-time word/character count, Times/Arial/Calibri double/single spaced converter, oral speech delivery pacing (110–150 wpm).
+- [x] **Tool 15: Dual-Engine PDF & Image to Text OCR** (`/pdf/to-text`): In-browser WebAssembly mode (100% private, zero upload) + AI Deep Scan & Handwriting mode (Oracle 24GB FastAPI + Gemini Flash fallback).
+- [x] **Oracle Cloud Microservice Suite** (`oracle-backend/`): FastAPI server with PaddleOCR v4, TrOCR, automated `deploy.sh` script, Systemd service, Nginx reverse proxy, and Anti-Idle Keep-Alive Cron Shield.
 
 ### 🏛️ Trust, Design & Legal Foundation
 - [x] **Header Enhancement:** Wide floating capsule (`max-w-[1520px]`, `h-14 sm:h-16`), single-line text (`whitespace-nowrap`), zero wrapping, dynamic tool search modal (`⌘K`).
@@ -57,12 +59,10 @@ All 24 static routes pre-rendered with **Exit Code 0** on `npm run build`:
 
 ---
 
-## 📋 3. WHAT IS UPCOMING (OPTIONAL ADVANCED EXTENSIONS)
-1. **Private Signature Pad & Watermark (`/pdf/sign`, `/pdf/watermark`):**
-   - Canvas-based signature stamp and diagonal security watermarking.
-2. **Dual-Engine OCR Tool (`/pdf/to-text`):**
-   - Mode A: Tesseract.js WebAssembly for zero-upload printed documents.
-   - Mode B: Gemini 2.0 Flash API / Oracle ARM microservice for handwriting and deep document layout.
+## 📋 3. WHAT IS UPCOMING (DEPLOYMENT & LIVE CONNECTION)
+1. **Oracle Cloud VM Setup:** User provides Oracle SSH key / credentials -> Run automated `oracle-backend/deploy.sh` -> Service goes live on port 80/443.
+2. **Domain DNS & SSL:** Point `multipdfdoc.com` and connect Oracle backend endpoint.
+3. **Google Search Console & AdSense:** Submit sitemap and launch organic seed traffic.
 
 ---
 

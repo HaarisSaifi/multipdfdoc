@@ -58,6 +58,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/pdf/to-text" className="hover:text-violet-600 transition-colors font-medium text-amber-700">
+                  PDF to Text OCR (AI & Wasm)
+                </Link>
+              </li>
+              <li>
                 <Link href="/pdf/organize" className="hover:text-violet-600 transition-colors">
                   Rotate & Organize Pages
                 </Link>
