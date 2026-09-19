@@ -1,6 +1,6 @@
 # 🤖 Antigravity Agent Directives & Session Context
 ### *MultiPDF Doc (multipdfdoc.com): 100% Private In-Browser Document Suite*
-*Last Checkpointed: 2026-09-19 15:20 IST | Status: MultiPDF Doc Production Build*
+*Last Checkpointed: 2026-09-19 18:30 IST | Status: MultiPDF Doc Production Build (31 Routes)*
 
 ---
 
@@ -12,8 +12,8 @@
 
 2. **SESSION RESUME PROTOCOL (WHEN USER SAYS "SHURU HO JAO"):**
    - Give a warm, clear recap of the previous session.
-   - Answer the user's question regarding **Oracle Cloud 12GB/24GB RAM + GitHub pre-trained handwriting OCR models (PaddleOCR, TrOCR, Surya vs Gemini Flash API)** in detail.
-   - Detail what is completed vs what is upcoming, and prompt to execute the next tool (Invoice Generator `/invoice`, Receipt Maker `/receipt`, or Academic Calculators).
+   - Reaffirm the architecture: **Oracle Cloud 12GB RAM VM + Baidu PaddleOCR v4 + Microsoft TrOCR + Anti-Idle Keep-Alive Shield + Gemini 2.0 Flash API fallback**.
+   - Detail what is completed vs what is upcoming, and prompt to execute next actions (Oracle deployment, Vercel/Cloudflare connection, or AdSense pre-audit).
 
 3. **MANDATORY DESIGN SYSTEM (LIGHT THEME SOFT CLAYMORPHISM):**
    - **Source of Truth:** [design.prd](file:///d:/adsense/design.prd).
@@ -36,12 +36,12 @@
 
 ---
 
-## 📂 CORE DIRECTORY & ROUTE MAP
+## 📂 CORE DIRECTORY & ROUTE MAP (31 TOTAL ROUTES)
 
 ### 📄 PDF Utilities
 - `/pdf/merge` -> [src/app/pdf/merge/page.tsx](file:///d:/adsense/src/app/pdf/merge/page.tsx) (Client-side drag-and-drop PDF combiner)
 - `/pdf/split` -> [src/app/pdf/split/page.tsx](file:///d:/adsense/src/app/pdf/split/page.tsx) (Page range / chapter extractor)
-- `/pdf/compress` -> [src/app/pdf/compress/page.tsx](file:///d:/adsense/src/app/pdf/compress/page.tsx) (100KB, 200KB USCIS, 500KB target size compressor)
+- `/pdf/compress` -> [src/app/pdf/compress/page.tsx](file:///d:/adsense/src/app/pdf/compress/page.tsx) (100KB, 200KB USCIS, 500KB ISO-32000 target compressor)
 - `/pdf/to-image` -> [src/app/pdf/to-image/page.tsx](file:///d:/adsense/src/app/pdf/to-image/page.tsx) (300 DPI / 150 DPI canvas image renderer)
 - `/pdf/from-image` -> [src/app/pdf/from-image/page.tsx](file:///d:/adsense/src/app/pdf/from-image/page.tsx) (Multi-image photo/receipt to PDF builder)
 - `/pdf/organize` -> [src/app/pdf/organize/page.tsx](file:///d:/adsense/src/app/pdf/organize/page.tsx) (3D card page rotator 90°/180°, reorder, delete)
@@ -49,9 +49,6 @@
 - `/pdf/unlock` -> [src/app/pdf/unlock/page.tsx](file:///d:/adsense/src/app/pdf/unlock/page.tsx) (Client-side permission and password removal)
 - `/pdf/page-numbers` -> [src/app/pdf/page-numbers/page.tsx](file:///d:/adsense/src/app/pdf/page-numbers/page.tsx) (Bates numbering & header/footer pagination)
 - `/pdf/to-text` -> [src/app/pdf/to-text/page.tsx](file:///d:/adsense/src/app/pdf/to-text/page.tsx) (Dual-Engine in-browser & AI neural OCR text extractor)
-
-### ☁️ Oracle Cloud Backend Suite
-- `oracle-backend/` -> FastAPI service with PaddleOCR, TrOCR, and automated `deploy.sh` script for 24GB RAM VM.
 
 ### 💼 High-CPC Business Suite
 - `/invoice` -> [src/app/invoice/page.tsx](file:///d:/adsense/src/app/invoice/page.tsx) (Free invoice generator without watermark, multi-currency, tax calc)
@@ -62,7 +59,18 @@
 - `/calc/gpa` -> [src/app/calc/gpa/page.tsx](file:///d:/adsense/src/app/calc/gpa/page.tsx) (Weighted to unweighted GPA converter with US admissions match)
 - `/calc/words-to-pages` -> [src/app/calc/words-to-pages/page.tsx](file:///d:/adsense/src/app/calc/words-to-pages/page.tsx) (Words to pages & speech delivery timer)
 
-### 🏛️ Trust & Legal
+### 📚 Editorial Pillar Blog Hub (1,200+ Words Each, Schema.org Article + FAQPage)
+- `/blog` -> [src/app/blog/page.tsx](file:///d:/adsense/src/app/blog/page.tsx) (Editorial Blog Hub with categories, read times)
+- `/blog/compress-pdf-200kb-uscis-passport-guide` -> [src/app/blog/compress-pdf-200kb-uscis-passport-guide/page.tsx](file:///d:/adsense/src/app/blog/compress-pdf-200kb-uscis-passport-guide/page.tsx) (USCIS 200KB compression guide)
+- `/blog/freelance-invoice-payment-terms-guide` -> [src/app/blog/freelance-invoice-payment-terms-guide/page.tsx](file:///d:/adsense/src/app/blog/freelance-invoice-payment-terms-guide/page.tsx) (Net 30 invoice payment terms guide)
+- `/blog/weighted-vs-unweighted-gpa-college-admissions` -> [src/app/blog/weighted-vs-unweighted-gpa-college-admissions/page.tsx](file:///d:/adsense/src/app/blog/weighted-vs-unweighted-gpa-college-admissions/page.tsx) (GPA college admissions guide)
+- `/blog/zero-knowledge-pdf-privacy-cloud-converter-risks` -> [src/app/blog/zero-knowledge-pdf-privacy-cloud-converter-risks/page.tsx](file:///d:/adsense/src/app/blog/zero-knowledge-pdf-privacy-cloud-converter-risks/page.tsx) (Zero-knowledge PDF privacy guide)
+
+### ☁️ Oracle Cloud Backend Suite & API
+- `oracle-backend/` -> FastAPI service with PaddleOCR, TrOCR, Anti-Idle Keep-Alive Shield, and automated `deploy.sh` script for 12GB RAM VM.
+- `/api/ocr` -> [src/app/api/ocr/route.ts](file:///d:/adsense/src/app/api/ocr/route.ts) (Hybrid Next.js API route connecting to Oracle with Gemini 2.0 Flash fallback)
+
+### 🏛️ Trust, Legal & Sitemaps
 - `/` -> [src/app/page.tsx](file:///d:/adsense/src/app/page.tsx) (Master Clay Bento Launchpad + Comparison Table + FAQ)
 - `/privacy-policy`, `/terms`, `/about`, `/contact`, `/sitemap.xml`, `/robots.txt`
 
@@ -71,4 +79,4 @@
 ## 🛠️ ENVIRONMENT & BUILD COMMANDS
 - Working Directory: `d:\adsense`
 - Dev Server: `npm run dev` (Runs on `http://localhost:3000`)
-- Production Build: `npm run build` (Pre-renders all 25 static routes cleanly with exit code 0)
+- Production Build: `npm run build` (Pre-renders all 31 routes cleanly with exit code 0)
