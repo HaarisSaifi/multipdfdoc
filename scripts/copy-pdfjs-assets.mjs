@@ -28,9 +28,13 @@ if (version !== EXPECTED_PDFJS_VERSION) {
   process.exit(1);
 }
 
-// Remove stale vendor directory completely before copying fresh assets
-if (fs.existsSync(destDir)) {
-  fs.rmSync(destDir, { recursive: true, force: true });
+// Clean stale files with Windows file-lock retry tolerance
+try {
+  if (fs.existsSync(destDir)) {
+    fs.rmSync(destDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+  }
+} catch (e) {
+  // Fallback: in-place overwrite
 }
 fs.mkdirSync(destDir, { recursive: true });
 
