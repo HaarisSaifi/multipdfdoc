@@ -22,7 +22,7 @@ export function Footer() {
             </p>
             <div className="text-[11px] text-slate-500 flex items-center gap-2 pt-1">
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>Compliant with GDPR, CCPA, and HIPAA zero-transmission data standards.</span>
+              <span>Engineered for client-side privacy with local in-browser document processing.</span>
             </div>
           </div>
 

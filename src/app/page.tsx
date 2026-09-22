@@ -482,7 +482,7 @@ export default function HomePage() {
           <div className="bubble-card p-8 border border-slate-200/90 space-y-3">
             <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              Zero Data Retention &amp; Automatic Memory Reclamation
+              Client-Side In-Memory Execution &amp; Automatic Memory Reclamation
             </h3>
             <p>
               Because MultiPDF Doc does not utilize backend file storage or intermediate server caches for core tools, it is impossible for your documents to be retained, leaked, or indexed by third-party bots.

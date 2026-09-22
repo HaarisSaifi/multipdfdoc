@@ -276,7 +276,7 @@ Understanding both your unweighted baseline and weighted rigor profile ensures y
           },
           {
             question: "Is this calculation saved on your server?",
-            answer: "No. MultiPDF Doc processes all grade inputs locally in your browser with zero server data retention."
+            answer: "No. MultiPDF Doc processes all grade inputs locally in your browser with zero server data collection or transmission."
           }
         ]}
       />
