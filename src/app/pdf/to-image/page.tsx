@@ -16,7 +16,7 @@ import {
   Layers,
 } from "lucide-react";
 import JSZip from "jszip";
-import { getPdfJs } from "@/lib/pdf/pdfjs-loader";
+import { getPdfJs, getSafePdfDocumentParams } from "@/lib/pdf/pdfjs-loader";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
@@ -53,7 +53,7 @@ export default function PDFToImagePage() {
     try {
       const pdfjs = await getPdfJs();
       const buffer = await f.arrayBuffer();
-      const loadingTask = pdfjs.getDocument({ data: new Uint8Array(buffer) });
+      const loadingTask = pdfjs.getDocument(getSafePdfDocumentParams(buffer));
       const pdf = await loadingTask.promise;
       setPageCount(pdf.numPages);
     } catch (err: any) {
@@ -76,7 +76,7 @@ export default function PDFToImagePage() {
     try {
       const pdfjs = await getPdfJs();
       const buffer = await file.arrayBuffer();
-      const loadingTask = pdfjs.getDocument({ data: new Uint8Array(buffer) });
+      const loadingTask = pdfjs.getDocument(getSafePdfDocumentParams(buffer));
       const pdf = await loadingTask.promise;
 
       const scale = dpi / 72; // Standard PDF points to target DPI

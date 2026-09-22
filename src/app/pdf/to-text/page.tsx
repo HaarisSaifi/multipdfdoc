@@ -20,7 +20,7 @@ import {
   Eye,
   Info,
 } from "lucide-react";
-import { getPdfJs } from "@/lib/pdf/pdfjs-loader";
+import { getPdfJs, getSafePdfDocumentParams } from "@/lib/pdf/pdfjs-loader";
 import { createWorker } from "tesseract.js";
 
 export default function PdfToTextPage() {
@@ -62,7 +62,7 @@ export default function PdfToTextPage() {
 
           const pdfjs = await getPdfJs();
           const buffer = await file.arrayBuffer();
-          const loadingTask = pdfjs.getDocument({ data: new Uint8Array(buffer) });
+          const loadingTask = pdfjs.getDocument(getSafePdfDocumentParams(buffer));
           const pdf = await loadingTask.promise;
           const totalPages = pdf.numPages;
 

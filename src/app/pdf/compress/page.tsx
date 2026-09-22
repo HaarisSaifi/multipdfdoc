@@ -18,7 +18,7 @@ import {
   Check,
 } from "lucide-react";
 import { getPdfToolkit } from "@/lib/pdf/qpdf-toolkit";
-import { getPdfJs } from "@/lib/pdf/pdfjs-loader";
+import { getPdfJs, getSafePdfDocumentParams } from "@/lib/pdf/pdfjs-loader";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
@@ -101,7 +101,7 @@ export default function CompressPDFPage() {
       setEngineUsed("adaptive");
 
       const pdfjs = await getPdfJs();
-      const loadingTask = pdfjs.getDocument({ data: inputBytes });
+      const loadingTask = pdfjs.getDocument(getSafePdfDocumentParams(inputBytes));
       const pdf = await loadingTask.promise;
       const numPages = pdf.numPages;
 

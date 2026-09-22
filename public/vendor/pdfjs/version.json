@@ -1,0 +1,10 @@
+{
+  "name": "pdfjs-dist",
+  "version": "4.10.38",
+  "expectedVersion": "4.10.38",
+  "license": "Apache License 2.0",
+  "source": "node_modules/pdfjs-dist",
+  "verifiedMatchingWorker": true,
+  "offlineOnly": true,
+  "updatedAt": "2026-09-22T12:09:42.487Z"
+}
