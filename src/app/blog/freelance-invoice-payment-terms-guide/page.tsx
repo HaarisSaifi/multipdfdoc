@@ -13,6 +13,7 @@ import {
   DollarSign,
   Receipt,
   CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 
 export const metadata = {
@@ -32,8 +33,8 @@ export default function FreelanceInvoiceGuidePage() {
     description:
       "A comprehensive financial guide for freelancers, agencies, and independent contractors on structuring legally enforceable invoices, setting payment terms, and avoiding tax audit traps.",
     author: {
-      "@type": "Organization",
-      name: "MultiPDF Doc Editorial Team",
+      "@type": "Person",
+      name: "Haaris Saifi",
       url: "https://multipdfdoc.com/about",
     },
     publisher: {
@@ -45,7 +46,7 @@ export default function FreelanceInvoiceGuidePage() {
       },
     },
     datePublished: "2026-09-16T08:00:00Z",
-    dateModified: "2026-09-19T10:00:00Z",
+    dateModified: "2026-09-22T10:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://multipdfdoc.com/blog/freelance-invoice-payment-terms-guide",
@@ -90,10 +91,10 @@ export default function FreelanceInvoiceGuidePage() {
               </div>
               <div>
                 <p className="font-bold text-slate-800">
-                  Researched & Written by MultiPDF Doc Editorial Team
+                  Researched &amp; Written by Haaris Saifi
                 </p>
                 <p className="text-[11px] text-slate-400">
-                  Standards compliant with IRS 1099-NEC & EU VAT Invoicing
+                  Standards compliant with IRS 1099-NEC &amp; EU VAT Invoicing
                 </p>
               </div>
             </div>
@@ -231,8 +232,15 @@ export default function FreelanceInvoiceGuidePage() {
           <ul className="list-disc pl-5 space-y-2 text-slate-600">
             <li><strong>Zero Paywalls or Subscriptions:</strong> 100% free forever without monthly charges.</li>
             <li><strong>Zero Watermarks:</strong> Clean, audit-ready vector PDF output suitable for multinational corporations.</li>
-            <li><strong>Complete Data Isolation:</strong> Your client billing names, hourly rates, and banking coordinates are processed locally in your browser memory and never saved to external servers.</li>
           </ul>
+
+          {/* Tax & Legal Advice Disclaimer */}
+          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 leading-relaxed flex items-start gap-3 mt-6">
+            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-bold">Not Legal or Tax Advice:</strong> This guide and invoice templates are provided for educational and business recordkeeping purposes only. Tax reporting thresholds (such as IRS Form 1099-NEC) and contract payment enforcement rules vary across jurisdictions and entity types. Consult a certified public accountant (CPA) or business attorney regarding your specific tax and commercial requirements.
+            </div>
+          </div>
         </article>
 
         {/* Ad Placement */}

@@ -28,7 +28,7 @@ export default function BlogIndexPage() {
       category: "Immigration & Legal",
       readTime: "6 min read",
       date: "September 18, 2026",
-      badge: "HIGH INTENT",
+      badge: "GOVERNMENT PORTALS",
       badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
       featuredTool: "Compress PDF",
       featuredToolHref: "/pdf/compress",
@@ -41,7 +41,7 @@ export default function BlogIndexPage() {
       category: "Business & Finance",
       readTime: "7 min read",
       date: "September 16, 2026",
-      badge: "BUSINESS CPC",
+      badge: "TAX & INVOICING",
       badgeColor: "bg-indigo-50 text-indigo-700 border-indigo-200",
       featuredTool: "Invoice Generator",
       featuredToolHref: "/invoice",
@@ -54,7 +54,7 @@ export default function BlogIndexPage() {
       category: "Academics",
       readTime: "8 min read",
       date: "September 14, 2026",
-      badge: "VIRAL VOLUME",
+      badge: "COLLEGE ADMISSIONS",
       badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
       featuredTool: "GPA Converter",
       featuredToolHref: "/calc/gpa",
@@ -63,11 +63,11 @@ export default function BlogIndexPage() {
       slug: "zero-knowledge-pdf-privacy-cloud-converter-risks",
       title: "Zero-Knowledge In-Browser PDF Processing: Why Cloud Converters Expose Sensitive Contracts",
       description:
-        "An engineering security breakdown of why uploading NDA agreements, medical records, and tax returns to cloud PDF converters violates GDPR and HIPAA standards.",
+        "An engineering security breakdown of why uploading NDA agreements, medical records, and tax returns to cloud PDF converters introduces third-party data risks.",
       category: "Security & Privacy",
       readTime: "6 min read",
       date: "September 12, 2026",
-      badge: "SECURITY E-E-A-T",
+      badge: "DATA PRIVACY",
       badgeColor: "bg-violet-50 text-violet-700 border-violet-200",
       featuredTool: "Private PDF Merger",
       featuredToolHref: "/pdf/merge",
@@ -95,17 +95,17 @@ export default function BlogIndexPage() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-violet-50 border border-violet-100 shadow-clay-badge mb-4">
             <BookOpen className="w-4 h-4 text-violet-600" />
             <span className="text-xs font-semibold text-violet-800 tracking-wide uppercase">
-              MultiPDF Doc Research & Guides
+              MultiPDF Doc Research &amp; Guides
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
-            Document Engineering &{" "}
+            Document Engineering &amp;{" "}
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
               Compliance Guides
             </span>
           </h1>
           <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-            In-depth procedural guides, document format breakdowns, and calculation manuals prepared by the MultiPDF Doc Technology & Editorial Team.
+            In-depth procedural guides, document format breakdowns, and calculation manuals researched from official standards and benchmarked in-browser.
           </p>
         </div>
 

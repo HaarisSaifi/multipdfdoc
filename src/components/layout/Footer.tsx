@@ -49,7 +49,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/receipt" className="hover:text-violet-600 transition-colors font-medium text-emerald-700">
-                  Expense Receipt Maker
+                  Expense Voucher &amp; Log
                 </Link>
               </li>
               <li>
@@ -123,12 +123,17 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/about" className="hover:text-violet-600 transition-colors flex items-center gap-2">
-                  <UserCheck className="w-3.5 h-3.5 text-amber-600" /> Editorial Mission
+                  <UserCheck className="w-3.5 h-3.5 text-amber-600" /> About &amp; Mission
+                </Link>
+              </li>
+              <li>
+                <Link href="/editorial-policy" className="hover:text-violet-600 transition-colors flex items-center gap-2">
+                  <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" /> Editorial &amp; Testing Policy
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-violet-600 transition-colors flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-rose-600" /> Contact Security Team
+                  <Mail className="w-3.5 h-3.5 text-rose-600" /> Contact &amp; Support
                 </Link>
               </li>
             </ul>

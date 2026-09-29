@@ -143,7 +143,19 @@ export default function ContactPage() {
               />
             </div>
 
-            <div className="pt-2 text-right">
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <a
+                href={`mailto:support@multipdfdoc.com?subject=${encodeURIComponent(
+                  formData.subject || "MultiPDF Doc Inquiry"
+                )}&body=${encodeURIComponent(
+                  `Name: ${formData.name}\n\nMessage:\n${formData.message}`
+                )}`}
+                className="w-full sm:w-auto px-5 py-3 rounded-full text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center gap-2 transition"
+              >
+                <Mail className="w-4 h-4 text-slate-500" />
+                <span>Open in Email App</span>
+              </a>
+
               <button
                 type="submit"
                 disabled={submitting}

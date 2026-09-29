@@ -1,78 +1,131 @@
 import React from "react";
-import { UserCheck, ShieldCheck, Cpu, Code2, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
+import { UserCheck, ShieldCheck, Cpu, Code2, CheckCircle2, Github, BookOpen, Mail } from "lucide-react";
 
 export const metadata = {
   title: "About Us & Engineering Mission — MultiPDF Doc",
-  description: "Learn about the MultiPDF Doc document security engineering team, our open client-side architecture, and E-E-A-T editorial standards at multipdfdoc.com.",
+  description:
+    "Learn about MultiPDF Doc, our founder Haaris Saifi, our client-side WebAssembly architecture, and our commitment to zero server uploads at multipdfdoc.com.",
+  alternates: {
+    canonical: "https://multipdfdoc.com/about",
+  },
 };
 
 export default function AboutPage() {
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       <div className="bubble-card p-8 sm:p-12 border border-slate-200/90 space-y-8 text-xs sm:text-sm text-slate-600 leading-relaxed">
+        {/* Header */}
         <div className="border-b border-slate-200 pb-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-50 text-violet-800 border border-violet-200 mb-3 shadow-sm">
             <UserCheck className="w-4 h-4 text-violet-600" />
-            <span>Editorial Standards & Engineering Board</span>
+            <span>Engineering Mission &amp; Creator Profile</span>
           </div>
           <h1 className="font-display font-extrabold text-2xl sm:text-4xl text-slate-900 tracking-tight">
             About MultiPDF Doc
           </h1>
           <p className="text-xs text-slate-500 mt-1.5 font-medium">
-            Building the next generation of private, in-browser document manipulation utilities at multipdfdoc.com.
+            Building private, zero-upload in-browser document manipulation utilities at multipdfdoc.com.
           </p>
         </div>
 
+        {/* Section 1: The Founder & Genesis */}
         <section className="space-y-3">
           <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
-            Our Architectural Mission
+            Who Built MultiPDF Doc
           </h2>
           <p>
-            For more than a decade, the online document utility market has operated under an outdated paradigm: users who need to perform basic operations—such as combining two PDFs, rotating an upside-down page, or compressing a file for an immigration portal—are forced to upload sensitive tax forms, medical records, and bank statements to remote cloud servers.
+            MultiPDF Doc was architected and built by <strong>Haaris Saifi</strong>, a software engineer passionate about document privacy, WebAssembly performance, and open web standards.
           </p>
           <p>
-            MultiPDF Doc was founded with a single technical mandate: <strong className="text-slate-900">eliminate cloud server document uploads entirely</strong>. By harnessing client-side WebAssembly (WASM), modern browser TypedArray primitives, and hardware-accelerated Canvas rendering, every document operation executes exclusively in your device’s local memory heap.
+            For years, the online PDF utility ecosystem has relied on an outdated model: users who simply want to merge two documents, extract a chapter, or compress a file for an immigration portal are forced to upload confidential tax records, employment contracts, and medical reports to remote third-party cloud servers.
+          </p>
+          <p>
+            MultiPDF Doc was created to prove a better alternative: by compiling battle-tested C++ and JavaScript engines (including <strong>QPDF v12</strong>, <strong>Mozilla PDF.js</strong>, and <strong>Tesseract.js</strong>) into client-side WebAssembly, everyday document workflows can run entirely inside the user’s browser with <strong>zero server document uploads</strong>.
           </p>
         </section>
 
+        {/* Section 2: Core Engineering Pillars */}
         <section className="space-y-4">
           <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
-            Our Engineering Pillars
+            Our Architectural Pillars
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
               <div className="flex items-center gap-2 font-bold text-slate-900">
                 <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                Zero-Upload Isolation
+                100% In-Browser Privacy
               </div>
               <p className="text-slate-600 text-xs leading-relaxed">
-                Files are never transmitted across the network. Disconnect your Wi-Fi after loading, and our tools continue to process documents locally.
+                Standard document utilities execute in your device&apos;s local memory heap. Disconnect your internet connection after loading the page, and the tools continue to process files offline.
               </p>
             </div>
 
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
               <div className="flex items-center gap-2 font-bold text-slate-900">
                 <Cpu className="w-4 h-4 text-sky-600" />
-                Local Hardware Acceleration
+                Hardware Acceleration
               </div>
               <p className="text-slate-600 text-xs leading-relaxed">
-                Multi-threaded WebAssembly compilation ensures multi-hundred-page documents compile in seconds without queueing delays.
+                Multi-threaded WebAssembly compilation renders 300 DPI canvas vectors and processes multi-hundred-page documents without server queueing delays.
               </p>
             </div>
           </div>
         </section>
 
+        {/* Section 3: Open Source & Code Auditing */}
         <section className="space-y-3">
-          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
-            E-E-A-T Quality Governance
+          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+            <Code2 className="w-4 h-4 text-indigo-600" />
+            <span>Open Source Transparency &amp; Code Quality</span>
           </h2>
           <p>
-            Every tool on MultiPDF Doc is authored and audited by our Document Engineering Board. Our comprehensive technical guides break down file stream mathematics, ISO 32000 standards, and compliance procedures to ensure students, researchers, and legal professionals execute official filings with absolute confidence.
+            MultiPDF Doc is licensed under the MIT License and maintains a public GitHub repository. Anyone can inspect our client-side WebAssembly implementation, file validation routines, and zero-PII logging architecture:
+          </p>
+          <div className="p-4 rounded-2xl bg-violet-50/60 border border-violet-100 flex items-center justify-between gap-4">
+            <div>
+              <p className="font-bold text-slate-900 text-xs">Public GitHub Repository</p>
+              <p className="text-[11px] text-slate-500">HaarisSaifi/multipdfdoc • Verified Production Build</p>
+            </div>
+            <a
+              href="https://github.com/HaarisSaifi/multipdfdoc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition shadow-sm"
+            >
+              <Github className="w-3.5 h-3.5" />
+              <span>View Source</span>
+            </a>
+          </div>
+        </section>
+
+        {/* Section 4: Editorial Standards Link */}
+        <section className="space-y-3">
+          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
+            <BookOpen className="w-4 h-4 text-violet-600" />
+            <span>Editorial &amp; Quality Governance</span>
+          </h2>
+          <p>
+            We verify our technical procedural guides against authoritative specifications (including ISO 32000-1 for PDF standards, IRS Publication 463 for expense logs, and USCIS electronic filing guides).
+          </p>
+          <p>
+            For a comprehensive breakdown of our testing methodology, primary source citations, and corrections protocol, read our full{" "}
+            <Link
+              href="/editorial-policy"
+              className="text-violet-600 hover:text-violet-800 font-bold underline"
+            >
+              Editorial, Testing &amp; Corrections Policy
+            </Link>
+            .
           </p>
         </section>
 
-        <div className="pt-6 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
-          <span>Editorial Governance: editorial@multipdfdoc.com</span>
+        {/* Contact Footer */}
+        <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+          <div className="flex items-center gap-2">
+            <Mail className="w-4 h-4 text-violet-600" />
+            <span>Founder &amp; Support Contact: support@multipdfdoc.com</span>
+          </div>
           <span className="font-mono text-emerald-700 font-bold">100% In-Browser Verified</span>
         </div>
       </div>

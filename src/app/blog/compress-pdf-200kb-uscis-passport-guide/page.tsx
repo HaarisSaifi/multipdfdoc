@@ -32,8 +32,8 @@ export default function UscisCompressGuidePage() {
     description:
       "A complete technical and procedural guide for immigration applicants navigating strict 240KB government portal file limits without corrupting barcodes or degrading text legibility.",
     author: {
-      "@type": "Organization",
-      name: "MultiPDF Doc Editorial & Technical Team",
+      "@type": "Person",
+      name: "Haaris Saifi",
       url: "https://multipdfdoc.com/about",
     },
     publisher: {
@@ -45,7 +45,7 @@ export default function UscisCompressGuidePage() {
       },
     },
     datePublished: "2026-09-18T08:00:00Z",
-    dateModified: "2026-09-19T10:00:00Z",
+    dateModified: "2026-09-22T10:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://multipdfdoc.com/blog/compress-pdf-200kb-uscis-passport-guide",
@@ -71,7 +71,7 @@ export default function UscisCompressGuidePage() {
         <header className="mb-8 pb-8 border-b border-slate-200">
           <div className="flex flex-wrap items-center gap-2 mb-3">
             <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-              Immigration & Government Standards
+              Immigration &amp; Government Standards
             </span>
             <span className="text-xs text-slate-400 flex items-center gap-1">
               <Clock className="w-3.5 h-3.5" />
@@ -80,7 +80,7 @@ export default function UscisCompressGuidePage() {
           </div>
 
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
-            How to Compress PDF to Exactly 200KB for USCIS & Passport Portals Without Blurry Scans
+            How to Compress PDF to 200KB for USCIS &amp; Passport Portals Without Blurry Scans
           </h1>
 
           <div className="flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
@@ -90,10 +90,10 @@ export default function UscisCompressGuidePage() {
               </div>
               <div>
                 <p className="font-bold text-slate-800">
-                  Researched & Written by MultiPDF Doc Editorial Team
+                  Researched &amp; Written by Haaris Saifi
                 </p>
                 <p className="text-[11px] text-slate-400">
-                  Compliance standards updated for USCIS ELIS & CEAC
+                  Standards benchmarked against USCIS ELIS &amp; CEAC guidelines
                 </p>
               </div>
             </div>
@@ -158,7 +158,7 @@ export default function UscisCompressGuidePage() {
             The Optimal Balance: 150–200 DPI Grayscale Compression
           </h2>
           <p>
-            According to official USCIS document preparation guidelines:
+            According to official USCIS document upload guidelines (uscis.gov/file-online/tips-for-filing-forms-online):
           </p>
           <blockquote className="border-l-4 border-violet-500 pl-4 py-1 italic text-slate-600 bg-slate-50 rounded-r-xl">
             &ldquo;Scan documents at a resolution of 300 DPI for text or 150–200 DPI for high-contrast images. Files must not exceed the system threshold, and all text must be legible when viewed at 100% magnification.&rdquo;
@@ -227,6 +227,14 @@ export default function UscisCompressGuidePage() {
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          {/* Official Document Submission Disclaimer */}
+          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 leading-relaxed flex items-start gap-3 mt-6">
+            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-bold">Official Document Submission Disclaimer:</strong> Upload size limits and resolution rules may vary across specific government electronic portals (USCIS, CEAC, NVC, or State Courts). Always verify your individual petition&apos;s specific submission requirements before uploading. MultiPDF Doc operates 100% locally on your machine and does not transmit or store your personal immigration records.
+            </div>
           </div>
         </article>
 

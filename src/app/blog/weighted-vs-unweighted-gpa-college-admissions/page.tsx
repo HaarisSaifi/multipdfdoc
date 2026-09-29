@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Award,
   CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 
 export const metadata = {
@@ -32,8 +33,8 @@ export default function WeightedVsUnweightedGpaPage() {
     description:
       "A comprehensive admissions breakdown of high school grade point average calculations, comparing standard 4.0 unweighted scales against 5.0 weighted scales across AP, IB, and Honors coursework.",
     author: {
-      "@type": "Organization",
-      name: "MultiPDF Doc Academic Research Group",
+      "@type": "Person",
+      name: "Haaris Saifi",
       url: "https://multipdfdoc.com/about",
     },
     publisher: {
@@ -45,7 +46,7 @@ export default function WeightedVsUnweightedGpaPage() {
       },
     },
     datePublished: "2026-09-14T08:00:00Z",
-    dateModified: "2026-09-19T10:00:00Z",
+    dateModified: "2026-09-22T10:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions",
@@ -90,10 +91,10 @@ export default function WeightedVsUnweightedGpaPage() {
               </div>
               <div>
                 <p className="font-bold text-slate-800">
-                  Reviewed by MultiPDF Doc Academic Engineering Board
+                  Researched &amp; Written by Haaris Saifi
                 </p>
                 <p className="text-[11px] text-slate-400">
-                  Benchmarked against Common App & UC Admissions standards
+                  Benchmarked against Common App &amp; UC Admissions guidelines
                 </p>
               </div>
             </div>
@@ -215,6 +216,14 @@ export default function WeightedVsUnweightedGpaPage() {
               : Check what percentage you need on your upcoming finals to protect your GPA with our visual Panic vs. Chill meter.
             </li>
           </ul>
+
+          {/* Institutional Recalculation Disclaimer */}
+          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 leading-relaxed flex items-start gap-3 mt-6">
+            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-bold">Admissions Recalculation Disclaimer:</strong> Transcript evaluation and course-weighting criteria vary widely across individual universities, honors programs, and state university systems. Always verify specific GPA calculation formulas directly with the admissions office of your target institution.
+            </div>
+          </div>
         </article>
 
         {/* Ad Placement */}

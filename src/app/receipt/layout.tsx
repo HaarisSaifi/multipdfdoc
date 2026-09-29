@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Free Expense Receipt Maker (Reimbursement Ready)",
-  description: "Generate itemized expense receipts for Uber, dining, hotel stays, and office supplies with tax, tip, and barcode simulation. 100% private in-browser at multipdfdoc.com.",
+  title: "Personal Expense Voucher & Bookkeeping Log Generator | MultiPDF Doc",
+  description:
+    "Generate contemporaneous personal expense vouchers and business reimbursement logs under IRS Publication 463 guidelines. 100% private in-browser document generation.",
   alternates: {
     canonical: "https://multipdfdoc.com/receipt",
   },
   openGraph: {
-    title: "Free Expense Receipt Maker (Reimbursement Ready) | MultiPDF Doc",
-    description: "Itemized receipts with tax, tip, and barcode simulation for business expense reports.",
+    title: "Personal Expense Voucher & Bookkeeping Log Generator | MultiPDF Doc",
+    description:
+      "Itemized personal expense vouchers and contemporaneous business recordkeeping logs under IRS Pub. 463 rules.",
     url: "https://multipdfdoc.com/receipt",
   },
 };

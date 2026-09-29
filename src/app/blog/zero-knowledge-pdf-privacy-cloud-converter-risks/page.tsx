@@ -33,8 +33,8 @@ export default function ZeroKnowledgePdfPrivacyPage() {
     description:
       "A technical investigation into the data lifecycle and security vulnerabilities of online cloud PDF utilities, detailing the cryptographic advantages of 100% in-browser WebAssembly processing.",
     author: {
-      "@type": "Organization",
-      name: "MultiPDF Doc Security Engineering Board",
+      "@type": "Person",
+      name: "Haaris Saifi",
       url: "https://multipdfdoc.com/about",
     },
     publisher: {
@@ -46,7 +46,7 @@ export default function ZeroKnowledgePdfPrivacyPage() {
       },
     },
     datePublished: "2026-09-12T08:00:00Z",
-    dateModified: "2026-09-19T10:00:00Z",
+    dateModified: "2026-09-22T10:00:00Z",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": "https://multipdfdoc.com/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
@@ -91,10 +91,10 @@ export default function ZeroKnowledgePdfPrivacyPage() {
               </div>
               <div>
                 <p className="font-bold text-slate-800">
-                  Authored by MultiPDF Doc Cybersecurity Team
+                  Researched &amp; Written by Haaris Saifi
                 </p>
                 <p className="text-[11px] text-slate-400">
-                  Audited for GDPR Article 28, HIPAA Security Rule, and ISO 27001
+                  Evaluated against client-side zero-knowledge privacy architectures
                 </p>
               </div>
             </div>
@@ -229,6 +229,14 @@ export default function ZeroKnowledgePdfPrivacyPage() {
             <li>Drag a 20MB document into the tool and click <strong>Merge</strong>.</li>
             <li>Notice the network log: <strong>Zero <code>POST</code> payload requests</strong> containing file bytes are transmitted. The entire processing occurs within your computer’s RAM in milliseconds.</li>
           </ol>
+
+          {/* Compliance Scope Disclaimer */}
+          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs text-amber-900 leading-relaxed flex items-start gap-3 mt-6">
+            <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div>
+              <strong className="font-bold">Compliance Scope Disclaimer:</strong> While local in-browser WebAssembly execution eliminates external file transmission to remote servers, enterprise compliance (including GDPR, HIPAA, and corporate NDAs) also depends on your endpoint security, browser extensions, and data access policies. MultiPDF Doc provides client-side computational tooling and does not act as a formal compliance certifier.
+            </div>
+          </div>
         </article>
 
         {/* Ad Placement */}

@@ -71,7 +71,7 @@ export default function InvoiceGeneratorPage() {
     setToAddress("742 Evergreen Terrace\nNew York, NY 10001");
     setItems([
       { id: "1", description: "Full-Stack Web Application Architecture & Development", quantity: 40, rate: 85 },
-      { id: "2", description: "Client-Side Security Audit & HIPAA Compliance Hardening", quantity: 1, rate: 1200 },
+      { id: "2", description: "Responsive Frontend UI & Component Engineering", quantity: 15, rate: 85 },
       { id: "3", description: "Automated Testing & CI/CD Pipeline Setup", quantity: 12, rate: 75 },
     ]);
     setTaxPercent(8.5);
