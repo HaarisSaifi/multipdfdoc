@@ -1,6 +1,6 @@
 # 🧠 Antigravity Persistent Brain & Memory Hub
 ### *MultiPDF Doc (multipdfdoc.com): 100% Private In-Browser Document Suite*
-*Last Checkpointed: 2026-09-20 03:15 IST | Version 4.1.0 (True Engine Overhaul + Multi-Key Failover + 45-Min Growth Blueprint)*
+*Last Checkpointed: 2026-09-29 17:55 IST | Version 4.2.0 (AdSense Master Overhaul + E-E-A-T Policy + 33 Routes Clean)*
 
 ---
 
@@ -16,6 +16,7 @@
 > - **Zero Server Upload Law:** Core document tools execute 100% client-side inside the user's browser via JavaScript and WebAssembly (`pdfstudio` qpdf v12, Mozilla PDF.js, `pdf-lib`, and Tesseract.js). Hostinger CPU & RAM load: 0%.
 > - **Server-Side Metadata Standard:** Every route MUST maintain its own dedicated `layout.tsx` providing custom `<title>`, `<meta name="description">`, `alternates.canonical`, and `openGraph` tags. Client components alone must never be left without server metadata.
 > - **Zero Native Alert Law:** NEVER use browser-native `alert(...)` or `confirm(...)`. All errors MUST render via graceful inline error states (`errorMsg`).
+> - **AdSense Pre-Approval Safety:** `AdPlaceholder` MUST return `null` in pre-approval mode (`!NEXT_PUBLIC_ADSENSE_CLIENT_ID`) to prevent 'Site under construction' or 'Empty ad unit' rejections.
 > - **Critical Tool Rule:** NEVER trigger or launch `browser_subagent` unless explicitly requested by the user.
 
 ---
@@ -33,8 +34,8 @@
 
 ---
 
-## 🚀 2. VERIFIED PRODUCTION ARCHITECTURE (32 TOTAL ROUTES)
-Next.js 15 App Router compiles all **32 routes (30 static pre-rendered + 2 dynamic API endpoints)** cleanly with **Exit Code 0**:
+## 🚀 2. VERIFIED PRODUCTION ARCHITECTURE (33 TOTAL ROUTES)
+Next.js 15 App Router compiles all **33 routes (31 static pre-rendered + 2 dynamic API endpoints)** cleanly with **Exit Code 0**:
 
 ### 📄 Suite 1: Core Client-Side PDF Utilities (100% In-Browser & Private)
 1. **Private PDF Merger** (`/pdf/merge`): Multi-file drag-and-drop, visual card reordering, client-side concatenation via `pdf-lib`.
@@ -71,17 +72,18 @@ Next.js 15 App Router compiles all **32 routes (30 static pre-rendered + 2 dynam
 
 ### 🏛️ Suite 6: Trust, Legal & Sitemaps
 21. **Homepage** (`/`): Master Clay Bento Launchpad + Interactive Comparison Matrix + FAQ with truthful architecture claims.
-22. **Privacy Policy** (`/privacy-policy`): Transparent breakdown of local tools vs optional Cloud AI OCR transmission, Google AdSense cookies, GDPR & CCPA rights.
-23. **Terms of Service** (`/terms`): Fair use, no warranty, and client-side processing liability terms.
-24. **About MultiPDF Doc** (`/about`): E-E-A-T engineering mission, privacy ethos, and creator background.
-25. **Contact Portal** (`/contact`): Real `/api/contact` endpoint with body validation, delivery receipt, and direct email link (`support@multipdfdoc.com`).
-26. **Automated XML Sitemap** (`/sitemap.xml` via `src/app/sitemap.ts`): All priority URLs dynamically generated with changefreq and priorities.
-27. **Robots.txt** (`/robots.txt` via `src/app/robots.ts`): Optimized indexing directives.
+22. **Editorial & Testing Policy** (`/editorial-policy`): Software verification invariants, primary authority fact-checking, AI assistance disclosure, and corrections protocol.
+23. **Privacy Policy** (`/privacy-policy`): Transparent breakdown of local tools vs optional Cloud AI OCR transmission, Google AdSense cookies, GDPR & CCPA rights.
+24. **Terms of Service** (`/terms`): Fair use, no warranty, and client-side processing liability terms.
+25. **About MultiPDF Doc** (`/about`): E-E-A-T engineering mission, privacy ethos, and creator background (Haaris Saifi).
+26. **Contact Portal** (`/contact`): Real `/api/contact` endpoint with rate-limiting, delivery receipt, and direct email link (`support@multipdfdoc.com`).
+27. **Automated XML Sitemap** (`/sitemap.xml` via `src/app/sitemap.ts`): All priority URLs dynamically generated with changefreq and priorities.
+28. **Robots.txt** (`/robots.txt` via `src/app/robots.ts`): Optimized indexing directives.
 
 ### ⚙️ Suite 7: Dynamic API Routes & AI OCR Microservices
-28. **Contact API** (`/api/contact` via `src/app/api/contact/route.ts`): Server-side validation for inquiries, spam protection, and confirmed response receipt.
-29. **Dynamic OCR API with Multi-Key Failover Pool** (`/api/ocr` via `src/app/api/ocr/route.ts`): Active verified Gemini 2.5 Flash API key in `.env.local` (`AQ.Ab8RN6...`) with dynamic failover pool supporting comma-separated backup keys (`GEMINI_API_KEYS`). Native `application/pdf` MIME type.
-30. **Oracle Cloud Backend Suite** (`oracle-backend/`): FastAPI image OCR microservice with PaddleOCR and TrOCR (optional secondary server).
+29. **Contact API** (`/api/contact` via `src/app/api/contact/route.ts`): Rate-limited submission with zero-PII logging and Resend email forwarder.
+30. **Dynamic OCR API with Multi-Key Failover Pool** (`/api/ocr` via `src/app/api/ocr/route.ts`): Active verified Gemini 2.5 Flash API key in `.env.local` (`AQ.Ab8RN6...`) with dynamic failover pool supporting comma-separated backup keys (`GEMINI_API_KEYS`). Native `application/pdf` MIME type.
+31. **Oracle Cloud Backend Suite** (`oracle-backend/`): FastAPI image OCR microservice with PaddleOCR and TrOCR (optional secondary server).
 
 ---
 

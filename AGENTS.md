@@ -76,6 +76,7 @@
 
 ### 🏛️ Trust, Legal & Sitemaps
 - `/` -> [src/app/page.tsx](file:///d:/adsense/src/app/page.tsx) (Master Clay Bento Launchpad + Comparison Table + FAQ)
+- `/editorial-policy` -> [src/app/editorial-policy/page.tsx](file:///d:/adsense/src/app/editorial-policy/page.tsx) (Editorial, testing invariants, citations & corrections policy)
 - `/privacy-policy`, `/terms`, `/about`, `/contact`, `/sitemap.xml`, `/robots.txt`
 
 ---
@@ -83,4 +84,4 @@
 ## 🛠️ ENVIRONMENT & BUILD COMMANDS
 - Working Directory: `d:\adsense`
 - Dev Server: `npm run dev` (Runs on `http://localhost:3000`)
-- Production Build: `npm run build` (Pre-renders all 32 routes cleanly with exit code 0)
+- Production Build: `npm run build` (Pre-renders all 33 routes cleanly with exit code 0)
