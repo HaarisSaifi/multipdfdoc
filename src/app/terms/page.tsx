@@ -4,6 +4,8 @@ import { FileText, ShieldAlert, CheckCircle2 } from "lucide-react";
 export const metadata = {
   title: "Terms of Service — MultiPDF Doc",
   description: "Terms and conditions governing the use of MultiPDF Doc in-browser document utilities on multipdfdoc.com.",
+  alternates: { canonical: "https://multipdfdoc.com/terms" },
+  openGraph: { title: "Terms of Service", description: "Terms for MultiPDF Doc tools and optional Cloud OCR.", url: "https://multipdfdoc.com/terms" },
 };
 
 export default function TermsPage() {
@@ -37,7 +39,7 @@ export default function TermsPage() {
             2. Nature of Software & Local Execution
           </h2>
           <p>
-            MultiPDF Doc provides browser-based mathematical and PDF document manipulation utilities. All computational workloads execute locally within your device’s browser client. MultiPDF Doc acts solely as a client-side execution framework and does not host, curate, or monitor your document contents.
+            MultiPDF Doc provides browser-based calculators and PDF utilities. Standard tools process files locally. Optional Cloud AI OCR sends your selected file to our service and Google Gemini after explicit consent and is subject to provider terms. OCR results may contain errors or invented text; verify them against the original. We do not offer legal, tax, immigration or admissions advice. Local processing does not certify compliance with your organization’s security requirements.
           </p>
         </section>
 
@@ -60,7 +62,7 @@ export default function TermsPage() {
         </section>
 
         <div className="pt-6 border-t border-slate-200 flex items-center justify-between text-xs text-slate-500">
-          <span>Legal Inquiries: legal@multipdfdoc.com</span>
+          <a href="mailto:support@multipdfdoc.com">Legal Inquiries: support@multipdfdoc.com</a>
           <span className="font-mono text-violet-700 font-bold">Version 2.0.0</span>
         </div>
       </div>

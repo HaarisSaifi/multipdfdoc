@@ -3,7 +3,7 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://multipdfdoc.com";
   // Verified stable release date for content freshness auditing
-  const stableDate = new Date("2026-09-22T00:00:00.000Z");
+  const stableDate = new Date("2026-10-07T00:00:00.000Z");
 
   return [
     // 1. Homepage Launchpad

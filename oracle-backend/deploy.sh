@@ -6,6 +6,11 @@
 
 set -e
 
+if [[ "${ENABLE_LEGACY_OCR_BACKEND:-false}" != "true" ]]; then
+  echo "Legacy OCR prototype is disabled. See oracle-backend/README.md before any separate deployment."
+  exit 1
+fi
+
 echo "🚀 Starting MultiPDF Doc OCR Backend Deployment..."
 
 # 1. Update system packages

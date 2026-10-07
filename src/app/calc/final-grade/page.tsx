@@ -13,7 +13,6 @@ import {
   Download,
   BookOpen,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 export default function FinalGradeCalculatorPage() {
@@ -24,7 +23,8 @@ export default function FinalGradeCalculatorPage() {
 
   const safeCurrentGrade = Number.isFinite(currentGrade) ? currentGrade : 0;
   const safeTargetGrade = Number.isFinite(targetGrade) ? targetGrade : 0;
-  const safeFinalWeight = Number.isFinite(finalWeight) && finalWeight > 0 ? Math.min(100, Math.max(1, finalWeight)) : 25;
+  const validInputs = [currentGrade, targetGrade, curveBuffer, finalWeight].every(Number.isFinite) && currentGrade >= 0 && currentGrade <= 100 && targetGrade >= 0 && targetGrade <= 100 && curveBuffer >= 0 && curveBuffer <= 15 && finalWeight > 0 && finalWeight <= 100;
+  const safeFinalWeight = validInputs ? finalWeight : 1;
   const safeCurveBuffer = Number.isFinite(curveBuffer) ? Math.max(0, curveBuffer) : 0;
 
   // Math formula:
@@ -42,7 +42,7 @@ export default function FinalGradeCalculatorPage() {
     label: "Chill (Easy Target)",
     color: "bg-emerald-50 text-emerald-800 border-emerald-200",
     ringColor: "text-emerald-500",
-    message: "You are in great shape. Minimal review hours needed to secure this grade.",
+    message: "You are in great shape. This is a lower numerical target; the calculator cannot predict the study time you need.",
     icon: Coffee,
   };
 
@@ -59,7 +59,7 @@ export default function FinalGradeCalculatorPage() {
       label: "Heavy Prep (High Effort)",
       color: "bg-amber-50 text-amber-800 border-amber-200",
       ringColor: "text-amber-500",
-      message: "Challenging but entirely attainable. Dedicate 3-4 structured study blocks.",
+      message: "This model requires a high numerical score. The required score is high; plan revision according to your course and remaining time.",
       icon: Flame,
     };
   } else if (requiredScore > 74) {
@@ -67,7 +67,7 @@ export default function FinalGradeCalculatorPage() {
       label: "Realistic Effort",
       color: "bg-violet-50 text-violet-800 border-violet-200",
       ringColor: "text-violet-500",
-      message: "Very realistic with standard revision. Review past exams and homework keys.",
+      message: "This model requires a moderate numerical score. Review past exams and homework keys.",
       icon: TrendingUp,
     };
   }
@@ -84,7 +84,7 @@ export default function FinalGradeCalculatorPage() {
           Final Exam Target Grade Calculator
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-          Find out the exact minimum percentage you need on your final exam to pass or secure an A. Zero tracking and instant results at <strong className="text-slate-800">multipdfdoc.com</strong>.
+          Find out the exact minimum percentage you need on your final exam to pass or secure an A. Local calculation and instant results at <strong className="text-slate-800">multipdfdoc.com</strong>.
         </p>
       </div>
 
@@ -109,15 +109,15 @@ export default function FinalGradeCalculatorPage() {
                 {currentGrade}%
               </div>
             </div>
-            <input
+            <input aria-label="Current coursework grade percentage"
               type="range"
-              min="30"
+              min="0"
               max="100"
               value={currentGrade}
               onChange={(e) => setCurrentGrade(parseFloat(e.target.value))}
               className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
             />
-            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+            <div className="flex justify-between text-[10px] text-slate-600 font-mono">
               <span>30% (Failing)</span>
               <span>75% (C)</span>
               <span>100% (A+)</span>
@@ -134,15 +134,15 @@ export default function FinalGradeCalculatorPage() {
                 {targetGrade}%
               </div>
             </div>
-            <input
+            <input aria-label="Target course grade percentage"
               type="range"
-              min="50"
+              min="0"
               max="100"
               value={targetGrade}
               onChange={(e) => setTargetGrade(parseFloat(e.target.value))}
               className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
             />
-            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+            <div className="flex justify-between text-[10px] text-slate-600 font-mono">
               <span>70% (C - Pass)</span>
               <span>80% (B)</span>
               <span>90% (A)</span>
@@ -160,15 +160,15 @@ export default function FinalGradeCalculatorPage() {
                 {finalWeight}%
               </div>
             </div>
-            <input
+            <input aria-label="Final exam weight percentage"
               type="range"
-              min="5"
-              max="60"
+              min="0"
+              max="100"
               value={finalWeight}
               onChange={(e) => setFinalWeight(parseFloat(e.target.value))}
               className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-violet-600"
             />
-            <div className="flex justify-between text-[10px] text-slate-400 font-mono">
+            <div className="flex justify-between text-[10px] text-slate-600 font-mono">
               <span>10% (Quiz Weight)</span>
               <span>25% (Standard Mid-term)</span>
               <span>50% (Comprehensive)</span>
@@ -181,7 +181,7 @@ export default function FinalGradeCalculatorPage() {
               <span className="font-bold text-slate-700">Course Curve / Extra Credit Buffer:</span>
               <span className="font-mono font-bold text-emerald-700">+{curveBuffer}%</span>
             </div>
-            <input
+            <input aria-label="Course curve or extra-credit percentage"
               type="range"
               min="0"
               max="15"
@@ -206,10 +206,10 @@ export default function FinalGradeCalculatorPage() {
             {/* Giant Score Gauge */}
             <div className="py-2">
               <div className="text-5xl sm:text-6xl font-display font-extrabold text-slate-900 tracking-tight">
-                {requiredScore <= 0 ? "0.0%" : `${requiredScore.toFixed(1)}%`}
+                {!validInputs ? "—" : requiredScore <= 0 ? "0.0%" : `${requiredScore.toFixed(1)}%`}
               </div>
               <p className="text-xs text-slate-500 mt-2 font-medium">
-                {requiredScore <= 0
+                {!validInputs ? "Enter grades from 0–100 and a final weight above 0, up to 100%." : requiredScore <= 0
                   ? "You already locked in this grade regardless of the final!"
                   : `Needed out of 100 on the final test`}
               </p>
@@ -222,7 +222,7 @@ export default function FinalGradeCalculatorPage() {
                 <span>{statusBadge.label}</span>
               </div>
               <p className="text-[11px] leading-relaxed opacity-90">
-                {statusBadge.message}
+                {validInputs ? statusBadge.message : "Check your inputs before using this estimate."}
               </p>
             </div>
 
@@ -230,11 +230,11 @@ export default function FinalGradeCalculatorPage() {
             <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-left font-mono text-[11px] text-slate-600 space-y-1">
               <div className="flex justify-between">
                 <span>Existing Points Banked:</span>
-                <span className="font-bold text-slate-800">{currentContribution.toFixed(1)} pts</span>
+                <span className="font-bold text-slate-800">{validInputs ? currentContribution.toFixed(1) + " pts" : "—"}</span>
               </div>
               <div className="flex justify-between">
                 <span>Target Points Needed:</span>
-                <span className="font-bold text-violet-700">{adjustedTarget.toFixed(1)} pts</span>
+                <span className="font-bold text-violet-700">{validInputs ? adjustedTarget.toFixed(1) + " pts" : "—"}</span>
               </div>
               <div className="flex justify-between border-t border-slate-200 pt-1 text-slate-900 font-bold">
                 <span>Final Exam Margin:</span>
@@ -253,53 +253,7 @@ export default function FinalGradeCalculatorPage() {
       </div>
 
       {/* AdSense Value Wrapper Layer */}
-      <ValueWrapper
-        toolName="Final Exam Target Grade Calculator"
-        title="Understanding Weighted Grading Systems: Mathematical Principles & Syllabus Survival Strategies"
-        subtitle="How university and high school professors calculate weighted averages, curves, and final exam thresholds."
-        sections={[
-          {
-            heading: "1. The Mathematics of Course Weighting: Why Simple Averages Fail",
-            content: `Most students mistakenly calculate their class standing by adding up raw scores and dividing by the number of assignments. However, over 90% of US colleges and high schools utilize weighted grading categories governed by the standard weighted average formula.
 
-In a weighted course syllabus, individual grade categories (such as Homework 15%, Quizzes 20%, Midterms 25%, and Final Exam 40%) carry vastly disparate mathematical power:
-• Low-Weight Dampening: Scoring a zero on a homework assignment weighted at 1% damages your final course grade by only 0.15 grade points.
-• High-Weight Volatility: In contrast, a 15-point swing on a 40% final exam will alter your course standing by 6 full percentage points—often the difference between an A- and a C+.`
-          },
-          {
-            heading: "2. Strategic Study Allocation: The 'Cram vs. Chill' Curve",
-            content: `When exam week arrives, hours are scarce. Use your calculated target score to triage study priority:
-• Scores below 70%: Review lecture slides once; your banked points already guarantee course completion. Redirect study hours toward harder classes.
-• Scores between 70% and 85%: Focus on high-frequency midterm concepts and practice problem sets.
-• Scores above 90%: Schedule immediate office hours with your teaching assistant (TA). Request past exams and ask whether syllabus curving will lower the required threshold.`
-          },
-          {
-            heading: "3. How Course Curves Alter Your Target Score",
-            content: `Many STEM courses (such as Calculus, Chemistry, and Organic Chemistry) employ bell-curve grading where grades are normalized against class standard deviations.
-
-If historical department data indicates an average 5% curve, input '5' into our Course Curve Buffer above to visualize your reduced final test score target.`
-          }
-        ]}
-        formula={{
-          title: "Weighted Final Exam Requirement Formula",
-          formula: "Score_Required = (Target - (Current * (1 - W_final))) / W_final",
-          explanation: "Where Target represents your desired course percentage, Current represents your existing banked grade, and W_final represents the syllabus weight of the final exam."
-        }}
-        faqs={[
-          {
-            question: "What happens if the calculator says I need more than 100%?",
-            answer: "If your required score exceeds 100%, it means that even a perfect score on the final exam will not mathematically reach your target grade without additional extra credit points or a professor's curve."
-          },
-          {
-            question: "Can I use this for high school and college classes?",
-            answer: "Yes. The algorithm works for any course that uses percentage-weighted categories, regardless of whether you are in high school, undergraduate, or graduate school."
-          },
-          {
-            question: "Is this calculator completely private?",
-            answer: "Yes. MultiPDF Doc executes all mathematical operations in your browser. No grade history or school names are ever transmitted to any external server."
-          }
-        ]}
-      />
     </div>
   );
 }

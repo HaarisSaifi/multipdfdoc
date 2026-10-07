@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Editorial Resource Center & Compliance Guides",
-  description: "Authoritative procedural guides on USCIS 200KB compression, freelance invoice payment terms, college GPA admissions, and zero-knowledge PDF security.",
+  description: "Practical guides on PDF compression and portal limits, freelance invoice payment terms, college GPA admissions, and zero-knowledge PDF security.",
   alternates: {
     canonical: "https://multipdfdoc.com/blog",
   },

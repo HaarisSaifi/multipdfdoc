@@ -1,7 +1,7 @@
 "use client";
 
+import { useDownloadUrl } from "@/lib/use-download-url";
 import React, { useState, useRef } from "react";
-import { PDFDocument } from "pdf-lib";
 import {
   Layers,
   UploadCloud,
@@ -18,7 +18,6 @@ import {
   Plus,
   RefreshCw,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 interface PDFFileItem {
@@ -33,7 +32,7 @@ interface PDFFileItem {
 export default function MergePDFPage() {
   const [files, setFiles] = useState<PDFFileItem[]>([]);
   const [merging, setMerging] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadUrl, setDownloadUrl] = useDownloadUrl();
   const [mergedFileName, setMergedFileName] = useState<string>("merged_document.pdf");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -41,6 +40,7 @@ export default function MergePDFPage() {
 
   // Parse and add files
   const handleFiles = async (newFileList: FileList | null) => {
+    if (merging) return;
     if (!newFileList || newFileList.length === 0) return;
     setErrorMsg(null);
     setDownloadUrl(null);
@@ -73,14 +73,16 @@ export default function MergePDFPage() {
     for (const item of newItems) {
       try {
         const buffer = await item.file.arrayBuffer();
-        const doc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+        const { PDFDocument } = await import("pdf-lib");
+        const doc = await PDFDocument.load(buffer);
         const count = doc.getPageCount();
         setFiles((prev) =>
           prev.map((f) => (f.id === item.id ? { ...f, pageCount: count, loading: false } : f))
         );
       } catch (err) {
+        setErrorMsg(`Could not read ${item.name}. Unlock encrypted PDFs first; damaged files cannot be merged.`);
         setFiles((prev) =>
-          prev.map((f) => (f.id === item.id ? { ...f, pageCount: 1, loading: false } : f))
+          prev.filter((f) => f.id !== item.id)
         );
       }
     }
@@ -119,10 +121,12 @@ export default function MergePDFPage() {
     setDownloadUrl(null);
 
     try {
+      const { PDFDocument } = await import("pdf-lib");
       const mergedPdf = await PDFDocument.create();
 
       for (const item of files) {
         const buffer = await item.file.arrayBuffer();
+        const { PDFDocument } = await import("pdf-lib");
         const pdf = await PDFDocument.load(buffer);
         const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
         copiedPages.forEach((page) => mergedPdf.addPage(page));
@@ -153,7 +157,7 @@ export default function MergePDFPage() {
   const totalSize = files.reduce((acc, f) => acc + f.size, 0);
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"><fieldset disabled={merging} className="contents" aria-busy={merging}>
       {/* Hero Header */}
       <div className="text-center space-y-4 mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -184,7 +188,10 @@ export default function MergePDFPage() {
             setDragActive(false);
             handleFiles(e.dataTransfer.files);
           }}
-          onClick={() => fileInputRef.current?.click()}
+          role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onClick={() => fileInputRef.current?.click()}
           className={`bubble-dropzone p-8 sm:p-12 text-center cursor-pointer transition-all ${
             dragActive ? "drag-active border-violet-600" : ""
           }`}
@@ -202,9 +209,9 @@ export default function MergePDFPage() {
             <UploadCloud className="w-8 h-8 sm:w-10 sm:h-10 text-violet-600 animate-bounce" />
           </div>
 
-          <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
+          <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
             Drag & Drop PDF files here, or <span className="text-violet-600 underline">browse</span>
-          </h3>
+          </h2>
           <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
             Select 2 or more PDF documents. Files are processed entirely client-side via WebAssembly for absolute privacy.
           </p>
@@ -212,7 +219,7 @@ export default function MergePDFPage() {
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
+          <div role="alert" className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
             <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
             <span>{errorMsg}</span>
           </div>
@@ -289,7 +296,10 @@ export default function MergePDFPage() {
             {/* Action Buttons Bar */}
             <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
               <button
-                onClick={() => fileInputRef.current?.click()}
+                role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onClick={() => fileInputRef.current?.click()}
                 className="w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold btn-bubble btn-bubble-secondary flex items-center justify-center gap-2 shadow-clay-pill-secondary"
               >
                 <Plus className="w-4 h-4" />
@@ -324,9 +334,9 @@ export default function MergePDFPage() {
               <CheckCircle2 className="w-7 h-7" />
             </div>
             <div>
-              <h4 className="text-xl font-display font-bold text-slate-900">
+              <h2 className="text-xl font-display font-bold text-slate-900">
                 Your Merged PDF is Ready!
-              </h4>
+              </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1 font-mono">
                 {files.length} files merged into {totalPages} pages • 0 bytes uploaded to internet
               </p>
@@ -352,11 +362,11 @@ export default function MergePDFPage() {
           </div>
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
-            <span>Encrypted In-Memory Execution</span>
+            <span>Local Browser Processing</span>
           </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-3.5 h-3.5 text-violet-600" />
-            <span>No File Size or Daily Limits</span>
+            <span>Device Memory Limits Apply</span>
           </div>
         </div>
       </div>
@@ -364,75 +374,7 @@ export default function MergePDFPage() {
       <AdPlaceholder slot="mid-rectangle" format="rectangle" />
 
       {/* Value Wrapper & SEO Content */}
-      <ValueWrapper
-        title="Comprehensive Guide to Merging Sensitive PDF Documents Securely"
-        subtitle="Step-by-step procedures, legal considerations, and why client-side WebAssembly guarantees zero confidential data leakage."
-        sections={[
-          {
-            heading: "1. The Vulnerability of Traditional Cloud PDF Tools",
-            content: `Most online PDF merge utilities (such as Smallpdf or standard converters) operate on a client-server architecture: when you upload your files, they are transferred over the public internet to a remote server farm, stored in temporary file caches, processed by a backend daemon, and then downloaded back to your browser.
 
-For everyday casual documents, this workflow may be acceptable. However, for sensitive documents such as:
-• Personal tax filings (W-2s, 1040 forms, and IRS schedules)
-• Bank account statements and mortgage approval packages
-• USCIS immigration submissions and passport dossiers
-• Protected Health Information (PHI) subject to HIPAA regulations
-• Non-Disclosure Agreements (NDAs) and corporate contracts
-
-Uploading unencrypted files to third-party cloud servers presents substantial data breach and compliance risks. MultiPDF Doc solves this structural security vulnerability by eliminating server uploads entirely. By leveraging WebAssembly and modern browser JavaScript engines (pdf-lib), the entire parsing, page indexing, and document compilation execute exclusively in your device's random access memory (RAM). Not a single byte of your file is ever transmitted across the network.`
-          },
-          {
-            heading: "2. Step-by-Step Guide: How to Merge Multiple PDFs in Order",
-            content: `Combining multiple documents into a cohesive presentation or official submission requires precise sequencing:
-
-Step 1: Add Your Source Documents
-Drag and drop your target PDF files into the active dropzone above, or click 'browse' to select files from your hard drive or mobile storage. You can select multiple documents simultaneously.
-
-Step 2: Inspect Page Counts and File Sizes
-MultiPDF Doc automatically reads each document's internal catalog header to display the exact number of pages and file footprint. Review these figures to confirm you haven't uploaded duplicate or corrupted files.
-
-Step 3: Reorder Document Hierarchy
-Official agencies (such as court portals, universities, and corporate HR departments) strictly require documents in chronological or specified hierarchical order. Use the intuitive 'Up' and 'Down' arrow controls on each document card to arrange the sequence before compiling.
-
-Step 4: Execute In-Browser Compilation
-Click the 'Merge PDFs Now' button. Your browser will read the binary page streams, construct a new ISO-compliant PDF catalog, map cross-reference tables, and synthesize a single unified document in less than 2 seconds.
-
-Step 5: Immediate Local Download
-Click 'Download Merged Document' to save your file. Once you close this browser tab, all memory buffers are automatically wiped by your browser's garbage collector.`
-          },
-          {
-            heading: "3. Best Practices for USCIS, Court Filings, and Academic Submissions",
-            content: `When preparing multi-file dossiers for institutional review, adhere to the following standards:
-
-• File Size Constraints: Many government portals enforce a 10MB to 20MB file cap. If your merged PDF exceeds these thresholds, use our companion 'Compress PDF' utility to downscale high-DPI image assets without compromising typographic legibility.
-• Page Orientation Consistency: Ensure landscape spreadsheets and portrait cover letters are properly aligned prior to merging. Mixed orientations can trigger automated rejection in optical scanning systems.
-• Bookmark and Index Preservation: Merging documents creates a consolidated master table of contents. If your source files contain interactive form fields, flatten them before submission to prevent field variable collisions.`
-          }
-        ]}
-        formula={{
-          title: "Mathematical Complexity of PDF Stream Concatenation",
-          formula: "Time Complexity: O(N * P) | Memory Footprint: M_total = Σ(Size_i) + Buffer_overhead",
-          explanation: "MultiPDF Doc executes linear time stream copying where N represents the number of input documents and P represents the total aggregate page count. Because memory allocation occurs client-side in typed Uint8Array buffers, execution time scales directly with your device's local CPU speed rather than internet upload bandwidth."
-        }}
-        faqs={[
-          {
-            question: "Is MultiPDF Doc PDF Merger completely free to use?",
-            answer: "Yes. MultiPDF Doc provides unrestricted, free document merging. There are no daily task limits, no file size caps, and no paywalls or watermarks attached to your final documents."
-          },
-          {
-            question: "Are my uploaded PDF files saved on your servers?",
-            answer: "Never. MultiPDF Doc does not operate file storage servers. All document operations execute 100% locally inside your web browser via client-side WebAssembly. Your files never leave your computer."
-          },
-          {
-            question: "Can I merge password-protected PDF files?",
-            answer: "If a PDF file has an active user open password, you must decrypt it first using our Unlock PDF tool before combining. Standard permissions-restricted PDFs can be merged directly."
-          },
-          {
-            question: "What is the maximum number of PDF files I can combine?",
-            answer: "Because processing utilizes your device's local hardware memory, you can comfortably combine dozens of files totaling hundreds of pages without latency or server timeouts."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

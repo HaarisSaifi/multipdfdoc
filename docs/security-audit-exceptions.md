@@ -1,38 +1,17 @@
-# 🛡️ Security Audit Exception & Risk Assessment: PostCSS (via Next.js)
+# Dependency security assessment
 
-**Assessment Date:** 2026-09-22  
-**Target Component:** `node_modules/next/node_modules/postcss`  
-**Current Audit State:** 2 vulnerabilities (1 moderate, 1 high)  
-**Parent Framework:** `next@15.5.25`
+Audit date: October 7, 2026. Next.js is pinned to 15.5.27. Its PostCSS is overridden to 8.5.29 and postcss-selector-parser to 7.1.6. The production build and regression suite verify compatibility with these changes.
 
----
+`npm audit --omit=dev` currently reports **0 advisories**. The full audit reports **5 high entries**: braces and its affected Tailwind build-time dependency chain (chokidar, micromatch, fast-glob and tailwindcss). These are multiple dependency entries for a shared underlying advisory, not five independent application vulnerabilities.
 
-## 1. Exact Security Advisories
-1. **GHSA-qx2v-qp2m-jg93 (High Severity):**  
-   PostCSS unescaped `</style>` tags in CSS stringify output leading to potential cross-site scripting if untrusted user input is passed directly through a server-side CSS preprocessor stringifier.
-2. **GHSA-6g55-p6wh-862q / GHSA-r28c-9q8g-f849 (Moderate Severity):**  
-   PostCSS path traversal / arbitrary file disclosure via attacker-controlled `sourceMappingURL` comments when processing untrusted CSS with `from` unset during source map auto-loading.
+The remaining issue is [GHSA-vfj7-8cjw-p6xm / CVE-2026-93687](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm): deeply nested untrusted brace patterns can exhaust the call stack. The advisory lists braces <=3.0.3 as affected and no patched version at the audit date.
 
----
+## Application-specific reachability assessment
 
-## 2. Root Cause Analysis
-These advisories originate within `next@15.5.25`'s internal transitive dependency tree (`node_modules/next/node_modules/postcss`), which bundles PostCSS `<= 8.5.22`. Next.js 15 uses PostCSS for compile-time Tailwind CSS processing during the `next build` step.
+Tailwind uses repository-authored content globs during development/build. The API routes do not accept glob patterns, invoke Tailwind, or run brace expansion on submitted files. The residual tree is a development/build dependency; the production-only npm audit does not include it. This is a scope assessment, not a claim that vulnerable code is safe for arbitrary callers.
 
----
+Build only reviewed repository inputs in isolated CI. Never expose a build service that accepts arbitrary pattern/configuration input. Treat contributions changing globs or build configuration as executable code requiring review.
 
-## 3. Exploitability & Reachability Analysis in MultiPDF Doc
+A Tailwind 4 migration is the npm suggested major upgrade. It needs dedicated CSS, plugin and all-page visual compatibility verification; blindly forcing it during this release would trade a bounded build-time exception for unreviewed UI behavior. Re-check this advisory before release and schedule the migration or a maintained upstream fix. No unsupported fake patched version or local node_modules edit was applied.
 
-| Vector | MultiPDF Doc Implementation | Reachable / Vulnerable? |
-|---|---|---|
-| **Attacker-Controlled CSS Processing** | MultiPDF Doc is a client-side document processing suite. It does **NOT** accept, compile, or process user-uploaded CSS files on the server at any point. All CSS is static and authored internally. | **NO (Unreachable)** |
-| **Server-Side CSS Stringification** | Next.js server-side routes (`/api/contact`, `/api/ocr`) only process JSON / FormData payloads. No server endpoint invokes PostCSS stringification on user input. | **NO (Unreachable)** |
-| **Untrusted `sourceMappingURL` Parsing** | Production builds compile static CSS with standard Tailwind source maps. Source map resolution is strictly build-time, not dynamic runtime. | **NO (Unreachable)** |
-
-**Conclusion:** The vulnerabilities reside strictly in code paths dealing with server-side processing of untrusted CSS inputs. Because MultiPDF Doc never exposes PostCSS to user input at runtime, this issue is **completely unreachable in production runtime**.
-
----
-
-## 4. Remediation & Upgrade Path
-- Running `npm audit fix --force` attempts to install `next@16.3.5`, which is a breaking major release with breaking changes to React 19 / App Router primitives.
-- Overriding Next.js internal PostCSS with a forced `resolutions` or `overrides` block risks breaking Next.js compile-time CSS extraction.
-- **Recommended Action:** Preserve pinned, stable `next@15.5.25` for current production deployment. Plan formal migration to Next.js 16 after comprehensive compatibility testing of all 32 routes.
+The earlier PostCSS exception document is superseded: those affected dependencies were upgraded rather than leaving the old exception in place. Audit counts are time-specific and do not certify all package behavior or future releases.

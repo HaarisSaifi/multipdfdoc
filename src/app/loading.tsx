@@ -13,8 +13,8 @@ export default function Loading() {
         <p className="text-xs font-bold text-slate-700 tracking-wide uppercase font-mono animate-pulse">
           Loading Document Tool...
         </p>
-        <p className="text-[11px] text-slate-400 font-medium">
-          100% In-Browser Privacy Protection
+        <p className="text-[11px] text-slate-600 font-medium">
+          Local tools • Private document processing
         </p>
       </div>
     </div>

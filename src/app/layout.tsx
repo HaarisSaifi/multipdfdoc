@@ -14,11 +14,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://multipdfdoc.com"),
   title: {
-    default: "MultiPDF Doc — 100% Private In-Browser PDF & Document Suite",
+    default: "MultiPDF Doc — Private PDF Tools & Document Suite",
     template: "%s | MultiPDF Doc",
   },
   description:
-    "Merge, split, compress, invoice, log expenses, and calculate with zero server uploads. 100% client-side WebAssembly execution for absolute privacy at multipdfdoc.com.",
+    "Free PDF tools, invoices, expense records and calculators. Core tools process files locally in your browser. Optional Cloud OCR requires your consent.",
   alternates: {
     canonical: "https://multipdfdoc.com",
   },
@@ -48,10 +48,14 @@ export const metadata: Metadata = {
   authors: [{ name: "Haaris Saifi", url: "https://multipdfdoc.com/about" }],
   creator: "Haaris Saifi",
   publisher: "MultiPDF Doc",
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
+  ...(process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && /^ca-pub-\d{16}$/.test(process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID)
+    ? { other: { "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID } }
+    : {}),
   openGraph: {
-    title: "MultiPDF Doc — 100% Private In-Browser PDF & Document Suite",
+    title: "MultiPDF Doc — Private PDF Tools & Document Suite",
     description:
-      "Your files NEVER leave your computer. Merge, compress, invoice, and calculate with 100% in-browser WebAssembly.",
+      "Merge, compress, invoice and calculate locally in your browser. Optional Cloud AI OCR uploads only after your consent.",
     url: "https://multipdfdoc.com",
     siteName: "MultiPDF Doc",
     locale: "en_US",
@@ -61,14 +65,14 @@ export const metadata: Metadata = {
         url: "https://multipdfdoc.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "MultiPDF Doc — 100% Private In-Browser Document Suite",
+        alt: "MultiPDF Doc — Private PDF Tools & Document Suite",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MultiPDF Doc — 100% Private In-Browser PDF & Document Suite",
-    description: "Zero server uploads. 100% client-side document processing in your browser.",
+    title: "MultiPDF Doc — Private PDF Tools & Document Suite",
+    description: "Core PDF tools process files locally. Optional Cloud OCR requires consent.",
     images: ["https://multipdfdoc.com/og-image.png"],
   },
 };
@@ -81,13 +85,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/local-4.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/local-7.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
         <ThemeProvider>
           <Navbar />
-          <div className="flex-1">{children}</div>
+          <main id="main-content" tabIndex={-1} className="flex-1">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

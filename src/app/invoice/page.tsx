@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { PDFDocument, rgb, StandardFonts, PageSizes } from "pdf-lib";
+import { useDownloadUrl } from "@/lib/use-download-url";
+import { formatLocalDate } from "@/lib/local-date";
+import React, { useState, useEffect } from "react";
+import { createBusinessDocument, roundMoney } from "@/lib/pdf/business-document";
 import {
   FileText,
   Download,
@@ -19,7 +21,6 @@ import {
   Percent,
   RotateCcw,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 interface LineItem {
@@ -35,10 +36,9 @@ export default function InvoiceGeneratorPage() {
 
   // Invoice Meta
   const [invoiceNumber, setInvoiceNumber] = useState("");
-  const [invoiceDate, setInvoiceDate] = useState(new Date().toISOString().split("T")[0]);
-  const [dueDate, setDueDate] = useState(
-    new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
-  );
+  const [invoiceDate, setInvoiceDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  useEffect(() => { const today = new Date(); setInvoiceDate(formatLocalDate(today)); today.setDate(today.getDate() + 14); setDueDate(formatLocalDate(today)); }, []);
 
   // Sender / From (Clean empty default)
   const [fromName, setFromName] = useState("");
@@ -77,7 +77,7 @@ export default function InvoiceGeneratorPage() {
     setTaxPercent(8.5);
     setDiscountPercent(0);
     setNotes("Payment terms: Net 14 days. Thank you for your business!");
-    setPaymentDetails("Bank Wire: Chase Bank | Routing: 121000358 | Account: 9876543210\nPayPal: billing@apexdigital.com");
+    setPaymentDetails("Replace with your verified payment instructions before sending.");
     setErrorMsg(null);
   };
 
@@ -99,32 +99,21 @@ export default function InvoiceGeneratorPage() {
   };
 
   const [generating, setGenerating] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadUrl, setDownloadUrl] = useDownloadUrl();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Helper to sanitize any arbitrary text to valid WinAnsi characters for pdf-lib Helvetica
-  const sanitizePdfText = (text: string | undefined | null): string => {
-    if (!text) return "";
-    return text
-      .replace(/[\u2018\u2019]/g, "'")
-      .replace(/[\u201C\u201D]/g, '"')
-      .replace(/[\u2013\u2014]/g, "-")
-      .replace(/\u2026/g, "...")
-      .replace(/[^\x00-\x7F]/g, " ")
-      .trim();
-  };
 
   // Calculations with NaN safety
   const safeTaxPercent = Number.isFinite(taxPercent) ? Math.max(0, taxPercent) : 0;
-  const safeDiscountPercent = Number.isFinite(discountPercent) ? Math.max(0, discountPercent) : 0;
+  const safeDiscountPercent = Number.isFinite(discountPercent) ? Math.min(100, Math.max(0, discountPercent)) : 0;
   const subtotal = items.reduce((sum, item) => {
     const q = Number.isFinite(item.quantity) ? Math.max(0, item.quantity) : 0;
     const r = Number.isFinite(item.rate) ? Math.max(0, item.rate) : 0;
-    return sum + (q * r);
+    return sum + roundMoney(q * r);
   }, 0);
-  const discountAmount = subtotal * (safeDiscountPercent / 100);
+  const discountAmount = roundMoney(subtotal * (safeDiscountPercent / 100));
   const taxableAmount = Math.max(0, subtotal - discountAmount);
-  const taxAmount = taxableAmount * (safeTaxPercent / 100);
+  const taxAmount = roundMoney(taxableAmount * (safeTaxPercent / 100));
   const grandTotal = taxableAmount + taxAmount;
 
   const addItem = () => {
@@ -149,249 +138,37 @@ export default function InvoiceGeneratorPage() {
   const generatePdf = async () => {
     setGenerating(true);
     setErrorMsg(null);
+    setDownloadUrl(null);
     try {
-      const pdfDoc = await PDFDocument.create();
-      const page = pdfDoc.addPage(PageSizes.Letter); // 612 x 792 pts
-      const { width, height } = page.getSize();
-
-      const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-      const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
-
-      // Slate & Brand Colors
-      const primaryColor = rgb(0.06, 0.09, 0.16); // Slate 900
-      const accentColor = rgb(0.49, 0.23, 0.93); // Violet 600
-      const mutedColor = rgb(0.39, 0.45, 0.55); // Slate 500
-      const lightBg = rgb(0.97, 0.98, 0.99); // Slate 50
-      const borderGray = rgb(0.88, 0.91, 0.94); // Slate 200
-
-      // Safe ASCII currency symbol for PDF WinAnsi standard font compatibility
-      const safeSymbol = currency.code === "INR" || currency.symbol === "₹" ? "Rs. " : currency.symbol;
-
-      let y = height - 50;
-
-      // Header Brand
-      const displayFromName = sanitizePdfText(fromName.toUpperCase()) || "YOUR COMPANY";
-      const safeInvoiceNum = invoiceNumber.trim() || `INV-${Date.now().toString().slice(-6)}`;
-
-      page.drawText(displayFromName, {
-        x: 50,
-        y,
-        size: 18,
-        font: fontBold,
-        color: primaryColor,
+      if (!fromName.trim() || !toName.trim() || !invoiceDate || !dueDate || dueDate < invoiceDate) throw new Error("Enter sender, client and valid invoice/due dates.");
+      if (items.some((item) => !item.description.trim() || !Number.isFinite(item.quantity) || item.quantity <= 0 || !Number.isFinite(item.rate) || item.rate < 0) || discountPercent < 0 || discountPercent > 100 || taxPercent < 0 || !Number.isFinite(taxPercent) || !Number.isFinite(discountPercent)) throw new Error("Complete descriptions and enter positive quantities, nonnegative rates/tax and a discount between 0 and 100%.");
+      const pdfBytes = await createBusinessDocument({
+        title: "INVOICE", number: invoiceNumber.trim() || `INV-${Date.now()}`,
+        details: [`From: ${fromName}`, fromEmail, fromAddress, `Bill to: ${toName}`, toEmail, toAddress, `Invoice date: ${invoiceDate}`, `Due date: ${dueDate}`],
+        items: items.map((item) => ({ description: item.description, extra: `${item.quantity} x ${currency.code} ${item.rate.toFixed(2)}`, amount: roundMoney(item.quantity * item.rate) })),
+        currency: currency.code, totals: [{ label: "Subtotal", amount: subtotal }, { label: "Discount", amount: -discountAmount }, { label: "Tax", amount: taxAmount }, { label: "Total due", amount: grandTotal }],
+        notes: [paymentDetails ? `Payment instructions: ${paymentDetails}` : "", notes ? `Notes: ${notes}` : ""],
       });
-
-      page.drawText("INVOICE", {
-        x: width - 140,
-        y,
-        size: 20,
-        font: fontBold,
-        color: accentColor,
-      });
-
-      y -= 18;
-      page.drawText(sanitizePdfText(fromEmail) || "billing@yourdomain.com", { x: 50, y, size: 9, font: fontRegular, color: mutedColor });
-      page.drawText(`# ${sanitizePdfText(safeInvoiceNum)}`, { x: width - 140, y, size: 10, font: fontBold, color: primaryColor });
-
-      y -= 14;
-      const fromLines = fromAddress.split("\n");
-      fromLines.forEach((line) => {
-        const clean = sanitizePdfText(line);
-        if (clean) {
-          page.drawText(clean, { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
-          y -= 11;
-        }
-      });
-
-      // Dates strip
-      y = height - 120;
-      page.drawLine({
-        start: { x: 50, y },
-        end: { x: width - 50, y },
-        thickness: 1,
-        color: borderGray,
-      });
-
-      y -= 25;
-      // Billed To Column
-      page.drawText("BILLED TO:", { x: 50, y, size: 8.5, font: fontBold, color: mutedColor });
-      page.drawText("INVOICE DATE:", { x: width - 200, y, size: 8.5, font: fontBold, color: mutedColor });
-      page.drawText(invoiceDate, { x: width - 110, y, size: 8.5, font: fontRegular, color: primaryColor });
-
-      y -= 14;
-      page.drawText(sanitizePdfText(toName) || "Client Name", { x: 50, y, size: 11, font: fontBold, color: primaryColor });
-      page.drawText("DUE DATE:", { x: width - 200, y, size: 8.5, font: fontBold, color: mutedColor });
-      page.drawText(sanitizePdfText(dueDate), { x: width - 110, y, size: 8.5, font: fontBold, color: accentColor });
-
-      y -= 14;
-      page.drawText(sanitizePdfText(toEmail), { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
-
-      y -= 12;
-      const toLines = toAddress.split("\n");
-      toLines.forEach((line) => {
-        const clean = sanitizePdfText(line);
-        if (clean) {
-          page.drawText(clean, { x: 50, y, size: 8.5, font: fontRegular, color: mutedColor });
-          y -= 11;
-        }
-      });
-
-      // Table Header
-      y -= 20;
-      page.drawRectangle({
-        x: 50,
-        y: y - 5,
-        width: width - 100,
-        height: 24,
-        color: lightBg,
-      });
-
-      page.drawText("DESCRIPTION", { x: 60, y: y + 2, size: 8.5, font: fontBold, color: mutedColor });
-      page.drawText("QTY", { x: 330, y: y + 2, size: 8.5, font: fontBold, color: mutedColor });
-      page.drawText("UNIT PRICE", { x: 400, y: y + 2, size: 8.5, font: fontBold, color: mutedColor });
-      page.drawText("AMOUNT", { x: 500, y: y + 2, size: 8.5, font: fontBold, color: mutedColor });
-
-      y -= 18;
-
-      // Table Items
-      items.forEach((item) => {
-        const q = Number.isFinite(item.quantity) ? Math.max(0, item.quantity) : 0;
-        const r = Number.isFinite(item.rate) ? Math.max(0, item.rate) : 0;
-        const itemTotal = q * r;
-
-        page.drawText(sanitizePdfText(item.description).slice(0, 48) || "Line item", {
-          x: 60,
-          y,
-          size: 9,
-          font: fontRegular,
-          color: primaryColor,
-        });
-
-        page.drawText(q.toString(), {
-          x: 335,
-          y,
-          size: 9,
-          font: fontRegular,
-          color: primaryColor,
-        });
-
-        page.drawText(`${safeSymbol}${r.toFixed(2)}`, {
-          x: 400,
-          y,
-          size: 9,
-          font: fontRegular,
-          color: primaryColor,
-        });
-
-        page.drawText(`${safeSymbol}${itemTotal.toFixed(2)}`, {
-          x: 500,
-          y,
-          size: 9,
-          font: fontBold,
-          color: primaryColor,
-        });
-
-        y -= 14;
-        page.drawLine({
-          start: { x: 50, y: y + 4 },
-          end: { x: width - 50, y: y + 4 },
-          thickness: 0.5,
-          color: borderGray,
-        });
-        y -= 10;
-      });
-
-      // Totals Box
-      y -= 10;
-      const totalsX = width - 220;
-
-      page.drawText("Subtotal:", { x: totalsX, y, size: 9, font: fontRegular, color: mutedColor });
-      page.drawText(`${safeSymbol}${subtotal.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: primaryColor });
-
-      if (discountPercent > 0) {
-        y -= 16;
-        page.drawText(`Discount (${discountPercent}%):`, { x: totalsX, y, size: 9, font: fontRegular, color: mutedColor });
-        page.drawText(`-${safeSymbol}${discountAmount.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: rgb(0.88, 0.11, 0.28) });
-      }
-
-      if (taxPercent > 0) {
-        y -= 16;
-        page.drawText(`Tax / VAT (${taxPercent}%):`, { x: totalsX, y, size: 9, font: fontRegular, color: mutedColor });
-        page.drawText(`${safeSymbol}${taxAmount.toFixed(2)}`, { x: width - 60, y, size: 9, font: fontRegular, color: primaryColor });
-      }
-
-      y -= 22;
-      page.drawRectangle({
-        x: totalsX - 10,
-        y: y - 6,
-        width: 170,
-        height: 26,
-        color: lightBg,
-      });
-
-      page.drawText("TOTAL DUE:", { x: totalsX, y, size: 10, font: fontBold, color: primaryColor });
-      page.drawText(`${safeSymbol}${grandTotal.toFixed(2)} ${currency.code}`, {
-        x: totalsX + 70,
-        y,
-        size: 11,
-        font: fontBold,
-        color: accentColor,
-      });
-
-      // Payment Details & Notes (Left column bottom)
-      y -= 40;
-      if (paymentDetails) {
-        page.drawText("PAYMENT INSTRUCTIONS:", { x: 50, y, size: 8.5, font: fontBold, color: mutedColor });
-        y -= 12;
-        const pLines = paymentDetails.split("\n");
-        pLines.forEach((line) => {
-          page.drawText(line, { x: 50, y, size: 8, font: fontRegular, color: primaryColor });
-          y -= 10;
-        });
-      }
-
-      y -= 15;
-      y -= 15;
-      if (notes) {
-        page.drawText("TERMS & NOTES:", { x: 50, y, size: 8.5, font: fontBold, color: mutedColor });
-        y -= 12;
-        page.drawText(sanitizePdfText(notes), { x: 50, y, size: 8, font: fontRegular, color: mutedColor });
-      }
-
-      // Footer notice
-      page.drawText("Generated locally with MultiPDF Doc (multipdfdoc.com) — 100% In-Browser Privacy Protection.", {
-        x: 50,
-        y: 35,
-        size: 7.5,
-        font: fontRegular,
-        color: rgb(0.65, 0.71, 0.8),
-      });
-
-      const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
-      setDownloadUrl(url);
-    } catch (err) {
-      console.error(err);
-      setErrorMsg("Failed to compile invoice PDF. Please verify all entries are valid.");
-    } finally {
-      setGenerating(false);
-    }
+      const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
+      setDownloadUrl(URL.createObjectURL(blob));
+    } catch (error: any) {
+      setErrorMsg(error.message || "Could not generate the PDF. Check your entries.");
+    } finally { setGenerating(false); }
   };
-
+  useEffect(() => { setDownloadUrl(null); }, [currency, invoiceNumber, invoiceDate, dueDate, fromName, fromEmail, fromAddress, toName, toEmail, toAddress, items, taxPercent, discountPercent, notes, paymentDetails]);
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12"><fieldset disabled={generating} className="contents" aria-busy={generating}>
       {/* Hero Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-50 text-violet-800 border border-violet-200/80 shadow-sm">
           <Sparkles className="w-3.5 h-3.5 text-violet-600" />
-          <span>100% Free • Zero Watermarks • Instant PDF Export</span>
+          <span>Free to use • Local PDF export</span>
         </div>
         <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-slate-900 tracking-tight">
           Professional PDF Invoice Generator
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-          Create, customize, and export audit-compliant business invoices in seconds. All mathematical calculations and PDF byte compilation execute 100% client-side in your browser at <strong className="text-slate-800">multipdfdoc.com</strong>.
+          Create, customize, and export itemized business invoices in seconds. All mathematical calculations and PDF byte compilation execute 100% client-side in your browser at <strong className="text-slate-800">multipdfdoc.com</strong>.
         </p>
       </div>
 
@@ -399,7 +176,7 @@ export default function InvoiceGeneratorPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left 2 Cols: Form Editor */}
         <div className="lg:col-span-2 bubble-card p-6 sm:p-8 border border-slate-200/90 space-y-8">
-          
+
           {/* Top Controls: Currency & Invoice # */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 pb-6">
             <div className="flex items-center gap-3">
@@ -448,12 +225,12 @@ export default function InvoiceGeneratorPage() {
               </button>
               <div className="flex items-center gap-1.5 sm:ml-2">
                 <label className="text-xs font-bold text-slate-600">Invoice #:</label>
-                <input
+                <input aria-label="Invoice number"
                   type="text"
                   placeholder="e.g. INV-001"
                   value={invoiceNumber}
                   onChange={(e) => setInvoiceNumber(e.target.value)}
-                  className="w-28 sm:w-32 px-2.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                  className="w-28 sm:w-32 px-2.5 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-900 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
                 />
               </div>
             </div>
@@ -467,26 +244,26 @@ export default function InvoiceGeneratorPage() {
                 <Building2 className="w-4 h-4 text-violet-600" />
                 <span>Your Company / Freelancer Info</span>
               </div>
-              <input
+              <input aria-label="Sender business name"
                 type="text"
                 placeholder="e.g. Your Company Name"
                 value={fromName}
                 onChange={(e) => setFromName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
               />
-              <input
+              <input aria-label="Sender email address"
                 type="email"
                 placeholder="e.g. yourname@company.com"
                 value={fromEmail}
                 onChange={(e) => setFromEmail(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
               />
-              <textarea
+              <textarea aria-label="Sender postal address"
                 rows={2}
                 placeholder="e.g. 100 Innovation Way, Suite 400&#10;San Francisco, CA 94105"
                 value={fromAddress}
                 onChange={(e) => setFromAddress(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
               />
             </div>
 
@@ -496,26 +273,26 @@ export default function InvoiceGeneratorPage() {
                 <User className="w-4 h-4 text-emerald-600" />
                 <span>Client / Billed To</span>
               </div>
-              <input
+              <input aria-label="Client business name"
                 type="text"
                 placeholder="e.g. Client or Company Name"
                 value={toName}
                 onChange={(e) => setToName(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
               />
-              <input
+              <input aria-label="Client email address"
                 type="email"
                 placeholder="e.g. client@example.com"
                 value={toEmail}
                 onChange={(e) => setToEmail(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
               />
-              <textarea
+              <textarea aria-label="Client postal address"
                 rows={2}
                 placeholder="e.g. 742 Evergreen Terrace&#10;New York, NY 10001"
                 value={toAddress}
                 onChange={(e) => setToAddress(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
               />
             </div>
           </div>
@@ -525,22 +302,22 @@ export default function InvoiceGeneratorPage() {
             <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-200/80">
               <Calendar className="w-4 h-4 text-slate-500" />
               <span className="text-xs font-bold text-slate-700">Invoice Date:</span>
-              <input
+              <input aria-label="Invoice date"
                 type="date"
                 value={invoiceDate}
                 onChange={(e) => setInvoiceDate(e.target.value)}
-                className="ml-auto bg-white px-2.5 py-1 rounded-xl border border-slate-200 text-xs font-semibold text-slate-900 outline-none"
+                className="ml-auto bg-white px-2.5 py-1 rounded-xl border border-slate-200 text-xs font-semibold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
               />
             </div>
 
             <div className="flex items-center gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-200/80">
               <Calendar className="w-4 h-4 text-violet-600" />
               <span className="text-xs font-bold text-slate-700">Due Date:</span>
-              <input
+              <input aria-label="Payment due date"
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="ml-auto bg-white px-2.5 py-1 rounded-xl border border-slate-200 text-xs font-semibold text-slate-900 outline-none"
+                className="ml-auto bg-white px-2.5 py-1 rounded-xl border border-slate-200 text-xs font-semibold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
               />
             </div>
           </div>
@@ -548,7 +325,7 @@ export default function InvoiceGeneratorPage() {
           {/* Dynamic Line Items */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-900">Line Items & Deliverables</h3>
+              <h2 className="text-sm font-bold text-slate-900">Line Items & Deliverables</h2>
               <button
                 type="button"
                 onClick={addItem}
@@ -565,43 +342,43 @@ export default function InvoiceGeneratorPage() {
                   key={item.id}
                   className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 p-3 rounded-2xl bg-slate-50/80 border border-slate-200"
                 >
-                  <input
+                  <input aria-label="Item description"
                     type="text"
                     placeholder="e.g. Web Development, Consulting, or Project Deliverable"
                     value={item.description}
                     onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                    className="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-medium text-slate-900 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
                   />
                   <div className="flex items-center gap-2">
                     <div className="w-20">
-                      <input
+                      <input aria-label="Item quantity"
                         type="number"
                         min="1"
                         placeholder="1"
                         value={item.quantity || ""}
                         onChange={(e) => updateItem(item.id, "quantity", parseFloat(e.target.value) || 0)}
-                        className="w-full px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center font-bold text-slate-900 placeholder:text-slate-400 outline-none"
+                        className="w-full px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center font-bold text-slate-900 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
                       />
                     </div>
                     <div className="w-24">
-                      <input
+                      <input aria-label="Item unit price"
                         type="number"
                         min="0"
                         step="0.01"
                         placeholder="0.00"
                         value={item.rate === 0 ? "" : item.rate}
                         onChange={(e) => updateItem(item.id, "rate", parseFloat(e.target.value) || 0)}
-                        className="w-full px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center font-bold text-slate-900 placeholder:text-slate-400 outline-none"
+                        className="w-full px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs text-center font-bold text-slate-900 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
                       />
                     </div>
                     <div className="w-24 text-right font-mono font-bold text-xs text-slate-900">
                       {currency.symbol}{(item.quantity * item.rate).toFixed(2)}
                     </div>
-                    <button
+                    <button aria-label="Remove this row"
                       type="button"
                       onClick={() => removeItem(item.id)}
                       disabled={items.length <= 1}
-                      className="p-2 text-slate-400 hover:text-rose-600 disabled:opacity-30 transition-colors"
+                      className="p-2 text-slate-600 hover:text-rose-600 disabled:opacity-30 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -615,22 +392,22 @@ export default function InvoiceGeneratorPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700">Payment Instructions / Bank Wire</label>
-              <textarea
+              <textarea aria-label="Payment Instructions / Bank Wire"
                 rows={3}
                 value={paymentDetails}
                 onChange={(e) => setPaymentDetails(e.target.value)}
                 placeholder="e.g. Bank Wire: Chase Bank | Routing: 121000358 | Account: 9876543210&#10;PayPal: billing@yourdomain.com"
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
               />
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700">Notes & Payment Terms</label>
-              <textarea
+              <textarea aria-label="Notes & Payment Terms"
                 rows={3}
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="e.g. Payment terms: Net 14 days. Thank you for your business!"
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder:text-slate-400 outline-none focus:border-violet-500"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800 placeholder:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
               />
             </div>
           </div>
@@ -657,17 +434,17 @@ export default function InvoiceGeneratorPage() {
               {/* Discount control */}
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1">
-                  <Percent className="w-3.5 h-3.5 text-slate-400" />
+                  <Percent className="w-3.5 h-3.5 text-slate-600" />
                   Discount %:
                 </span>
-                <input
+                <input aria-label="Discount percentage"
                   type="number"
                   min="0"
                   max="100"
                   placeholder="0"
                   value={discountPercent === 0 ? "" : discountPercent}
                   onChange={(e) => setDiscountPercent(parseFloat(e.target.value) || 0)}
-                  className="w-16 px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-right font-bold text-xs placeholder:text-slate-400"
+                  className="w-16 px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-right font-bold text-xs placeholder:text-slate-600"
                 />
               </div>
 
@@ -683,7 +460,7 @@ export default function InvoiceGeneratorPage() {
                 <span className="flex items-center gap-1">
                   Tax / VAT (%):
                 </span>
-                <input
+                <input aria-label="Tax percentage"
                   type="number"
                   min="0"
                   max="100"
@@ -691,7 +468,7 @@ export default function InvoiceGeneratorPage() {
                   placeholder="0"
                   value={taxPercent === 0 ? "" : taxPercent}
                   onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
-                  className="w-16 px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-right font-bold text-xs placeholder:text-slate-400"
+                  className="w-16 px-2 py-1 rounded-lg bg-slate-50 border border-slate-200 text-right font-bold text-xs placeholder:text-slate-600"
                 />
               </div>
 
@@ -708,7 +485,7 @@ export default function InvoiceGeneratorPage() {
                   <span className="font-display font-extrabold text-2xl text-violet-700">
                     {currency.symbol}{grandTotal.toFixed(2)}
                   </span>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase">{currency.code}</div>
+                  <div className="text-[10px] font-mono text-slate-600 uppercase">{currency.code}</div>
                 </div>
               </div>
             </div>
@@ -716,7 +493,7 @@ export default function InvoiceGeneratorPage() {
             {/* Actions */}
             <div className="space-y-3 pt-2">
               {errorMsg && (
-                <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                <div role="alert" className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
                   {errorMsg}
                 </div>
               )}
@@ -727,7 +504,7 @@ export default function InvoiceGeneratorPage() {
                 className="w-full py-4 rounded-full text-xs sm:text-sm font-extrabold btn-bubble btn-bubble-violet flex items-center justify-center gap-2 shadow-clay-pill"
               >
                 <FileText className="w-4 h-4" />
-                <span>{generating ? "Synthesizing Vector PDF..." : "Generate Official Invoice PDF"}</span>
+                <span>{generating ? "Synthesizing Vector PDF..." : "Generate Invoice PDF"}</span>
               </button>
 
               {downloadUrl && (
@@ -753,59 +530,7 @@ export default function InvoiceGeneratorPage() {
       </div>
 
       {/* AdSense Value Wrapper Layer */}
-      <ValueWrapper
-        toolName="Free Professional Invoice Generator"
-        title="Official Procedural Standards: Business Invoicing, Tax Deductibility & Audit Governance"
-        subtitle="Comprehensive legal and financial guidelines for freelancers, contractors, and SMBs generating valid tax invoices."
-        sections={[
-          {
-            heading: "1. Statutory Invoice Requirements for US, UK, and EU Commercial Compliance",
-            content: `Under internal revenue laws (such as IRS Publication 535 in the United States and HMRC VAT Notice 700 in the United Kingdom), an invoice is not merely a payment request—it is a legally binding evidentiary instrument required for tax deductions and audit defense.
 
-To qualify as a valid commercial invoice, your document must contain five non-negotiable data fields:
-• Sequential Invoice Identifier: A unique, chronological numbering sequence (e.g., INV-2026-001) that guarantees individual transaction traceability.
-• Transacting Entities: Complete legal names, registered physical addresses, and contact coordinates for both the issuing supplier and the purchasing client.
-• Itemized Deliverable Schedule: Clear, unambiguous descriptions of goods delivered or hours dedicated, avoiding vague descriptors like 'consulting' or 'services rendered'.
-• Tax Breakdown: Explicit segregation of the net taxable base, applicable state sales tax or Value Added Tax (VAT/GST) percentages, and the exact levied tax sum.
-• Payment Settlement Coordinates: Prescribed payment timelines (such as Net 15, Net 30) along with designated depository account coordinates (IBAN, ACH routing, or SWIFT/BIC coordinates).`
-          },
-          {
-            heading: "2. Mitigating Payment Disputes with Clear Net Terms and Late Fee Stipulations",
-            content: `Studies conducted by the National Federation of Independent Business (NFIB) demonstrate that invoices featuring explicit 'Due Upon Receipt' or 'Net 14' stipulations are settled 42% faster than invoices without designated payment windows.
-
-When issuing electronic invoices, specify the payment grace period directly in the invoice notes. In commercial B2B contracts, standard statutory interest clauses (such as 1.5% monthly compound interest on delinquent receivables) should be referenced to enforce timely accounts payable compliance.`
-          },
-          {
-            heading: "3. Digital Record Retention & Electronic Invoicing Security",
-            content: `The IRS requires businesses to maintain electronic records of all generated invoices, receipts, and supporting bank transaction logs for a minimum statutory period of three to seven years depending on gross revenue thresholds.
-
-Unlike traditional SaaS billing tools that hold your customer data behind recurring monthly subscriptions and potential vendor lock-in, MultiPDF Doc compiles clean, ISO-standard vector PDFs directly on your local device. Because zero financial data is transmitted across our network, you retain permanent, uncompromised sovereignty over your accounting records.`
-          }
-        ]}
-        formula={{
-          title: "Commercial Invoice Settlement Formula",
-          formula: "Grand_Total = (Subtotal - (Subtotal * Discount_Rate)) * (1 + Tax_Rate)",
-          explanation: "Calculates the final enforceable receivable amount where discounts are applied to the gross subtotal prior to the assessment of statutory sales tax or Value Added Tax (VAT)."
-        }}
-        faqs={[
-          {
-            question: "Is this invoice generator really 100% free without watermarks?",
-            answer: "Yes. MultiPDF Doc does not attach logos, promotional watermarks, or paywalls to your generated invoices. The exported PDF is a clean, professional, audit-ready document suitable for corporate submissions."
-          },
-          {
-            question: "Is my client and financial billing data saved on your servers?",
-            answer: "Never. MultiPDF Doc operates exclusively inside your browser using client-side JavaScript. Neither your client names, billing rates, bank account details, nor totals are ever sent to an external server."
-          },
-          {
-            question: "Can I generate invoices in international currencies?",
-            answer: "Yes. MultiPDF Doc supports standard international currency symbols including US Dollar ($), Euro (€), British Pound (£), Indian Rupee (₹), and Canadian Dollar (C$)."
-          },
-          {
-            question: "Are these invoices valid for official tax deductions and audits?",
-            answer: "Yes. When filled out with proper business identification numbers, itemized line items, and applicable tax rates, the generated PDF complies with standard IRS, HMRC, and GST invoicing requirements."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

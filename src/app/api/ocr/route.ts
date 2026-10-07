@@ -2,14 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { getClientIp } from "@/lib/security/ip-utils";
 import { checkOcrRateLimit } from "@/lib/security/rate-limiter";
 import { validateDocumentFile } from "@/lib/security/file-validation";
+import { readLimitedBody, RequestBodyError } from "@/lib/security/request-body";
 
-const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB limit
+const MAX_FILE_SIZE_BYTES = 4 * 1024 * 1024; // Stay below common 4.5MB serverless ingress limits.
 const UPSTREAM_TIMEOUT_MS = 20000; // 20-second timeout
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now();
 
   try {
+    if (process.env.CLOUD_OCR_ENABLED !== "true") {
+      return NextResponse.json({ error: "Cloud OCR is unavailable. In-browser extraction remains available without uploading your document." }, { status: 503 });
+    }
+    const origin = req.headers.get("origin");
+    if (origin && origin !== req.nextUrl.origin) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+    if (!req.headers.get("content-type")?.includes("multipart/form-data")) return NextResponse.json({ error: "Send a multipart document form." }, { status: 415 });
     // 1. Early Content-Length Gate (reject oversized requests before parsing multipart body)
     const contentLengthHeader = req.headers.get("content-length");
     if (contentLengthHeader) {
@@ -19,7 +26,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           {
             error:
-              "Request payload exceeds 10MB maximum limit. Please use our 100% In-Browser Local Extraction for large files.",
+              "Request payload exceeds 4MB maximum limit. Please use our In-Browser Local Extraction for large files.",
           },
           { status: 413 }
         );
@@ -38,11 +45,14 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Multipart Form Data Parsing
-    const formData = await req.formData();
-    const file = formData.get("file") as File | null;
+    const bytes = await readLimitedBody(req, MAX_FILE_SIZE_BYTES + 8192);
+    let formData: FormData;
+    try { formData = await new Response(bytes as unknown as BodyInit, { headers: { "Content-Type": req.headers.get("content-type")! } }).formData(); }
+    catch { return NextResponse.json({ error: "Malformed multipart request." }, { status: 400 }); }
+    const file = formData.get("file");
     const mode = (formData.get("mode") as string) || "auto"; // "auto" | "handwriting" | "document"
 
-    if (!file) {
+    if (!(file instanceof File)) {
       return NextResponse.json(
         { error: "No document or image file provided." },
         { status: 400 }
@@ -54,7 +64,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "File size exceeds 10MB maximum limit. Please use our unlimited 100% In-Browser Local Extraction.",
+            "File size exceeds 4MB maximum limit. Please use our In-Browser Local Extraction.",
         },
         { status: 413 }
       );
@@ -93,6 +103,8 @@ export async function POST(req: NextRequest) {
     }
 
     const geminiModel = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    if (!/^[a-zA-Z0-9._-]+$/.test(geminiModel)) return NextResponse.json({ error: "Cloud OCR configuration is invalid." }, { status: 503 });
+    const upstreamDeadline = Date.now() + UPSTREAM_TIMEOUT_MS;
     const promptText =
       mode === "handwriting"
         ? "Transcribe this handwritten document with exact verbatim precision. Preserve all line breaks, handwritten annotations, signatures, numbers, and symbols. Return ONLY the transcribed text without introductory or conversational filler."
@@ -101,15 +113,15 @@ export async function POST(req: NextRequest) {
     // Sequential key failover loop with AbortController timeout
     for (let i = 0; i < apiKeys.length; i++) {
       const activeKey = apiKeys[i];
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent?key=${activeKey}`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${geminiModel}:generateContent`;
 
       const abortController = new AbortController();
-      const timeoutId = setTimeout(() => abortController.abort(), UPSTREAM_TIMEOUT_MS);
+      const timeoutId = setTimeout(() => abortController.abort(), Math.max(1, upstreamDeadline - Date.now()));
 
       try {
         const geminiRes = await fetch(geminiUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", "x-goog-api-key": activeKey },
           body: JSON.stringify({
             contents: [
               {
@@ -132,12 +144,14 @@ export async function POST(req: NextRequest) {
           signal: abortController.signal,
         });
 
-        clearTimeout(timeoutId);
 
         if (geminiRes.ok) {
           const geminiData = await geminiRes.json();
           const extractedText =
-            geminiData?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+            geminiData?.candidates?.[0]?.content?.parts?.map((part: { text?: string }) => part.text || "").join("\n").trim() || "";
+          if (!extractedText || geminiData?.candidates?.[0]?.finishReason === "MAX_TOKENS") {
+            return NextResponse.json({ error: "Cloud OCR returned empty or incomplete text. Try a smaller document or local extraction." }, { status: 502 });
+          }
 
           // Sanitized telemetry log — zero PII, zero text logging, zero filenames, zero keys
           console.info("[ocr-audit] Cloud OCR scan succeeded", {
@@ -149,7 +163,7 @@ export async function POST(req: NextRequest) {
 
           return NextResponse.json({
             text: extractedText,
-            engine: `Cloud Neural AI (${geminiModel}) [Key Pool #${i + 1}]`,
+            engine: "Cloud AI OCR — verify transcription against the original",
           });
         } else {
           // Log only HTTP status code — never log response body which may echo user content
@@ -179,7 +193,7 @@ export async function POST(req: NextRequest) {
           keyIndex: i + 1,
           errorType: fetchErr?.name || "FetchError",
         });
-      }
+      } finally { clearTimeout(timeoutId); }
     }
 
     // 7. Failover Exhausted Response
@@ -191,6 +205,7 @@ export async function POST(req: NextRequest) {
       { status: 502 }
     );
   } catch (err: any) {
+    if (err instanceof RequestBodyError) return NextResponse.json({ error: err.message }, { status: err.status });
     // Top-level unhandled exception guard — no PII leakage
     console.error("[ocr-audit] Internal server error in OCR route handler", {
       errorType: err?.name || "UnknownError",

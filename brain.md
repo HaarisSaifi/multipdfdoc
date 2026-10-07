@@ -121,3 +121,20 @@ Automated test suite (`scratch/test-core-invariants.js`) verifies all critical o
 - **Git Branch:** `main` (clean working directory, pushed to GitHub remote `origin/main`).
 - **Latest Commit:** `b3a85b9` ("feat: add multi-key failover rotation pool for cloud AI OCR engine").
 - **Offline Zip Bundle:** Stored and updated at `D:\adsense\multipdfdoc.zip` and `D:\multipdfdoc.zip`.
+
+
+---
+
+## October 7, 2026 — Verified local release checkpoint
+
+This checkpoint supersedes historical guarantees and launch claims above. Current local work has not been deployed or pushed; the working tree contains a prepared release. Do not describe AdSense approval, traffic, revenue, universal PDF support or human-authored content as guaranteed.
+
+- Read `docs/production-readiness-audit-2026-10-07.md` and the revised `propermonth.md` before continuing.
+- Next.js 15.5.27 builds with lint/types passing and all 33 generated static entries. The public sitemap contains 26 content URLs; different route-count metrics must not be conflated.
+- `npm test` passes 11 production regression groups and 5 real QPDF/ZIP invariant groups. Final browser tests pass 130 responsive page checks and 18 workflows, including all 15 tools. Axe WCAG and best-practice checks find no violations in the tested initial and completed states; this is not complete accessibility certification.
+- Standard document tools remain local. Optional Cloud OCR and ads are off by default pending real operator configuration. Engine assets may download; browser cleanup is not guaranteed secure erasure.
+- Contact delivery requires a verified mail provider and production Redis; the code no longer reports false success. Public MX lookup found no explicit mail exchanger; routing remains unverified. Hosting project/mail provider details have been requested from the owner.
+- Runtime npm audit reports zero advisories. Five high dependency entries remain in the documented Tailwind build chain; read `docs/security-audit-exceptions.md` before release.
+- Four articles and route guides were revised with AI assistance, source-grounded facts and explicit limitations. Do not claim independent peer review or certified plagiarism-free human authorship.
+- Reports are under `docs/reports/`. Local Lighthouse results are lab measurements, not deployed-site Core Web Vitals.
+- Remaining launch work requires hosting/account access: deployment and live checks, reliable support mail, Search Console ownership, real AdSense publisher verification and applicable certified CMP configuration. No real document upload, promotional post or support email was sent during this audit.

@@ -32,3 +32,15 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Generated local browser audit fixtures and profiles
+/scratch/chrome-production-profile/
+/scratch/axe/
+/scratch/axe-core-*.tgz
+/scratch/fixture-production-2page.pdf
+/scratch/fixture-encrypted.pdf
+/scratch/fixture-image.png
+/scratch/fixture-image.webp
+/scratch/homepage-*.png
+
+/scratch/fixture-small-page.pdf

@@ -93,8 +93,8 @@ export async function validateDocumentFile(
   const normalizedDeclared = (declaredMimeType || "").toLowerCase().trim();
   if (normalizedDeclared) {
     // If declared MIME conflicts with detected magic bytes (e.g. executable disguised as .pdf)
-    const isPdfMatch = detectedMime === "application/pdf" && normalizedDeclared.includes("pdf");
-    const isImageMatch = detectedMime.startsWith("image/") && (normalizedDeclared.startsWith("image/") || normalizedDeclared === "application/octet-stream");
+    const isPdfMatch = detectedMime === "application/pdf" && ["application/pdf", "application/octet-stream"].includes(normalizedDeclared);
+    const isImageMatch = detectedMime.startsWith("image/") && (normalizedDeclared === detectedMime || (detectedMime === "image/jpeg" && normalizedDeclared === "image/jpg") || normalizedDeclared === "application/octet-stream");
 
     if (!isPdfMatch && !isImageMatch) {
       return {
@@ -108,14 +108,14 @@ export async function validateDocumentFile(
   // 3. PDF Page Cap Enforcement (Max 20 pages for Cloud AI)
   if (detectedMime === "application/pdf") {
     try {
-      const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+      const pdfDoc = await PDFDocument.load(buffer);
       const pageCount = pdfDoc.getPageCount();
 
       if (pageCount > 20) {
         return {
           valid: false,
           status: 413,
-          error: `Document has ${pageCount} pages, exceeding the 20-page Cloud AI limit. For large documents, please use our unlimited 100% In-Browser Local Extraction.`,
+          error: `Document has ${pageCount} pages, exceeding the 20-page Cloud AI limit. For large documents, please use our In-Browser Local Extraction, subject to device memory limits.`,
           pageCount,
         };
       }

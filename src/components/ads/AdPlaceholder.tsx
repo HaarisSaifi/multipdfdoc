@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface AdPlaceholderProps {
   format?: "leaderboard" | "in-content" | "rectangle" | "skyscraper" | "horizontal";
@@ -10,55 +10,47 @@ interface AdPlaceholderProps {
   forcePreview?: boolean;
 }
 
-export function AdPlaceholder({
-  format = "in-content",
-  slot,
-  slotId = "default-slot",
-  className = "",
-  forcePreview = false,
-}: AdPlaceholderProps) {
-  const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
-  const activeSlot = slot || slotId;
-  const isHorizontal = format === "leaderboard" || format === "horizontal";
+let loader: Promise<void> | null = null;
+function loadAds(client: string) {
+  if (!loader) loader = new Promise<void>((resolve, reject) => {
+    const script = document.createElement("script");
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${client}`;
+    script.onload = () => resolve();
+    script.onerror = () => { script.remove(); loader = null; reject(new Error("Ad script unavailable")); };
+    document.head.appendChild(script);
+  });
+  return loader;
+}
 
-  // During AdSense review and pre-approval, never show empty placeholder containers
-  if (!adsenseClientId && !forcePreview) {
-    return null;
-  }
+export function AdPlaceholder({ format = "in-content", slot, slotId, className = "", forcePreview = false }: AdPlaceholderProps) {
+  const element = useRef<HTMLModElement>(null);
+  const client = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "";
+  const horizontal = format === "leaderboard" || format === "horizontal";
+  const configuredSlot = horizontal ? process.env.NEXT_PUBLIC_ADSENSE_SLOT_HORIZONTAL : process.env.NEXT_PUBLIC_ADSENSE_SLOT_RECTANGLE;
+  const candidate = slot || slotId || "";
+  const activeSlot = /^\d+$/.test(candidate) ? candidate : configuredSlot || "";
+  // Enable after approval, valid units and certified CMP setup in the account.
+  const enabled = process.env.NEXT_PUBLIC_ADSENSE_ENABLED === "true" && /^ca-pub-\d{16}$/.test(client) && /^\d+$/.test(activeSlot);
+  const height = horizontal ? "min-h-[90px]" : "min-h-[250px]";
 
-  // When AdSense is approved and client ID is provided
-  if (adsenseClientId) {
-    return (
-      <div className={`my-8 text-center overflow-hidden ${className}`}>
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client={adsenseClientId}
-          data-ad-slot={activeSlot}
-          data-ad-format={isHorizontal ? "horizontal" : format === "rectangle" ? "rectangle" : "auto"}
-          data-full-width-responsive="true"
-        />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!enabled) return;
+    let active = true;
+    loadAds(client).then(() => {
+      if (!active || !element.current || element.current.dataset.adsbygoogleStatus) return;
+      const adWindow = window as unknown as { adsbygoogle?: object[] };
+      try { (adWindow.adsbygoogle ||= []).push({}); } catch { /* Tool remains usable with blocked ads. */ }
+    }).catch(() => { /* Preserve reserved space when ads are unavailable. */ });
+    return () => { active = false; };
+  }, [enabled, client, activeSlot]);
 
-  // Developer preview mode only when forcePreview is explicitly true
+  if (!enabled && !(forcePreview && process.env.NODE_ENV === "development")) return null;
   return (
-    <div
-      className={`my-8 py-4 px-4 rounded-card border border-dashed border-slate-300 bg-slate-50/50 text-center transition-all ${className}`}
-      data-ad-slot={activeSlot}
-      data-ad-format={format}
-    >
-      <div className="text-[10px] uppercase tracking-wider text-slate-400 font-mono mb-1">
-        Sponsored Space (Configured for AdSense)
-      </div>
-      <div
-        className={`flex items-center justify-center text-xs text-slate-400 font-mono ${
-          isHorizontal ? "min-h-[90px]" : format === "rectangle" ? "min-h-[250px]" : "min-h-[120px]"
-        }`}
-      >
-        [ Slot: {activeSlot} • Zero CLS Reserved ]
-      </div>
-    </div>
+    <aside aria-label="Advertisement" className={`my-8 overflow-hidden text-center ${height} ${className}`}>
+      <span className="block text-[10px] text-slate-500 mb-2">Advertisement</span>
+      {enabled ? <ins ref={element} className="adsbygoogle" style={{ display: "block", width: "100%", height: horizontal ? 90 : 250 }} data-ad-client={client} data-ad-slot={activeSlot} data-ad-format={horizontal ? "horizontal" : "rectangle"} data-full-width-responsive="false" /> : <div className={`border border-dashed border-slate-300 rounded-2xl ${height}`}>Development ad preview</div>}
+    </aside>
   );
 }

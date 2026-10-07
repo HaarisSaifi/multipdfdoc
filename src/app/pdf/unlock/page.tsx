@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import { useDownloadUrl } from "@/lib/use-download-url";
+import React, { useState, useRef, useEffect } from "react";
 import { getPdfToolkit } from "@/lib/pdf/qpdf-toolkit";
 import {
   KeyRound,
@@ -14,7 +15,6 @@ import {
   EyeOff,
   AlertTriangle,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 export default function UnlockPdfPage() {
@@ -22,17 +22,19 @@ export default function UnlockPdfPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadUrl, setDownloadUrl] = useDownloadUrl();
   const [outputFileName, setOutputFileName] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => { setDownloadUrl(null); }, [password]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (processing) return;
     const selected = e.target.files?.[0];
     if (!selected) return;
 
-    if (selected.type !== "application/pdf" && !selected.name.endsWith(".pdf")) {
+    if (selected.type !== "application/pdf" && !selected.name.toLowerCase().endsWith(".pdf")) {
       setErrorMsg("Please select a valid PDF file.");
       return;
     }
@@ -93,7 +95,7 @@ export default function UnlockPdfPage() {
   };
 
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12"><fieldset disabled={processing} className="contents" aria-busy={processing}>
       {/* Hero Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-50 text-violet-800 border border-violet-200/80 shadow-sm">
@@ -114,6 +116,11 @@ export default function UnlockPdfPage() {
         <div className="lg:col-span-7 bubble-card p-6 sm:p-8 border border-slate-200/90 space-y-6">
           {!file ? (
             <div
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => { e.preventDefault(); if (processing) return; const input = fileInputRef.current; if (input) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event("change", { bubbles: true })); } }}
               onClick={() => fileInputRef.current?.click()}
               className="border-2 border-dashed border-slate-300 hover:border-violet-500 rounded-3xl p-10 text-center cursor-pointer transition-all hover:bg-violet-50/30 group"
             >
@@ -127,9 +134,9 @@ export default function UnlockPdfPage() {
               <div className="w-14 h-14 mx-auto rounded-2xl bg-violet-100 flex items-center justify-center text-violet-600 group-hover:scale-110 transition-transform shadow-sm mb-3">
                 <UploadCloud className="w-7 h-7" />
               </div>
-              <h3 className="font-display font-bold text-base text-slate-900 mb-1">
+              <h2 className="font-display font-bold text-base text-slate-900 mb-1">
                 Select Password-Protected PDF
-              </h3>
+              </h2>
               <p className="text-xs text-slate-500 max-w-xs mx-auto">
                 Drag and drop your protected document here. No files are transmitted across the internet.
               </p>
@@ -153,7 +160,7 @@ export default function UnlockPdfPage() {
                   setDownloadUrl(null);
                   setErrorMsg(null);
                 }}
-                className="text-xs text-slate-400 hover:text-rose-600 font-semibold"
+                className="text-xs text-slate-600 hover:text-rose-600 font-semibold"
               >
                 Change
               </button>
@@ -165,17 +172,18 @@ export default function UnlockPdfPage() {
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-800">Enter Document Password (If Required)</label>
                 <div className="relative">
-                  <input
+                  <input aria-label="Enter Document Password (If Required)"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter the PDF password..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 outline-none focus:border-violet-500 pr-10"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500 pr-10"
                   />
                   <button
                     type="button"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                    className="absolute right-3 top-2.5 text-slate-600 hover:text-slate-600"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -186,7 +194,7 @@ export default function UnlockPdfPage() {
               </div>
 
               {errorMsg && (
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center gap-2">
+                <div role="alert" className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700 flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 flex-shrink-0" />
                   <span>{errorMsg}</span>
                 </div>
@@ -246,38 +254,7 @@ export default function UnlockPdfPage() {
       </div>
 
       {/* AdSense Value Wrapper Layer */}
-      <ValueWrapper
-        toolName="Unlock PDF Password"
-        title="PDF Security Architecture: How Permissions Dictionaries & Document Decryption Work"
-        subtitle="Technical overview of PDF permissions removal, owner restrictions, and client-side privacy."
-        sections={[
-          {
-            heading: "1. Understanding Owner Passwords vs User Passwords",
-            content: `Many institutional PDFs (such as financial statements, medical lab reports, and academic journals) are locked with an 'Owner Permission' password. While the document can be read freely on screen, functions like 'Print Document', 'Copy Text', and 'Extract Pages' are greyed out.
 
-MultiPDF Doc extracts the underlying content streams and re-serializes the page tree into an open catalog dictionary, stripping away permission flags while maintaining original vector layout.`
-          },
-          {
-            heading: "2. Why Zero-Upload Decryption Protects Legal Confidentiality",
-            content: `Decrypting sensitive business agreements on cloud servers exposes unencrypted trade secrets to remote server logs. MultiPDF Doc processes everything in your browser's dedicated V8 JavaScript memory space.`
-          }
-        ]}
-        formula={{
-          title: "Stream Reconstruction Complexity",
-          formula: "Time = O(P) where P = Total Page Count | Memory = O(File_Size)",
-          explanation: "Linear extraction and page cloning executing in random access memory without intermediate disk buffering."
-        }}
-        faqs={[
-          {
-            question: "Does this tool work if I don't know the password to open the file?",
-            answer: "If a PDF has an active User Open Password, you must provide the password once so the browser can decrypt the file. If it only has printing/copying restrictions, it can be unlocked immediately."
-          },
-          {
-            question: "Is there any risk of file corruption?",
-            answer: "No. MultiPDF Doc losslessly copies original page objects, preserving all vector fonts, form fields, and embedded images."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

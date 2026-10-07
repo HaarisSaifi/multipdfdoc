@@ -62,10 +62,10 @@ export default function ContactPage() {
               <CheckCircle2 className="w-7 h-7" />
             </div>
             <h3 className="font-display font-bold text-lg text-slate-900">
-              Message Received Successfully
+              Inquiry Accepted for Delivery
             </h3>
             <p className="text-xs text-slate-600 max-w-md mx-auto">
-              Thank you for contacting us. The MultiPDF Doc team will review your feedback within 24–48 business hours.
+              Our email provider has accepted your inquiry for delivery. Inbox delivery and response times may vary. Please keep a copy of important correspondence.
             </p>
             <button
               onClick={() => {
@@ -85,7 +85,7 @@ export default function ContactPage() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             {errorMsg && (
-              <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2.5">
+              <div role="alert" className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2.5">
                 <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
@@ -94,35 +94,39 @@ export default function ContactPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-800">Your Full Name</label>
-                <input
+                <input aria-label="Your Full Name"
                   type="text"
+                  maxLength={100}
+                  autoComplete="name"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g. Alex Morgan"
-                  className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm outline-none focus:border-violet-500 focus:bg-white transition-all"
+                  className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500 focus:bg-white transition-all"
                 />
               </div>
 
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-800">Email Address</label>
-                <input
+                <input aria-label="Email Address"
                   type="email"
+                  maxLength={254}
+                  autoComplete="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="name@example.com"
-                  className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm outline-none focus:border-violet-500 focus:bg-white transition-all"
+                  className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500 focus:bg-white transition-all"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-800">Inquiry Topic</label>
-              <select
+              <select aria-label="Inquiry Topic"
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm outline-none focus:border-violet-500 focus:bg-white transition-all font-medium"
+                className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500 focus:bg-white transition-all font-medium"
               >
                 <option>Technical Inquiry & Tool Feedback</option>
                 <option>Bug Report / PDF Parsing Issue</option>
@@ -133,13 +137,14 @@ export default function ContactPage() {
 
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-800">Detailed Message</label>
-              <textarea
+              <textarea aria-label="Detailed Message"
+                maxLength={3000}
                 required
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 placeholder="Describe your inquiry, browser environment, or feedback in detail..."
-                className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm outline-none focus:border-violet-500 focus:bg-white transition-all"
+                className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-xs sm:text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500 focus:bg-white transition-all"
               />
             </div>
 

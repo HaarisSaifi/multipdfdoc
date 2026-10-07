@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Image as ImageIcon,
   UploadCloud,
@@ -15,9 +15,7 @@ import {
   Archive,
   Layers,
 } from "lucide-react";
-import JSZip from "jszip";
 import { getPdfJs, getSafePdfDocumentParams } from "@/lib/pdf/pdfjs-loader";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 interface RenderedPage {
@@ -40,7 +38,10 @@ export default function PDFToImagePage() {
   const [zipping, setZipping] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => { setPagesGenerated([]); }, [format, dpi]);
+
   const handleFile = async (f: File) => {
+    if (converting || zipping) return;
     if (f.type !== "application/pdf" && !f.name.toLowerCase().endsWith(".pdf")) {
       setErrorMsg("Please upload a valid PDF document.");
       return;
@@ -55,13 +56,16 @@ export default function PDFToImagePage() {
       const buffer = await f.arrayBuffer();
       const loadingTask = pdfjs.getDocument(getSafePdfDocumentParams(buffer));
       const pdf = await loadingTask.promise;
+      if (pdf.numPages > 50) { await pdf.destroy(); throw new Error("Image export supports up to 50 pages at a time. Split larger documents first."); }
       setPageCount(pdf.numPages);
+      await pdf.destroy();
     } catch (err: any) {
-      console.error("PDF.js loading error:", err);
+      setFile(null);
+      setPageCount(null);
       setErrorMsg(
         err?.name === "PasswordException"
           ? "This PDF is password-protected. Please unlock it using our Unlock PDF tool first."
-          : "Unable to parse PDF document. Please verify the file is not damaged."
+          : err.message || "Unable to parse PDF document. Please verify the file is not damaged."
       );
     }
   };
@@ -73,11 +77,13 @@ export default function PDFToImagePage() {
     setPagesGenerated([]);
     setProgressPage(0);
 
+    let renderingPdf: any = null;
     try {
       const pdfjs = await getPdfJs();
       const buffer = await file.arrayBuffer();
       const loadingTask = pdfjs.getDocument(getSafePdfDocumentParams(buffer));
       const pdf = await loadingTask.promise;
+      renderingPdf = pdf;
 
       const scale = dpi / 72; // Standard PDF points to target DPI
       const maxPagesToProcess = Math.min(pdf.numPages, 50); // High limit while guarding browser RAM
@@ -88,6 +94,7 @@ export default function PDFToImagePage() {
         const page = await pdf.getPage(i);
         const viewport = page.getViewport({ scale });
 
+        if (!Number.isFinite(viewport.width * viewport.height) || viewport.width * viewport.height > 20_000_000) throw new Error("Page is too large to render safely at this resolution. Try 150 DPI or split/rescale the source.");
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d", { alpha: format === "png" });
 
@@ -113,6 +120,7 @@ export default function PDFToImagePage() {
         const quality = format === "jpeg" ? 0.92 : undefined;
         const dataUrl = canvas.toDataURL(mime, quality);
 
+        page.cleanup();
         results.push({
           pageNum: i,
           dataUrl,
@@ -120,6 +128,7 @@ export default function PDFToImagePage() {
           height: canvas.height,
         });
 
+        canvas.width = canvas.height = 0;
         // Small yield to let UI re-render progress smoothly
         await new Promise((r) => setTimeout(r, 10));
       }
@@ -129,6 +138,7 @@ export default function PDFToImagePage() {
       console.error("Rendering error:", err);
       setErrorMsg(err.message || "Failed to render PDF pages into images.");
     } finally {
+      if (renderingPdf) await renderingPdf.destroy().catch(() => undefined);
       setConverting(false);
       setProgressPage(0);
     }
@@ -138,6 +148,7 @@ export default function PDFToImagePage() {
     if (pagesGenerated.length === 0 || !file) return;
     setZipping(true);
     try {
+      const { default: JSZip } = await import("jszip");
       const zip = new JSZip();
       const baseName = file.name.replace(/\.[^/.]+$/, "");
       const folder = zip.folder(`${baseName}-images`) || zip;
@@ -157,7 +168,7 @@ export default function PDFToImagePage() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     } catch (err: any) {
       console.error("Zip export error:", err);
       setErrorMsg("Failed to generate ZIP bundle. Please download individual images.");
@@ -167,7 +178,7 @@ export default function PDFToImagePage() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"><fieldset disabled={converting || zipping} className="contents" aria-busy={converting || zipping}>
       {/* Hero Header */}
       <div className="text-center space-y-4 mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -198,7 +209,10 @@ export default function PDFToImagePage() {
               setDragActive(false);
               if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
             }}
-            onClick={() => fileInputRef.current?.click()}
+            role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onClick={() => fileInputRef.current?.click()}
             className={`bubble-dropzone p-8 sm:p-12 text-center cursor-pointer transition-all ${
               dragActive ? "drag-active border-amber-600" : ""
             }`}
@@ -213,9 +227,9 @@ export default function PDFToImagePage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-3xl bg-white border border-amber-200 flex items-center justify-center text-amber-600 shadow-sm mb-5 group-hover:scale-110 transition-transform">
               <UploadCloud className="w-8 h-8 sm:w-10 sm:h-10 text-amber-600 animate-bounce" />
             </div>
-            <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
+            <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
               Select or Drop PDF to Convert to Images
-            </h3>
+            </h2>
             <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
               Direct vector rendering via Mozilla PDF.js. Your document never leaves your browser.
             </p>
@@ -228,7 +242,7 @@ export default function PDFToImagePage() {
                   <FileText className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-sm font-bold text-slate-900 truncate">{file.name}</h4>
+                  <h2 className="text-sm font-bold text-slate-900 truncate">{file.name}</h2>
                   <p className="text-xs text-slate-500 font-mono mt-0.5">
                     Pages: <span className="text-amber-600 font-bold">{pageCount ?? "Calculating..."}</span> • {(file.size / 1024 / 1024).toFixed(2)} MB
                   </p>
@@ -315,7 +329,7 @@ export default function PDFToImagePage() {
                 <div className="p-3 bg-amber-50/70 border border-amber-200 rounded-xl text-xs text-amber-800 flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 flex-shrink-0 text-amber-600" />
                   <span>
-                    To ensure smooth browser memory performance, the first 50 pages will be rendered.
+                    This exporter accepts up to 50 pages per batch. Split a larger document first.
                   </span>
                 </div>
               )}
@@ -370,7 +384,7 @@ export default function PDFToImagePage() {
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
+          <div role="alert" className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
             <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
             <span>{errorMsg}</span>
           </div>
@@ -453,62 +467,7 @@ export default function PDFToImagePage() {
       <AdPlaceholder slot="mid-rectangle" format="rectangle" />
 
       {/* Value Wrapper */}
-      <ValueWrapper
-        title="High-Resolution PDF to Image Conversion Guide: 150 DPI vs 300 DPI"
-        subtitle="How to extract pixel-perfect presentation slides, archival evidence, and print-ready raster imagery directly in your browser."
-        authorName="MultiPDF Doc Technology Team"
-        lastUpdated="Updated September 2026"
-        sources={[
-          {
-            title: "PDF 1.7 Reference: Rendering and Device Independence",
-            publisher: "Adobe & ISO 32000-1",
-            url: "https://www.adobe.com/devnet/pdf/pdf_reference.html",
-            accessed: "September 2026",
-          },
-          {
-            title: "Mozilla PDF.js: HTML5 Canvas Rasterization Architecture",
-            publisher: "Mozilla Foundation",
-            url: "https://mozilla.github.io/pdf.js/",
-            accessed: "September 2026",
-          },
-        ]}
-        sections={[
-          {
-            heading: "1. Understanding DPI Thresholds: Web Display vs. Professional Print",
-            content: `When converting vector PDF documents into raster formats (PNG or JPEG), Dots Per Inch (DPI) determines pixel density:
 
-• 150 DPI (Fast / Screen Quality): Recommended for PowerPoint slide decks, web publishing, LMS uploads, and email attachments. Keeps image file sizes under 1MB while ensuring legible text on Retina displays.
-• 300 DPI (Commercial Print Quality): The standard for legal depositions, court filings, billboard printing, and archival publications. Prevents pixelation even when zooming in on fine spreadsheet footnotes or microscopic vector signatures.`
-          },
-          {
-            heading: "2. Why PNG is Recommended for Typography and Vector Documents",
-            content: `Documents primarily consist of high-contrast text glyphs and line diagrams. JPEG compression relies on Discrete Cosine Transform (DCT) algorithms which cause 'ringing' artifacts and blur around sharp letter edges. PNG utilizes lossless Deflate compression, guaranteeing razor-sharp character outlines across all display resolutions.`
-          },
-          {
-            heading: "3. Direct In-Browser Canvas Architecture",
-            content: `Unlike legacy converter portals that upload your sensitive documents to remote servers, MultiPDF Doc executes the entire rasterization process inside your browser using Mozilla PDF.js. Your document bytes never leave your physical machine.`
-          }
-        ]}
-        formula={{
-          title: "Exact Canvas Dimension Formula",
-          formula: "Canvas_Width = Math.ceil(Viewport_Points_X * (DPI / 72)) | Canvas_Height = Math.ceil(Viewport_Points_Y * (DPI / 72))",
-          explanation: "Standard US Letter (612 x 792 pt) renders at 150 DPI as 1,275 x 1,650 pixels (2.1 MP), and at 300 DPI as 2,550 x 3,300 pixels (8.4 Megapixels)."
-        }}
-        faqs={[
-          {
-            question: "Are my PDF pages uploaded to any cloud server?",
-            answer: "No. All rendering executes locally inside your web browser using HTML5 Canvas and Mozilla PDF.js. No document bytes are transmitted to any server."
-          },
-          {
-            question: "Can I download all pages together in a single file?",
-            answer: "Yes. When converting documents with multiple pages, a 'Download All as ZIP' button appears, allowing you to bundle all extracted images into an uncompressed archive."
-          },
-          {
-            question: "Why does 300 DPI take longer to render than 150 DPI?",
-            answer: "At 300 DPI, each page generates four times as many pixels as 150 DPI (approx. 8.4 million pixels per page vs 2.1 million), requiring additional GPU rasterization cycles."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

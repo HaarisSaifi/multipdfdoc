@@ -12,7 +12,6 @@ import {
   School,
   TrendingUp,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 interface CourseRow {
@@ -83,11 +82,11 @@ export default function GpaConverterPage() {
   courses.forEach((c) => {
     const basePts = GRADE_POINTS[c.grade] ?? 0;
     const bonus = LEVEL_WEIGHT_BONUS[c.level] ?? 0;
-    const cred = c.credits > 0 ? c.credits : 1;
+    const cred = Number.isFinite(c.credits) ? Math.max(0, c.credits) : 0;
 
     totalCredits += cred;
     unweightedQualityPoints += basePts * cred;
-    weightedQualityPoints += (basePts + bonus) * cred;
+    weightedQualityPoints += (basePts + (basePts > 0 ? bonus : 0)) * cred;
   });
 
   const unweightedGpa = totalCredits > 0 ? unweightedQualityPoints / totalCredits : 0;
@@ -99,7 +98,7 @@ export default function GpaConverterPage() {
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-50 text-violet-800 border border-violet-200/80 shadow-sm">
           <GraduationCap className="w-3.5 h-3.5 text-violet-600" />
-          <span>US College Admissions Standard • Unweighted 4.0 & Weighted 5.0</span>
+          <span>Course-by-course GPA Estimate • Unweighted 4.0 & Weighted 5.0</span>
         </div>
         <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-slate-900 tracking-tight">
           Weighted to Unweighted GPA Converter
@@ -134,19 +133,19 @@ export default function GpaConverterPage() {
                 key={course.id}
                 className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 p-3 rounded-2xl bg-slate-50 border border-slate-200"
               >
-                <input
+                <input aria-label="Course title"
                   type="text"
                   placeholder="Course Title"
                   value={course.name}
                   onChange={(e) => updateCourse(course.id, "name", e.target.value)}
-                  className="flex-1 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 outline-none focus:border-violet-500"
+                  className="flex-1 min-w-0 px-3 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
                 />
 
-                <div className="flex items-center gap-2">
-                  <select
+                <div className="flex flex-wrap items-center gap-2">
+                  <select aria-label="Course grade"
                     value={course.grade}
                     onChange={(e) => updateCourse(course.id, "grade", e.target.value)}
-                    className="px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-900 outline-none"
+                    className="px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
                   >
                     {Object.keys(GRADE_POINTS).map((g) => (
                       <option key={g} value={g}>
@@ -155,21 +154,25 @@ export default function GpaConverterPage() {
                     ))}
                   </select>
 
-                  <select
+                  <select aria-label="Course difficulty"
                     value={course.level}
                     onChange={(e) => updateCourse(course.id, "level", e.target.value)}
-                    className="px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 outline-none"
+                    className="px-2.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
                   >
                     <option value="regular">Regular (4.0)</option>
                     <option value="honors">Honors (+0.5)</option>
                     <option value="ap_ib">AP / IB / Dual (+1.0)</option>
                   </select>
 
-                  <button
+                  <label className="text-xs font-semibold text-slate-700 flex items-center gap-1">Credits
+                    <input aria-label="Course credits" type="number" min="0" max="1000" step="0.25" value={course.credits} onChange={(e) => updateCourse(course.id, "credits", Math.min(1000, Math.max(0, Number(e.target.value))))} className="w-16 min-w-0 px-2 py-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-900" />
+                  </label>
+
+                  <button aria-label="Remove this row"
                     type="button"
                     onClick={() => removeCourse(course.id)}
                     disabled={courses.length <= 1}
-                    className="p-1.5 text-slate-400 hover:text-rose-600 disabled:opacity-30 transition-colors"
+                    className="p-1.5 text-slate-600 hover:text-rose-600 disabled:opacity-30 transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -186,50 +189,30 @@ export default function GpaConverterPage() {
               Cumulative Academic Scores
             </span>
 
+            {totalCredits <= 0 && <p role="status" className="text-sm text-slate-600">Enter at least one positive-credit course to calculate GPA.</p>}
             {/* Dual Score Cards */}
             <div className="grid grid-cols-2 gap-4 py-2">
               <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
                 <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Unweighted</span>
                 <div className="text-3xl sm:text-4xl font-display font-extrabold text-slate-900">
-                  {unweightedGpa.toFixed(2)}
+                  {totalCredits > 0 ? unweightedGpa.toFixed(2) : "—"}
                 </div>
-                <span className="text-[10px] font-mono text-slate-400">Out of 4.00</span>
+                <span className="text-[10px] font-mono text-slate-600">Out of 4.00</span>
               </div>
 
               <div className="p-4 rounded-2xl bg-violet-50 border border-violet-200 space-y-1">
                 <span className="text-[11px] font-bold text-violet-700 uppercase tracking-wide">Weighted</span>
                 <div className="text-3xl sm:text-4xl font-display font-extrabold text-violet-700">
-                  {weightedGpa.toFixed(2)}
+                  {totalCredits > 0 ? weightedGpa.toFixed(2) : "—"}
                 </div>
-                <span className="text-[10px] font-mono text-violet-500">Out of 5.00</span>
+                <span className="text-[10px] font-mono text-violet-700">Out of 5.00</span>
               </div>
             </div>
 
-            {/* Benchmark College Cutoff Comparison */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left space-y-2.5">
-              <div className="flex items-center gap-2 font-bold text-xs text-slate-900">
-                <School className="w-4 h-4 text-violet-600" />
-                <span>US University Benchmark Ranges</span>
-              </div>
-              <div className="space-y-1.5 text-[11px] text-slate-600">
-                <div className="flex justify-between border-b border-slate-200/70 pb-1">
-                  <span>Ivy League / Top 15 (MIT, Stanford):</span>
-                  <span className="font-bold text-slate-900">3.90+ Unw / 4.4+ W</span>
-                </div>
-                <div className="flex justify-between border-b border-slate-200/70 pb-1">
-                  <span>Top 50 State Flagships (UCLA, UF, UT Austin):</span>
-                  <span className="font-bold text-slate-900">3.75+ Unw / 4.1+ W</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Standard College Admissions:</span>
-                  <span className="font-bold text-slate-900">3.00+ Unw / 3.4+ W</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="text-[11px] text-slate-500 flex items-center justify-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Standard College Board & Common App conversion format</span>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-left text-sm text-slate-600 space-y-2">
+              <h3 className="font-bold text-slate-900">Understand your estimate</h3>
+              <p>This calculator uses +0.5 for Honors and +1.0 for AP/IB passing grades. Your school may use another policy. Zero-credit courses are excluded.</p>
+              <p>These numbers are not admissions cutoffs or a UC GPA calculation. Report your official transcript and follow each college’s instructions.</p>
             </div>
           </div>
 
@@ -238,48 +221,7 @@ export default function GpaConverterPage() {
       </div>
 
       {/* AdSense Value Wrapper Layer */}
-      <ValueWrapper
-        toolName="Weighted to Unweighted GPA Converter"
-        title="Official Academic Standards: High School GPA Scaling & College Admissions Conversion"
-        subtitle="How the Common Application, UC admissions, and state universities interpret weighted vs unweighted GPA."
-        sections={[
-          {
-            heading: "1. The Fundamental Difference: Unweighted 4.0 vs Weighted 5.0 Scales",
-            content: `The standard unweighted Grade Point Average (GPA) measures raw academic performance on a fixed 0.0 to 4.00 scale regardless of course rigor:
-• An 'A' in standard introductory gym awards 4.0 quality points, exactly matching an 'A' in college-level Multivariable Calculus.
 
-To reward students who undertake demanding coursework, high schools utilize Weighted GPA scales that apply quality point adders:
-• Honors Courses: Typically receive a +0.5 weight bonus (where an A equals 4.5).
-• Advanced Placement (AP) and International Baccalaureate (IB): Receive a +1.0 weight bonus (where an A equals 5.0).
-• Dual-Enrollment College Credits: Typically credited with a +1.0 weight bonus under state university articulation agreements.`
-          },
-          {
-            heading: "2. Why College Admissions Officers Recalculate Your GPA",
-            content: `Because every high school calculates weighted GPAs using slightly different proprietary formulas (some capping weighted GPA at 4.5, others allowing scores up to 5.3), major university systems (such as the University of California and State University of New York) strip away local weighting and recalculate applicant GPAs using a unified standard.
-
-Understanding both your unweighted baseline and weighted rigor profile ensures you target realistic admissions percentiles.`
-          }
-        ]}
-        formula={{
-          title: "Grade Point Average Formula",
-          formula: "GPA = Σ(Course_Credits * Grade_Points) / Σ(Course_Credits)",
-          explanation: "The standard credit-weighted quality point average recommended by the National Association for College Admission Counseling (NACAC)."
-        }}
-        faqs={[
-          {
-            question: "Do colleges care more about weighted or unweighted GPA?",
-            answer: "Admissions officers evaluate both: unweighted GPA demonstrates your core grade consistency, while weighted GPA verifies that you challenged yourself with the most rigorous curriculum available at your school."
-          },
-          {
-            question: "How does an A- or B+ factor into the scale?",
-            answer: "Under the standard plus/minus system, an A- earns 3.7 unweighted points, a B+ earns 3.3 points, and a B earns 3.0 points."
-          },
-          {
-            question: "Is this calculation saved on your server?",
-            answer: "No. MultiPDF Doc processes all grade inputs locally in your browser with zero server data collection or transmission."
-          }
-        ]}
-      />
     </div>
   );
 }

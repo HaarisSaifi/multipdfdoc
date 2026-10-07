@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -32,10 +32,27 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isNavigating, setIsNavigating] = useState(false);
+  const searchDialog = useRef<HTMLDialogElement>(null);
+  const searchInput = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!searchOpen) return;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    searchDialog.current?.showModal();
+    searchInput.current?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
+    };
+  }, [searchOpen]);
 
   // Clear transition indicator on route change
   useEffect(() => {
     setIsNavigating(false);
+    setMobileMenuOpen(false);
+    setSearchOpen(false);
   }, [pathname]);
 
   // Global keyboard shortcut: Ctrl+K / Cmd+K to open search, Escape to close
@@ -70,7 +87,7 @@ export function Navbar() {
   ];
 
   const searchable = [
-    { title: "Compliance & Technical Guides", desc: "USCIS 200KB compression, freelance invoice rules, and GPA admissions guides", href: "/blog", badge: "BLOG" },
+    { title: "Compliance & Technical Guides", desc: "PDF compression and portal limits, freelance invoice rules, and GPA admissions guides", href: "/blog", badge: "BLOG" },
     { title: "PDF & Image to Text OCR", desc: "Extract text and handwriting using in-browser or AI neural scan", href: "/pdf/to-text", badge: "AI OCR" },
     { title: "Merge PDF Files", desc: "Combine multiple PDFs into one document locally", href: "/pdf/merge", badge: "POPULAR" },
     { title: "Split PDF Pages", desc: "Extract specific page spans or single chapters", href: "/pdf/split", badge: "FAST" },
@@ -84,8 +101,8 @@ export function Navbar() {
     { title: "Unlock PDF Password", desc: "Locally remove passwords from secured PDFs", href: "/pdf/unlock", badge: "DECRYPT" },
     { title: "Add Page Numbers to PDF", desc: "Stamp custom Bates header/footer pagination", href: "/pdf/page-numbers", badge: "PAGINATE" },
     { title: "Final Exam Grade Target Calculator", desc: "Panic vs Chill simulator for required final exam score", href: "/calc/final-grade", badge: "STUDENT" },
-    { title: "Weighted to Unweighted GPA Converter", desc: "Convert AP/IB credits to 4.0 scale with college cutoffs", href: "/calc/gpa", badge: "COLLEGE" },
-    { title: "Words to Pages & Speech Timer", desc: "Exact page and speech minutes calculation", href: "/calc/words-to-pages", badge: "PAGES" },
+    { title: "Weighted to Unweighted GPA Converter", desc: "Convert AP/IB credits to 4.0 scale using the displayed grade scale", href: "/calc/gpa", badge: "COLLEGE" },
+    { title: "Words to Pages & Speech Timer", desc: "Estimated page count and speech duration", href: "/calc/words-to-pages", badge: "PAGES" },
   ];
 
   const filtered = searchQuery.trim() === ""
@@ -105,13 +122,14 @@ export function Navbar() {
       )}
 
       <header className="sticky top-3.5 z-50 px-3 sm:px-6 w-full max-w-[1520px] mx-auto transition-all">
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         {/* Sleek, Wide Floating Claymorphic Capsule Navbar */}
         <div className="rounded-full bg-white/95 backdrop-blur-2xl border border-white/90 shadow-clay-nav px-3.5 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2 lg:gap-4 transition-all">
-          
+
           {/* Brand Identity - Single Line Compact Layout */}
           <Link
             href="/"
-            prefetch={true}
+            prefetch={false}
             onMouseEnter={() => router.prefetch("/")}
             onClick={() => handleLinkClick("/")}
             className="flex items-center gap-2.5 group flex-shrink-0"
@@ -125,13 +143,13 @@ export function Navbar() {
               </span>
               <span className="hidden xl:inline-flex items-center gap-1 text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-bold border border-emerald-200/80 shadow-sm">
                 <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                100% In-Browser
+                Local Core Tools
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Tools Strip - Single Line (whitespace-nowrap) */}
-          <nav className="hidden lg:flex items-center gap-1 p-1 rounded-full bg-slate-100/80 border border-slate-200/60 overflow-x-auto">
+          <nav className="hidden lg:flex min-w-0 flex-1 items-center gap-1 p-1 rounded-full bg-slate-100/80 border border-slate-200/60 overflow-x-auto nav-scroll">
             {mainTools.map((tool) => {
               const Icon = tool.icon;
               const active = pathname === tool.href;
@@ -139,11 +157,11 @@ export function Navbar() {
                 <Link
                   key={tool.name}
                   href={tool.href}
-                  prefetch={true}
+                  prefetch={false}
                   onMouseEnter={() => router.prefetch(tool.href)}
                   onTouchStart={() => router.prefetch(tool.href)}
                   onClick={() => handleLinkClick(tool.href)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
+                  className={`flex items-center gap-1.5 px-2 xl:px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                     active
                       ? "bg-white text-violet-700 shadow-sm border border-slate-200/90 font-bold scale-102"
                       : `text-slate-600 ${tool.hoverBg}`
@@ -160,22 +178,22 @@ export function Navbar() {
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <button
               onClick={() => setSearchOpen(true)}
+              aria-label="Search tools"
+              aria-haspopup="dialog"
+              aria-keyshortcuts="Control+k Meta+k"
               className="flex items-center gap-2 px-3 py-1.5 sm:py-2 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200/70 border border-slate-200/80 text-slate-600 hover:text-slate-900 transition-all shadow-sm"
               title="Quick Search Tools (Ctrl+K / Cmd+K)"
             >
               <Search className="w-3.5 h-3.5 text-violet-600" />
-              <span className="hidden md:inline whitespace-nowrap">Search tools...</span>
-              <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[10px] font-mono rounded bg-white border border-slate-200 text-slate-500 shadow-sm">
-                ⌘K
-              </kbd>
+              <span className="hidden md:inline whitespace-nowrap">Search tools</span>
             </button>
 
             <Link
               href="/pdf/merge"
-              prefetch={true}
+              prefetch={false}
               onMouseEnter={() => router.prefetch("/pdf/merge")}
               onClick={() => handleLinkClick("/pdf/merge")}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold btn-bubble btn-bubble-violet shadow-clay-pill whitespace-nowrap flex-shrink-0"
+              className="hidden min-[400px]:inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold btn-bubble btn-bubble-violet shadow-clay-pill whitespace-nowrap flex-shrink-0"
             >
               <Sparkles className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Launch Merger</span>
@@ -187,6 +205,8 @@ export function Navbar() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-2 rounded-xl bg-slate-100 border border-slate-200 text-slate-600 hover:text-slate-900"
               aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
@@ -195,18 +215,19 @@ export function Navbar() {
 
         {/* Mobile Collapsible Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-2 p-3.5 rounded-3xl bg-white/95 backdrop-blur-xl border border-slate-200 shadow-xl space-y-1.5 animate-in slide-in-from-top-2 duration-150">
-            <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 pb-1">
+          <nav id="mobile-navigation" aria-label="Mobile navigation" className="lg:hidden mt-2 p-3.5 rounded-3xl bg-white/95 backdrop-blur-xl border border-slate-200 shadow-xl space-y-1.5 max-h-[75vh] overflow-y-auto">
+            <div className="text-[11px] font-bold text-slate-600 uppercase tracking-wider px-3 pb-1">
               PDF Utilities
             </div>
-            {mainTools.map((tool) => {
-              const Icon = tool.icon;
+            {searchable.map((item) => {
+              const tool = { name: item.title, href: item.href, color: "text-violet-600" };
+              const Icon = FileText;
               const active = pathname === tool.href;
               return (
                 <Link
                   key={tool.name}
                   href={tool.href}
-                  prefetch={true}
+                  prefetch={false}
                   onMouseEnter={() => router.prefetch(tool.href)}
                   onTouchStart={() => router.prefetch(tool.href)}
                   onClick={() => {
@@ -223,26 +244,28 @@ export function Navbar() {
                     <Icon className={`w-4 h-4 ${tool.color}`} />
                     <span>{tool.name}</span>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+                  <ArrowRight className="w-3.5 h-3.5 text-slate-600" />
                 </Link>
               );
             })}
-          </div>
+          </nav>
         )}
 
         {/* Quick Search Modal */}
         {searchOpen && (
-          <div className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-start justify-center pt-24 px-4">
+          <dialog ref={searchDialog} aria-labelledby="tool-search-title" onCancel={() => setSearchOpen(false)} onClick={(event) => { if (event.target === event.currentTarget) setSearchOpen(false); }} className="tool-search-dialog">
             <div className="w-full max-w-xl bg-white border border-slate-200 rounded-3xl shadow-2xl p-6 overflow-hidden animate-in zoom-in-95 duration-150">
+              <h2 id="tool-search-title" className="sr-only">Search MultiPDF Doc tools</h2>
               <div className="flex items-center gap-3 border-b border-slate-200 pb-4">
                 <Search className="w-5 h-5 text-violet-600" />
                 <input
                   type="text"
-                  autoFocus
+                  ref={searchInput}
+                  aria-label="Search tools"
                   placeholder="Search PDF tools (e.g. merge, split, compress 200kb)..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-transparent outline-none text-sm text-slate-900 placeholder-slate-400 font-medium"
+                  className="w-full bg-transparent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 text-sm text-slate-900 placeholder-slate-400 font-medium"
                 />
                 <button
                   onClick={() => setSearchOpen(false)}
@@ -253,11 +276,12 @@ export function Navbar() {
               </div>
 
               <div className="mt-4 max-h-80 overflow-y-auto space-y-2">
+                {filtered.length === 0 && <p role="status" className="p-4 text-sm text-slate-600">No tools found. Try PDF, invoice or grade.</p>}
                 {filtered.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    prefetch={true}
+                    prefetch={false}
                     onMouseEnter={() => router.prefetch(item.href)}
                     onClick={() => {
                       setSearchOpen(false);
@@ -268,7 +292,7 @@ export function Navbar() {
                     <div>
                       <div className="text-sm font-bold text-slate-900 group-hover:text-violet-700 flex items-center gap-2">
                         <span>{item.title}</span>
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-violet-100 text-violet-700 font-mono font-bold">
+                        <span className="text-[10px] px-2 py-0.5 whitespace-nowrap rounded-full bg-violet-100 text-violet-700 font-mono font-bold">
                           {item.badge}
                         </span>
                       </div>
@@ -283,7 +307,7 @@ export function Navbar() {
                 ))}
               </div>
             </div>
-          </div>
+          </dialog>
         )}
       </header>
     </>

@@ -1,7 +1,7 @@
 "use client";
 
+import { useDownloadUrl } from "@/lib/use-download-url";
 import React, { useState, useRef } from "react";
-import { PDFDocument, degrees } from "pdf-lib";
 import {
   RotateCw,
   RotateCcw,
@@ -17,7 +17,6 @@ import {
   Sparkles,
   RefreshCw,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 interface PageItem {
@@ -30,12 +29,13 @@ export default function OrganizePDFPage() {
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<PageItem[]>([]);
   const [saving, setSaving] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadUrl, setDownloadUrl] = useDownloadUrl();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (f: File) => {
+    if (saving) return;
     if (f.type !== "application/pdf" && !f.name.toLowerCase().endsWith(".pdf")) {
       setErrorMsg("Please upload a valid PDF document.");
       return;
@@ -46,7 +46,8 @@ export default function OrganizePDFPage() {
 
     try {
       const buffer = await f.arrayBuffer();
-      const doc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+      const { PDFDocument, degrees } = await import("pdf-lib");
+      const doc = await PDFDocument.load(buffer);
       const count = doc.getPageCount();
 
       const initialPages: PageItem[] = [];
@@ -60,6 +61,7 @@ export default function OrganizePDFPage() {
       }
       setPages(initialPages);
     } catch (err) {
+      setFile(null);
       setErrorMsg("Unable to parse PDF. It may be password protected.");
     }
   };
@@ -106,6 +108,7 @@ export default function OrganizePDFPage() {
 
     try {
       const buffer = await file.arrayBuffer();
+      const { PDFDocument, degrees } = await import("pdf-lib");
       const sourcePdf = await PDFDocument.load(buffer);
       const newPdf = await PDFDocument.create();
 
@@ -128,7 +131,7 @@ export default function OrganizePDFPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"><fieldset disabled={saving} className="contents" aria-busy={saving}>
       {/* Hero Header */}
       <div className="text-center space-y-4 mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -159,7 +162,10 @@ export default function OrganizePDFPage() {
               setDragActive(false);
               if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
             }}
-            onClick={() => fileInputRef.current?.click()}
+            role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onClick={() => fileInputRef.current?.click()}
             className={`bubble-dropzone p-8 sm:p-12 text-center cursor-pointer transition-all ${
               dragActive ? "drag-active border-violet-600" : ""
             }`}
@@ -174,9 +180,9 @@ export default function OrganizePDFPage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-3xl bg-white border border-violet-200 flex items-center justify-center text-violet-600 shadow-sm mb-5 group-hover:scale-110 transition-transform">
               <UploadCloud className="w-8 h-8 sm:w-10 sm:h-10 text-violet-600 animate-bounce" />
             </div>
-            <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
+            <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
               Select or Drop PDF to Organize
-            </h3>
+            </h2>
             <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
               Inspect all document pages. Reorder, rotate, and delete pages entirely in memory.
             </p>
@@ -189,7 +195,7 @@ export default function OrganizePDFPage() {
                   <FileText className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-sm font-bold text-slate-900 truncate">{file.name}</h4>
+                  <h2 className="text-sm font-bold text-slate-900 truncate">{file.name}</h2>
                   <p className="text-xs text-slate-500 font-mono mt-0.5">
                     Active Pages: <span className="text-violet-600 font-bold">{pages.length}</span> • {(file.size / 1024 / 1024).toFixed(2)} MB
                   </p>
@@ -316,7 +322,7 @@ export default function OrganizePDFPage() {
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
+          <div role="alert" className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
             <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
             <span>{errorMsg}</span>
           </div>
@@ -329,9 +335,9 @@ export default function OrganizePDFPage() {
               <CheckCircle2 className="w-7 h-7" />
             </div>
             <div>
-              <h4 className="text-xl font-display font-bold text-slate-900">
+              <h2 className="text-xl font-display font-bold text-slate-900">
                 Your Organized PDF is Ready!
-              </h4>
+              </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1 font-mono">
                 Document restructured with {pages.length} pages • Zero server upload
               </p>
@@ -353,37 +359,7 @@ export default function OrganizePDFPage() {
       <AdPlaceholder slot="mid-rectangle" format="rectangle" />
 
       {/* SEO Value Wrapper */}
-      <ValueWrapper
-        title="Restructuring PDF Sequences: Professional Orientation & Page Management"
-        subtitle="Techniques for fixing upside-down scanner feeds, aligning mixed portrait/landscape spreadsheets, and pruning blank filler pages."
-        sections={[
-          {
-            heading: "1. Correcting Orientation Glitches from Multi-Function Office Scanners",
-            content: `Automatic Document Feeder (ADF) scanners frequently invert alternating pages or scan landscape accounting ledger sheets in portrait mode. When submitted to digital record vaults, these inverted pages trigger automated optical processing failures.
 
-MultiPDF Doc allows you to rotate individual pages in 90-degree increments to ensure all charts, signature fields, and footnotes conform to standard reading orientation.`
-          },
-          {
-            heading: "2. Pruning Blank Separator Pages without Breaking Document Catalogues",
-            content: `Scanning double-sided contracts often produces blank reverse pages that artificially inflate file sizes. Deleting these superfluous pages directly in MultiPDF Doc cleans up your final submission while preserving internal font and metadata integrity.`
-          }
-        ]}
-        formula={{
-          title: "Page Coordinate Matrix Rotation",
-          formula: "R(θ) = [cos θ, -sin θ; sin θ, cos θ] where θ ∈ {0°, 90°, 180°, 270°}",
-          explanation: "MultiPDF Doc modifies the internal /Rotate attribute within the PDF page dictionary object, adjusting viewport dimensions without modifying raster pixel streams."
-        }}
-        faqs={[
-          {
-            question: "Does rotating pages alter the document's text searchability?",
-            answer: "No. The underlying OCR and text coordinate streams remain 100% searchable and copy-pasteable. Only the viewing transformation matrix is updated."
-          },
-          {
-            question: "Can I undo page deletions before downloading?",
-            answer: "Yes. All operations occur in browser memory. You can re-upload your document at any time to restore deleted pages."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

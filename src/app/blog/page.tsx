@@ -22,11 +22,11 @@ export default function BlogIndexPage() {
   const articles = [
     {
       slug: "compress-pdf-200kb-uscis-passport-guide",
-      title: "How to Compress PDF to Exactly 200KB for USCIS, Visa & Passport Portals",
+      title: "Compress a PDF for Government Portals: When a 200KB Target Makes Sense",
       description:
-        "A complete walkthrough for immigration applicants, foreign workers, and attorneys navigating strict 240KB government portal file limits without blurry scans.",
+        "Check actual portal limits, choose a realistic target, and verify readable evidence before submission.",
       category: "Immigration & Legal",
-      readTime: "6 min read",
+      readTime: "7 min read",
       date: "September 18, 2026",
       badge: "GOVERNMENT PORTALS",
       badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
@@ -35,9 +35,9 @@ export default function BlogIndexPage() {
     },
     {
       slug: "freelance-invoice-payment-terms-guide",
-      title: "Freelance Invoice Compliance: Payment Terms, Tax Rules & Legally Binding Templates",
+      title: "Freelance Invoices: Clear Payment Terms, Accurate Totals and Better Records",
       description:
-        "Learn how US and international freelancers structure Net 15/30 payment terms, handle IRS Form 1099 thresholds, and eliminate non-payment disputes.",
+        "Learn how US and international freelancers structure Net 15/30 payment terms, handle IRS Form 1099 thresholds, and keep a clear billing record.",
       category: "Business & Finance",
       readTime: "7 min read",
       date: "September 16, 2026",
@@ -48,11 +48,11 @@ export default function BlogIndexPage() {
     },
     {
       slug: "weighted-vs-unweighted-gpa-college-admissions",
-      title: "Weighted vs. Unweighted GPA: How Top 50 US Colleges Recalculate Your High School Transcript",
+      title: "Weighted and Unweighted GPA: Calculate from Courses, Then Check College Rules",
       description:
-        "Understand the critical differences between a 4.0 unweighted GPA and a 5.0 weighted GPA, including AP/IB honor boosts and holistic admissions cutoffs.",
+        "Understand the critical differences between a 4.0 unweighted GPA and a 5.0 weighted GPA, including AP/IB honor boosts and institution-specific calculation rules.",
       category: "Academics",
-      readTime: "8 min read",
+      readTime: "7 min read",
       date: "September 14, 2026",
       badge: "COLLEGE ADMISSIONS",
       badgeColor: "bg-amber-50 text-amber-700 border-amber-200",
@@ -61,11 +61,11 @@ export default function BlogIndexPage() {
     },
     {
       slug: "zero-knowledge-pdf-privacy-cloud-converter-risks",
-      title: "Zero-Knowledge In-Browser PDF Processing: Why Cloud Converters Expose Sensitive Contracts",
+      title: "Local PDF Processing and Cloud Uploads: How to Check the Privacy Boundary",
       description:
         "An engineering security breakdown of why uploading NDA agreements, medical records, and tax returns to cloud PDF converters introduces third-party data risks.",
       category: "Security & Privacy",
-      readTime: "6 min read",
+      readTime: "7 min read",
       date: "September 12, 2026",
       badge: "DATA PRIVACY",
       badgeColor: "bg-violet-50 text-violet-700 border-violet-200",
@@ -114,7 +114,8 @@ export default function BlogIndexPage() {
           {categories.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
+              aria-pressed={selectedCategory === cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
               className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 border ${
                 selectedCategory === cat.id
                   ? "bg-slate-900 text-white border-slate-900 shadow-clay-card"
@@ -141,7 +142,7 @@ export default function BlogIndexPage() {
                   >
                     {article.badge}
                   </span>
-                  <span className="text-xs text-slate-400 flex items-center gap-1">
+                  <span className="text-xs text-slate-600 flex items-center gap-1">
                     <Clock className="w-3.5 h-3.5" />
                     {article.readTime}
                   </span>
@@ -163,7 +164,7 @@ export default function BlogIndexPage() {
               {/* Bottom Footer & Tool CTA */}
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
                 <div className="text-[11px] text-slate-500 flex items-center gap-1.5 font-medium">
-                  <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                  <Calendar className="w-3.5 h-3.5 text-slate-600" />
                   <span>{article.date}</span>
                 </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { PDFDocument } from "pdf-lib";
+import { useDownloadUrl } from "@/lib/use-download-url";
+import React, { useState, useRef, useEffect } from "react";
 import {
   FileImage,
   UploadCloud,
@@ -17,7 +17,6 @@ import {
   RefreshCw,
   Plus,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 interface ImageItem {
@@ -31,12 +30,15 @@ interface ImageItem {
 export default function ImagesToPDFPage() {
   const [images, setImages] = useState<ImageItem[]>([]);
   const [converting, setConverting] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadUrl, setDownloadUrl] = useDownloadUrl();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const previewUrls = useRef(new Set<string>());
+  useEffect(() => () => { previewUrls.current.forEach((url) => URL.revokeObjectURL(url)); }, []);
 
   const handleImages = (fileList: FileList | null) => {
+    if (converting) return;
     if (!fileList || fileList.length === 0) return;
     setErrorMsg(null);
     setDownloadUrl(null);
@@ -44,12 +46,14 @@ export default function ImagesToPDFPage() {
     const validImages: ImageItem[] = [];
     for (let i = 0; i < fileList.length; i++) {
       const f = fileList[i];
-      if (f.type.startsWith("image/")) {
+      if (["image/png", "image/jpeg", "image/webp"].includes(f.type)) {
+        const previewUrl = URL.createObjectURL(f);
+        previewUrls.current.add(previewUrl);
         validImages.push({
           id: Math.random().toString(36).substring(2, 9),
           file: f,
           name: f.name,
-          previewUrl: URL.createObjectURL(f),
+          previewUrl,
           size: f.size,
         });
       }
@@ -80,6 +84,8 @@ export default function ImagesToPDFPage() {
   };
 
   const removeItem = (id: string) => {
+    const item = images.find((image) => image.id === id);
+    if (item) { URL.revokeObjectURL(item.previewUrl); previewUrls.current.delete(item.previewUrl); }
     setImages((prev) => prev.filter((item) => item.id !== id));
     setDownloadUrl(null);
   };
@@ -91,6 +97,7 @@ export default function ImagesToPDFPage() {
     setDownloadUrl(null);
 
     try {
+      const { PDFDocument } = await import("pdf-lib");
       const pdfDoc = await PDFDocument.create();
 
       for (const item of images) {
@@ -99,6 +106,20 @@ export default function ImagesToPDFPage() {
 
         if (item.file.type === "image/png") {
           embeddedImage = await pdfDoc.embedPng(buffer);
+        } else if (item.file.type === "image/webp") {
+          // pdf-lib embeds PNG/JPEG; decode WebP locally and retain transparency via PNG.
+          const bitmap = await createImageBitmap(item.file);
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = bitmap.width;
+            canvas.height = bitmap.height;
+            const context = canvas.getContext("2d");
+            if (!context) throw new Error("Cannot create image canvas.");
+            context.drawImage(bitmap, 0, 0);
+            const png = await new Promise<Blob>((resolve, reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("Could not convert WebP image.")), "image/png"));
+            embeddedImage = await pdfDoc.embedPng(await png.arrayBuffer());
+            canvas.width = canvas.height = 0;
+          } finally { bitmap.close(); }
         } else {
           try {
             embeddedImage = await pdfDoc.embedJpg(buffer);
@@ -118,7 +139,7 @@ export default function ImagesToPDFPage() {
       }
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+      const blob = new Blob([pdfBytes as unknown as BlobPart], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       setDownloadUrl(url);
     } catch (err: any) {
@@ -130,7 +151,7 @@ export default function ImagesToPDFPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"><fieldset disabled={converting} className="contents" aria-busy={converting}>
       {/* Hero Header */}
       <div className="text-center space-y-4 mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -161,7 +182,10 @@ export default function ImagesToPDFPage() {
             setDragActive(false);
             handleImages(e.dataTransfer.files);
           }}
-          onClick={() => fileInputRef.current?.click()}
+          role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onClick={() => fileInputRef.current?.click()}
           className={`bubble-dropzone p-8 sm:p-12 text-center cursor-pointer transition-all ${
             dragActive ? "drag-active border-emerald-600" : ""
           }`}
@@ -177,9 +201,9 @@ export default function ImagesToPDFPage() {
           <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-3xl bg-white border border-emerald-200 flex items-center justify-center text-emerald-600 shadow-sm mb-5 group-hover:scale-110 transition-transform">
             <UploadCloud className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-600 animate-bounce" />
           </div>
-          <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
+          <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
             Drop Photos, Receipts, or Scans Here
-          </h3>
+          </h2>
           <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
             Upload JPG or PNG files. All images are processed locally in your browser to synthesize a single document.
           </p>
@@ -187,7 +211,7 @@ export default function ImagesToPDFPage() {
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
+          <div role="alert" className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
             <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
             <span>{errorMsg}</span>
           </div>
@@ -231,6 +255,7 @@ export default function ImagesToPDFPage() {
                   <div className="flex items-center justify-between gap-1 pt-2 border-t border-slate-100">
                     <div className="flex items-center gap-1">
                       <button
+                        aria-label={`Move ${item.name} earlier`}
                         onClick={() => moveItem(idx, "up")}
                         disabled={idx === 0}
                         className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 disabled:opacity-30 text-slate-600 hover:text-slate-900"
@@ -238,6 +263,7 @@ export default function ImagesToPDFPage() {
                         <ArrowUp className="w-3.5 h-3.5" />
                       </button>
                       <button
+                        aria-label={`Move ${item.name} later`}
                         onClick={() => moveItem(idx, "down")}
                         disabled={idx === images.length - 1}
                         className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 disabled:opacity-30 text-slate-600 hover:text-slate-900"
@@ -246,6 +272,7 @@ export default function ImagesToPDFPage() {
                       </button>
                     </div>
                     <button
+                      aria-label={`Remove ${item.name}`}
                       onClick={() => removeItem(item.id)}
                       className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200"
                     >
@@ -259,7 +286,10 @@ export default function ImagesToPDFPage() {
             {/* Action Buttons */}
             <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
               <button
-                onClick={() => fileInputRef.current?.click()}
+                role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onClick={() => fileInputRef.current?.click()}
                 className="w-full sm:w-auto px-6 py-3 rounded-full text-xs font-bold btn-bubble btn-bubble-secondary flex items-center justify-center gap-2 shadow-clay-pill-secondary"
               >
                 <Plus className="w-4 h-4" />
@@ -294,9 +324,9 @@ export default function ImagesToPDFPage() {
               <CheckCircle2 className="w-7 h-7" />
             </div>
             <div>
-              <h4 className="text-xl font-display font-bold text-slate-900">
+              <h2 className="text-xl font-display font-bold text-slate-900">
                 Your PDF is Ready!
-              </h4>
+              </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1 font-mono">
                 {images.length} photos compiled into a single high-resolution PDF document
               </p>
@@ -318,39 +348,7 @@ export default function ImagesToPDFPage() {
       <AdPlaceholder slot="mid-rectangle" format="rectangle" />
 
       {/* Value Wrapper */}
-      <ValueWrapper
-        title="Best Practices for Compiling Image Scans into Professional PDFs"
-        subtitle="Techniques for maintaining 300 DPI clarity, organizing multi-receipt expense reports, and zero-leakage local compilation."
-        sections={[
-          {
-            heading: "1. Converting Multi-Page Scans & Receipts into Audit-Ready Dossiers",
-            content: `Modern business accounting, tax audits, and visa applications frequently require receipts, passport stamps, and paper contracts to be submitted as a single consolidated PDF document rather than dozens of loose image files.
 
-MultiPDF Doc preserves native photo resolution by embedding JPEG and PNG bitstreams directly into standard ISO PDF image XObjects without applying lossy re-compression or blurring fine receipt line items.`
-          },
-          {
-            heading: "2. Privacy Shield: Why Document Scans Must Not Be Uploaded to Cloud Converters",
-            content: `Smartphone scans of driver's licenses, passports, W-2 forms, and voided bank checks contain sensitive Personal Identifiable Information (PII) including Social Security Numbers and account coordinates.
-
-When you use MultiPDF Doc, your images are parsed solely inside your local browser tab. No temporary files are written to remote servers, and no automated data mining or model training is conducted on your photos.`
-          }
-        ]}
-        formula={{
-          title: "Image to PDF Dimensional Ratio",
-          formula: "PageDimensions_pts = (PixelWidth / DPI) * 72 | Target: 300 DPI for Print / 150 DPI for Web",
-          explanation: "MultiPDF Doc automatically calculates point-based bounding boxes to ensure photos retain accurate geometric proportions on desktop and mobile PDF viewers."
-        }}
-        faqs={[
-          {
-            question: "Can I combine both JPG and PNG images into the same PDF?",
-            answer: "Yes. MultiPDF Doc seamlessly handles mixed image formats (JPEG, PNG, WEBP) in the same batch and compiles them into a uniform document."
-          },
-          {
-            question: "Is there any limit to the number of photos I can compile?",
-            answer: "No. You can compile dozens of photos simultaneously. Memory is handled directly by your device's browser engine."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

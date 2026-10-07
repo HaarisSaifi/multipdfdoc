@@ -69,7 +69,7 @@ export default function EditorialPolicyPage() {
                 Browser Sandboxing
               </div>
               <p className="text-slate-600 text-xs">
-                Tools are tested in sandboxed browser heaps to ensure zero external network calls occur during standard PDF manipulation.
+                Browser workflow tests check that generated fixture documents are processed locally without document-upload POST requests. Engine assets can still load over the network. These tests do not certify every browser, document or future change.
               </p>
             </div>
           </div>
@@ -104,10 +104,10 @@ export default function EditorialPolicyPage() {
             <span>4. Use of AI Assistance &amp; Human Governance</span>
           </h2>
           <p>
-            Modern AI tooling may be used during research for language formatting, grammar synthesis, or summarizing large technical specifications. However, all technical logic, mathematical formulas (such as GPA conversions and final grade calculations), WebAssembly integrations, and security architectures are directly designed, tested, and validated by our human engineering team.
+            AI assistance is used for research, drafting, editing and software development. We distinguish automated verification from human editorial review and independent peer review. Content revised with AI assistance is not represented as wholly human-written. The publisher is responsible for reviewing changes before release; publication dates and test results do not certify independent expert review.
           </p>
           <p>
-            We do not publish unverified AI outputs. Every calculator formula is benchmarked against edge cases (division by zero, negative weights, boundary scores) before publication.
+            Our checks cover reproducible examples and documented edge cases. They cannot prove that every possible document, browser or institutional rule is supported. Report a problem with the tool name, browser version and steps to reproduce it; do not send sensitive files or identifiers.
           </p>
         </section>
 
@@ -121,7 +121,7 @@ export default function EditorialPolicyPage() {
             We welcome constructive feedback, bug reports, and corrections from users and industry experts. If an institutional portal changes its upload limits or if a browser update affects WebAssembly execution:
           </p>
           <ol className="list-decimal pl-5 space-y-1.5">
-            <li>We review the cited error against the primary documentation or browser test environment within 48 business hours.</li>
+            <li>We review reported errors against primary documentation and reproducible test cases.</li>
             <li>If verified, we update the article or release a patch to the repository immediately.</li>
             <li>A revised &ldquo;Last Updated&rdquo; date is recorded on the modified page for full reader transparency.</li>
           </ol>

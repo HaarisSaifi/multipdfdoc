@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { PDFDocument } from "pdf-lib";
+import { useDownloadUrl } from "@/lib/use-download-url";
+import React, { useState, useRef, useEffect } from "react";
 import { getPdfToolkit } from "@/lib/pdf/qpdf-toolkit";
 import {
   Lock,
@@ -15,7 +15,6 @@ import {
   EyeOff,
   AlertCircle,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 export default function ProtectPdfPage() {
@@ -28,17 +27,19 @@ export default function ProtectPdfPage() {
   const [restrictCopying, setRestrictCopying] = useState(true);
 
   const [processing, setProcessing] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadUrl, setDownloadUrl] = useDownloadUrl();
   const [outputFileName, setOutputFileName] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => { setDownloadUrl(null); }, [password, confirmPassword, restrictPrinting, restrictCopying]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (processing) return;
     const selected = e.target.files?.[0];
     if (!selected) return;
 
-    if (selected.type !== "application/pdf" && !selected.name.endsWith(".pdf")) {
+    if (selected.type !== "application/pdf" && !selected.name.toLowerCase().endsWith(".pdf")) {
       setErrorMsg("Please select a valid PDF file.");
       return;
     }
@@ -49,10 +50,11 @@ export default function ProtectPdfPage() {
 
     try {
       const buffer = await selected.arrayBuffer();
-      const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+      const { PDFDocument } = await import("pdf-lib");
+      const pdfDoc = await PDFDocument.load(buffer);
       setPageCount(pdfDoc.getPageCount());
     } catch (err) {
-      console.error(err);
+      setFile(null);
       setErrorMsg("Unable to read PDF file. It may be corrupt or encrypted.");
     }
   };
@@ -77,6 +79,7 @@ export default function ProtectPdfPage() {
 
       const encryptedBytes = await toolkit.lock(new Uint8Array(buffer), {
         userPassword: password,
+        ownerPassword: crypto.randomUUID(),
         keyLength: 256,
         permissions: {
           print: restrictPrinting ? "none" : "full",
@@ -86,7 +89,7 @@ export default function ProtectPdfPage() {
 
       // Automated cryptographic verification
       const info = await toolkit.getInfo(encryptedBytes, { password });
-      if (!info.encrypted) {
+      if (!info.encrypted || info.encryption?.bits !== 256) {
         throw new Error("Client-side encryption verification failed.");
       }
 
@@ -103,7 +106,7 @@ export default function ProtectPdfPage() {
   };
 
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
+    <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12"><fieldset disabled={processing} className="contents" aria-busy={processing}>
       {/* Hero Header */}
       <div className="text-center space-y-3 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-violet-50 text-violet-800 border border-violet-200/80 shadow-sm">
@@ -124,6 +127,11 @@ export default function ProtectPdfPage() {
         <div className="lg:col-span-7 bubble-card p-6 sm:p-8 border border-slate-200/90 space-y-6">
           {!file ? (
             <div
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => { e.preventDefault(); if (processing) return; const input = fileInputRef.current; if (input) { input.files = e.dataTransfer.files; input.dispatchEvent(new Event("change", { bubbles: true })); } }}
               onClick={() => fileInputRef.current?.click()}
               className="border-2 border-dashed border-slate-300 hover:border-violet-500 rounded-3xl p-10 text-center cursor-pointer transition-all hover:bg-violet-50/30 group"
             >
@@ -137,9 +145,9 @@ export default function ProtectPdfPage() {
               <div className="w-14 h-14 mx-auto rounded-2xl bg-violet-100 flex items-center justify-center text-violet-600 group-hover:scale-110 transition-transform shadow-sm mb-3">
                 <UploadCloud className="w-7 h-7" />
               </div>
-              <h3 className="font-display font-bold text-base text-slate-900 mb-1">
+              <h2 className="font-display font-bold text-base text-slate-900 mb-1">
                 Select PDF File to Protect
-              </h3>
+              </h2>
               <p className="text-xs text-slate-500 max-w-xs mx-auto">
                 Drag and drop your confidential document here. Your file never leaves your machine.
               </p>
@@ -162,7 +170,7 @@ export default function ProtectPdfPage() {
                   setFile(null);
                   setDownloadUrl(null);
                 }}
-                className="text-xs text-slate-400 hover:text-rose-600 font-semibold"
+                className="text-xs text-slate-600 hover:text-rose-600 font-semibold"
               >
                 Change
               </button>
@@ -174,17 +182,18 @@ export default function ProtectPdfPage() {
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-800">Set Open Password</label>
                 <div className="relative">
-                  <input
+                  <input aria-label="Set Open Password"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter strong security password..."
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 outline-none focus:border-violet-500 pr-10"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500 pr-10"
                   />
                   <button
                     type="button"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600"
+                    className="absolute right-3 top-2.5 text-slate-600 hover:text-slate-600"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -193,12 +202,12 @@ export default function ProtectPdfPage() {
 
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-800">Confirm Password</label>
-                <input
+                <input aria-label="Confirm Password"
                   type={showPassword ? "text" : "password"}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-enter password to verify..."
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 outline-none focus:border-violet-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-bold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500"
                 />
               </div>
 
@@ -211,7 +220,7 @@ export default function ProtectPdfPage() {
                     onChange={(e) => setRestrictPrinting(e.target.checked)}
                     className="rounded text-violet-600 focus:ring-violet-500"
                   />
-                  <span>Restrict document printing to prevent unauthorized physical copies</span>
+                  <span>Request that compatible readers restrict printing</span>
                 </label>
                 <label className="flex items-center gap-2.5 text-xs text-slate-700 cursor-pointer">
                   <input
@@ -220,7 +229,7 @@ export default function ProtectPdfPage() {
                     onChange={(e) => setRestrictCopying(e.target.checked)}
                     className="rounded text-violet-600 focus:ring-violet-500"
                   />
-                  <span>Restrict text selection and content copying</span>
+                  <span>Request that compatible readers restrict copying</span>
                 </label>
               </div>
             </div>
@@ -246,7 +255,7 @@ export default function ProtectPdfPage() {
 
             <div className="space-y-3">
               {errorMsg && (
-                <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                <div role="alert" className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
                   {errorMsg}
                 </div>
               )}
@@ -283,40 +292,7 @@ export default function ProtectPdfPage() {
       </div>
 
       {/* AdSense Value Wrapper Layer */}
-      <ValueWrapper
-        toolName="Protect PDF with Password"
-        title="Document Cryptography & Access Governance: Protecting Sensitive PDF Records"
-        subtitle="How standard 128-bit and 256-bit encryption secures confidential legal and financial files."
-        sections={[
-          {
-            heading: "1. Why Cloud Encryption Tools Present Data Breach Risks",
-            content: `When users send unencrypted tax forms, corporate acquisitions, or patient records to third-party cloud converters to 'add a password', the unencrypted file travels across public networks and sits on remote staging servers before encryption occurs.
 
-MultiPDF Doc eliminates this vulnerability entirely: cryptographic keys and permissions dictionaries are synthesized exclusively in your local browser engine. Not a single unencrypted byte leaves your computer.`
-          },
-          {
-            heading: "2. Owner Password vs User Password: The Distinction",
-            content: `In the ISO 32000 PDF standard:
-• User Password: Required to open, decrypt, and view the document content.
-• Owner Password: Sets granular permission flags—such as disabling high-resolution printing, preventing form editing, or forbidding screen readers from harvesting text.`
-          }
-        ]}
-        formula={{
-          title: "Cryptographic Key Derivation Formula",
-          formula: "Encryption_Key = KDF(User_Password, Document_ID, Permission_Flags)",
-          explanation: "Standard key derivation mapping the user-supplied string against the unique file identification dictionary."
-        }}
-        faqs={[
-          {
-            question: "Can MultiPDF Doc recover my password if I forget it?",
-            answer: "No. Because encryption runs locally without saving passwords to any database, lost passwords cannot be retrieved by our engineering team."
-          },
-          {
-            question: "Is this tool free without daily limits?",
-            answer: "Yes. You can protect unlimited documents permanently for free on MultiPDF Doc."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

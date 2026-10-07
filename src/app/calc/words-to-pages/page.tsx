@@ -12,7 +12,6 @@ import {
   Type,
   Maximize2,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 export default function WordsToPagesCalculatorPage() {
@@ -27,11 +26,11 @@ export default function WordsToPagesCalculatorPage() {
   // Live text metrics
   const cleanWords = text.trim() ? text.trim().split(/\s+/).filter(Boolean) : [];
   const calculatedWords = cleanWords.length;
-  const wordCount = manualWordCount !== null ? manualWordCount : calculatedWords;
+  const wordCount = manualWordCount !== null && Number.isFinite(manualWordCount) ? Math.max(0, Math.floor(manualWordCount)) : calculatedWords;
   const charCountWithSpaces = text.length;
   const charCountNoSpaces = text.replace(/\s+/g, "").length;
-  const sentenceCount = text.split(/[.!?]+/).filter(Boolean).length;
-  const paragraphCount = text.split(/\n\s*\n/).filter(Boolean).length;
+  const sentenceCount = text.split(/[.!?]+/).filter((part) => part.trim()).length;
+  const paragraphCount = text.split(/\n\s*\n/).filter((part) => part.trim()).length;
 
   // Words Per Page constants (Standard Letter 8.5x11, 1-inch margins, 12pt font)
   // Times New Roman: Single = 500, 1.5 = 375, Double = 250
@@ -52,8 +51,9 @@ export default function WordsToPagesCalculatorPage() {
   const fastSpeechMinutes = wordCount / 150;
 
   const formatMinutes = (totalMins: number) => {
-    const mins = Math.floor(totalMins);
-    const secs = Math.round((totalMins - mins) * 60);
+    const totalSeconds = Math.max(0, Math.round(totalMins * 60));
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
     return `${mins}m ${secs}s`;
   };
 
@@ -69,7 +69,7 @@ export default function WordsToPagesCalculatorPage() {
           Words to Pages & Speech Time Calculator
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-          Convert raw word counts into exact printed pages for Times New Roman, Arial, and Calibri fonts. Calculate accurate speaking presentation minutes at <strong className="text-slate-800">multipdfdoc.com</strong>.
+          Convert raw word counts into estimated printed pages for Times New Roman, Arial, and Calibri fonts. Calculate estimated speaking time at <strong className="text-slate-800">multipdfdoc.com</strong>.
         </p>
       </div>
 
@@ -84,7 +84,7 @@ export default function WordsToPagesCalculatorPage() {
                 setText("");
                 setManualWordCount(null);
               }}
-              className="text-xs text-slate-400 hover:text-slate-600 font-semibold"
+              className="text-xs text-slate-600 hover:text-slate-600 font-semibold"
             >
               Clear Text
             </button>
@@ -92,7 +92,7 @@ export default function WordsToPagesCalculatorPage() {
 
           {/* Textarea */}
           <div className="space-y-1.5">
-            <textarea
+            <textarea aria-label="Text to analyze"
               rows={8}
               value={text}
               onChange={(e) => {
@@ -100,7 +100,7 @@ export default function WordsToPagesCalculatorPage() {
                 setManualWordCount(null);
               }}
               placeholder="Paste your essay, article, speech transcript, or legal brief here..."
-              className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-900 outline-none focus:border-violet-500 focus:bg-white transition-all leading-relaxed"
+              className="w-full p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-violet-500 focus:bg-white transition-all leading-relaxed"
             />
           </div>
 
@@ -111,10 +111,10 @@ export default function WordsToPagesCalculatorPage() {
                 <Type className="w-3.5 h-3.5 text-violet-600" />
                 <span>Font Family (12pt Standard)</span>
               </label>
-              <select
+              <select aria-label="Font Family (12pt Standard)"
                 value={fontFamily}
                 onChange={(e) => setFontFamily(e.target.value as any)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 outline-none"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
               >
                 <option value="times">Times New Roman 12pt (MLA / APA)</option>
                 <option value="arial">Arial 11pt / 12pt (Wider)</option>
@@ -127,10 +127,10 @@ export default function WordsToPagesCalculatorPage() {
                 <AlignLeft className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Line Spacing</span>
               </label>
-              <select
+              <select aria-label="Line Spacing"
                 value={spacing}
                 onChange={(e) => setSpacing(e.target.value as any)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 outline-none"
+                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
               >
                 <option value="double">Double Spaced (~250 words/page)</option>
                 <option value="one_half">1.5 Spaced (~375 words/page)</option>
@@ -180,19 +180,19 @@ export default function WordsToPagesCalculatorPage() {
             {/* Live Text Metrics Grid */}
             <div className="grid grid-cols-2 gap-3 text-left">
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Words</span>
+                <span className="text-[10px] font-bold text-slate-600 uppercase">Words</span>
                 <div className="text-lg font-display font-bold text-slate-900">{wordCount.toLocaleString()}</div>
               </div>
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Characters</span>
+                <span className="text-[10px] font-bold text-slate-600 uppercase">Characters</span>
                 <div className="text-lg font-display font-bold text-slate-900">{charCountWithSpaces.toLocaleString()}</div>
               </div>
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Sentences</span>
+                <span className="text-[10px] font-bold text-slate-600 uppercase">Sentences</span>
                 <div className="text-lg font-display font-bold text-slate-900">{sentenceCount}</div>
               </div>
               <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Paragraphs</span>
+                <span className="text-[10px] font-bold text-slate-600 uppercase">Paragraphs</span>
                 <div className="text-lg font-display font-bold text-slate-900">{paragraphCount}</div>
               </div>
             </div>
@@ -230,56 +230,7 @@ export default function WordsToPagesCalculatorPage() {
       </div>
 
       {/* AdSense Value Wrapper Layer */}
-      <ValueWrapper
-        toolName="Words to Pages & Speech Time Calculator"
-        title="Official Academic Standards: Word Density, Typography & Speech Delivery Timing"
-        subtitle="Comprehensive guidelines for converting manuscripts into standard printed pages and presentation timelines."
-        sections={[
-          {
-            heading: "1. The Standard 250-Word Academic Rule (MLA & APA Double-Spaced)",
-            content: `In standard academic publishing and university coursework (governed by the Modern Language Association [MLA] and American Psychological Association [APA] style manuals), a standard printed page is defined under strict typographic metrics:
-• 8.5 x 11 inch US Letter or ISO 216 A4 Paper
-• 1-inch (2.54 cm) margins on all four sides
-• 12-point Times New Roman or 11-point Calibri font
-• Double line spacing (2.0 line height)
 
-Under these exact parameters, one standard page contains approximately 250 words. Therefore, a mandatory 10-page research paper translates directly into 2,500 words.`
-          },
-          {
-            heading: "2. How Font Choice Influences Physical Page Footprint",
-            content: `Different typefaces exhibit distinct 'glyph widths' and 'x-heights':
-• Times New Roman (12pt): A traditional serif font optimized for compact newspaper and book printing (~250 words double spaced).
-• Arial (11pt / 12pt): A modern sans-serif typeface with wider horizontal character tracking (~225 words double spaced; takes up 10% more physical page space than Times New Roman).
-• Calibri (11pt): Microsoft Word's default corporate font with condensed proportional spacing (~260 words double spaced).`
-          },
-          {
-            heading: "3. Speech Timing: The 130 Words-Per-Minute Benchmark",
-            content: `When delivering a conference paper, thesis defense, or commercial pitch, speaking pace determines clarity:
-• 110 WPM (Slow & Deliberate): Recommended for complex technical topics, keynote addresses, and foreign-language audiences.
-• 130 WPM (Standard Conversational): The golden standard for US classroom presentations and TED-style lectures.
-• 150 WPM (Fast Paced): Typical for competitive debates, auctioneers, or rapid-fire podcast discussions.`
-          }
-        ]}
-        formula={{
-          title: "Page & Speech Estimation Formula",
-          formula: "Pages = Words / WordsPerPage(Font, Spacing) | Speech_Minutes = Words / WPM",
-          explanation: "Calculates the exact physical sheet requirement based on typographical character tracking and the required delivery timeline based on vocal cadence."
-        }}
-        faqs={[
-          {
-            question: "How many pages is 1,000 words?",
-            answer: "In standard double-spaced Times New Roman 12pt with 1-inch margins, 1,000 words equals exactly 4 printed pages. If single-spaced, it equals approximately 2 pages."
-          },
-          {
-            question: "How long does it take to give a 5-minute speech?",
-            answer: "At a standard comfortable speaking pace of 130 words per minute, a 5-minute speech requires approximately 650 words."
-          },
-          {
-            question: "Is my text analyzed on external servers?",
-            answer: "No. MultiPDF Doc executes all word, character, and sentence counting locally in your web browser. Your text is never stored or uploaded."
-          }
-        ]}
-      />
     </div>
   );
 }

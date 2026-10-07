@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { PDFDocument } from "pdf-lib";
+import { useDownloadUrl } from "@/lib/use-download-url";
+import React, { useState, useRef, useEffect } from "react";
+import { parsePageRange } from "@/lib/pdf/page-range";
 import {
   Scissors,
   UploadCloud,
@@ -14,7 +15,6 @@ import {
   Lock,
   RefreshCw,
 } from "lucide-react";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 export default function SplitPDFPage() {
@@ -22,56 +22,36 @@ export default function SplitPDFPage() {
   const [pageCount, setPageCount] = useState<number | null>(null);
   const [pageRange, setPageRange] = useState<string>("1");
   const [splitting, setSplitting] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [downloadUrl, setDownloadUrl] = useDownloadUrl();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => { setDownloadUrl(null); }, [pageRange]);
 
   const handleFile = async (f: File) => {
+    if (splitting) return;
     if (f.type !== "application/pdf" && !f.name.toLowerCase().endsWith(".pdf")) {
       setErrorMsg("Please upload a valid PDF document.");
       return;
     }
     setErrorMsg(null);
     setDownloadUrl(null);
+    setPageCount(null);
     setFile(f);
 
     try {
       const buffer = await f.arrayBuffer();
-      const doc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+      const { PDFDocument } = await import("pdf-lib");
+      const doc = await PDFDocument.load(buffer);
       const count = doc.getPageCount();
       setPageCount(count);
       setPageRange(`1-${Math.min(count, 3)}`);
     } catch (err) {
+      setFile(null);
       setErrorMsg("Unable to parse PDF. It may be corrupt or encrypted with a password.");
     }
   };
 
-  const parsePageRange = (rangeStr: string, maxPages: number): number[] => {
-    const pages = new Set<number>();
-    const parts = rangeStr.split(",").map((p) => p.trim());
-
-    for (const part of parts) {
-      if (part.includes("-")) {
-        const [startStr, endStr] = part.split("-").map((s) => s.trim());
-        const start = parseInt(startStr, 10);
-        const end = parseInt(endStr, 10);
-        if (!isNaN(start) && !isNaN(end)) {
-          const s = Math.max(1, Math.min(start, end));
-          const e = Math.min(maxPages, Math.max(start, end));
-          for (let i = s; i <= e; i++) {
-            pages.add(i - 1);
-          }
-        }
-      } else {
-        const p = parseInt(part, 10);
-        if (!isNaN(p) && p >= 1 && p <= maxPages) {
-          pages.add(p - 1);
-        }
-      }
-    }
-    return Array.from(pages).sort((a, b) => a - b);
-  };
 
   const handleSplit = async () => {
     if (!file || !pageCount) return;
@@ -88,6 +68,7 @@ export default function SplitPDFPage() {
       }
 
       const buffer = await file.arrayBuffer();
+      const { PDFDocument } = await import("pdf-lib");
       const sourcePdf = await PDFDocument.load(buffer);
       const newPdf = await PDFDocument.create();
 
@@ -107,7 +88,7 @@ export default function SplitPDFPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"><fieldset disabled={splitting} className="contents" aria-busy={splitting}>
       {/* Hero Header */}
       <div className="text-center space-y-4 mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -138,7 +119,10 @@ export default function SplitPDFPage() {
               setDragActive(false);
               if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
             }}
-            onClick={() => fileInputRef.current?.click()}
+            role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onClick={() => fileInputRef.current?.click()}
             className={`bubble-dropzone p-8 sm:p-12 text-center cursor-pointer transition-all ${
               dragActive ? "drag-active border-rose-600" : ""
             }`}
@@ -153,9 +137,9 @@ export default function SplitPDFPage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-3xl bg-white border border-rose-200 flex items-center justify-center text-rose-600 shadow-sm mb-5 group-hover:scale-110 transition-transform">
               <UploadCloud className="w-8 h-8 sm:w-10 sm:h-10 text-rose-600 animate-bounce" />
             </div>
-            <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
+            <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
               Select or Drop a PDF to Split
-            </h3>
+            </h2>
             <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
               Your document is analyzed instantly in memory. Zero file data is uploaded to remote servers.
             </p>
@@ -168,7 +152,7 @@ export default function SplitPDFPage() {
                   <FileText className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-sm font-bold text-slate-900 truncate">{file.name}</h4>
+                  <h2 className="text-sm font-bold text-slate-900 truncate">{file.name}</h2>
                   <p className="text-xs text-slate-500 font-mono mt-0.5">
                     Total Pages: <span className="text-rose-600 font-bold">{pageCount}</span> • {(file.size / 1024 / 1024).toFixed(2)} MB
                   </p>
@@ -198,12 +182,12 @@ export default function SplitPDFPage() {
               </div>
 
               <div className="space-y-2">
-                <input
+                <input aria-label="e.g. 1-3, 5, 7-9"
                   type="text"
                   value={pageRange}
                   onChange={(e) => setPageRange(e.target.value)}
                   placeholder="e.g. 1-3, 5, 7-9"
-                  className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-mono outline-none focus:border-rose-500 focus:bg-white transition-all"
+                  className="w-full px-4 py-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 text-sm font-mono focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:border-rose-500 focus:bg-white transition-all"
                 />
                 <p className="text-[11px] text-slate-500">
                   Use commas to separate individual pages (e.g. <span className="text-violet-600 font-mono">1, 4</span>) or hyphens for continuous page ranges (e.g. <span className="text-violet-600 font-mono">2-6</span>).
@@ -261,7 +245,7 @@ export default function SplitPDFPage() {
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
+          <div role="alert" className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
             <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
             <span>{errorMsg}</span>
           </div>
@@ -274,9 +258,9 @@ export default function SplitPDFPage() {
               <CheckCircle2 className="w-7 h-7" />
             </div>
             <div>
-              <h4 className="text-xl font-display font-bold text-slate-900">
+              <h2 className="text-xl font-display font-bold text-slate-900">
                 Your Extracted PDF is Ready!
-              </h4>
+              </h2>
               <p className="text-xs sm:text-sm text-slate-600 mt-1 font-mono">
                 Pages [{pageRange}] successfully extracted • Zero network latency
               </p>
@@ -298,48 +282,7 @@ export default function SplitPDFPage() {
       <AdPlaceholder slot="mid-rectangle" format="rectangle" />
 
       {/* Value Wrapper & SEO Content */}
-      <ValueWrapper
-        title="Authoritative Guide: How to Extract & Separate PDF Pages Securely"
-        subtitle="Techniques for isolating specific chapters, removing confidential disclosures, and maintaining ISO 32000 compliance."
-        sections={[
-          {
-            heading: "1. Common Legal, Medical, and Academic Split Use-Cases",
-            content: `Document partitioning is a fundamental workflow across high-compliance industries:
 
-• Redacted Court Filings: Legal counsels frequently need to isolate specific affidavits, signature pages, or evidentiary exhibits from 500-page court bundles without disclosing privileged internal memoranda.
-• Medical Record Submissions: Patients and healthcare administrators must submit specific clinical lab reports or discharge summaries to insurance adjusters without releasing unrelated personal diagnostic history.
-• Academic Thesis Chapters: Doctoral researchers often require single-chapter PDFs for peer-reviewed journal submission or conference presentation distribution.`
-          },
-          {
-            heading: "2. Understanding Page Syntax: Ranges, Intervals, and Commas",
-            content: `MultiPDF Doc parses standard mathematical and printer range notations:
-
-• Single Pages: Entering '4' will extract solely the fourth page of the document.
-• Continuous Spans: Entering '3-7' extracts pages 3, 4, 5, 6, and 7 inclusive.
-• Discontinuous Sequences: Entering '1, 5, 8-12' extracts page 1, page 5, and the span from 8 to 12 into a single unified output document.
-• Reverse Ordering: If you enter '5-1', MultiPDF Doc automatically sanitizes the order to preserve document structural integrity.`
-          }
-        ]}
-        formula={{
-          title: "Page Extraction Algorithm Complexity",
-          formula: "Time: O(K) where K = Count(SelectedPages) | RAM: Memory = SourcePDF_Size * (K / TotalPages)",
-          explanation: "Unlike legacy server-side PDF utilities that decompress the entire document into uncompressed bitmap arrays, MultiPDF Doc references existing binary content streams and directly re-maps page tree dictionaries in WebAssembly."
-        }}
-        faqs={[
-          {
-            question: "Does extracting pages reduce the quality of text or images?",
-            answer: "No. The extraction engine copies original PostScript vector fonts, text layers, and high-resolution images losslessly without re-encoding or compression artifacts."
-          },
-          {
-            question: "Are bookmarks and hyperlinks preserved?",
-            answer: "Hyperlinks on the extracted pages pointing to external web URLs are fully preserved. Internal bookmarks pointing to pages outside the extracted range are cleanly pruned to prevent corrupt document navigation."
-          },
-          {
-            question: "Is there a page count limit on large files?",
-            answer: "MultiPDF Doc comfortably handles source PDFs containing over 1,000 pages because processing occurs directly inside your browser's dedicated V8 JavaScript virtual machine."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

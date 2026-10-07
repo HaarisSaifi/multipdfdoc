@@ -41,7 +41,7 @@ export default function AboutPage() {
             For years, the online PDF utility ecosystem has relied on an outdated model: users who simply want to merge two documents, extract a chapter, or compress a file for an immigration portal are forced to upload confidential tax records, employment contracts, and medical reports to remote third-party cloud servers.
           </p>
           <p>
-            MultiPDF Doc was created to prove a better alternative: by compiling battle-tested C++ and JavaScript engines (including <strong>QPDF v12</strong>, <strong>Mozilla PDF.js</strong>, and <strong>Tesseract.js</strong>) into client-side WebAssembly, everyday document workflows can run entirely inside the user’s browser with <strong>zero server document uploads</strong>.
+            MultiPDF Doc was created to prove a better alternative: by using local JavaScript engines and WebAssembly (including <strong>QPDF v12</strong>, <strong>Mozilla PDF.js</strong>, and <strong>Tesseract.js</strong>), everyday document workflows can run entirely inside the user’s browser with <strong>zero server document uploads</strong>.
           </p>
         </section>
 
@@ -57,7 +57,7 @@ export default function AboutPage() {
                 100% In-Browser Privacy
               </div>
               <p className="text-slate-600 text-xs leading-relaxed">
-                Standard document utilities execute in your device&apos;s local memory heap. Disconnect your internet connection after loading the page, and the tools continue to process files offline.
+                Standard tools process document bytes locally. Some engines and language packs load on first use, so loading a page alone does not guarantee offline availability. Optional Cloud AI OCR requires a separate consent step and an internet connection.
               </p>
             </div>
 
@@ -67,7 +67,7 @@ export default function AboutPage() {
                 Hardware Acceleration
               </div>
               <p className="text-slate-600 text-xs leading-relaxed">
-                Multi-threaded WebAssembly compilation renders 300 DPI canvas vectors and processes multi-hundred-page documents without server queueing delays.
+                PDF.js renders pages on canvas and QPDF performs structural operations in WebAssembly. Processing speed and supported document size depend on your device; image export is limited to 50 pages per batch.
               </p>
             </div>
           </div>

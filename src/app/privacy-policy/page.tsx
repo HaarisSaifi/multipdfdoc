@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-xs text-slate-500 mt-1.5 font-medium">
-            Last Updated & Verified: September 2026
+            Last updated: October 7, 2026
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export default function PrivacyPolicyPage() {
               <strong>No Intermediate Storage:</strong> Files never touch an external server or cloud bucket.
             </li>
             <li>
-              <strong>Automatic Memory Purge:</strong> When you close or refresh your browser tab, the local memory allocation is instantly freed by your operating system.
+              <strong>Local lifecycle:</strong> Download links are released when replaced or when you leave the tool. Browser memory is managed by the browser; we cannot promise secure memory erasure. Downloaded files remain on your device until you delete them.
             </li>
           </ul>
         </section>
@@ -63,7 +63,7 @@ export default function PrivacyPolicyPage() {
               <strong>Local Extraction Mode (Default):</strong> Operates 100% inside your browser via Mozilla PDF.js (for digital text) and Tesseract.js WebAssembly (for scanned pages). No document data is sent across the network.
             </li>
             <li>
-              <strong>AI Deep Scan Mode (Optional):</strong> Designed for difficult cursive handwriting or complex layouts. When you explicitly choose this mode, the selected file is transmitted over encrypted TLS connections to our secure OCR processing service (utilizing Google Generative AI / specialized OCR models) solely for the purpose of character extraction. The data is processed ephemerally in-memory and is not retained or used for training.
+              <strong>AI Deep Scan Mode (Optional, when enabled):</strong> After consent, your selected file is sent over HTTPS to our API and Google Gemini. Our application processes it in memory and does not intentionally save document contents to a database or log them. Google’s data use and retention depend on the provider terms and account configuration. We do not promise zero retention or exclude provider review. Do not submit confidential or personal information to unpaid Gemini services. See the <a href="https://ai.google.dev/gemini-api/terms" className="text-violet-700 underline">Gemini API terms</a>. Cloud OCR is disabled by default pending deployment and provider review.
             </li>
           </ul>
         </section>
@@ -75,7 +75,7 @@ export default function PrivacyPolicyPage() {
             <span>3. Advertising Cookies &amp; Third-Party Partners</span>
           </h2>
           <p>
-            Google is a third-party vendor on MultiPDF Doc. Google uses cookies, including the DoubleClick/DART cookie, to serve advertisements based on a user&apos;s prior visits to this website or other web properties.
+            Advertising is disabled in the default build. If Google AdSense is enabled, Google and its advertising partners may use cookies and identifiers to serve, measure and personalize advertisements based on prior visits to this and other websites. Ads do not require access to document contents. Regional consent messages and privacy options must be configured before advertising is activated; a Google-certified CMP is required for relevant traffic in the EEA, UK and Switzerland. See <a href="https://policies.google.com/technologies/ads" className="text-violet-700 underline">Google’s advertising privacy information</a>.
           </p>
           <ul className="list-disc pl-5 space-y-1.5">
             <li>
@@ -98,13 +98,19 @@ export default function PrivacyPolicyPage() {
                 rel="noopener noreferrer"
                 className="text-violet-600 underline font-semibold"
               >
-                Network Advertising Initiative
+                Digital Advertising Alliance
               </a>.
             </li>
           </ul>
         </section>
 
         {/* Section 4: Data Subject Rights */}
+        <section className="space-y-3">
+          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">Website requests, external resources and contact messages</h2>
+          <p>Local document processing does not mean visiting the website creates no network activity. Hosting and security services receive ordinary request information such as IP address, browser headers, URL and time. Fonts and PDF.js assets are locally hosted. OCR engine and language downloads may involve third-party resource requests; these do not include your selected document. Hosting providers set their own operational log retention.</p>
+          <p>If you submit our contact form, your name, email, subject and message are sent through our API to our email provider and support mailbox. Please omit document contents and sensitive identifiers. Messages remain in the support mailbox until the operator deletes them; ask support about access or deletion. The form reports success only when the email provider accepts the message. Delivery to an inbox is not guaranteed.</p>
+          <p>API abuse protection uses a hashed network identifier in a rate-limit store with expiry of up to 24 hours. This is pseudonymous operational data, not a claim of anonymity. We do not sell document contents. Do not include file contents in URLs or support reports.</p>
+        </section>
         <section className="space-y-3">
           <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
             4. User Privacy Rights (GDPR, CCPA &amp; Global Standards)

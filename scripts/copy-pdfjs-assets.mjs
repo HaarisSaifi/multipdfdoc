@@ -87,7 +87,6 @@ const manifest = {
   source: "node_modules/pdfjs-dist",
   verifiedMatchingWorker: true,
   offlineOnly: true,
-  updatedAt: new Date().toISOString(),
 };
 
 fs.writeFileSync(

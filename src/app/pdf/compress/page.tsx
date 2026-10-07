@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { PDFDocument } from "pdf-lib";
+import { useDownloadUrl } from "@/lib/use-download-url";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Minimize2,
   UploadCloud,
@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { getPdfToolkit } from "@/lib/pdf/qpdf-toolkit";
 import { getPdfJs, getSafePdfDocumentParams } from "@/lib/pdf/pdfjs-loader";
-import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 
 export default function CompressPDFPage() {
@@ -29,15 +28,17 @@ export default function CompressPDFPage() {
   const [compressionMode, setCompressionMode] = useState<"auto" | "lossless" | "target">("auto");
   const [compressing, setCompressing] = useState(false);
   const [compressStatus, setCompressStatus] = useState<string>("");
-  const [compressedBlobUrl, setCompressedBlobUrl] = useState<string | null>(null);
+  const [compressedBlobUrl, setCompressedBlobUrl] = useDownloadUrl();
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedSize, setCompressedSize] = useState<number>(0);
   const [engineUsed, setEngineUsed] = useState<"lossless" | "adaptive" | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => { setCompressedBlobUrl(null); }, [targetSizeKb, customKb, compressionMode]);
 
   const handleFile = (f: File) => {
+    if (compressing) return;
     if (f.type !== "application/pdf" && !f.name.toLowerCase().endsWith(".pdf")) {
       setErrorMsg("Please upload a valid PDF document.");
       return;
@@ -51,6 +52,10 @@ export default function CompressPDFPage() {
 
   const handleCompress = async () => {
     if (!file) return;
+    if (customKb && (!/^\d+$/.test(customKb) || !Number.isSafeInteger(Number(customKb)) || Number(customKb) < 1)) {
+      setErrorMsg("Enter a positive whole number of KB for the custom target.");
+      return;
+    }
     setCompressing(true);
     setErrorMsg(null);
     setCompressedBlobUrl(null);
@@ -59,17 +64,18 @@ export default function CompressPDFPage() {
     const activeTargetKb = customKb && parseInt(customKb, 10) > 0 ? parseInt(customKb, 10) : targetSizeKb;
     const targetBytes = activeTargetKb * 1024;
 
+    let renderingPdf: any = null;
     try {
       setCompressStatus("Initializing WebAssembly structural compressor...");
       const originalBuffer = await file.arrayBuffer();
       const inputBytes = new Uint8Array(originalBuffer);
 
       // --- STAGE 1: QPDF WASM Structural Optimization (Lossless) ---
-      const toolkit = await getPdfToolkit();
       setCompressStatus("Executing qpdf object-stream deflating...");
-      
+
       let losslessBytes: Uint8Array | null = null;
       try {
+        const toolkit = await getPdfToolkit();
         losslessBytes = await toolkit.compress(inputBytes, {
           compressionLevel: 9,
           objectStreams: true,
@@ -77,9 +83,12 @@ export default function CompressPDFPage() {
         });
       } catch (qerr) {
         console.warn("qpdf compress warning, attempting pdf-lib fallback:", qerr);
-        const pdfDoc = await PDFDocument.load(inputBytes, { ignoreEncryption: true });
+        const { PDFDocument } = await import("pdf-lib");
+        const pdfDoc = await PDFDocument.load(inputBytes);
         losslessBytes = await pdfDoc.save({ useObjectStreams: true });
       }
+      // Structural optimization may grow an already optimized file.
+      if (losslessBytes.byteLength > inputBytes.byteLength) losslessBytes = inputBytes;
 
       // If lossless already fits within target, or user explicitly requested lossless only
       if (
@@ -88,7 +97,7 @@ export default function CompressPDFPage() {
         (compressionMode === "auto" && losslessBytes && losslessBytes.byteLength <= targetBytes)
       ) {
         const finalBytes = losslessBytes || inputBytes;
-        const blob = new Blob([finalBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+        const blob = new Blob([finalBytes as unknown as BlobPart], { type: "application/pdf" });
         setCompressedBlobUrl(URL.createObjectURL(blob));
         setCompressedSize(blob.size);
         setEngineUsed("lossless");
@@ -101,8 +110,9 @@ export default function CompressPDFPage() {
       setEngineUsed("adaptive");
 
       const pdfjs = await getPdfJs();
-      const loadingTask = pdfjs.getDocument(getSafePdfDocumentParams(inputBytes));
+      const loadingTask = pdfjs.getDocument(getSafePdfDocumentParams(inputBytes.slice()));
       const pdf = await loadingTask.promise;
+      renderingPdf = pdf;
       const numPages = pdf.numPages;
 
       // Calculate budget per page
@@ -125,6 +135,7 @@ export default function CompressPDFPage() {
       // Helper to render and assemble PDF at specific DPI & quality
       const renderDocument = async (dpiVal: number, qualityVal: number): Promise<Uint8Array> => {
         const scale = dpiVal / 72;
+        const { PDFDocument } = await import("pdf-lib");
         const newDoc = await PDFDocument.create();
 
         for (let p = 1; p <= numPages; p++) {
@@ -134,6 +145,7 @@ export default function CompressPDFPage() {
           const page = await pdf.getPage(p);
           const viewport = page.getViewport({ scale });
 
+          if (!Number.isFinite(viewport.width * viewport.height) || viewport.width * viewport.height > 20_000_000) throw new Error("Page is too large to rasterize safely. Use lossless mode or resize the source.");
           const canvas = document.createElement("canvas");
           canvas.width = Math.ceil(viewport.width);
           canvas.height = Math.ceil(viewport.height);
@@ -161,6 +173,8 @@ export default function CompressPDFPage() {
             width: originalViewport.width,
             height: originalViewport.height,
           });
+          canvas.width = canvas.height = 0;
+          page.cleanup();
         }
 
         return await newDoc.save({ useObjectStreams: true });
@@ -168,6 +182,7 @@ export default function CompressPDFPage() {
 
       // First pass
       let passBytes = await renderDocument(currentDpi, jpegQuality);
+      let bestFit: Uint8Array | null = passBytes.byteLength <= targetBudget ? passBytes : null;
 
       // Binary search refinement on quality if needed
       if (passBytes.byteLength > targetBudget && jpegQuality > 0.35) {
@@ -181,13 +196,15 @@ export default function CompressPDFPage() {
 
           if (testBytes.byteLength <= targetBudget) {
             passBytes = testBytes;
+            bestFit = testBytes;
             lowQ = midQ; // try to keep highest possible quality below budget
           } else {
             highQ = midQ;
-            passBytes = testBytes;
+            // Keep the previous fitting candidate when the next trial is too large.
           }
         }
       }
+      if (bestFit) passBytes = bestFit;
 
       // If still too large, drop DPI to 96 and re-check once
       if (passBytes.byteLength > targetBudget && currentDpi > 96) {
@@ -195,14 +212,18 @@ export default function CompressPDFPage() {
         currentDpi = 96;
         passBytes = await renderDocument(currentDpi, 0.45);
       }
+      if (passBytes.byteLength > targetBytes) {
+        throw new Error(`Could not meet ${activeTargetKb} KB without further quality loss. Use a larger target, split the document, or re-scan. No oversized result was marked as successful.`);
+      }
 
-      const finalBlob = new Blob([passBytes.buffer as ArrayBuffer], { type: "application/pdf" });
+      const finalBlob = new Blob([passBytes as unknown as BlobPart], { type: "application/pdf" });
       setCompressedBlobUrl(URL.createObjectURL(finalBlob));
       setCompressedSize(finalBlob.size);
     } catch (err: any) {
       console.error("Compression error:", err);
       setErrorMsg(err.message || "Failed to compress document. Please verify the file is not corrupted.");
     } finally {
+      if (renderingPdf) await renderingPdf.destroy().catch(() => undefined);
       setCompressing(false);
       setCompressStatus("");
     }
@@ -223,7 +244,7 @@ export default function CompressPDFPage() {
     customKb && parseInt(customKb, 10) > 0 ? parseInt(customKb, 10) : targetSizeKb;
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"><fieldset disabled={compressing} className="contents" aria-busy={compressing}>
       {/* Hero Header */}
       <div className="text-center space-y-4 mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-50 border border-sky-200 text-sky-700 text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -234,7 +255,7 @@ export default function CompressPDFPage() {
           Compress PDF <span className="text-sky-600">to Target File Size</span>
         </h1>
         <p className="text-slate-600 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
-          Reduce PDF file sizes to strictly meet portal upload caps (100KB, 200KB, 500KB, 1MB, or custom KB). Executed 100% inside your browser with zero data upload.
+          Try a 100KB, 200KB, 500KB, 1MB, or custom target. Very small limits may be impossible for long documents. Adaptive mode turns pages into images and removes selectable text, forms, and links. Always review the downloaded copy. Files stay in your browser.
         </p>
       </div>
 
@@ -254,7 +275,10 @@ export default function CompressPDFPage() {
               setDragActive(false);
               if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
             }}
-            onClick={() => fileInputRef.current?.click()}
+            role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInputRef.current?.click(); } }}
+              onClick={() => fileInputRef.current?.click()}
             className={`bubble-dropzone p-8 sm:p-12 text-center cursor-pointer transition-all ${
               dragActive ? "drag-active border-sky-600" : ""
             }`}
@@ -269,9 +293,9 @@ export default function CompressPDFPage() {
             <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-3xl bg-white border border-sky-200 flex items-center justify-center text-sky-600 shadow-sm mb-5 group-hover:scale-110 transition-transform">
               <UploadCloud className="w-8 h-8 sm:w-10 sm:h-10 text-sky-600 animate-bounce" />
             </div>
-            <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
+            <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900 mb-2">
               Select or Drop PDF to Compress
-            </h3>
+            </h2>
             <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
               Smart qpdf stream optimization & adaptive raster recompression. 100% in-browser.
             </p>
@@ -285,9 +309,9 @@ export default function CompressPDFPage() {
                   <FileText className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-sm font-bold text-slate-900 truncate">{file.name}</h4>
+                  <h2 className="text-sm font-bold text-slate-900 truncate">{file.name}</h2>
                   <p className="text-xs text-slate-500 font-mono mt-0.5">
-                    Original File Size: <span className="text-amber-600 font-bold">{formatSize(originalSize)}</span>
+                    Original File Size: <span className="text-amber-700 font-bold">{formatSize(originalSize)}</span>
                   </p>
                 </div>
               </div>
@@ -347,18 +371,18 @@ export default function CompressPDFPage() {
               <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2 text-xs text-slate-600">
                   <span>Custom Max Size:</span>
-                  <input
+                  <input aria-label="Custom compression target in KB"
                     type="number"
                     min="20"
                     max="50000"
                     placeholder="e.g. 300"
                     value={customKb}
                     onChange={(e) => setCustomKb(e.target.value)}
-                    className="w-24 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-mono font-bold focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    className="w-24 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-mono font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600 focus:ring-2 focus:ring-sky-500"
                   />
                   <span className="font-bold">KB</span>
                 </div>
-                <p className="text-[11px] text-slate-400 italic">
+                <p className="text-[11px] text-slate-600 italic">
                   *Always check your portal&apos;s specific requirement before submitting.
                 </p>
               </div>
@@ -378,7 +402,7 @@ export default function CompressPDFPage() {
                         : "bg-slate-50 border-slate-200 text-slate-600"
                     }`}
                   >
-                    Auto-Adapt (Recommended)
+                    Auto-Adapt (Raster fallback)
                   </button>
                   <button
                     type="button"
@@ -400,7 +424,7 @@ export default function CompressPDFPage() {
                         : "bg-slate-50 border-slate-200 text-slate-600"
                     }`}
                   >
-                    Force Under Target KB
+                    Try Target Compression
                   </button>
                 </div>
               </div>
@@ -440,7 +464,7 @@ export default function CompressPDFPage() {
 
         {/* Error Alert */}
         {errorMsg && (
-          <div className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
+          <div role="alert" className="mt-6 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm flex items-center gap-3">
             <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-600" />
             <span>{errorMsg}</span>
           </div>
@@ -455,9 +479,9 @@ export default function CompressPDFPage() {
                   <CheckCircle2 className="w-7 h-7" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-display font-bold text-slate-900">
+                  <h2 className="text-lg font-display font-bold text-slate-900">
                     Compression Complete!
-                  </h4>
+                  </h2>
                   <p className="text-xs text-slate-600 font-mono mt-0.5">
                     Original: <span className="line-through">{formatSize(originalSize)}</span> → New:{" "}
                     <span className="text-emerald-700 font-bold">{formatSize(compressedSize)}</span>{" "}
@@ -493,74 +517,7 @@ export default function CompressPDFPage() {
       <AdPlaceholder slot="mid-rectangle" format="rectangle" />
 
       {/* Value Wrapper */}
-      <ValueWrapper
-        title="PDF File Size Optimization Guide: 100KB, 200KB & 500KB Thresholds"
-        subtitle="Technical principles of lossless Flate stream deflating, object deduplication, and adaptive raster recompression."
-        authorName="MultiPDF Doc Technology Team"
-        lastUpdated="Updated September 2026"
-        sources={[
-          {
-            title: "ISO 32000-1: Document Management — Portable Document Format (PDF)",
-            publisher: "International Organization for Standardization",
-            url: "https://www.iso.org/standard/51502.html",
-            accessed: "September 2026",
-          },
-          {
-            title: "QPDF Architecture: Object Streams and Stream Compression",
-            publisher: "QPDF Manual",
-            url: "https://qpdf.readthedocs.io/",
-            accessed: "September 2026",
-          },
-          {
-            title: "USCIS Filing Guidance: File Size and Document Submission Standards",
-            publisher: "U.S. Citizenship and Immigration Services",
-            url: "https://www.uscis.gov/file-online",
-            accessed: "September 2026",
-          },
-        ]}
-        sections={[
-          {
-            heading: "1. Stage 1: Lossless Structural Optimization via QPDF WebAssembly",
-            content: `Standard PDF documents accumulate significant structural overhead: redundant object tables (xref), uncompressed metadata trees, unreferenced fonts, and uncompressed content streams.
 
-Our Stage 1 engine executes qpdf compiled to WebAssembly directly inside your browser. It reorganizes internal structures into compact Object Streams (PDF 1.5+ specification) and applies maximum Flate compression. For digital vector documents, this achieves 20% to 50% size reduction with zero visual degradation.`
-          },
-          {
-            heading: "2. Stage 2: Adaptive Raster Recompression for Scanned Documents",
-            content: `When documents consist of high-resolution scanned photographs, lossless deflating alone cannot overcome the raw byte density of embedded images.
-
-Our Stage 2 engine analyzes the document via Mozilla PDF.js and iteratively tunes DCT JPEG quality and Dots Per Inch (DPI) using an adaptive convergence algorithm. This ensures the output file satisfies strict application portal upload limits (e.g. 100KB or 200KB) while maintaining high readability for signatures and form text.`
-          },
-          {
-            heading: "3. Portal Upload Limits: USCIS, Passports, and University Admissions",
-            content: `Upload limits vary widely across government and academic institutions:
-• USCIS Online Portals: Typically accept documents between 6MB and 12MB depending on the specific form workflow, though certain sub-attachments may require 200KB to 2MB.
-• State Department Online Passports: Photo uploads accept files between 54KB and 10MB.
-• State Public Service & Job Portals: Many state employment portals strictly enforce 100KB or 200KB ceilings.
-
-Always confirm the precise threshold stated on your target upload portal before submitting.`
-          }
-        ]}
-        formula={{
-          title: "Adaptive Raster Size Convergence Formula",
-          formula: "Estimated_DPI = Math.max(72, Current_DPI * Math.sqrt(Target_Bytes / Current_Bytes))",
-          explanation: "Because pixel count scales quadratically with DPI, adjusting DPI based on square root of the file ratio converges to the target size significantly faster than blind guessing."
-        }}
-        faqs={[
-          {
-            question: "Does compressing a PDF delete text or hyperlinks?",
-            answer: "In Lossless mode, all vector text, selectable fonts, and hyperlinks are 100% preserved. When Adaptive Raster mode is required to hit very small limits (such as 100KB on a photo-heavy document), pages are re-rendered to compact raster images to satisfy the byte ceiling."
-          },
-          {
-            question: "Are my confidential documents uploaded to an external server?",
-            answer: "No. All compression algorithms—including qpdf WASM and PDF.js canvas rendering—execute entirely on your local computer or phone. Zero document data is sent over the network."
-          },
-          {
-            question: "What should I do if 100KB makes my 20-page document unreadable?",
-            answer: "MultiPDF Doc includes readability protection. If a multi-page document cannot reach an extreme limit without severe degradation, the engine produces the lowest readable file size possible and flags the final size in the results card."
-          }
-        ]}
-      />
-    </div>
+    </fieldset></div>
   );
 }

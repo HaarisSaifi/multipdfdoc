@@ -1,0 +1,8 @@
+import fs from 'node:fs';
+const origin='http://localhost:3000';const xml=await(await fetch(origin+'/sitemap.xml')).text();const urls=[...xml.matchAll(/<loc>https:\/\/multipdfdoc.com([^<]*)<\/loc>/g)].map(x=>x[1]||'/');const results=[];
+for(const url of urls){const res=await fetch(origin+url);const html=await res.text();if(res.status!==200)throw Error(url+' status '+res.status);if(res.headers.get('x-content-type-options')!=='nosniff')throw Error('Missing security headers '+url);const canonical=html.match(/<link rel="canonical" href="([^"]+)"/)?.[1];if(!canonical||new URL(canonical).href!==new URL('https://multipdfdoc.com'+url).href)throw Error('Wrong canonical '+url);results.push({url,status:res.status,bytes:Buffer.byteLength(html),canonical});}
+const missing=await fetch(origin+'/missing-audit-page');if(missing.status!==404)throw Error('404 status incorrect');
+const disabled=await fetch(origin+'/api/ocr',{method:'POST',headers:{'content-type':'application/json'},body:'{}'});if(disabled.status!==503)throw Error('Cloud enabled unexpectedly');
+const invalid=await fetch(origin+'/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:'{'});if(invalid.status!==400)throw Error('Contact malformed JSON wrong status');
+const big=await fetch(origin+'/api/contact',{method:'POST',headers:{'content-type':'application/json'},body:'x'.repeat(17000)});if(big.status!==413)throw Error('Contact size limit failed');
+fs.writeFileSync('scratch/production-http-audit.json',JSON.stringify({pages:results,notFound:missing.status,cloudDefault:disabled.status,contactInvalid:invalid.status,contactOversize:big.status},null,2));console.log('PASS HTTP:',results.length,'sitemap pages, security headers, 404 and safe API errors');

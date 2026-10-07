@@ -4,6 +4,9 @@ Engineered for Oracle Cloud Always Free Tier (4 OCPU ARM64, 24GB RAM)
 """
 
 import os
+
+if os.environ.get("ENABLE_LEGACY_OCR_BACKEND") != "true":
+    raise RuntimeError("Legacy OCR prototype is disabled. It is not part of the current website; complete a separate security review before enabling.")
 import time
 import base64
 import io
