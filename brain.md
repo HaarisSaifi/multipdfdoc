@@ -1,24 +1,24 @@
-# Current checkpoint: October 16, 2026 (Live Deployment, Graphify & Deep Failure Audit Checkpoint)
+# Current checkpoint: October 19, 2026 (Search Console Growth & GitHub Authority Deployment)
 
-- **Hostinger Live Deployment (Oct 16, 2026):** Successfully deployed and verified on Hostinger `public_html` via automated FTP pipeline `scripts/deploy-ftp.py` (415 files extracted, `.htaccess` active, SSL 200 OK across all 29 public routes, zero server cost). Google Search Console verification token (`googlec4493f5791f8eb92.html`) preserved intact.
-- **Current Live State:** 29 public URLs, 15 tools, 7 pillar guides (1,800+ words each), 3 practice sample files. 100% in-browser WebAssembly engines (`pdfstudio` qpdf v12, Mozilla PDF.js, Tesseract.js WASM local OCR). Zero document uploads.
-- **Technical SEO & CTR Upgrade (Oct 16, 2026):**
-  1. *Schema.org WebApplication:* Added structured JSON-LD `WebApplication` / `SoftwareApplication` data to all 15 interactive tools via `ToolBreadcrumb.tsx`.
-  2. *CTR Intent Optimizations:* Homepage retitled to `"MultiPDF Doc — Free Private PDF Tools & Document Suite (Zero Upload)"` matching query `multipdf` (Google Page 1, avg pos 8.2). USCIS guide retitled to `"USCIS & Passport PDF Compression Guide: How to Compress PDF to 200KB or Portal Limits"` matching pos 4.0 search intent.
-  3. *In-Article Conversion Mesh:* Interactive claymorphic action callout cards embedded in all 7 editorial guides directly driving readers to utility tools.
-  4. *GSC Export Evidence:* 12 impressions across 6 pages (Oct 7–13) ground-truth verified from `Performance-on-Search-2026-10-16.xlsx`.
-- **Graphify Knowledge Graph Integration:**
-  - Installed `graphifyy` (v0.9.91) with Tree-sitter parsers into Python 3.12.
-  - Codebase knowledge graph: `graphify-out/graph.json` (11,350 nodes, 26,571 edges, 260 communities) + `graphify-out/graph.html`.
-  - Workspace rule active at `.agents/rules/graphify.md` (`trigger: always_on`) and workflow at `.agents/workflows/graphify.md`.
-- **Critical Failure Mode Audit & Risk Defenses (WHY WE COULD FAIL & HOW WE PREVENT IT):**
-  1. *Premature AdSense Application Risk:* Site is ~7–10 days old with 12 impressions and 0 clicks. Submitting now triggers Google's automated "Low Value Content / Insufficient Traffic" bot rejection. **RULE: Wait for steady 50–100 daily search impressions in GSC before applying.**
-  2. *Missing Publisher ID:* `NEXT_PUBLIC_ADSENSE_CLIENT_ID` is empty in `.env.local`. When ready to apply, user must provide real `ca-pub-XXXXXXXXXXXXXXXX` so it gets compiled into `<meta name="google-adsense-account">` and deployed.
-  3. *Support Mailbox Real Verification:* MX points to `mx1.hostinger.com`. User MUST initialize and test `support@multipdfdoc.com` inside Hostinger hPanel to avoid bounced emails during human editorial review.
-  4. *Authority Void (0-Backlink Sandbox Trap):* 23 out of 29 URLs await crawling because domain authority is fresh (DA 0). White-hat authority seeding required: AlternativeTo listing (`alternativeto.net/software/multipdfdoc`), Product Hunt, GitHub anchor repo.
-  5. *Mobile Low-Memory (OOM) Limits:* 100% client-side WASM/Canvas processing has hardware memory boundaries on budget mobile devices (<3GB RAM). Prevent crashes via graceful error handling and clear file size guidelines.
-- **AdSense Safe Mode:** `<AdPlaceholder />` strictly returns `null` in pre-approval mode (`!NEXT_PUBLIC_ADSENSE_CLIENT_ID`), preventing empty ad space / under-construction rejections.
-- **Immediate User Routine:** (1) GSC homepage & USCIS guide URL inspection -> Request indexing for fresh metadata. (2) Hostinger email `support@multipdfdoc.com` setup & test. (3) AlternativeTo & Product Hunt listings. (4) AdSense application once impressions reach 50–100/day.
+- **Search Console Oct 19 Ground Truth (`Performance-on-Search-2026-10-19.xlsx`):**
+  - **Total Impressions:** Grew from 12 to **22 impressions (+83% growth)**.
+  - **Top Query `multipdf`:** Jumped from pos 8.2 to **7.57 (Google Page 1)** with 7 impressions.
+  - **Homepage Impressions:** Grew to 11 impressions, with avg position improving from 16.43 to **12.64**.
+  - **US Tier-1 Traffic:** Doubled from 4 to **8 impressions** in the United States.
+  - **Commercial/Transactional Discovery:** New queries indexing: `pdf invoice editor online free` (pos 94), `freelance payment terms` (pos 73), `freelance contract payment terms` (pos 85).
+  - **Global Spread:** Impressions across 8 countries: United States, Bangladesh, Japan (pos 5.0), Indonesia (pos 5.5), Romania (pos 10.0), Vietnam (pos 3.0), Greece (pos 10.0), Luxembourg (pos 69.0).
+- **GitHub High-Authority Backlink & Entity Deployment (Oct 19, 2026):**
+  - **Remote Push Verified:** Synced commit `a414738` directly to `origin/main` ([github.com/HaarisSaifi/multipdfdoc](https://github.com/HaarisSaifi/multipdfdoc)).
+  - **World-Class Flagship README.md:** Comprehensive repository frontpage with SVG badges (Live Site, License MIT, 100% In-Browser Privacy, Next.js 15, WebAssembly), direct keyword-rich anchor links to all 15 utilities and 7 editorial guides on `https://multipdfdoc.com`, and full cloud-vs-local privacy comparison matrix.
+  - **Community Standards & E-E-A-T Assets:**
+    - `SECURITY.md`: Zero-knowledge threat model disclosure, responsible disclosure protocol, and contact channel (`support@multipdfdoc.com`).
+    - `CONTRIBUTING.md`: Open-source contributor guidelines enforcing client-side zero-upload invariants.
+    - `CITATION.cff`: Citation File Format enabling GitHub's native "Cite this repository" widget for academic & research authority.
+    - `package.json`: Embedded `homepage`, `repository`, `keywords`, `bugs`, `author`, and `license` metadata for package and repo crawlers.
+  - **Graphify AST Knowledge Graph Synced:** Rebuilt to 11,643 nodes, 26,853 edges, 306 communities.
+- **Production Safety & Invariant Status:**
+  - `npm test`: All 5 core architectural invariants passed (sample PDF, QPDF WASM AES-256 lock & verification, password decryption rejection & success, JSZip multi-image archive).
+  - `npm run build`: Static export compiles all 34 pages with Exit Code 0. Working tree clean.
 
 ---
 
