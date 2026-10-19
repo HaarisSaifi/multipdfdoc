@@ -204,10 +204,10 @@
     "semantic_hash": "835d5158e763a37b4b68449959bb71bf"
   },
   "package.json": {
-    "mtime": 1791377724.5778818,
-    "seen": 1792148940.4404836,
-    "ast_hash": "91eb597deb975aa2621dbe3b6d1c604c",
-    "semantic_hash": "91eb597deb975aa2621dbe3b6d1c604c"
+    "mtime": 1792412456.1166146,
+    "seen": 1792412710.7436826,
+    "ast_hash": "e2880be075e8dd9e9dba5d823a92271a",
+    "semantic_hash": ""
   },
   "postcss.config.mjs": {
     "mtime": 1789760037.6274624,
@@ -276,8 +276,8 @@
     "semantic_hash": "f27b1085f1bde66bc7a1eb79c524581a"
   },
   "public/vendor/pdfjs/version.json": {
-    "mtime": 1792153881.411505,
-    "seen": 1792154050.6841366,
+    "mtime": 1792412347.791563,
+    "seen": 1792412710.7436826,
     "ast_hash": "68d0f0b282796b79d539846b62dd77ca",
     "semantic_hash": "68d0f0b282796b79d539846b62dd77ca"
   },
@@ -906,9 +906,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1791666845.0128326,
-    "seen": 1792167197.0374537,
-    "ast_hash": "1a33f9e6e39420509cc667177817d3f5",
+    "mtime": 1792412486.2337537,
+    "seen": 1792412710.7436826,
+    "ast_hash": "d39e78c2c29c9ab0be7fb96d51f442ac",
     "semantic_hash": ""
   },
   "brain.md": {
@@ -1037,12 +1037,6 @@
     "ast_hash": "3830ae1184368a72098c3cfb356ece6b",
     "semantic_hash": ""
   },
-  "scratch/live-home-2026-10-11.html": {
-    "mtime": 1791658660.3264256,
-    "seen": 1792167197.0374537,
-    "ast_hash": "3dd710cd59b9e23952faf2a4fd1bafe9",
-    "semantic_hash": ""
-  },
   "scratch/search-console-empty-check.md": {
     "mtime": 1791667632.3376367,
     "seen": 1792167197.0374537,
@@ -1095,6 +1089,18 @@
     "mtime": 1791666231.5457034,
     "seen": 1792167197.0374537,
     "ast_hash": "11932f9005393c7e0f5d20f86cd74894",
+    "semantic_hash": ""
+  },
+  "CONTRIBUTING.md": {
+    "mtime": 1792412513.4864118,
+    "seen": 1792412710.7436826,
+    "ast_hash": "60643e25c088f8e46c78d9902f1956d5",
+    "semantic_hash": ""
+  },
+  "SECURITY.md": {
+    "mtime": 1792412495.8598022,
+    "seen": 1792412710.7436826,
+    "ast_hash": "deaf2d8e57ea9a2c695e3c8351ec7525",
     "semantic_hash": ""
   }
 }
