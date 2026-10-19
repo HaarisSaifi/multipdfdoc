@@ -1,0 +1,2221 @@
+{
+  "target": "static export",
+  "pages": [
+    {
+      "route": "/",
+      "width": 320,
+      "h1": 1,
+      "title": "MultiPDF Doc — Private PDF Tools & Document Suite",
+      "canonical": "https://multipdfdoc.com/",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [
+        "WebSite",
+        "FAQPage",
+        "Organization"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/compress",
+      "width": 320,
+      "h1": 1,
+      "title": "Compress PDF to 200KB, 100KB or Custom Size | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/compress",
+      "overflow": false,
+      "guideWords": 856,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/merge",
+      "width": 320,
+      "h1": 1,
+      "title": "Merge PDF Without Uploading — Free | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/merge",
+      "overflow": false,
+      "guideWords": 961,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/to-text",
+      "width": 320,
+      "h1": 1,
+      "title": "PDF to Text & English OCR — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-text",
+      "overflow": false,
+      "guideWords": 990,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/invoice",
+      "width": 320,
+      "h1": 1,
+      "title": "Free Invoice Generator — No Signup or Watermark | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/invoice",
+      "overflow": false,
+      "guideWords": 836,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/receipt",
+      "width": 320,
+      "h1": 1,
+      "title": "Expense Record Generator — Local PDF Log | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/receipt",
+      "overflow": false,
+      "guideWords": 865,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/split",
+      "width": 320,
+      "h1": 1,
+      "title": "Split PDF & Extract Selected Pages — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/split",
+      "overflow": false,
+      "guideWords": 920,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/to-image",
+      "width": 320,
+      "h1": 1,
+      "title": "PDF to PNG or JPG — 150 & 300 DPI Export | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-image",
+      "overflow": false,
+      "guideWords": 813,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/from-image",
+      "width": 320,
+      "h1": 1,
+      "title": "JPG, PNG & WebP to PDF — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/from-image",
+      "overflow": false,
+      "guideWords": 992,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/organize",
+      "width": 320,
+      "h1": 1,
+      "title": "Reorder, Rotate & Delete PDF Pages Locally | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/organize",
+      "overflow": false,
+      "guideWords": 932,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/protect",
+      "width": 320,
+      "h1": 1,
+      "title": "Password Protect PDF — Local AES-256 Encryption | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/protect",
+      "overflow": false,
+      "guideWords": 930,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/unlock",
+      "width": 320,
+      "h1": 1,
+      "title": "Unlock PDF With Your Password — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/unlock",
+      "overflow": false,
+      "guideWords": 919,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/page-numbers",
+      "width": 320,
+      "h1": 1,
+      "title": "Add Page Numbers to PDF — Skip Cover Pages | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/page-numbers",
+      "overflow": false,
+      "guideWords": 994,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/final-grade",
+      "width": 320,
+      "h1": 1,
+      "title": "Final Grade Calculator — Required Exam Score | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/final-grade",
+      "overflow": false,
+      "guideWords": 882,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/gpa",
+      "width": 320,
+      "h1": 1,
+      "title": "Weighted & Unweighted GPA Calculator With Credits | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/gpa",
+      "overflow": false,
+      "guideWords": 910,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/words-to-pages",
+      "width": 320,
+      "h1": 1,
+      "title": "Words to Pages & Speech Time Calculator | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/words-to-pages",
+      "overflow": false,
+      "guideWords": 819,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog",
+      "width": 320,
+      "h1": 1,
+      "title": "PDF & Document Guides: OCR, Compression and Numbering | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/blog",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/compress-pdf-200kb-uscis-passport-guide",
+      "width": 320,
+      "h1": 1,
+      "title": "Compress a PDF for Government Portals: When a 200KB Target Makes Sense",
+      "canonical": "https://multipdfdoc.com/blog/compress-pdf-200kb-uscis-passport-guide",
+      "overflow": false,
+      "guideWords": 1531,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/freelance-invoice-payment-terms-guide",
+      "width": 320,
+      "h1": 1,
+      "title": "Freelance Invoices: Clear Payment Terms, Accurate Totals and Better Records",
+      "canonical": "https://multipdfdoc.com/blog/freelance-invoice-payment-terms-guide",
+      "overflow": false,
+      "guideWords": 1494,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "width": 320,
+      "h1": 1,
+      "title": "Weighted and Unweighted GPA: Calculate from Courses, Then Check College Rules",
+      "canonical": "https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "overflow": false,
+      "guideWords": 1499,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "width": 320,
+      "h1": 1,
+      "title": "Local PDF Processing and Cloud Uploads: How to Check the Privacy Boundary",
+      "canonical": "https://multipdfdoc.com/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "overflow": false,
+      "guideWords": 1660,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/pdf-page-numbers-skip-cover",
+      "width": 320,
+      "h1": 1,
+      "title": "Add PDF Page Numbers Starting on Page 3: Skip the Cover and Contents",
+      "canonical": "https://multipdfdoc.com/blog/pdf-page-numbers-skip-cover",
+      "overflow": false,
+      "guideWords": 1418,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/extract-text-mixed-scanned-pdf",
+      "width": 320,
+      "h1": 1,
+      "title": "Extract Text from a Mixed PDF: Digital Pages, Scans and Missing OCR",
+      "canonical": "https://multipdfdoc.com/blog/extract-text-mixed-scanned-pdf",
+      "overflow": false,
+      "guideWords": 1436,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/pdf-compression-keep-text-selectable",
+      "width": 320,
+      "h1": 1,
+      "title": "Compress a PDF and Keep Text Selectable: Lossless vs Raster Output",
+      "canonical": "https://multipdfdoc.com/blog/pdf-compression-keep-text-selectable",
+      "overflow": false,
+      "guideWords": 1434,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/about",
+      "width": 320,
+      "h1": 1,
+      "title": "About Us & Engineering Mission — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/about",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/editorial-policy",
+      "width": 320,
+      "h1": 1,
+      "title": "Editorial, Testing & Corrections Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/editorial-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 320,
+      "h1": 1,
+      "title": "Privacy Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/privacy-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/terms",
+      "width": 320,
+      "h1": 1,
+      "title": "Terms of Service — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/terms",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/contact",
+      "width": 320,
+      "h1": 1,
+      "title": "Contact Developer & Support Team — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/contact",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/",
+      "width": 375,
+      "h1": 1,
+      "title": "MultiPDF Doc — Private PDF Tools & Document Suite",
+      "canonical": "https://multipdfdoc.com/",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [
+        "WebSite",
+        "FAQPage",
+        "Organization"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/compress",
+      "width": 375,
+      "h1": 1,
+      "title": "Compress PDF to 200KB, 100KB or Custom Size | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/compress",
+      "overflow": false,
+      "guideWords": 856,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/merge",
+      "width": 375,
+      "h1": 1,
+      "title": "Merge PDF Without Uploading — Free | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/merge",
+      "overflow": false,
+      "guideWords": 961,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/to-text",
+      "width": 375,
+      "h1": 1,
+      "title": "PDF to Text & English OCR — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-text",
+      "overflow": false,
+      "guideWords": 990,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/invoice",
+      "width": 375,
+      "h1": 1,
+      "title": "Free Invoice Generator — No Signup or Watermark | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/invoice",
+      "overflow": false,
+      "guideWords": 836,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/receipt",
+      "width": 375,
+      "h1": 1,
+      "title": "Expense Record Generator — Local PDF Log | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/receipt",
+      "overflow": false,
+      "guideWords": 865,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/split",
+      "width": 375,
+      "h1": 1,
+      "title": "Split PDF & Extract Selected Pages — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/split",
+      "overflow": false,
+      "guideWords": 920,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/to-image",
+      "width": 375,
+      "h1": 1,
+      "title": "PDF to PNG or JPG — 150 & 300 DPI Export | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-image",
+      "overflow": false,
+      "guideWords": 813,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/from-image",
+      "width": 375,
+      "h1": 1,
+      "title": "JPG, PNG & WebP to PDF — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/from-image",
+      "overflow": false,
+      "guideWords": 992,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/organize",
+      "width": 375,
+      "h1": 1,
+      "title": "Reorder, Rotate & Delete PDF Pages Locally | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/organize",
+      "overflow": false,
+      "guideWords": 932,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/protect",
+      "width": 375,
+      "h1": 1,
+      "title": "Password Protect PDF — Local AES-256 Encryption | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/protect",
+      "overflow": false,
+      "guideWords": 930,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/unlock",
+      "width": 375,
+      "h1": 1,
+      "title": "Unlock PDF With Your Password — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/unlock",
+      "overflow": false,
+      "guideWords": 919,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/page-numbers",
+      "width": 375,
+      "h1": 1,
+      "title": "Add Page Numbers to PDF — Skip Cover Pages | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/page-numbers",
+      "overflow": false,
+      "guideWords": 994,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/calc/final-grade",
+      "width": 375,
+      "h1": 1,
+      "title": "Final Grade Calculator — Required Exam Score | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/final-grade",
+      "overflow": false,
+      "guideWords": 882,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/calc/gpa",
+      "width": 375,
+      "h1": 1,
+      "title": "Weighted & Unweighted GPA Calculator With Credits | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/gpa",
+      "overflow": false,
+      "guideWords": 910,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/calc/words-to-pages",
+      "width": 375,
+      "h1": 1,
+      "title": "Words to Pages & Speech Time Calculator | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/words-to-pages",
+      "overflow": false,
+      "guideWords": 819,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog",
+      "width": 375,
+      "h1": 1,
+      "title": "PDF & Document Guides: OCR, Compression and Numbering | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/blog",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/compress-pdf-200kb-uscis-passport-guide",
+      "width": 375,
+      "h1": 1,
+      "title": "Compress a PDF for Government Portals: When a 200KB Target Makes Sense",
+      "canonical": "https://multipdfdoc.com/blog/compress-pdf-200kb-uscis-passport-guide",
+      "overflow": false,
+      "guideWords": 1531,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/freelance-invoice-payment-terms-guide",
+      "width": 375,
+      "h1": 1,
+      "title": "Freelance Invoices: Clear Payment Terms, Accurate Totals and Better Records",
+      "canonical": "https://multipdfdoc.com/blog/freelance-invoice-payment-terms-guide",
+      "overflow": false,
+      "guideWords": 1494,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "width": 375,
+      "h1": 1,
+      "title": "Weighted and Unweighted GPA: Calculate from Courses, Then Check College Rules",
+      "canonical": "https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "overflow": false,
+      "guideWords": 1499,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "width": 375,
+      "h1": 1,
+      "title": "Local PDF Processing and Cloud Uploads: How to Check the Privacy Boundary",
+      "canonical": "https://multipdfdoc.com/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "overflow": false,
+      "guideWords": 1660,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/pdf-page-numbers-skip-cover",
+      "width": 375,
+      "h1": 1,
+      "title": "Add PDF Page Numbers Starting on Page 3: Skip the Cover and Contents",
+      "canonical": "https://multipdfdoc.com/blog/pdf-page-numbers-skip-cover",
+      "overflow": false,
+      "guideWords": 1418,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/extract-text-mixed-scanned-pdf",
+      "width": 375,
+      "h1": 1,
+      "title": "Extract Text from a Mixed PDF: Digital Pages, Scans and Missing OCR",
+      "canonical": "https://multipdfdoc.com/blog/extract-text-mixed-scanned-pdf",
+      "overflow": false,
+      "guideWords": 1436,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/pdf-compression-keep-text-selectable",
+      "width": 375,
+      "h1": 1,
+      "title": "Compress a PDF and Keep Text Selectable: Lossless vs Raster Output",
+      "canonical": "https://multipdfdoc.com/blog/pdf-compression-keep-text-selectable",
+      "overflow": false,
+      "guideWords": 1434,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/about",
+      "width": 375,
+      "h1": 1,
+      "title": "About Us & Engineering Mission — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/about",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/editorial-policy",
+      "width": 375,
+      "h1": 1,
+      "title": "Editorial, Testing & Corrections Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/editorial-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 375,
+      "h1": 1,
+      "title": "Privacy Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/privacy-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/terms",
+      "width": 375,
+      "h1": 1,
+      "title": "Terms of Service — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/terms",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/contact",
+      "width": 375,
+      "h1": 1,
+      "title": "Contact Developer & Support Team — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/contact",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "h1": 1,
+      "title": "MultiPDF Doc — Private PDF Tools & Document Suite",
+      "canonical": "https://multipdfdoc.com/",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [
+        "WebSite",
+        "FAQPage",
+        "Organization"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/compress",
+      "width": 768,
+      "h1": 1,
+      "title": "Compress PDF to 200KB, 100KB or Custom Size | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/compress",
+      "overflow": false,
+      "guideWords": 856,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/merge",
+      "width": 768,
+      "h1": 1,
+      "title": "Merge PDF Without Uploading — Free | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/merge",
+      "overflow": false,
+      "guideWords": 961,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/to-text",
+      "width": 768,
+      "h1": 1,
+      "title": "PDF to Text & English OCR — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-text",
+      "overflow": false,
+      "guideWords": 990,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/invoice",
+      "width": 768,
+      "h1": 1,
+      "title": "Free Invoice Generator — No Signup or Watermark | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/invoice",
+      "overflow": false,
+      "guideWords": 836,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/receipt",
+      "width": 768,
+      "h1": 1,
+      "title": "Expense Record Generator — Local PDF Log | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/receipt",
+      "overflow": false,
+      "guideWords": 865,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/split",
+      "width": 768,
+      "h1": 1,
+      "title": "Split PDF & Extract Selected Pages — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/split",
+      "overflow": false,
+      "guideWords": 920,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/to-image",
+      "width": 768,
+      "h1": 1,
+      "title": "PDF to PNG or JPG — 150 & 300 DPI Export | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-image",
+      "overflow": false,
+      "guideWords": 813,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/from-image",
+      "width": 768,
+      "h1": 1,
+      "title": "JPG, PNG & WebP to PDF — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/from-image",
+      "overflow": false,
+      "guideWords": 992,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/organize",
+      "width": 768,
+      "h1": 1,
+      "title": "Reorder, Rotate & Delete PDF Pages Locally | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/organize",
+      "overflow": false,
+      "guideWords": 932,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/protect",
+      "width": 768,
+      "h1": 1,
+      "title": "Password Protect PDF — Local AES-256 Encryption | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/protect",
+      "overflow": false,
+      "guideWords": 930,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/unlock",
+      "width": 768,
+      "h1": 1,
+      "title": "Unlock PDF With Your Password — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/unlock",
+      "overflow": false,
+      "guideWords": 919,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/page-numbers",
+      "width": 768,
+      "h1": 1,
+      "title": "Add Page Numbers to PDF — Skip Cover Pages | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/page-numbers",
+      "overflow": false,
+      "guideWords": 994,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/final-grade",
+      "width": 768,
+      "h1": 1,
+      "title": "Final Grade Calculator — Required Exam Score | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/final-grade",
+      "overflow": false,
+      "guideWords": 882,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/gpa",
+      "width": 768,
+      "h1": 1,
+      "title": "Weighted & Unweighted GPA Calculator With Credits | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/gpa",
+      "overflow": false,
+      "guideWords": 910,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/words-to-pages",
+      "width": 768,
+      "h1": 1,
+      "title": "Words to Pages & Speech Time Calculator | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/words-to-pages",
+      "overflow": false,
+      "guideWords": 819,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog",
+      "width": 768,
+      "h1": 1,
+      "title": "PDF & Document Guides: OCR, Compression and Numbering | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/blog",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/compress-pdf-200kb-uscis-passport-guide",
+      "width": 768,
+      "h1": 1,
+      "title": "Compress a PDF for Government Portals: When a 200KB Target Makes Sense",
+      "canonical": "https://multipdfdoc.com/blog/compress-pdf-200kb-uscis-passport-guide",
+      "overflow": false,
+      "guideWords": 1531,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/freelance-invoice-payment-terms-guide",
+      "width": 768,
+      "h1": 1,
+      "title": "Freelance Invoices: Clear Payment Terms, Accurate Totals and Better Records",
+      "canonical": "https://multipdfdoc.com/blog/freelance-invoice-payment-terms-guide",
+      "overflow": false,
+      "guideWords": 1494,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "width": 768,
+      "h1": 1,
+      "title": "Weighted and Unweighted GPA: Calculate from Courses, Then Check College Rules",
+      "canonical": "https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "overflow": false,
+      "guideWords": 1499,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "width": 768,
+      "h1": 1,
+      "title": "Local PDF Processing and Cloud Uploads: How to Check the Privacy Boundary",
+      "canonical": "https://multipdfdoc.com/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "overflow": false,
+      "guideWords": 1660,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/pdf-page-numbers-skip-cover",
+      "width": 768,
+      "h1": 1,
+      "title": "Add PDF Page Numbers Starting on Page 3: Skip the Cover and Contents",
+      "canonical": "https://multipdfdoc.com/blog/pdf-page-numbers-skip-cover",
+      "overflow": false,
+      "guideWords": 1418,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/extract-text-mixed-scanned-pdf",
+      "width": 768,
+      "h1": 1,
+      "title": "Extract Text from a Mixed PDF: Digital Pages, Scans and Missing OCR",
+      "canonical": "https://multipdfdoc.com/blog/extract-text-mixed-scanned-pdf",
+      "overflow": false,
+      "guideWords": 1436,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/pdf-compression-keep-text-selectable",
+      "width": 768,
+      "h1": 1,
+      "title": "Compress a PDF and Keep Text Selectable: Lossless vs Raster Output",
+      "canonical": "https://multipdfdoc.com/blog/pdf-compression-keep-text-selectable",
+      "overflow": false,
+      "guideWords": 1434,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/about",
+      "width": 768,
+      "h1": 1,
+      "title": "About Us & Engineering Mission — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/about",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/editorial-policy",
+      "width": 768,
+      "h1": 1,
+      "title": "Editorial, Testing & Corrections Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/editorial-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 768,
+      "h1": 1,
+      "title": "Privacy Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/privacy-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/terms",
+      "width": 768,
+      "h1": 1,
+      "title": "Terms of Service — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/terms",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/contact",
+      "width": 768,
+      "h1": 1,
+      "title": "Contact Developer & Support Team — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/contact",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/",
+      "width": 1024,
+      "h1": 1,
+      "title": "MultiPDF Doc — Private PDF Tools & Document Suite",
+      "canonical": "https://multipdfdoc.com/",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [
+        "WebSite",
+        "FAQPage",
+        "Organization"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/compress",
+      "width": 1024,
+      "h1": 1,
+      "title": "Compress PDF to 200KB, 100KB or Custom Size | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/compress",
+      "overflow": false,
+      "guideWords": 856,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/merge",
+      "width": 1024,
+      "h1": 1,
+      "title": "Merge PDF Without Uploading — Free | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/merge",
+      "overflow": false,
+      "guideWords": 961,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/to-text",
+      "width": 1024,
+      "h1": 1,
+      "title": "PDF to Text & English OCR — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-text",
+      "overflow": false,
+      "guideWords": 990,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/invoice",
+      "width": 1024,
+      "h1": 1,
+      "title": "Free Invoice Generator — No Signup or Watermark | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/invoice",
+      "overflow": false,
+      "guideWords": 836,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/receipt",
+      "width": 1024,
+      "h1": 1,
+      "title": "Expense Record Generator — Local PDF Log | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/receipt",
+      "overflow": false,
+      "guideWords": 865,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/split",
+      "width": 1024,
+      "h1": 1,
+      "title": "Split PDF & Extract Selected Pages — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/split",
+      "overflow": false,
+      "guideWords": 920,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/to-image",
+      "width": 1024,
+      "h1": 1,
+      "title": "PDF to PNG or JPG — 150 & 300 DPI Export | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-image",
+      "overflow": false,
+      "guideWords": 813,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/from-image",
+      "width": 1024,
+      "h1": 1,
+      "title": "JPG, PNG & WebP to PDF — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/from-image",
+      "overflow": false,
+      "guideWords": 992,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/organize",
+      "width": 1024,
+      "h1": 1,
+      "title": "Reorder, Rotate & Delete PDF Pages Locally | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/organize",
+      "overflow": false,
+      "guideWords": 932,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/protect",
+      "width": 1024,
+      "h1": 1,
+      "title": "Password Protect PDF — Local AES-256 Encryption | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/protect",
+      "overflow": false,
+      "guideWords": 930,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/unlock",
+      "width": 1024,
+      "h1": 1,
+      "title": "Unlock PDF With Your Password — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/unlock",
+      "overflow": false,
+      "guideWords": 919,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/pdf/page-numbers",
+      "width": 1024,
+      "h1": 1,
+      "title": "Add Page Numbers to PDF — Skip Cover Pages | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/page-numbers",
+      "overflow": false,
+      "guideWords": 994,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/final-grade",
+      "width": 1024,
+      "h1": 1,
+      "title": "Final Grade Calculator — Required Exam Score | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/final-grade",
+      "overflow": false,
+      "guideWords": 882,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/gpa",
+      "width": 1024,
+      "h1": 1,
+      "title": "Weighted & Unweighted GPA Calculator With Credits | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/gpa",
+      "overflow": false,
+      "guideWords": 910,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/calc/words-to-pages",
+      "width": 1024,
+      "h1": 1,
+      "title": "Words to Pages & Speech Time Calculator | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/words-to-pages",
+      "overflow": false,
+      "guideWords": 819,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog",
+      "width": 1024,
+      "h1": 1,
+      "title": "PDF & Document Guides: OCR, Compression and Numbering | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/blog",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/compress-pdf-200kb-uscis-passport-guide",
+      "width": 1024,
+      "h1": 1,
+      "title": "Compress a PDF for Government Portals: When a 200KB Target Makes Sense",
+      "canonical": "https://multipdfdoc.com/blog/compress-pdf-200kb-uscis-passport-guide",
+      "overflow": false,
+      "guideWords": 1531,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/freelance-invoice-payment-terms-guide",
+      "width": 1024,
+      "h1": 1,
+      "title": "Freelance Invoices: Clear Payment Terms, Accurate Totals and Better Records",
+      "canonical": "https://multipdfdoc.com/blog/freelance-invoice-payment-terms-guide",
+      "overflow": false,
+      "guideWords": 1494,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "width": 1024,
+      "h1": 1,
+      "title": "Weighted and Unweighted GPA: Calculate from Courses, Then Check College Rules",
+      "canonical": "https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "overflow": false,
+      "guideWords": 1499,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "width": 1024,
+      "h1": 1,
+      "title": "Local PDF Processing and Cloud Uploads: How to Check the Privacy Boundary",
+      "canonical": "https://multipdfdoc.com/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "overflow": false,
+      "guideWords": 1660,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/pdf-page-numbers-skip-cover",
+      "width": 1024,
+      "h1": 1,
+      "title": "Add PDF Page Numbers Starting on Page 3: Skip the Cover and Contents",
+      "canonical": "https://multipdfdoc.com/blog/pdf-page-numbers-skip-cover",
+      "overflow": false,
+      "guideWords": 1418,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/extract-text-mixed-scanned-pdf",
+      "width": 1024,
+      "h1": 1,
+      "title": "Extract Text from a Mixed PDF: Digital Pages, Scans and Missing OCR",
+      "canonical": "https://multipdfdoc.com/blog/extract-text-mixed-scanned-pdf",
+      "overflow": false,
+      "guideWords": 1436,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/blog/pdf-compression-keep-text-selectable",
+      "width": 1024,
+      "h1": 1,
+      "title": "Compress a PDF and Keep Text Selectable: Lossless vs Raster Output",
+      "canonical": "https://multipdfdoc.com/blog/pdf-compression-keep-text-selectable",
+      "overflow": false,
+      "guideWords": 1434,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/about",
+      "width": 1024,
+      "h1": 1,
+      "title": "About Us & Engineering Mission — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/about",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/editorial-policy",
+      "width": 1024,
+      "h1": 1,
+      "title": "Editorial, Testing & Corrections Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/editorial-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1024,
+      "h1": 1,
+      "title": "Privacy Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/privacy-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/terms",
+      "width": 1024,
+      "h1": 1,
+      "title": "Terms of Service — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/terms",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/contact",
+      "width": 1024,
+      "h1": 1,
+      "title": "Contact Developer & Support Team — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/contact",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": []
+    },
+    {
+      "route": "/",
+      "width": 1440,
+      "h1": 1,
+      "title": "MultiPDF Doc — Private PDF Tools & Document Suite",
+      "canonical": "https://multipdfdoc.com/",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [
+        "WebSite",
+        "FAQPage",
+        "Organization"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/compress",
+      "width": 1440,
+      "h1": 1,
+      "title": "Compress PDF to 200KB, 100KB or Custom Size | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/compress",
+      "overflow": false,
+      "guideWords": 856,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/merge",
+      "width": 1440,
+      "h1": 1,
+      "title": "Merge PDF Without Uploading — Free | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/merge",
+      "overflow": false,
+      "guideWords": 961,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/to-text",
+      "width": 1440,
+      "h1": 1,
+      "title": "PDF to Text & English OCR — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-text",
+      "overflow": false,
+      "guideWords": 990,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/invoice",
+      "width": 1440,
+      "h1": 1,
+      "title": "Free Invoice Generator — No Signup or Watermark | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/invoice",
+      "overflow": false,
+      "guideWords": 836,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/receipt",
+      "width": 1440,
+      "h1": 1,
+      "title": "Expense Record Generator — Local PDF Log | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/receipt",
+      "overflow": false,
+      "guideWords": 865,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/split",
+      "width": 1440,
+      "h1": 1,
+      "title": "Split PDF & Extract Selected Pages — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/split",
+      "overflow": false,
+      "guideWords": 920,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/to-image",
+      "width": 1440,
+      "h1": 1,
+      "title": "PDF to PNG or JPG — 150 & 300 DPI Export | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/to-image",
+      "overflow": false,
+      "guideWords": 813,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/from-image",
+      "width": 1440,
+      "h1": 1,
+      "title": "JPG, PNG & WebP to PDF — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/from-image",
+      "overflow": false,
+      "guideWords": 992,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/organize",
+      "width": 1440,
+      "h1": 1,
+      "title": "Reorder, Rotate & Delete PDF Pages Locally | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/organize",
+      "overflow": false,
+      "guideWords": 932,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/protect",
+      "width": 1440,
+      "h1": 1,
+      "title": "Password Protect PDF — Local AES-256 Encryption | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/protect",
+      "overflow": false,
+      "guideWords": 930,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/unlock",
+      "width": 1440,
+      "h1": 1,
+      "title": "Unlock PDF With Your Password — No Upload | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/unlock",
+      "overflow": false,
+      "guideWords": 919,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/pdf/page-numbers",
+      "width": 1440,
+      "h1": 1,
+      "title": "Add Page Numbers to PDF — Skip Cover Pages | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/pdf/page-numbers",
+      "overflow": false,
+      "guideWords": 994,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/calc/final-grade",
+      "width": 1440,
+      "h1": 1,
+      "title": "Final Grade Calculator — Required Exam Score | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/final-grade",
+      "overflow": false,
+      "guideWords": 882,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/calc/gpa",
+      "width": 1440,
+      "h1": 1,
+      "title": "Weighted & Unweighted GPA Calculator With Credits | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/gpa",
+      "overflow": false,
+      "guideWords": 910,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/calc/words-to-pages",
+      "width": 1440,
+      "h1": 1,
+      "title": "Words to Pages & Speech Time Calculator | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/calc/words-to-pages",
+      "overflow": false,
+      "guideWords": 819,
+      "jsonLd": [
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog",
+      "width": 1440,
+      "h1": 1,
+      "title": "PDF & Document Guides: OCR, Compression and Numbering | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/blog",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/compress-pdf-200kb-uscis-passport-guide",
+      "width": 1440,
+      "h1": 1,
+      "title": "Compress a PDF for Government Portals: When a 200KB Target Makes Sense",
+      "canonical": "https://multipdfdoc.com/blog/compress-pdf-200kb-uscis-passport-guide",
+      "overflow": false,
+      "guideWords": 1531,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/freelance-invoice-payment-terms-guide",
+      "width": 1440,
+      "h1": 1,
+      "title": "Freelance Invoices: Clear Payment Terms, Accurate Totals and Better Records",
+      "canonical": "https://multipdfdoc.com/blog/freelance-invoice-payment-terms-guide",
+      "overflow": false,
+      "guideWords": 1494,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "width": 1440,
+      "h1": 1,
+      "title": "Weighted and Unweighted GPA: Calculate from Courses, Then Check College Rules",
+      "canonical": "https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions",
+      "overflow": false,
+      "guideWords": 1499,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "width": 1440,
+      "h1": 1,
+      "title": "Local PDF Processing and Cloud Uploads: How to Check the Privacy Boundary",
+      "canonical": "https://multipdfdoc.com/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
+      "overflow": false,
+      "guideWords": 1660,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/pdf-page-numbers-skip-cover",
+      "width": 1440,
+      "h1": 1,
+      "title": "Add PDF Page Numbers Starting on Page 3: Skip the Cover and Contents",
+      "canonical": "https://multipdfdoc.com/blog/pdf-page-numbers-skip-cover",
+      "overflow": false,
+      "guideWords": 1418,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/extract-text-mixed-scanned-pdf",
+      "width": 1440,
+      "h1": 1,
+      "title": "Extract Text from a Mixed PDF: Digital Pages, Scans and Missing OCR",
+      "canonical": "https://multipdfdoc.com/blog/extract-text-mixed-scanned-pdf",
+      "overflow": false,
+      "guideWords": 1436,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/blog/pdf-compression-keep-text-selectable",
+      "width": 1440,
+      "h1": 1,
+      "title": "Compress a PDF and Keep Text Selectable: Lossless vs Raster Output",
+      "canonical": "https://multipdfdoc.com/blog/pdf-compression-keep-text-selectable",
+      "overflow": false,
+      "guideWords": 1434,
+      "jsonLd": [
+        "BreadcrumbList",
+        "Article",
+        "FAQPage"
+      ],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/about",
+      "width": 1440,
+      "h1": 1,
+      "title": "About Us & Engineering Mission — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/about",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/editorial-policy",
+      "width": 1440,
+      "h1": 1,
+      "title": "Editorial, Testing & Corrections Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/editorial-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1440,
+      "h1": 1,
+      "title": "Privacy Policy — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/privacy-policy",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/terms",
+      "width": 1440,
+      "h1": 1,
+      "title": "Terms of Service — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/terms",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    },
+    {
+      "route": "/contact",
+      "width": 1440,
+      "h1": 1,
+      "title": "Contact Developer & Support Team — MultiPDF Doc | MultiPDF Doc",
+      "canonical": "https://multipdfdoc.com/contact",
+      "overflow": false,
+      "guideWords": 0,
+      "jsonLd": [],
+      "unlabeled": [],
+      "missingImages": [],
+      "accessibility": []
+    }
+  ],
+  "workflows": [
+    "Search opens with focus and closes with Escape",
+    "Real two-page PDF.js native text extraction",
+    "Useful custom 404",
+    "Analytics decline persists and keyboard focus follows choices",
+    "Published practice files exercise full-page OCR and native extraction",
+    "Published numbering sample skips first two pages",
+    "Homepage category filters preserve all 15 tool links",
+    "Merge two PDFs into four pages",
+    "Split strict selection into one page",
+    "Organize rotation survives PDF export",
+    "Page numbers export retains two pages and rejects clipped stamps",
+    "Browser encrypts AES-256 with distinct owner password",
+    "Browser decrypts a real protected PDF",
+    "Lossless compressor exports a readable PDF",
+    "PDF-to-image renders both pages at 150 DPI",
+    "PNG and WebP images produce two PDF pages",
+    "Tesseract recognizes a scanned image locally",
+    "Invoice export and edit invalidate stale download",
+    "Expense log exports a genuine self-entered record",
+    "Local OCR can be cancelled and retried",
+    "Blocked OCR engine reports an error and recovers on retry",
+    "Malformed OCR input reports an error without a stale transcript",
+    "Mixed digital and image PDF supports explicit full-page OCR",
+    "Contact creates a local draft without claiming delivery",
+    "GPA zero-credit courses are excluded",
+    "Words calculator handles empty text without NaN",
+    "Grade calculator computes the 114-percent required score"
+  ],
+  "exceptions": [],
+  "postRequests": [],
+  "externalRequests": [],
+  "imageWidth": 1250
+}

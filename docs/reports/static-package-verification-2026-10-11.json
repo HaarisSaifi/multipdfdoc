@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-11",
+  "crc": "pass",
+  "allFilesMatchExport": true,
+  "files": 362,
+  "samples": 3,
+  "bytes": 15637409,
+  "sha256": "1eeab0f07b279cac015f1a7a2f44522d87abba344ff52cbc7eb48d74e2a2bba7",
+  "rootHtaccess": true,
+  "privateSourceOrEnvFiles": 0
+}

@@ -14,11 +14,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://multipdfdoc.com"),
   title: {
-    default: "MultiPDF Doc — Private PDF Tools & Document Suite",
+    default: "MultiPDF Doc — Free Private PDF Tools & Document Suite (Zero Upload)",
     template: "%s | MultiPDF Doc",
   },
   description:
-    "Free PDF tools, invoices, expense records and calculators. Core tools process files locally in your browser. Optional Cloud OCR requires your consent.",
+    "Merge, compress, convert, and manage multi-PDF documents 100% locally in your browser. Zero server uploads, instant WebAssembly speed, and private document processing.",
   alternates: {
     canonical: "https://multipdfdoc.com",
   },
@@ -53,9 +53,9 @@ export const metadata: Metadata = {
     ? { other: { "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID } }
     : {}),
   openGraph: {
-    title: "MultiPDF Doc — Private PDF Tools & Document Suite",
+    title: "MultiPDF Doc — Free Private PDF Tools & Document Suite (Zero Upload)",
     description:
-      "Merge, compress, invoice and calculate locally in your browser. Optional Cloud AI OCR uploads only after your consent.",
+      "Merge, compress, convert, and manage multi-PDF documents 100% locally in your browser. Zero server uploads, instant WebAssembly speed, and private document processing.",
     url: "https://multipdfdoc.com",
     siteName: "MultiPDF Doc",
     locale: "en_US",
@@ -65,14 +65,14 @@ export const metadata: Metadata = {
         url: "https://multipdfdoc.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "MultiPDF Doc — Private PDF Tools & Document Suite",
+        alt: "MultiPDF Doc — Free Private PDF Tools & Document Suite (Zero Upload)",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "MultiPDF Doc — Private PDF Tools & Document Suite",
-    description: "Core PDF tools process files locally. Optional Cloud OCR requires consent.",
+    title: "MultiPDF Doc — Free Private PDF Tools & Document Suite (Zero Upload)",
+    description: "Merge, compress, convert, and manage multi-PDF documents 100% locally. Zero document uploads.",
     images: ["https://multipdfdoc.com/og-image.png"],
   },
 };

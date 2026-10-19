@@ -6,22 +6,17 @@ import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 import {
   FileText,
   Upload,
-  Cpu,
   Sparkles,
   Copy,
   Check,
   Download,
   RotateCcw,
-  ShieldCheck,
   Zap,
   Search,
-  AlertCircle,
-  Eye,
-  Info,
-  ShieldAlert,
 } from "lucide-react";
 import { getPdfJs, getSafePdfDocumentParams } from "@/lib/pdf/pdfjs-loader";
-import type { createWorker } from "tesseract.js";
+import type { Worker } from "tesseract.js";
+import { createLocalOcrWorker, waitForOcr } from "@/lib/pdf/local-ocr";
 
 export default function PdfToTextPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -31,14 +26,12 @@ export default function PdfToTextPage() {
   const [extractedText, setExtractedText] = useState("");
   const [engineUsed, setEngineUsed] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const cloudEnabled = process.env.NEXT_PUBLIC_CLOUD_OCR_ENABLED === "true";
-  const consentDialog = useRef<HTMLDialogElement>(null);
   const [copied, setCopied] = useState(false);
-  const [ocrMode, setOcrMode] = useState<"client" | "ai">("client");
   const [searchQuery, setSearchQuery] = useState("");
-  const [showAiNotice, setShowAiNotice] = useState(false);
-  const [showConsentModal, setShowConsentModal] = useState(false);
-  useEffect(() => { if (showConsentModal) consentDialog.current?.showModal(); }, [showConsentModal]);
+  const [scanEveryPage, setScanEveryPage] = useState(false);
+  const controllerRef = useRef<AbortController | null>(null);
+  const mounted = useRef(true);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; controllerRef.current?.abort(); }; }, []);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,16 +43,16 @@ export default function PdfToTextPage() {
       setFile(selected);
       setExtractedText("");
       setEngineUsed(null);
+      setSearchQuery(""); setCopied(false);
     }
   };
 
-  /**
-   * 100% IN-BROWSER LOCAL EXTRACTION
-   * Uses Mozilla PDF.js for native digital text and Tesseract.js WebAssembly for scanned raster pages.
-   * GUARANTEE: Never transmits any file, bytes, or data to /api/ocr or external servers.
-   */
+  // Document processing stays inside this browser. Engine files load from this site.
   const processLocalOcr = async () => {
-    if (!file) return;
+    if (!file || isProcessing) return;
+    const controller = new AbortController();
+    controllerRef.current = controller;
+    const signal = controller.signal;
     setIsProcessing(true);
     setProgress(10);
     setStatusText("Reading document contents locally in-browser...");
@@ -67,26 +60,36 @@ export default function PdfToTextPage() {
     setErrorMsg(null);
     setExtractedText("");
     setEngineUsed(null);
-    let worker: Awaited<ReturnType<typeof createWorker>> | null = null;
+    let worker: Worker | null = null;
     let pdf: any = null;
     try {
       const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-      const getWorker = async () => { if (!worker) { const { createWorker } = await import("tesseract.js"); worker = await createWorker("eng"); } return worker; };
+      const getWorker = async () => {
+        if (!worker) worker = await createLocalOcrWorker(signal, event => {
+          if (!mounted.current || signal.aborted) return;
+          if (event.status === "recognizing text") setStatusText(`Recognizing text locally: ${Math.round(event.progress * 100)}%`);
+        });
+        return worker;
+      };
+      if (!globalThis.WebAssembly || !globalThis.Worker) throw new Error("This browser does not support local OCR. Use an updated browser.");
+      if (file.size > 100 * 1024 * 1024) throw new Error("Choose a file below 100MB, or split it into smaller batches first.");
       if (isPdf) {
         const pdfjs = await getPdfJs();
         pdf = await pdfjs.getDocument(getSafePdfDocumentParams(await file.arrayBuffer())).promise;
+        if (pdf.numPages > 200) throw new Error("Extract up to 200 PDF pages per batch. Use Split PDF to make a smaller document.");
         const output: string[] = [];
         let scanned = false;
         // Preserve page order; OCR only pages with no extractable native text.
         for (let p = 1; p <= pdf.numPages; p++) {
+          signal.throwIfAborted();
           setStatusText(`Reading page ${p} of ${pdf.numPages} locally...`);
           setProgress(Math.round((p / pdf.numPages) * 95));
           const page = await pdf.getPage(p);
           const content = await page.getTextContent();
           let text = content.items.map((item: any) => typeof item.str === "string" ? item.str + (item.hasEOL ? "\n" : " ") : "").join("").trim();
-          if (!text) {
+          if (!text || scanEveryPage) {
             scanned = true;
-            setStatusText(`Recognizing scanned page ${p} locally. First use downloads the OCR engine...`);
+            setStatusText(`Recognizing scanned page ${p} locally. First use loads the local OCR engine...`);
             const viewport = page.getViewport({ scale: 2 });
             if (viewport.width * viewport.height > 20000000) throw new Error("This page is too large for safe OCR rendering. Re-scan at a lower resolution.");
             const canvas = document.createElement("canvas");
@@ -95,8 +98,8 @@ export default function PdfToTextPage() {
             const ctx = canvas.getContext("2d");
             if (!ctx) throw new Error("Could not create OCR canvas.");
             try {
-              await page.render({ canvasContext: ctx, viewport, background: "#ffffff" }).promise;
-              const result = await (await getWorker()).recognize(canvas);
+              await waitForOcr(page.render({ canvasContext: ctx, viewport, background: "#ffffff" }).promise, signal);
+              const result = await waitForOcr((await getWorker()).recognize(canvas), signal);
               text = result.data.text.trim();
             } finally { canvas.width = canvas.height = 0; }
           }
@@ -106,80 +109,31 @@ export default function PdfToTextPage() {
         setExtractedText(output.join("\n\n"));
         setEngineUsed(scanned ? "PDF.js + Tesseract.js (local)" : "PDF.js native text (local)");
       } else {
-        setStatusText("Recognizing image locally. First use downloads the OCR engine...");
-        const result = await (await getWorker()).recognize(file);
+        setStatusText("Recognizing image locally. First use loads the local OCR engine...");
+        const imageUrl = URL.createObjectURL(file);
+        const image = new Image(); image.src = imageUrl;
+        let result;
+        try {
+          await waitForOcr(image.decode(), signal, 15000);
+          if (image.naturalWidth * image.naturalHeight > 20000000) throw new Error("This image exceeds 20 million pixels. Resize it before OCR.");
+          result = await waitForOcr((await getWorker()).recognize(image), signal);
+        } finally { URL.revokeObjectURL(imageUrl); }
         setExtractedText(result.data.text.trim());
         setEngineUsed("Tesseract.js (local)");
         if (!result.data.text.trim()) setErrorMsg("No text detected. Try a sharper, correctly oriented image.");
       }
+      signal.throwIfAborted();
       setProgress(100);
     } catch (error: any) {
-      setErrorMsg(error?.message || "Could not extract text. Try unlocking or repairing the document first.");
+      if (mounted.current) { setErrorMsg(signal.aborted ? "Extraction cancelled. Choose Start Extraction to try again." : error?.message || "Could not extract text. Try a smaller document or unlock it first."); setExtractedText(""); }
     } finally {
-      await Promise.allSettled([worker ? (worker as Awaited<ReturnType<typeof createWorker>>).terminate() : Promise.resolve(), pdf?.destroy()]);
-      setIsProcessing(false);
+      await Promise.allSettled([worker ? (worker as Worker).terminate() : Promise.resolve(), pdf?.destroy()]);
+      if (mounted.current) setIsProcessing(false);
+      if (controllerRef.current === controller) controllerRef.current = null;
     }
   };
 
-  /**
-   * CLOUD AI OCR EXECUTION
-   * Invoked ONLY after the user explicitly reviews and approves the Cloud AI Consent Modal.
-   */
-  const executeCloudOcr = async () => {
-    setShowConsentModal(false);
-    if (!file) return;
-
-    setErrorMsg(null);
-    setExtractedText("");
-    setEngineUsed(null);
-    setIsProcessing(true);
-    setProgress(20);
-    setStatusText("Securely transmitting document to Cloud AI OCR endpoint...");
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("mode", "handwriting");
-
-      const res = await fetch("/api/ocr", {
-        method: "POST",
-        body: formData,
-      });
-
-      setProgress(85);
-      setStatusText("Parsing neural vision transcription...");
-
-      if (res.ok) {
-        const data = await res.json();
-        setExtractedText(data.text || "No text returned by AI model.");
-        setEngineUsed(data.engine || "Cloud AI OCR");
-        setProgress(100);
-      } else {
-        const errData = await res.json().catch(() => ({}));
-        setErrorMsg(errData.error || `Cloud OCR unavailable (${res.status}). Use local extraction.`);
-      }
-    } catch (err: any) {
-      console.error("Cloud OCR error:", err);
-      setErrorMsg("Cloud OCR could not be reached. Use local extraction or try again later.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
-
-  /**
-   * Triggers extraction based on active mode.
-   * If Cloud AI mode is selected, opens the mandatory consent dialog first.
-   */
-  const handleStartExtraction = () => {
-    if (!file) return;
-    if (ocrMode === "ai") {
-      if (!cloudEnabled) { setErrorMsg("Cloud OCR is unavailable. Use local extraction."); return; }
-      if (file.size > 4 * 1024 * 1024) { setErrorMsg("Cloud OCR supports files up to 4MB. Use local extraction for larger files."); return; }
-      setShowConsentModal(true);
-    } else {
-      processLocalOcr();
-    }
-  };
+  const handleStartExtraction = () => { if (file && !isProcessing) void processLocalOcr(); };
 
   const handleCopy = async () => {
     if (!extractedText) return;
@@ -232,63 +186,21 @@ export default function PdfToTextPage() {
             </span>
           </h1>
           <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-            Extract clean text, tables, and notes from PDFs and images. Choose between 100% private in-browser extraction (PDF.js + Tesseract.js) or optional Cloud AI scanning.
+            Copy selectable PDF text or recognize printed English text from scans. Your document stays in your browser; no account or upload is required.
           </p>
         </div>
 
-        {/* Engine Mode Selection Toggle */}
-        <div className="max-w-xl mx-auto mb-6">
-          <div className="p-1.5 bg-slate-100/80 rounded-2xl border border-slate-200/80 flex items-center shadow-inner">
-            <button
-              onClick={() => {
-                setOcrMode("client");
-                setShowAiNotice(false);
-              }}
-              className={`flex-1 py-2.5 px-4 rounded-xl font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-200 ${
-                ocrMode === "client"
-                  ? "bg-white text-violet-700 shadow-clay-card border border-violet-100"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              <span>In-Browser Local Extraction</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold hidden sm:inline">
-                Zero-Upload
-              </span>
-            </button>
-
-            <button disabled={!cloudEnabled || isProcessing}
-              onClick={() => {
-                setOcrMode("ai");
-                setShowAiNotice(true);
-              }}
-              className={`flex-1 py-2.5 px-4 rounded-xl font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all duration-200 ${
-                ocrMode === "ai"
-                  ? "bg-white text-violet-700 shadow-clay-card border border-violet-100"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              <Cpu className="w-4 h-4 text-violet-600" />
-              <span>{cloudEnabled ? "AI Deep Scan" : "Cloud OCR unavailable"}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-violet-100 text-violet-700 font-bold hidden sm:inline">
-                Cloud AI
-              </span>
-            </button>
-          </div>
+        <div className="max-w-xl mx-auto mb-6 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-sm text-emerald-900">
+          <p className="font-semibold">Digital text first. Local OCR when needed.</p>
+          <p className="mt-1">The engine and English language files load from this website only when a scan needs OCR. Handwriting and complex tables may not be recognized accurately.</p>
+          <label className="flex items-start gap-2 mt-3 text-slate-800">
+            <input type="checkbox" className="mt-1" checked={scanEveryPage} onChange={event => { setScanEveryPage(event.target.checked); setExtractedText(""); setEngineUsed(null); }} />
+            <span>OCR every PDF page (slower; useful for mixed text and scans)</span>
+          </label>
         </div>
 
-        {/* Transparent Cloud Notice when AI Mode is active */}
-        {ocrMode === "ai" && (
-          <div className="max-w-xl mx-auto mb-6 p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-amber-900 flex items-start gap-2.5 animate-in fade-in-50">
-            <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <strong className="font-bold">Cloud Processing Notice:</strong> AI Deep Scan securely transmits this document to our OCR processing service for neural vision transcription. If you require zero data transmission, choose <strong>In-Browser Local Extraction</strong>.
-            </div>
-          </div>
-        )}
-
         {errorMsg && <p role="alert" className="p-4 mb-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-800">{errorMsg}</p>}
-        <p className="text-center text-sm text-slate-500 mb-6">Local OCR may download its engine and English language data on first use. Document contents stay local. Check names, numbers and tables against the original.</p>
+        <p className="text-center text-sm text-slate-500 mb-6">PDF, PNG, JPEG and WebP · English printed-text OCR · up to 100MB / 200 PDF pages per batch. Large scans can exceed your device memory; try a smaller batch.</p>
         {/* Main Work Area Card */}
         <div className="bubble-card p-6 sm:p-8 rounded-3xl border border-slate-100 shadow-clay-card mb-10 bg-white">
           {!file ? (
@@ -374,7 +286,7 @@ export default function PdfToTextPage() {
               {isProcessing && (
                 <div className="mb-6 p-4 rounded-2xl bg-violet-50/70 border border-violet-100">
                   <div className="flex justify-between items-center text-xs font-semibold text-violet-800 mb-2">
-                    <span>{statusText}</span>
+                    <span role="status" aria-live="polite">{statusText}</span>
                     <span>{progress}%</span>
                   </div>
                   <div className="w-full h-2.5 bg-violet-200/60 rounded-full overflow-hidden">
@@ -478,62 +390,8 @@ export default function PdfToTextPage() {
 
       </div>
 
-      {/* Cloud AI Transmission Explicit Consent Modal */}
-      {showConsentModal && (
-        <dialog ref={consentDialog} onCancel={() => setShowConsentModal(false)} aria-labelledby="cloud-consent-title" className="max-w-lg w-[calc(100%-2rem)] rounded-3xl p-0 border-0">
-          <div
-            className="bubble-card bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full border border-slate-200/80 shadow-clay-card space-y-5 animate-in zoom-in-95 duration-200"
-          >
-            <div className="flex items-start gap-3.5">
-              <div className="w-11 h-11 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 shadow-clay-badge">
-                <ShieldAlert className="w-6 h-6" />
-              </div>
-              <div>
-                <h2 id="cloud-consent-title" className="text-lg font-bold text-slate-900">
-                  Cloud AI Transmission Consent
-                </h2>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  Explicit user approval required before external API transmission
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-3 text-xs sm:text-sm text-slate-600 bg-amber-50/60 p-4 rounded-2xl border border-amber-100">
-              <p>
-                You are about to transmit <strong>{file?.name}</strong> to our backend Cloud AI OCR service (powered by Google Gemini Vision API) for neural transcription.
-              </p>
-              <ul className="list-disc list-inside space-y-1 text-xs text-slate-700">
-                <li><strong>Provider handling:</strong> Google's retention and data-use terms depend on the service configuration. Do not submit confidential or sensitive information. Read our <a href="/privacy-policy" className="underline">privacy policy</a> first.</li>
-                <li><strong>Transmission:</strong> Encrypted in transit via HTTPS/TLS.</li>
-                <li><strong>Processing Limits:</strong> Maximum 4MB file size, 20 PDF pages, and 5 scans/hour per client.</li>
-                <li><strong>Privacy Alternative:</strong> If your document contains confidential, medical, or proprietary data, we recommend using our 100% In-Browser Local Extraction.</li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setShowConsentModal(false);
-                  setOcrMode("client");
-                  setShowAiNotice(false);
-                }}
-                className="flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center"
-              >
-                Cancel &amp; Use Local Mode
-              </button>
-              <button
-                type="button"
-                onClick={executeCloudOcr}
-                className="flex-1 btn-clay py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-violet-600 to-indigo-600 shadow-clay-btn hover:shadow-clay-btn-hover flex items-center justify-center gap-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                <span>Agree &amp; Transmit</span>
-              </button>
-            </div>
-          </div>
-        </dialog>
-      )}
-    </fieldset></MasterShell>
+    </fieldset>
+    {isProcessing && <div className="text-center pb-6"><button type="button" onClick={() => controllerRef.current?.abort()} className="btn-bubble btn-bubble-secondary px-6 py-3 font-semibold">Cancel extraction</button></div>}
+    </MasterShell>
   );
 }

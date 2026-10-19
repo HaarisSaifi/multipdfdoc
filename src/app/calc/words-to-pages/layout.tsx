@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Words to Pages Calculator (Times, Arial, Calibri) & Speech Timer",
-  description: "Convert word counts to printed pages for single and double spaced formats. Calculate presentation speech delivery time at 110-150 wpm on multipdfdoc.com.",
+  title: "Words to Pages & Speech Time Calculator",
+  description: "Estimate page count from word count and spacing, or speech duration from speaking rate. Results are planning estimates, not guaranteed formatted page counts.",
   alternates: {
     canonical: "https://multipdfdoc.com/calc/words-to-pages",
   },
   openGraph: {
-    title: "Words to Pages Calculator & Speech Presentation Timer | MultiPDF Doc",
-    description: "Convert word counts to printed pages for MLA/APA standards and estimate speech presentation time.",
+    title: "Words to Pages & Speech Time Calculator | MultiPDF Doc",
+    description: "Estimate page count from word count and spacing, or speech duration from speaking rate. Results are planning estimates, not guaranteed formatted page counts.",
     url: "https://multipdfdoc.com/calc/words-to-pages",
   },
 };
 
 export default function WordsToPagesLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["calc/words-to-pages"]}
+  return <><ToolBreadcrumb name="Words to pages calculator" href="/calc/words-to-pages" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["calc/words-to-pages"]}
         toolName="Words to Pages & Speech Time Calculator"
         title="Word Density, Typography & Speech Delivery Estimates"
         subtitle="Comprehensive guidelines for converting manuscripts into standard printed pages and presentation timelines."

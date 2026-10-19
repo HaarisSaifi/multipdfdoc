@@ -1,0 +1,11 @@
+{
+  "mockedLoaders": [
+    "https://www.googletagmanager.com/gtag/js?id=G-K4KZYMTFBZ"
+  ],
+  "unexpectedExternalRequests": [],
+  "checks": [
+    "No analytics loader before opt-in",
+    "One initialization and two sanitized page visits across client navigation",
+    "Withdrawal reload removes loader and persists across pages"
+  ]
+}

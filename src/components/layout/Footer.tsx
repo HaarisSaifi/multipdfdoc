@@ -1,3 +1,4 @@
+import { AnalyticsConsent } from "@/components/privacy/AnalyticsConsent";
 import React from "react";
 import { ShieldCheck, FileText, UserCheck, Mail, Lock, CheckCircle2, BookOpen } from "lucide-react";
 
@@ -17,7 +18,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-slate-600 leading-relaxed text-xs">
-              The privacy-first document and utility suite engineered for businesses, freelancers, and students. Core tools process documents locally. Optional Cloud AI OCR uploads your selected file after explicit consent.
+              The privacy-first document and utility suite engineered for businesses, freelancers, and students. Core tools process documents locally. PDF and scanned-text OCR tools run in your browser without document uploads.
             </p>
             <div className="text-[11px] text-slate-500 flex items-center gap-2 pt-1">
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -138,6 +139,8 @@ export function Footer() {
             </ul>
           </div>
         </div>
+
+        <AnalyticsConsent measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
 
         <div className="mt-12 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
           <p>© {new Date().getFullYear()} MultiPDF Doc (multipdfdoc.com). Core document tools run locally in your browser.</p>

@@ -4,7 +4,7 @@ import { ShieldCheck, Lock, Eye, CheckCircle2, Server, Cpu } from "lucide-react"
 export const metadata = {
   title: "Privacy Policy — MultiPDF Doc",
   description:
-    "Transparent privacy policy detailing local in-browser document processing, optional cloud AI OCR disclosures, and Google AdSense cookie guidelines on multipdfdoc.com.",
+    "Transparent privacy policy detailing local in-browser document processing, local English OCR downloads, and Google AdSense cookie guidelines on multipdfdoc.com.",
   alternates: {
     canonical: "https://multipdfdoc.com/privacy-policy",
   },
@@ -23,7 +23,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-xs text-slate-500 mt-1.5 font-medium">
-            Last updated: October 7, 2026
+            Last updated: October 11, 2026
           </p>
         </div>
 
@@ -49,23 +49,18 @@ export default function PrivacyPolicyPage() {
           </ul>
         </section>
 
-        {/* Section 2: Cloud AI OCR */}
         <section className="space-y-3">
-          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900 flex items-center gap-2">
-            <Server className="w-4 h-4 text-violet-600" />
-            <span>2. Optional AI Deep Scan / Cloud OCR Processing</span>
-          </h2>
-          <p>
-            Our PDF to Text tool offers two distinct processing options:
-          </p>
-          <ul className="list-disc pl-5 space-y-1.5">
-            <li>
-              <strong>Local Extraction Mode (Default):</strong> Operates 100% inside your browser via Mozilla PDF.js (for digital text) and Tesseract.js WebAssembly (for scanned pages). No document data is sent across the network.
-            </li>
-            <li>
-              <strong>AI Deep Scan Mode (Optional, when enabled):</strong> After consent, your selected file is sent over HTTPS to our API and Google Gemini. Our application processes it in memory and does not intentionally save document contents to a database or log them. Google’s data use and retention depend on the provider terms and account configuration. We do not promise zero retention or exclude provider review. Do not submit confidential or personal information to unpaid Gemini services. See the <a href="https://ai.google.dev/gemini-api/terms" className="text-violet-700 underline">Gemini API terms</a>. Cloud OCR is disabled by default pending deployment and provider review.
-            </li>
-          </ul>
+          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">2. Local Text Extraction and Scanned OCR</h2>
+          <p>PDF.js reads selectable digital text. Tesseract.js recognizes printed English scans in browser workers. This static release has no Cloud OCR service, document-upload API, user account database or server-side document processor.</p>
+          <p>OCR workers, WebAssembly engines and English language data are served from this website and download when required. The OCR library may cache language resources in browser storage; the application does not intentionally put selected documents or transcripts in that cache. Clearing site data removes cached resources and may require another download. Private browsing or storage restrictions can also affect caching.</p>
+          <p>OCR can misread names, amounts, handwriting, columns and unfamiliar languages. Review results against the original. Cancel stops extraction without altering the original file; browser-managed memory cleanup is not secure erasure.</p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">Optional visit analytics</h2>
+          <p>When configured, Google Analytics loads only after you choose Allow analytics in the footer. Choosing No thanks leaves it unloaded. You can reopen Analytics choices on any page. Withdrawing permission disables measurement, removes accessible first-party Google Analytics cookies and reloads the page to unload the script. Your preference is stored locally; blocked browser storage can prevent it from persisting.</p>
+          <p>Our explicit visit events contain the page path and title, with query strings and fragments excluded. They do not include selected file names, document bytes, passwords, invoice fields or OCR transcripts. Google receives ordinary connection and device information when analytics loads, and may use identifiers and cookies under its policies. See <a href="https://policies.google.com/privacy" className="text-violet-700 underline">Google's privacy policy</a>. Already transmitted measurement data is not deleted simply by withdrawing consent; contact support with a privacy request.</p>
+          <p>This optional analytics preference is separate from advertising consent. Advertising remains disabled in the default release; this control is not a Google-certified advertising CMP.</p>
         </section>
 
         {/* Section 3: AdSense & Cookies */}
@@ -79,7 +74,7 @@ export default function PrivacyPolicyPage() {
           </p>
           <ul className="list-disc pl-5 space-y-1.5">
             <li>
-              Third-party advertising partners serve ads based on non-personally identifiable visit signals. Document contents are never accessed, analyzed, or shared for advertising purposes.
+              If enabled, advertising partners may process identifiers, device information and visit signals under their policies and applicable consent choices. Document contents are never accessed, analyzed, or shared for advertising purposes.
             </li>
             <li>
               Users may opt out of personalized advertising by visiting{" "}
@@ -107,9 +102,9 @@ export default function PrivacyPolicyPage() {
         {/* Section 4: Data Subject Rights */}
         <section className="space-y-3">
           <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">Website requests, external resources and contact messages</h2>
-          <p>Local document processing does not mean visiting the website creates no network activity. Hosting and security services receive ordinary request information such as IP address, browser headers, URL and time. Fonts and PDF.js assets are locally hosted. OCR engine and language downloads may involve third-party resource requests; these do not include your selected document. Hosting providers set their own operational log retention.</p>
-          <p>If you submit our contact form, your name, email, subject and message are sent through our API to our email provider and support mailbox. Please omit document contents and sensitive identifiers. Messages remain in the support mailbox until the operator deletes them; ask support about access or deletion. The form reports success only when the email provider accepts the message. Delivery to an inbox is not guaranteed.</p>
-          <p>API abuse protection uses a hashed network identifier in a rate-limit store with expiry of up to 24 hours. This is pseudonymous operational data, not a claim of anonymity. We do not sell document contents. Do not include file contents in URLs or support reports.</p>
+          <p>Local document processing does not mean visiting the website creates no network activity. Hosting and security services receive ordinary request information such as IP address, browser headers, URL and time. Fonts and PDF.js assets are locally hosted. OCR worker, engine and English language files are also served from this website; these resource requests do not include your selected document. Hosting providers set their own operational log retention.</p>
+          <p>The contact page prepares an email draft on your device. It does not submit a message to a website API or confirm delivery. If you open your email application and send the message, your email provider and the receiving mailbox process the details you include. Please omit document contents, passwords and sensitive identifiers. Messages may remain in the support mailbox until the operator deletes them; ask support about access or deletion.</p>
+          <p>The static application does not use a Redis rate-limit store, cloud OCR provider or document telemetry. Hosting access logs and any separately enabled advertising have their own handling and retention policies. Do not include private document contents in URLs or support reports.</p>
         </section>
         <section className="space-y-3">
           <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">

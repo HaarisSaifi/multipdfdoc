@@ -35,6 +35,8 @@ yarn-error.log*
 
 # Generated local browser audit fixtures and profiles
 /scratch/chrome-production-profile/
+/scratch/chrome-analytics-profile/
+/scratch/live-home-*.html
 /scratch/axe/
 /scratch/axe-core-*.tgz
 /scratch/fixture-production-2page.pdf
@@ -44,3 +46,13 @@ yarn-error.log*
 /scratch/homepage-*.png
 
 /scratch/fixture-small-page.pdf
+
+/scratch/tesseract.js-data-eng-*.tgz
+/artifacts/
+
+/scratch/fixture-invalid.pdf
+/scratch/fixture-mixed.pdf
+
+# Graphify AST cache
+graphify-out/cache/
+

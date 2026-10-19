@@ -143,7 +143,7 @@ export default function EditorialPolicyPage() {
             MultiPDF Doc does not accept sponsored reviews, undisclosed affiliate placements, or paid articles to bias our tool recommendations. Standard utilities are completely free to use without requiring user account creation or subscription fees.
           </p>
           <p>
-            Website maintenance and serverless hosting costs may be offset by standard contextual advertising (e.g. Google AdSense). Advertisements are clearly separated from editorial content and tool operational controls to ensure an uncluttered, safe user experience.
+            Website maintenance and static hosting costs may be offset by standard contextual advertising (e.g. Google AdSense). Advertisements are clearly separated from editorial content and tool operational controls to ensure an uncluttered, safe user experience.
           </p>
         </section>
 

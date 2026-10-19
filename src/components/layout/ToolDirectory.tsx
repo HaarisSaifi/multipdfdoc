@@ -117,7 +117,7 @@ export function ToolDirectory() {
       id: "to-text",
       category: "pdf",
       title: "PDF & Image to Text OCR",
-      description: "Extract text from digital PDFs via PDF.js, run Tesseract.js WASM for scanned pages locally, or use optional Cloud AI Deep Scan.",
+      description: "Copy digital PDF text or recognize printed English scans locally. Search the transcript, copy it, or download a text file.",
       href: "/pdf/to-text",
       icon: Sparkles,
       iconColor: "text-amber-600",

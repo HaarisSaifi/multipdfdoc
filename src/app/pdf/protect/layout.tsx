@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Password Protect PDF (Client-Side AES Encryption)",
-  description: "Encrypt sensitive PDF documents with standard 128/256-bit password protection. Restrict printing and copying with zero server transmission.",
+  title: "Password Protect PDF — Local AES-256 Encryption",
+  description: "Encrypt a PDF with a password using local QPDF AES-256. Your file and entered password stay in your browser; preserve the original and remember your password.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/protect",
   },
   openGraph: {
-    title: "Password Protect PDF (Client-Side Encryption) | MultiPDF Doc",
-    description: "Lock PDF documents with passwords and owner permission restrictions with zero cloud upload.",
+    title: "Password Protect PDF — Local AES-256 Encryption | MultiPDF Doc",
+    description: "Encrypt a PDF with a password using local QPDF AES-256. Your file and entered password stay in your browser; preserve the original and remember your password.",
     url: "https://multipdfdoc.com/pdf/protect",
   },
 };
 
 export default function ProtectPdfLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/protect"]}
+  return <><ToolBreadcrumb name="Protect PDF" href="/pdf/protect" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/protect"]}
         toolName="Protect PDF with Password"
         title="Document Cryptography & Access Governance: Protecting Sensitive PDF Records"
         subtitle="How standard 128-bit and 256-bit encryption secures confidential legal and financial files."

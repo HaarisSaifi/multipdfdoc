@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Final Exam Grade Target Calculator (Panic vs Chill Simulator)",
-  description: "Calculate the exact grade you need on your final exam to pass or get an A. Supports syllabus category weighting and professor curves at multipdfdoc.com.",
+  title: "Final Grade Calculator — Required Exam Score",
+  description: "Calculate the final-exam score needed for a target grade using your current grade and exam weight. See when a target exceeds 100 percent.",
   alternates: {
     canonical: "https://multipdfdoc.com/calc/final-grade",
   },
   openGraph: {
-    title: "Final Exam Grade Target Calculator | MultiPDF Doc",
-    description: "The Panic vs Chill Simulator. Find out the exact minimum percentage you need on your final exam.",
+    title: "Final Grade Calculator — Required Exam Score | MultiPDF Doc",
+    description: "Calculate the final-exam score needed for a target grade using your current grade and exam weight. See when a target exceeds 100 percent.",
     url: "https://multipdfdoc.com/calc/final-grade",
   },
 };
 
 export default function FinalGradeLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["calc/final-grade"]}
+  return <><ToolBreadcrumb name="Final grade calculator" href="/calc/final-grade" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["calc/final-grade"]}
         toolName="Final Exam Target Grade Calculator"
         title="Understanding Weighted Grading Systems: Mathematical Principles & Syllabus Survival Strategies"
         subtitle="How university and high school professors calculate weighted averages, curves, and final exam thresholds."

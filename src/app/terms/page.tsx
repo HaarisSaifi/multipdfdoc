@@ -5,7 +5,7 @@ export const metadata = {
   title: "Terms of Service — MultiPDF Doc",
   description: "Terms and conditions governing the use of MultiPDF Doc in-browser document utilities on multipdfdoc.com.",
   alternates: { canonical: "https://multipdfdoc.com/terms" },
-  openGraph: { title: "Terms of Service", description: "Terms for MultiPDF Doc tools and optional Cloud OCR.", url: "https://multipdfdoc.com/terms" },
+  openGraph: { title: "Terms of Service", description: "Terms for MultiPDF Doc local document tools.", url: "https://multipdfdoc.com/terms" },
 };
 
 export default function TermsPage() {
@@ -21,7 +21,7 @@ export default function TermsPage() {
             Terms of Service
           </h1>
           <p className="text-xs text-slate-500 mt-1.5 font-medium">
-            Effective Date: September 19, 2026
+            Effective Date: October 7, 2026
           </p>
         </div>
 
@@ -39,7 +39,7 @@ export default function TermsPage() {
             2. Nature of Software & Local Execution
           </h2>
           <p>
-            MultiPDF Doc provides browser-based calculators and PDF utilities. Standard tools process files locally. Optional Cloud AI OCR sends your selected file to our service and Google Gemini after explicit consent and is subject to provider terms. OCR results may contain errors or invented text; verify them against the original. We do not offer legal, tax, immigration or admissions advice. Local processing does not certify compliance with your organization’s security requirements.
+            MultiPDF Doc provides browser-based calculators and PDF utilities. All document tools in this static release process selected files locally. English scanned-text OCR uses Tesseract.js; no cloud transcription service is offered. OCR results may contain errors or invented text; verify them against the original. We do not offer legal, tax, immigration or admissions advice. Local processing does not certify compliance with your organization’s security requirements.
           </p>
         </section>
 

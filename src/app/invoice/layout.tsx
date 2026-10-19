@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Free Invoice Generator (No Watermark, Vector PDF)",
-  description: "Create professional client-side vector PDF invoices with auto tax, discounts, and multi-currency (USD, EUR, GBP, INR). 100% free with zero watermarks at multipdfdoc.com.",
+  title: "Free Invoice Generator — No Signup or Watermark",
+  description: "Create a PDF invoice with line items, currency, tax and payment notes. Calculate totals and download locally without signup or an added watermark.",
   alternates: {
     canonical: "https://multipdfdoc.com/invoice",
   },
   openGraph: {
-    title: "Free Invoice Generator (No Watermark, Vector PDF) | MultiPDF Doc",
-    description: "Generate professional vector PDF invoices with custom tax, discounts, and multi-currency support without watermarks.",
+    title: "Free Invoice Generator — No Signup or Watermark | MultiPDF Doc",
+    description: "Create a PDF invoice with line items, currency, tax and payment notes. Calculate totals and download locally without signup or an added watermark.",
     url: "https://multipdfdoc.com/invoice",
   },
 };
 
 export default function InvoiceLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["invoice"]}
+  return <><ToolBreadcrumb name="Invoice generator" href="/invoice" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["invoice"]}
         toolName="Free Professional Invoice Generator"
         title="Official Procedural Standards: Business Invoicing, Tax Deductibility & Audit Governance"
         subtitle="Comprehensive legal and financial guidelines for freelancers, contractors, and SMBs generating valid tax invoices."

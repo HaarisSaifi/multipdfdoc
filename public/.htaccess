@@ -1,0 +1,43 @@
+# MultiPDF Doc static hosting: upload this file with all exported files.
+Options -Indexes -MultiViews
+ErrorDocument 404 /404.html
+AddType application/wasm .wasm
+AddType text/javascript .mjs
+AddType application/octet-stream .traineddata .gz
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "DENY"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set Content-Security-Policy "object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+  <FilesMatch "\.(html|txt|xml|json)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(js|mjs|css|woff2|wasm|gz|png|jpg|webp|svg|ico)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+  SetEnvIf Request_URI "^/_next/static/" immutable_asset
+  Header set Cache-Control "public, max-age=31536000, immutable" env=immutable_asset
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} !^multipdfdoc\.com$ [NC,OR]
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^ https://multipdfdoc.com%{REQUEST_URI} [R=301,L,NE]
+
+  RewriteCond %{THE_REQUEST} "\s/+index\.html(?:[?\s])" [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+  RewriteCond %{THE_REQUEST} "\s/+(.+?)\.html(?:[?\s])" [NC]
+  RewriteRule ^(.+)\.html$ /$1 [R=301,L]
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+?)/?$ $1.html [L]
+</IfModule>

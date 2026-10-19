@@ -1,8 +1,8 @@
 import type { ArticleContent } from "@/components/seo/ArticleGuide";
 
 export const compressionArticle: ArticleContent = {
-  title: "Compress a PDF for Government Portals: When a 200KB Target Makes Sense",
-  description: "Choose a realistic file limit, preserve readable evidence and check the actual downloaded PDF before submitting it to USCIS or CEAC.",
+  title: "USCIS & Passport PDF Compression Guide: How to Compress PDF to 200KB or Portal Limits",
+  description: "Step-by-step guide to compress PDF files to 200KB or government portal size limits for USCIS, CEAC, and passport uploads while maintaining readable evidence.",
   published: "2026-09-18",
   tool: { href: "/pdf/compress", label: "Open the local PDF compressor" },
   sections: [
@@ -26,7 +26,7 @@ Compare the page count and sequence with the original. Look especially for a rev
     { heading: "If 200KB is impossible, change the input or the requirement", content: `A long color document cannot always fit into a tiny byte budget while staying legible. For example, allocating 200KB across twenty pages leaves roughly ten KB per page before accounting for PDF structure. That may be inadequate for small print and photographs. No compression algorithm can guarantee readable output at every target for every document.
 
 Start by checking whether your portal really requires the smaller target. If it allows several megabytes, use that room to preserve useful detail. If separate attachments are permitted, use the split tool to create complete, logically named sections. Do not split a document when the portal specifically asks for its pages and translation in one file. Re-scan a cropped, well-lit document rather than repeatedly recompressing a blurry copy. Removing accidental blank pages may help, but do not remove stamps, notes or legally relevant material to chase a smaller number.` },
-    { heading: "Privacy and document handling during the task", content: `Compression in this tool runs locally. The browser reads your selected file and processes its bytes using JavaScript, WebAssembly and canvas rendering. The compressor does not submit your document to the optional Cloud OCR endpoint. Engine and website assets still need to load, so ordinary network requests may appear without containing the document itself.
+    { heading: "Privacy and document handling during the task", content: `Compression in this tool runs locally. The browser reads your selected file and processes its bytes using JavaScript, WebAssembly and canvas rendering. The compressor does not submit your document to a transcription service. Engine and website assets still need to load, so ordinary network requests may appear without containing the document itself.
 
 On a shared computer, your saved output is a separate privacy consideration. Review the browser's download location, move the document to an appropriate private folder and follow the device owner's deletion policy. Closing a tab is not a secure erasure procedure for files you downloaded. Avoid including passport numbers or case identifiers in screenshots when reporting a software problem. If your organization has a document-handling policy, follow it even when processing is local. Privacy architecture reduces upload exposure; it does not decide every operational or legal requirement for your situation.` },
     { heading: "File names, evidence completeness and final submission", content: `Use a file name that explains its contents without unnecessary sensitive identifiers, such as supporting-document-translation.pdf. A case number in a file name may be acceptable in one workflow and inappropriate in another; use the receiving system's guidance. Avoid names that imply the tool verified the evidence, because it only processed a file you supplied.
@@ -49,8 +49,8 @@ If adaptive processing cannot meet the target, do not describe the original as a
 };
 
 export const invoiceArticle: ArticleContent = {
-  title: "Freelance Invoices: Clear Payment Terms, Accurate Totals and Better Records",
-  description: "Build an invoice your client can process, distinguish payment terms from tax reporting, and keep a useful trail from agreed work to payment.",
+  title: "Freelance Invoice Payment Terms Guide: Net 30 Terms, Late Fees & 2026 1099-NEC Rules",
+  description: "Master freelance invoice payment terms (Net 15, Net 30), late fee clauses, accurate subtotal tax calculations, and 2026 IRS 1099-NEC reporting guidelines.",
   published: "2026-09-16",
   tool: { href: "/invoice", label: "Create a local PDF invoice" },
   sections: [
@@ -95,8 +95,8 @@ Open every page of the output and inspect long descriptions and notes. Ensure th
 };
 
 export const gpaArticle: ArticleContent = {
-  title: "Weighted and Unweighted GPA: Calculate from Courses, Then Check College Rules",
-  description: "Work through credit-weighted examples, understand why a single weighted GPA cannot reveal an unweighted GPA, and avoid treating estimates as admissions cutoffs.",
+  title: "Weighted vs. Unweighted GPA: Cumulative Conversions & College Admissions Guide",
+  description: "Understand how cumulative weighted and unweighted GPAs differ, how AP/IB honors bonuses work, and how US college admissions evaluate high school course rigor.",
   published: "2026-09-14",
   tool: { href: "/calc/gpa", label: "Estimate GPA from your courses" },
   sections: [
@@ -147,7 +147,7 @@ export const privacyArticle: ArticleContent = {
   sections: [
     { heading: "Ask where the document bytes go", content: `The useful privacy question for a PDF tool is concrete: does it send the selected document to another system for processing? An upload-based converter receives file contents at a server. A local converter reads the file into the browser and performs its document operations on the device. Both can have legitimate uses, but they create different data-handling obligations and exposures.
 
-MultiPDF Doc's core tools use local JavaScript, WebAssembly and canvas processing. Selecting a file for merging, splitting, compressing, numbering, organizing, encryption or image conversion does not call a document-upload API. Local text extraction also works on the device. Optional Cloud AI OCR is a separate workflow that sends the chosen file after consent when that service is enabled. Describing these boundaries accurately is more useful than declaring that a whole website can never transmit any data under any circumstances.` },
+MultiPDF Doc's core tools use local JavaScript, WebAssembly and canvas processing. Selecting a file for merging, splitting, compressing, numbering, organizing, encryption or image conversion does not call a document-upload API. Local text extraction also works on the device. The static release also recognizes printed English scans locally using Tesseract.js, with no cloud transcription endpoint. Describing these boundaries accurately is more useful than declaring that a whole website can never transmit any data under any circumstances.` },
     { heading: "Local processing and zero-knowledge are different claims", content: `Zero-knowledge has specific meanings in cryptography and is also used in marketing for services designed so an operator cannot access protected content. This site does not claim a formal zero-knowledge protocol or an independent cryptographic audit of the complete application. Its core document-processing boundary is simpler: file bytes are processed in the browser instead of being uploaded for conversion.
 
 That reduces the need to entrust a remote converter with the document. It does not establish that your browser, operating system, extensions or downloaded files are secure. Malicious code on an endpoint can undermine a local workflow, and a future software change could alter the application's behavior. Evaluate the actual operation and current code rather than treating a label as a certification. Our public source and reproducible tests are evidence you can inspect, with the practical limits described in the editorial policy.` },
@@ -160,9 +160,15 @@ Look for outgoing bodies or URLs containing the document's test marker. Note any
     { heading: "Encrypted transport does not hide files from the recipient", content: `A reputable upload service may use HTTPS, which protects traffic between your browser and the service against ordinary network interception. That does not mean the receiving server cannot read the document. If the server must convert an unencrypted PDF, it generally needs access to the contents. The provider's retention practices, access controls and subprocessors therefore matter alongside transport encryption.
 
 Do not infer that all cloud converters store files permanently or all use the same deletion window. Read the current provider policy and any contract relevant to your organization. For sensitive work, consider the purpose of the upload and whether a suitable local tool can perform the operation instead. For workflows that genuinely require cloud processing, evaluate that provider's documented controls. This guide does not rank unnamed providers, invent breach statistics or claim that HTTPS itself makes every document workflow acceptable.` },
-    { heading: "Understand the optional AI OCR boundary before consenting", content: `When Cloud AI OCR is enabled, the selected file travels to this site's API and then Google Gemini. The application checks file limits and request quotas, but those controls do not turn an external AI service into a local operation. The notice should be read before approving transmission. A model-generated transcription can also omit, alter or invent text; compare important results with the original document.
+    { heading: "Check OCR downloads separately from document transmission", content: `A scanned page needs recognition software and language data, while a digital PDF may already contain selectable text. MultiPDF Doc loads the PDF.js worker, Tesseract.js worker, compatible WebAssembly resources and English model files from its own website. Those requests retrieve software assets. They are different from transmitting the selected PDF, its text or the password entered in a tool.
 
-Google's Gemini terms distinguish paid and unpaid services and describe different data uses. The operator must verify the provider account, permitted audience, region and retention terms before enabling the cloud feature. MultiPDF Doc therefore keeps Cloud OCR disabled by default and does not promise that the provider retains nothing or never uses data to improve services. If you need to avoid document transmission, use local extraction and do not approve a cloud request. A consent dialog explains a choice; it is not a substitute for verifying provider suitability.` },
+You can verify the boundary with a safe sample rather than a confidential original. Open the browser's network panel, select a short scan and start extraction. Observe which resources are requested and whether any request sends the selected document as a body. The static release offers no Cloud OCR or upload API. Browser extensions, compromised devices and actions you take after downloading an output are separate risks; a local-processing design does not make them disappear.
+
+Language files may be cached by the OCR library in browser storage to reduce repeat downloads. The application does not intentionally cache your selected document or transcript there. A warm cache can help the next scan start sooner, but cache eviction, private browsing or a cleared browser profile can require another download. Loading only the homepage does not download every recognition resource and therefore does not establish that OCR will work offline.
+
+Printed English is the supported local OCR model. Blurred scans, handwriting, stamps, multiple columns and mixed-language pages can produce omissions or mistakes. Keep the original and check amounts, dates, names and row relationships. For a mixed page with selectable text plus a scan, the full-page OCR option can recognize the image but may also misread text that was already digital. Choose the mode deliberately and compare the results.
+
+The practical privacy advantage is a smaller data-sharing boundary, not an absolute security certificate. Hosting providers still see ordinary requests for page and engine files. Contacting support through your email application shares the message you choose to send with your mail provider and the receiving mailbox. Avoid including private document contents in feedback.`, },
     { heading: "What happens to generated files and browser memory", content: `Core tools create an output file in browser memory and expose a temporary download link. When you save the file, it becomes an ordinary file on your device. This site's download links are released when replaced or when leaving the tool, but releasing a link is not the same as securely erasing physical memory or deleting a file from your download folder.
 
 Follow your own storage policy after processing. Move useful outputs to a suitable folder, remove unwanted copies and consider whether automatic backup software synchronizes that folder to another service. A local converter can keep document contents away from its own server while your device's cloud backup still uploads the saved result later. On a shared computer, closing the browser tab is insufficient to handle all copies. Think about the full workflow from source file to final storage, not just the conversion button.` },
@@ -181,7 +187,7 @@ If you need a cloud-only capability, decide whether the document is appropriate 
   sources: [
     { title: "WebAssembly security model", publisher: "WebAssembly project", url: "https://webassembly.org/docs/security/" },
     { title: "Network activity inspection", publisher: "Chrome for Developers", url: "https://developer.chrome.com/docs/devtools/network/" },
-    { title: "Gemini API terms and data use", publisher: "Google AI for Developers", url: "https://ai.google.dev/gemini-api/terms" },
+    { title: "Tesseract.js local installation", publisher: "Tesseract.js maintainers", url: "https://github.com/naptha/tesseract.js/blob/master/docs/local-installation.md" },
     { title: "QPDF encryption documentation", publisher: "QPDF project", url: "https://qpdf.readthedocs.io/en/stable/encryption.html" },
   ],
 };

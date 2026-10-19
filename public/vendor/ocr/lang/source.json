@@ -1,0 +1,8 @@
+{
+  "package": "@tesseract.js-data/eng",
+  "version": "1.0.0",
+  "variant": "4.0.0_best_int",
+  "source": "https://registry.npmjs.org/@tesseract.js-data/eng/-/eng-1.0.0.tgz",
+  "sha256": "45b4cb346724ac1774f1c36f42f182b887bcdb28ebe63e6fff90ac41f3fcff91",
+  "license": "MIT package; Tesseract traineddata Apache-2.0"
+}

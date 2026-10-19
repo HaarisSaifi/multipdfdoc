@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Add Page Numbers to PDF (Bates Numbering & Custom Pagination)",
-  description: "Stamp headers, footers, Bates numbers, and custom pagination (Page X of Y) onto PDF documents. Skip cover page with 100% in-browser privacy.",
+  title: "Add Page Numbers to PDF — Skip Cover Pages",
+  description: "Add PDF page numbers locally with a chosen start value, position and cover-page offset. Review the result before printing or sharing.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/page-numbers",
   },
   openGraph: {
-    title: "Add Page Numbers & Bates Numbering to PDF | MultiPDF Doc",
-    description: "Stamp custom header/footer page numbers and Bates indexing onto PDF documents locally.",
+    title: "Add Page Numbers to PDF — Skip Cover Pages | MultiPDF Doc",
+    description: "Add PDF page numbers locally with a chosen start value, position and cover-page offset. Review the result before printing or sharing.",
     url: "https://multipdfdoc.com/pdf/page-numbers",
   },
 };
 
 export default function PageNumbersLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/page-numbers"]}
+  return <><ToolBreadcrumb name="PDF page numbers" href="/pdf/page-numbers" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/page-numbers"]}
         toolName="Add Page Numbers to PDF"
         title="Practical PDF Pagination: Page Counters, Starting Pages & Placement"
         subtitle="How to place readable page counters and compare their format with a recipient’s instructions."

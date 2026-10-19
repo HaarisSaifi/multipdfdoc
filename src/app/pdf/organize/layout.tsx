@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Organize, Rotate & Delete PDF Pages (Visual 3D Editor)",
-  description: "Rotate individual PDF pages 90° or 180°, reorder thumbnails, and delete unwanted pages with zero server transmission at multipdfdoc.com.",
+  title: "Reorder, Rotate & Delete PDF Pages Locally",
+  description: "Reorder, rotate or remove PDF pages in your browser. Review the new page sequence and download a PDF without uploading your document.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/organize",
   },
   openGraph: {
-    title: "Organize, Rotate & Delete PDF Pages | MultiPDF Doc",
-    description: "Visual card reordering, page rotation, and single-click deletion in your browser memory.",
+    title: "Reorder, Rotate & Delete PDF Pages Locally | MultiPDF Doc",
+    description: "Reorder, rotate or remove PDF pages in your browser. Review the new page sequence and download a PDF without uploading your document.",
     url: "https://multipdfdoc.com/pdf/organize",
   },
 };
 
 export default function OrganizePdfLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/organize"]}
+  return <><ToolBreadcrumb name="Organize PDF" href="/pdf/organize" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/organize"]}
         title="Restructuring PDF Sequences: Professional Orientation & Page Management"
         subtitle="Techniques for fixing upside-down scanner feeds, aligning mixed portrait/landscape spreadsheets, and pruning blank filler pages."
         sections={[

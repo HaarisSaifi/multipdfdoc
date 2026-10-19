@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Split PDF Pages & Extract Chapters (In-Browser)",
-  description: "Extract specific page ranges (e.g., 1-3, 5) or separate PDF chapters with zero file uploads. 100% client-side privacy on multipdfdoc.com.",
+  title: "Split PDF & Extract Selected Pages — No Upload",
+  description: "Extract selected PDF pages with ranges such as 1,3-5. Create a new PDF locally without signup or uploading your document.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/split",
   },
   openGraph: {
-    title: "Split PDF Pages & Extract Chapters | MultiPDF Doc",
-    description: "Extract page ranges and isolate individual chapters locally without server uploads.",
+    title: "Split PDF & Extract Selected Pages — No Upload | MultiPDF Doc",
+    description: "Extract selected PDF pages with ranges such as 1,3-5. Create a new PDF locally without signup or uploading your document.",
     url: "https://multipdfdoc.com/pdf/split",
   },
 };
 
 export default function SplitPdfLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/split"]}
+  return <><ToolBreadcrumb name="Split PDF" href="/pdf/split" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/split"]}
         title="Authoritative Guide: How to Extract & Separate PDF Pages Securely"
         subtitle="Techniques for selecting specific chapters, checking page ranges and reviewing an extracted document."
         sections={[

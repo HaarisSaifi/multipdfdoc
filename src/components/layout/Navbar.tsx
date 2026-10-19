@@ -88,11 +88,11 @@ export function Navbar() {
 
   const searchable = [
     { title: "Compliance & Technical Guides", desc: "PDF compression and portal limits, freelance invoice rules, and GPA admissions guides", href: "/blog", badge: "BLOG" },
-    { title: "PDF & Image to Text OCR", desc: "Extract text and handwriting using in-browser or AI neural scan", href: "/pdf/to-text", badge: "AI OCR" },
+    { title: "PDF & Image to Text OCR", desc: "Copy PDF text and recognize printed English scans locally", href: "/pdf/to-text", badge: "LOCAL OCR" },
     { title: "Merge PDF Files", desc: "Combine multiple PDFs into one document locally", href: "/pdf/merge", badge: "POPULAR" },
     { title: "Split PDF Pages", desc: "Extract specific page spans or single chapters", href: "/pdf/split", badge: "FAST" },
     { title: "Compress PDF to 200KB / 100KB", desc: "Reduce file size for government and job portals", href: "/pdf/compress", badge: "TARGET" },
-    { title: "Invoice Generator (No Watermark)", desc: "Create professional client-side PDF invoices instantly", href: "/invoice", badge: "FREE" },
+    { title: "Invoice Generator (No Watermark)", desc: "Create and download a PDF invoice without signup", href: "/invoice", badge: "FREE" },
     { title: "Expense Voucher & Record Log", desc: "Contemporaneous expense vouchers & recordkeeping logs for tax & reimbursement", href: "/receipt", badge: "EXPENSE" },
     { title: "Convert PDF to Images", desc: "High-resolution 300 DPI canvas image exporter", href: "/pdf/to-image", badge: "300 DPI" },
     { title: "Images to PDF Compiler", desc: "Batch photos and receipts into a single PDF", href: "/pdf/from-image", badge: "BATCH" },

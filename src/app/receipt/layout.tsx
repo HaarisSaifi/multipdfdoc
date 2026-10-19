@@ -1,31 +1,25 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Personal Expense Voucher & Bookkeeping Log Generator | MultiPDF Doc",
-  description:
-    "Generate contemporaneous personal expense vouchers and business reimbursement logs under IRS Publication 463 guidelines. 100% private in-browser document generation.",
+  title: "Expense Record Generator — Local PDF Log",
+  description: "Create a self-entered expense record for your bookkeeping. Add descriptions and amounts, then download a PDF; this is not a merchant-issued receipt.",
   alternates: {
     canonical: "https://multipdfdoc.com/receipt",
   },
   openGraph: {
-    title: "Personal Expense Voucher & Bookkeeping Log Generator | MultiPDF Doc",
-    description:
-      "Itemized personal expense vouchers and contemporaneous business recordkeeping logs under IRS Pub. 463 rules.",
+    title: "Expense Record Generator — Local PDF Log | MultiPDF Doc",
+    description: "Create a self-entered expense record for your bookkeeping. Add descriptions and amounts, then download a PDF; this is not a merchant-issued receipt.",
     url: "https://multipdfdoc.com/receipt",
   },
 };
 
 export default function ReceiptLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["receipt"]} sections={supplements["receipt"]}
+  return <><ToolBreadcrumb name="Expense record" href="/receipt" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["receipt"]} sections={supplements["receipt"]}
         title="IRS Publication 463 & Business Expense Recordkeeping Guide"
         description="Comprehensive technical and procedural guide for self-employed professionals, independent contractors, and small business owners on contemporaneous expense tracking, deductible business expenses, and documentary proof standards."
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Business Suite", href: "/invoice" },
-          { label: "Expense Record Generator", href: "/receipt" },
-        ]}
         authorName="MultiPDF Doc"
         lastUpdated="October 7, 2026"
         readingTime="9 min read"

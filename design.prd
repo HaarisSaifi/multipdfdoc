@@ -1,4 +1,4 @@
-# 🎨 PAPERPULSE MASTER DESIGN SYSTEM SPECIFICATION (PRD)
+# 🎨 MULTIPDF DOC MASTER DESIGN SYSTEM SPECIFICATION (PRD)
 ### *Soft 3D Claymorphism & Modern Tactile SaaS Design Standard*
 **Document Version:** 1.0.0 | **Last Updated:** September 2026  
 **Master Authority Link:** Referenced & Enforced in [brain.md](file:///d:/adsense/brain.md)
@@ -7,12 +7,12 @@
 
 ## 🏛️ 1. DESIGN PHILOSOPHY & AESTHETIC LAWS
 
-PaperPulse is an ultra-premium, privacy-first web document utility suite. The visual language bridges **Soft 3D Claymorphism** with **Linear / Apple Vision-Grade SaaS Cleanliness**:
+MultiPDF Doc is an ultra-premium, privacy-first web document utility suite. The visual language bridges **Soft 3D Claymorphism** with **Linear / Apple Vision-Grade SaaS Cleanliness**:
 
 1. **Light Theme Supremacy:** Crisp, clean, trustworthy porcelain surfaces (`#F8FAFC` to `#FFFFFF`) paired with soft ambient pastel glows (subtle violet, sky, and mint radial auras).
 2. **Tactile Physicality (Claymorphism):** Elements do not look like flat digital stickers. They feel like physical, soft-molded tactile objects with double-layered outer ambient shadows and bright inner white bevels (`inset 0 1px 1px #FFFFFF`).
 3. **Aerodynamic & Un-cluttered:** No bulky, chunky, or 2-line wrapped text blocks in navigation. All interfaces must prioritize breathing room, widescreen layouts (`max-w-[1520px]`), and crisp typographic hierarchy.
-4. **Zero-Lag 60 FPS Performance:** All micro-animations and bouncy spring physics MUST be hardware-accelerated using GPU primitives (`transform: translate3d`, `will-change: transform`).
+4. **Zero-Lag 60 FPS Performance:** Prefer transform/opacity for animation, respect reduced-motion preferences, and verify responsiveness on representative devices. Use `will-change` only temporarily for a measured need; do not promote every card to a permanent GPU layer.
 
 ---
 
@@ -105,7 +105,7 @@ PaperPulse is an ultra-premium, privacy-first web document utility suite. The vi
   * Step-by-step instructions.
   * Mathematical / algorithmic complexity breakdown.
   * Interactive FAQ accordion rendering schema-compliant `<JsonLd type="FAQPage" />`.
-  * Institutional E-E-A-T audit signature line.
+  * Truthful editorial attribution and source references. Do not fabricate institutional review, qualifications, human authorship, or peer-review signatures.
 
 ### **Rule 6: AdSense Ad Containers (`<AdPlaceholder />`)**
 * Anti-Accidental-Click Margin: At least **30px vertical clearance** from all action buttons, dropzones, and download links.
@@ -115,9 +115,9 @@ PaperPulse is an ultra-premium, privacy-first web document utility suite. The vi
 
 ## 🔒 4. FUTURE IMPLEMENTATION PROTOCOL (FOR ALL AGENTS & DEVELOPERS)
 
-Whenever a new tool, page, modal, or component is added to PaperPulse:
+Whenever a new tool, page, modal, or component is added to MultiPDF Doc:
 1. **Read this file (`design.prd`) first.**
 2. Do NOT introduce random dark backgrounds or mismatched neon schemes.
 3. Use the semantic Tailwind classes (`bubble-card`, `bubble-dropzone`, `btn-bubble`, `shadow-clay-nav`, `shadow-clay-pill`).
 4. Ensure all header and navigation items remain strictly on a single line (`whitespace-nowrap`).
-5. Guarantee 100% responsive testing across mobile (375px), tablet (768px), and widescreen desktop (1440px+).
+5. Record responsive checks across mobile (320px and 375px), tablet (768px), and widescreen desktop (1440px+); automated viewport checks do not establish universal device compatibility.

@@ -1,0 +1,22 @@
+{
+  "home": {
+    "performance": 73,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "cls": 0,
+    "tbtMs": 903.9999999999998,
+    "type": "local mobile lab, not live Core Web Vitals",
+    "benchmarkIndex": 1268.5
+  },
+  "guide": {
+    "performance": 91,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100,
+    "cls": 0,
+    "tbtMs": 300.9999999999998,
+    "type": "local mobile lab, not live Core Web Vitals",
+    "benchmarkIndex": 1613.5
+  }
+}

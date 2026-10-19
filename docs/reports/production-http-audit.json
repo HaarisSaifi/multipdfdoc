@@ -3,157 +3,157 @@
     {
       "url": "/",
       "status": 200,
-      "bytes": 87786,
+      "bytes": 111768,
       "canonical": "https://multipdfdoc.com"
     },
     {
       "url": "/pdf/compress",
       "status": 200,
-      "bytes": 77823,
+      "bytes": 77584,
       "canonical": "https://multipdfdoc.com/pdf/compress"
     },
     {
       "url": "/pdf/merge",
       "status": 200,
-      "bytes": 80656,
+      "bytes": 80417,
       "canonical": "https://multipdfdoc.com/pdf/merge"
     },
     {
       "url": "/pdf/to-text",
       "status": 200,
-      "bytes": 82577,
+      "bytes": 82338,
       "canonical": "https://multipdfdoc.com/pdf/to-text"
     },
     {
       "url": "/invoice",
       "status": 200,
-      "bytes": 91803,
+      "bytes": 91564,
       "canonical": "https://multipdfdoc.com/invoice"
     },
     {
       "url": "/receipt",
       "status": 200,
-      "bytes": 87260,
+      "bytes": 87021,
       "canonical": "https://multipdfdoc.com/receipt"
     },
     {
       "url": "/pdf/split",
       "status": 200,
-      "bytes": 78292,
+      "bytes": 78053,
       "canonical": "https://multipdfdoc.com/pdf/split"
     },
     {
       "url": "/pdf/to-image",
       "status": 200,
-      "bytes": 75547,
+      "bytes": 75308,
       "canonical": "https://multipdfdoc.com/pdf/to-image"
     },
     {
       "url": "/pdf/from-image",
       "status": 200,
-      "bytes": 76881,
+      "bytes": 76642,
       "canonical": "https://multipdfdoc.com/pdf/from-image"
     },
     {
       "url": "/pdf/organize",
       "status": 200,
-      "bytes": 76650,
+      "bytes": 76411,
       "canonical": "https://multipdfdoc.com/pdf/organize"
     },
     {
       "url": "/pdf/protect",
       "status": 200,
-      "bytes": 78606,
+      "bytes": 78367,
       "canonical": "https://multipdfdoc.com/pdf/protect"
     },
     {
       "url": "/pdf/unlock",
       "status": 200,
-      "bytes": 78292,
+      "bytes": 78053,
       "canonical": "https://multipdfdoc.com/pdf/unlock"
     },
     {
       "url": "/pdf/page-numbers",
       "status": 200,
-      "bytes": 78898,
+      "bytes": 78659,
       "canonical": "https://multipdfdoc.com/pdf/page-numbers"
     },
     {
       "url": "/calc/final-grade",
       "status": 200,
-      "bytes": 80928,
+      "bytes": 80689,
       "canonical": "https://multipdfdoc.com/calc/final-grade"
     },
     {
       "url": "/calc/gpa",
       "status": 200,
-      "bytes": 92302,
+      "bytes": 92063,
       "canonical": "https://multipdfdoc.com/calc/gpa"
     },
     {
       "url": "/calc/words-to-pages",
       "status": 200,
-      "bytes": 82246,
+      "bytes": 82007,
       "canonical": "https://multipdfdoc.com/calc/words-to-pages"
     },
     {
       "url": "/blog",
       "status": 200,
-      "bytes": 54885,
+      "bytes": 54646,
       "canonical": "https://multipdfdoc.com/blog"
     },
     {
       "url": "/blog/compress-pdf-200kb-uscis-passport-guide",
       "status": 200,
-      "bytes": 89601,
+      "bytes": 89162,
       "canonical": "https://multipdfdoc.com/blog/compress-pdf-200kb-uscis-passport-guide"
     },
     {
       "url": "/blog/freelance-invoice-payment-terms-guide",
       "status": 200,
-      "bytes": 88398,
+      "bytes": 87961,
       "canonical": "https://multipdfdoc.com/blog/freelance-invoice-payment-terms-guide"
     },
     {
       "url": "/blog/weighted-vs-unweighted-gpa-college-admissions",
       "status": 200,
-      "bytes": 88515,
+      "bytes": 88070,
       "canonical": "https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions"
     },
     {
       "url": "/blog/zero-knowledge-pdf-privacy-cloud-converter-risks",
       "status": 200,
-      "bytes": 90036,
+      "bytes": 89588,
       "canonical": "https://multipdfdoc.com/blog/zero-knowledge-pdf-privacy-cloud-converter-risks"
     },
     {
       "url": "/about",
       "status": 200,
-      "bytes": 62314,
+      "bytes": 61985,
       "canonical": "https://multipdfdoc.com/about"
     },
     {
       "url": "/editorial-policy",
       "status": 200,
-      "bytes": 68214,
+      "bytes": 67885,
       "canonical": "https://multipdfdoc.com/editorial-policy"
     },
     {
       "url": "/privacy-policy",
       "status": 200,
-      "bytes": 64146,
+      "bytes": 63907,
       "canonical": "https://multipdfdoc.com/privacy-policy"
     },
     {
       "url": "/terms",
       "status": 200,
-      "bytes": 49514,
+      "bytes": 49275,
       "canonical": "https://multipdfdoc.com/terms"
     },
     {
       "url": "/contact",
       "status": 200,
-      "bytes": 48051,
+      "bytes": 47812,
       "canonical": "https://multipdfdoc.com/contact"
     }
   ],

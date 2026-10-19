@@ -20,6 +20,42 @@ export default function BlogIndexPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   const articles = [
+{
+    "slug": "pdf-page-numbers-skip-cover",
+    "title": "Add PDF Page Numbers Starting on Page 3",
+    "description": "Skip the cover and contents, choose the first visible number, and verify a five-page practice file.",
+    "category": "PDF Workflows",
+    "readTime": "7 min read",
+    "date": "October 11, 2026",
+    "badge": "PDF WORKFLOW",
+    "badgeColor": "bg-violet-50 text-violet-700 border-violet-200",
+    "featuredTool": "Page Numbers",
+    "featuredToolHref": "/pdf/page-numbers"
+},
+{
+    "slug": "extract-text-mixed-scanned-pdf",
+    "title": "Extract Text from Mixed Digital and Scanned PDFs",
+    "description": "Recover image text hidden below native headings, choose full-page OCR, and review a public sample.",
+    "category": "PDF Workflows",
+    "readTime": "7 min read",
+    "date": "October 11, 2026",
+    "badge": "PDF WORKFLOW",
+    "badgeColor": "bg-violet-50 text-violet-700 border-violet-200",
+    "featuredTool": "PDF to Text",
+    "featuredToolHref": "/pdf/to-text"
+},
+{
+    "slug": "pdf-compression-keep-text-selectable",
+    "title": "Compress PDF While Keeping Text Selectable",
+    "description": "Compare lossless and raster results, inspect a real text layer, and choose a readable size target.",
+    "category": "PDF Workflows",
+    "readTime": "7 min read",
+    "date": "October 11, 2026",
+    "badge": "PDF WORKFLOW",
+    "badgeColor": "bg-violet-50 text-violet-700 border-violet-200",
+    "featuredTool": "Compress PDF",
+    "featuredToolHref": "/pdf/compress"
+},
     {
       slug: "compress-pdf-200kb-uscis-passport-guide",
       title: "Compress a PDF for Government Portals: When a 200KB Target Makes Sense",
@@ -76,6 +112,7 @@ export default function BlogIndexPage() {
 
   const categories = [
     { id: "all", label: "All Articles" },
+    { id: "PDF Workflows", label: "PDF Workflows" },
     { id: "Immigration & Legal", label: "Immigration & Legal" },
     { id: "Business & Finance", label: "Business & Finance" },
     { id: "Academics", label: "Academics" },
@@ -99,18 +136,18 @@ export default function BlogIndexPage() {
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
-            Document Engineering &amp;{" "}
+            Practical PDF &amp;{" "}
             <span className="bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent">
-              Compliance Guides
+              Document Guides
             </span>
           </h1>
           <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-            In-depth procedural guides, document format breakdowns, and calculation manuals researched from official standards and benchmarked in-browser.
+            Clear workflows, public practice files and primary references for PDF tasks, invoice records and GPA calculations.
           </p>
         </div>
 
         {/* Category Pills */}
-        <div className="flex items-center justify-center gap-2 overflow-x-auto pb-4 mb-10 scrollbar-none">
+        <div className="flex flex-wrap items-center justify-center gap-2 pb-4 mb-10 scrollbar-none">
           {categories.map((cat) => (
             <button
               key={cat.id}
@@ -138,7 +175,7 @@ export default function BlogIndexPage() {
                 {/* Meta Header */}
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span
-                    className={`text-[10px] font-bold px-2.5 py-1 rounded-full border ${article.badgeColor}`}
+                    className={`text-[10px] font-bold px-2.5 py-1 rounded-full border whitespace-nowrap ${article.badgeColor}`}
                   >
                     {article.badge}
                   </span>

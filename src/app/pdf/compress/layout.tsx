@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Compress PDF: 100KB, 200KB and Custom Targets",
-  description: "Try 100KB, 200KB or custom PDF targets locally. Lossless optimization preserves content; adaptive compression changes pages into images.",
+  title: "Compress PDF to 200KB, 100KB or Custom Size",
+  description: "Try a 100KB, 200KB, 500KB or custom PDF size target locally. Keep the original, review readability, and get a clear message if the target cannot be met.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/compress",
   },
   openGraph: {
-    title: "Compress PDF with Size Targets | MultiPDF Doc",
-    description: "100KB, 200KB and 500KB target presets with local processing. Portal requirements vary; inspect output readability.",
+    title: "Compress PDF to 200KB, 100KB or Custom Size | MultiPDF Doc",
+    description: "Try a 100KB, 200KB, 500KB or custom PDF size target locally. Keep the original, review readability, and get a clear message if the target cannot be met.",
     url: "https://multipdfdoc.com/pdf/compress",
   },
 };
 
 export default function CompressPdfLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper
+  return <><ToolBreadcrumb name="Compress PDF" href="/pdf/compress" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper
         title="PDF File Size Optimization Guide: 100KB, 200KB & 500KB Thresholds"
         subtitle="Technical principles of lossless Flate stream deflating, object deduplication, and adaptive raster recompression."
         authorName="MultiPDF Doc"

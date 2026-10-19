@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Convert JPG & PNG Images to PDF (Multi-Photo Compiler)",
-  description: "Compile photos, scans, and receipts into a formatted PDF document. Reorder JPEG, PNG and WebP images locally, with one image per PDF page.",
+  title: "JPG, PNG & WebP to PDF — No Upload",
+  description: "Combine JPG, PNG and WebP images into a PDF in your browser. Reorder photos, choose the page size, and download without signup.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/from-image",
   },
   openGraph: {
-    title: "Convert Images to PDF (Multi-Photo Compiler) | MultiPDF Doc",
-    description: "Batch multiple photos and scans into a single formatted PDF document without server uploads.",
+    title: "JPG, PNG & WebP to PDF — No Upload | MultiPDF Doc",
+    description: "Combine JPG, PNG and WebP images into a PDF in your browser. Reorder photos, choose the page size, and download without signup.",
     url: "https://multipdfdoc.com/pdf/from-image",
   },
 };
 
 export default function FromImageLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/from-image"]}
+  return <><ToolBreadcrumb name="Images to PDF" href="/pdf/from-image" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/from-image"]}
         title="Best Practices for Compiling Image Scans into Professional PDFs"
         subtitle="Techniques for organizing scans, preserving readable detail and checking a local image-to-PDF export."
         sections={[

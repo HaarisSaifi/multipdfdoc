@@ -1,3 +1,27 @@
+# Current checkpoint: October 16, 2026 (Live Deployment, Graphify & Deep Failure Audit Checkpoint)
+
+- **Hostinger Live Deployment (Oct 16, 2026):** Successfully deployed and verified on Hostinger `public_html` via automated FTP pipeline `scripts/deploy-ftp.py` (415 files extracted, `.htaccess` active, SSL 200 OK across all 29 public routes, zero server cost). Google Search Console verification token (`googlec4493f5791f8eb92.html`) preserved intact.
+- **Current Live State:** 29 public URLs, 15 tools, 7 pillar guides (1,800+ words each), 3 practice sample files. 100% in-browser WebAssembly engines (`pdfstudio` qpdf v12, Mozilla PDF.js, Tesseract.js WASM local OCR). Zero document uploads.
+- **Technical SEO & CTR Upgrade (Oct 16, 2026):**
+  1. *Schema.org WebApplication:* Added structured JSON-LD `WebApplication` / `SoftwareApplication` data to all 15 interactive tools via `ToolBreadcrumb.tsx`.
+  2. *CTR Intent Optimizations:* Homepage retitled to `"MultiPDF Doc — Free Private PDF Tools & Document Suite (Zero Upload)"` matching query `multipdf` (Google Page 1, avg pos 8.2). USCIS guide retitled to `"USCIS & Passport PDF Compression Guide: How to Compress PDF to 200KB or Portal Limits"` matching pos 4.0 search intent.
+  3. *In-Article Conversion Mesh:* Interactive claymorphic action callout cards embedded in all 7 editorial guides directly driving readers to utility tools.
+  4. *GSC Export Evidence:* 12 impressions across 6 pages (Oct 7–13) ground-truth verified from `Performance-on-Search-2026-10-16.xlsx`.
+- **Graphify Knowledge Graph Integration:**
+  - Installed `graphifyy` (v0.9.91) with Tree-sitter parsers into Python 3.12.
+  - Codebase knowledge graph: `graphify-out/graph.json` (11,350 nodes, 26,571 edges, 260 communities) + `graphify-out/graph.html`.
+  - Workspace rule active at `.agents/rules/graphify.md` (`trigger: always_on`) and workflow at `.agents/workflows/graphify.md`.
+- **Critical Failure Mode Audit & Risk Defenses (WHY WE COULD FAIL & HOW WE PREVENT IT):**
+  1. *Premature AdSense Application Risk:* Site is ~7–10 days old with 12 impressions and 0 clicks. Submitting now triggers Google's automated "Low Value Content / Insufficient Traffic" bot rejection. **RULE: Wait for steady 50–100 daily search impressions in GSC before applying.**
+  2. *Missing Publisher ID:* `NEXT_PUBLIC_ADSENSE_CLIENT_ID` is empty in `.env.local`. When ready to apply, user must provide real `ca-pub-XXXXXXXXXXXXXXXX` so it gets compiled into `<meta name="google-adsense-account">` and deployed.
+  3. *Support Mailbox Real Verification:* MX points to `mx1.hostinger.com`. User MUST initialize and test `support@multipdfdoc.com` inside Hostinger hPanel to avoid bounced emails during human editorial review.
+  4. *Authority Void (0-Backlink Sandbox Trap):* 23 out of 29 URLs await crawling because domain authority is fresh (DA 0). White-hat authority seeding required: AlternativeTo listing (`alternativeto.net/software/multipdfdoc`), Product Hunt, GitHub anchor repo.
+  5. *Mobile Low-Memory (OOM) Limits:* 100% client-side WASM/Canvas processing has hardware memory boundaries on budget mobile devices (<3GB RAM). Prevent crashes via graceful error handling and clear file size guidelines.
+- **AdSense Safe Mode:** `<AdPlaceholder />` strictly returns `null` in pre-approval mode (`!NEXT_PUBLIC_ADSENSE_CLIENT_ID`), preventing empty ad space / under-construction rejections.
+- **Immediate User Routine:** (1) GSC homepage & USCIS guide URL inspection -> Request indexing for fresh metadata. (2) Hostinger email `support@multipdfdoc.com` setup & test. (3) AlternativeTo & Product Hunt listings. (4) AdSense application once impressions reach 50–100/day.
+
+---
+
 # 🧠 Antigravity Persistent Brain & Memory Hub
 ### *MultiPDF Doc (multipdfdoc.com): 100% Private In-Browser Document Suite*
 *Last Checkpointed: 2026-09-29 17:55 IST | Version 4.2.0 (AdSense Master Overhaul + E-E-A-T Policy + 33 Routes Clean)*
@@ -127,14 +151,49 @@ Automated test suite (`scratch/test-core-invariants.js`) verifies all critical o
 
 ## October 7, 2026 — Verified local release checkpoint
 
-This checkpoint supersedes historical guarantees and launch claims above. Current local work has not been deployed or pushed; the working tree contains a prepared release. Do not describe AdSense approval, traffic, revenue, universal PDF support or human-authored content as guaranteed.
+This checkpoint supersedes historical guarantees and launch claims above. The prepared release is recorded in local commit `246c06e`; follow-up verification/documentation changes may remain in the working tree. No new live deployment was performed in this audit; do not infer remote push state from this checkpoint. Do not describe AdSense approval, traffic, revenue, universal PDF support or human-authored content as guaranteed.
 
 - Read `docs/production-readiness-audit-2026-10-07.md` and the revised `propermonth.md` before continuing.
 - Next.js 15.5.27 builds with lint/types passing and all 33 generated static entries. The public sitemap contains 26 content URLs; different route-count metrics must not be conflated.
-- `npm test` passes 11 production regression groups and 5 real QPDF/ZIP invariant groups. Final browser tests pass 130 responsive page checks and 18 workflows, including all 15 tools. Axe WCAG and best-practice checks find no violations in the tested initial and completed states; this is not complete accessibility certification.
+- `npm test` passes 11 production regression groups and 5 real QPDF/ZIP invariant groups. Final browser tests pass 130 responsive page checks and 19 workflows, including all 15 tools. Axe WCAG and best-practice checks find no violations in the tested initial and completed states; this is not complete accessibility certification.
 - Standard document tools remain local. Optional Cloud OCR and ads are off by default pending real operator configuration. Engine assets may download; browser cleanup is not guaranteed secure erasure.
 - Contact delivery requires a verified mail provider and production Redis; the code no longer reports false success. Public MX lookup found no explicit mail exchanger; routing remains unverified. Hosting project/mail provider details have been requested from the owner.
 - Runtime npm audit reports zero advisories. Five high dependency entries remain in the documented Tailwind build chain; read `docs/security-audit-exceptions.md` before release.
 - Four articles and route guides were revised with AI assistance, source-grounded facts and explicit limitations. Do not claim independent peer review or certified plagiarism-free human authorship.
 - Reports are under `docs/reports/`. Local Lighthouse results are lab measurements, not deployed-site Core Web Vitals.
 - Remaining launch work requires hosting/account access: deployment and live checks, reliable support mail, Search Console ownership, real AdSense publisher verification and applicable certified CMP configuration. No real document upload, promotional post or support email was sent during this audit.
+
+### Final verification follow-up — October 7, 2026
+
+- Final full browser rerun exits 0: 130 page/viewport checks, 19 workflows, 52 initial and 16 completed-state axe checks; no detected violations, uncaught exceptions or document POSTs. The harness now waits explicitly for page readiness and supplies a complete Enter event.
+- Homepage static content uses server rendering; only tool filtering requires the client island. Latest first-load totals: homepage 112 kB and articles 104 kB.
+- Latest sequential local Lighthouse mobile samples: Homepage performance 96; PDF compression performance 93; Compression guide article performance 96. All three samples score 100 for accessibility/best practices/SEO and measure CLS 0. These are variable local lab samples, not deployed-site field measurements.
+- `design.prd` now uses the correct MultiPDF Doc name and rejects fabricated editorial credentials and universal performance/device guarantees while preserving the light clay design.
+
+## October 7, 2026 — Final Hostinger static release checkpoint
+
+This checkpoint supersedes the earlier Next server/API checkpoint above. Read `docs/static-release-audit-2026-10-07.md` and `docs/hostinger-static-deployment.md` for the current architecture and release state.
+
+- Static export: all fifteen tools retained; 31 generated Next entries, 26 public content URLs. No hosting application server, Cloud OCR/contact API, Redis or paid OCR provider.
+- Local English Tesseract OCR and PDF.js text extraction tested, including cancellation, blocked-engine recovery, malformed inputs and mixed PDFs. Self-hosted engines/model have pinned versions, notices and source/checksum records.
+- Final build/lint/types pass. Tests pass five helper/regression groups and five real QPDF/ZIP groups. Full browser checks pass 130 page/viewport cases and 24 workflows, with 52 initial and 21 completed-state axe scans and no detected exceptions/document POSTs/external requests.
+- Final local mobile Lighthouse performance: homepage 92, compression 95, OCR landing 93, article 92; each accessibility/best-practices/SEO 100 and CLS 0. These are lab samples, not live scores or OCR processing benchmarks.
+- Prepared artifact `artifacts/multipdfdoc-hostinger.zip`: 349 public files, 14.7 MiB, verified CRC/root/checksum. No live upload or account mutation performed.
+- Contact prepares an unsent draft; existing support mailbox receiving is unverified and a working address has been requested. Ads stay disabled, real publisher/CMP configuration is pending.
+- Production advisory audit zero; five high development/build entries remain documented. No guarantee of perfect support, approval, ranking, traffic or human-authored/plagiarism-certified content.
+- Next actions require owner/account/live access: upload verified ZIP after backup; verify Hostinger redirects/MIME/cache/SSL and real phones; confirm receiving email; Search Console ownership and sitemap; real AdSense/CMP configuration. Do not revive obsolete Cloud OCR or paid backend assumptions.
+
+---
+
+## ⚡ PROTOCOL: WHEN USER SAYS "SHURU HO JAO"
+Whenever the user commands **"shuru ho jao"**, provide an energetic, concise, and clear recap in simple Hindi/Hinglish covering:
+1. **Live Deployed on Hostinger (Oct 16, 2026):** 415 files extracted in `public_html`, zero server backend costs, root `.htaccess` active, SSL 200 OK across all 29 routes, Search Console token intact.
+2. **100% In-Browser Engine Suite:** 15 client-side tools (QPDF AES-256 WebAssembly, Mozilla PDF.js canvas, Tesseract.js WASM local OCR). Zero document uploads.
+3. **Graphify Knowledge Graph Synced:** 11,350 nodes, 26,571 edges (`graphify-out/graph.json`), `.agents/rules/graphify.md` always-on rule active.
+4. **Technical SEO & CTR Upgrades Live:** Schema.org `WebApplication` injected across all 15 tools; high-CTR intent titles live for homepage (query `multipdf` pos 8.2) and USCIS guide (pos 4.0); in-article conversion callout banners live.
+5. **AdSense Safe Mode:** `<AdPlaceholder />` strictly returns `null` in pre-approval mode, zero empty frames or visual bugs.
+6. **Prompt for the 4 Next Immediate Action Steps:**
+   - Step 1: GSC URL Inspection for homepage & USCIS guide -> Click "Request Indexing".
+   - Step 2: Hostinger hPanel -> Create and test `support@multipdfdoc.com` mailbox.
+   - Step 3: Authority Seeding -> List MultiPDF Doc on AlternativeTo & Product Hunt.
+   - Step 4: AdSense Application -> Submit once daily impressions reach 50–100/day in GSC.

@@ -10,7 +10,7 @@ const homeFaqs = [
   },
   {
     "question": "Are my documents uploaded for standard tools?",
-    "answer": "Standard PDF tools process selected document contents locally in your browser. Engine assets may load over the network. Optional Cloud OCR, when enabled, requires a separate disclosure and consent before the document is sent to the provider."
+    "answer": "Standard PDF tools process selected document contents locally in your browser. Engine assets may load over the network. Text extraction and scanned OCR also run locally; the static release has no document-upload API."
   },
   {
     "question": "What files can I process?",
@@ -25,8 +25,9 @@ const homeFaqs = [
 export default function HomePage() {
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: "MultiPDF Doc", url: "https://multipdfdoc.com/" }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", "@id": "https://multipdfdoc.com/#website", name: "MultiPDF Doc", url: "https://multipdfdoc.com/", publisher: { "@id": "https://multipdfdoc.com/#organization" } }} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: homeFaqs.map(({ question, answer }) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "Organization", "@id": "https://multipdfdoc.com/#organization", name: "MultiPDF Doc", url: "https://multipdfdoc.com/", logo: "https://multipdfdoc.com/icon.svg" }} />
       {/* Hero Section */}
       <section className="text-center space-y-6 pt-8 pb-4">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -35,14 +36,14 @@ export default function HomePage() {
         </div>
 
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight sm:leading-none">
-          The Private Web Utility Suite for <span className="text-violet-600">Everyday Documents</span>
+          Free PDF tools. <span className="text-violet-600">Your files stay with you.</span>
         </h1>
 
         <p className="text-slate-600 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
           Merge, split, compress, invoice, record expenses, and calculate directly on your device. Core tools execute locally in JavaScript &amp; WebAssembly at <strong className="text-slate-800">multipdfdoc.com</strong>.
         </p>
 
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+        <div className="pt-2 flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-4">
           <a
             href="/pdf/merge"
             className="px-8 py-4 rounded-full text-sm sm:text-base font-extrabold btn-bubble btn-bubble-violet shadow-clay-pill flex items-center gap-2.5"
@@ -59,7 +60,7 @@ export default function HomePage() {
           </a>
         </div>
 
-        <p className="text-sm text-slate-500">Optional Cloud AI OCR sends your selected file only after you approve the notice.</p>
+        <p className="text-sm text-slate-500">Choose a tool, select your file, and download the result. No account, document upload or added watermark.</p>
         {/* Live Architecture Metrics Strip */}
         <div className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-xs font-semibold text-slate-500">
           <div className="flex items-center gap-2">
@@ -81,6 +82,8 @@ export default function HomePage() {
       <AdPlaceholder slot="homepage-top" format="horizontal" />
 
       <ToolDirectory />
+      <section className="bubble-card p-6 sm:p-8 space-y-4"><h2 className="font-display text-xl font-bold text-slate-900">Get the PDF workflow right</h2><p className="text-sm text-slate-600">Try public examples and check your output before working with an important document.</p><ul className="space-y-3 text-sm"><li><a className="text-violet-700 underline" href="/blog/pdf-page-numbers-skip-cover">Add PDF Page Numbers Starting on Page 3</a></li><li><a className="text-violet-700 underline" href="/blog/extract-text-mixed-scanned-pdf">Extract Text from Mixed Digital and Scanned PDFs</a></li><li><a className="text-violet-700 underline" href="/blog/pdf-compression-keep-text-selectable">Compress PDF While Keeping Text Selectable</a></li></ul><a href="/blog" className="inline-block text-sm font-semibold text-violet-700 underline">Browse all practical guides</a></section>
+
 
       {/* Comparison Matrix: MultiPDF Doc vs Cloud Converters */}
       <section className="bubble-card p-8 sm:p-12 border border-slate-200/90 space-y-8">
@@ -89,7 +92,7 @@ export default function HomePage() {
             Architecture Audit
           </span>
           <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-slate-900">
-            Why Professionals Choose Local In-Browser Processing
+            Keep private files out of upload queues
           </h2>
           <p className="text-xs sm:text-sm text-slate-600">
             Comparison between traditional cloud-hosted upload services and MultiPDF Doc&apos;s client-side isolation architecture.
@@ -103,7 +106,6 @@ export default function HomePage() {
                 <th className="py-3.5 px-4 rounded-l-xl">Feature &amp; Privacy Architecture</th>
                 <th className="py-3.5 px-4 text-emerald-700 font-bold bg-emerald-50/70">MultiPDF Doc (Local Engine)</th>
                 <th className="py-3.5 px-4">Upload-based converter</th>
-                <th className="py-3.5 px-4 rounded-r-xl">Optional Cloud AI OCR</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-800">
@@ -116,7 +118,7 @@ export default function HomePage() {
                   100% In Browser Memory (Local)
                 </td>
                 <td className="py-4 px-4 text-slate-600">Remote Cloud Hosting</td>
-                <td className="py-4 px-4 text-slate-600">Remote Datacenters</td>
+
               </tr>
               <tr>
                 <td className="py-4 px-4 font-bold flex items-center gap-2">
@@ -127,7 +129,7 @@ export default function HomePage() {
                   NO (0 Bytes Uploaded)
                 </td>
                 <td className="py-4 px-4 text-rose-600 font-semibold">Yes (Full File Transferred)</td>
-                <td className="py-4 px-4 text-rose-600 font-semibold">Yes, after explicit consent</td>
+
               </tr>
               <tr>
                 <td className="py-4 px-4 font-bold flex items-center gap-2">
@@ -138,7 +140,7 @@ export default function HomePage() {
                   Free; device memory limits apply
                 </td>
                 <td className="py-4 px-4 text-slate-600">Provider-specific limits</td>
-                <td className="py-4 px-4 text-slate-600">5 requests/hour, 20/day</td>
+
               </tr>
               <tr>
                 <td className="py-4 px-4 font-bold flex items-center gap-2">
@@ -149,18 +151,18 @@ export default function HomePage() {
                   Local processing; manage downloaded copies
                 </td>
                 <td className="py-4 px-4 text-slate-600">Check the provider’s retention policy</td>
-                <td className="py-4 px-4 text-slate-600">Depends on Google service configuration</td>
+
               </tr>
               <tr>
                 <td className="py-4 px-4 font-bold flex items-center gap-2">
                   <Globe className="w-4 h-4 text-violet-600" />
-                  Cloud AI Mode Disclosure
+                  Sharing your output
                 </td>
                 <td className="py-4 px-4 text-emerald-800 font-bold bg-emerald-50/30">
-                  Explicitly Prompted &amp; Disclosed
+                  You choose where downloaded files go
                 </td>
                 <td className="py-4 px-4 text-slate-600">Check provider disclosures</td>
-                <td className="py-4 px-4 text-slate-600">Check provider disclosures</td>
+
               </tr>
             </tbody>
           </table>
@@ -188,7 +190,7 @@ export default function HomePage() {
               How Client-Side Execution Operates
             </h3>
             <p>
-              Traditional web applications send user documents to remote cloud infrastructure using HTTP POST payloads. Once on the remote server, third-party backend processes write the document to temporary disk storage.
+              Upload-based converters send documents to a remote service. Storage, processing and retention vary by provider; check its policy before sharing sensitive files.
             </p>
             <p>
               MultiPDF Doc replaces remote server processing with client-side JavaScript, HTML5 Canvas, and WebAssembly (qpdf &amp; Tesseract) running directly inside your browser engine. When you select a document, the byte stream is mapped into your local device&apos;s RAM using ArrayBuffer primitives. Document parsing, encryption, and rendering happen on your local CPU and GPU.
@@ -204,7 +206,7 @@ export default function HomePage() {
               Because MultiPDF Doc does not utilize backend file storage or intermediate server caches for core tools, core documents are processed locally instead of being uploaded to our servers. Your browser, extensions, shared-device settings, and downloaded copies still need appropriate protection.
             </p>
             <p>
-              Closing or refreshing the tab releases application resources, but browser cleanup does not certify secure memory erasure. Downloaded files remain on your device. Optional Cloud OCR follows separate provider processing terms disclosed before consent.
+              Closing or refreshing the tab releases application resources, but browser cleanup does not certify secure memory erasure. Downloaded files remain on your device. This release has no Cloud OCR service or document-upload endpoint.
             </p>
           </div>
         </div>

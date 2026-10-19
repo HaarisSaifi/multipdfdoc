@@ -1,24 +1,25 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dual-Engine PDF & Image to Text OCR (In-Browser & AI Neural Scan)",
-  description: "Extract text from scanned PDFs and handwriting using private in-browser WebAssembly or optional Cloud OCR when available. Verify extracted text at multipdfdoc.com.",
+  title: "PDF to Text & English OCR — No Upload",
+  description: "Copy selectable PDF text or recognize printed English scans locally. Search, edit, copy and download a transcript without uploading your document.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/to-text",
   },
   openGraph: {
-    title: "Dual-Engine PDF & Image to Text OCR | MultiPDF Doc",
-    description: "Extract printed text and cursive handwriting via in-browser Wasm or AI neural OCR scan.",
+    title: "PDF to Text & English OCR — No Upload | MultiPDF Doc",
+    description: "Copy selectable PDF text or recognize printed English scans locally. Search, edit, copy and download a transcript without uploading your document.",
     url: "https://multipdfdoc.com/pdf/to-text",
   },
 };
 
 export default function ToTextLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper
+  return <><ToolBreadcrumb name="PDF to text &amp; OCR" href="/pdf/to-text" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper
           title="Document Text Extraction Architecture: Native Text Layers vs. OCR Rasterization"
-          subtitle="How client-side text parsers, WebAssembly Tesseract OCR, and neural vision models extract textual data from digital and scanned PDFs."
+          subtitle="How client-side text parsers, WebAssembly Tesseract OCR, and local recognition models extract textual data from digital and scanned PDFs."
           authorName="MultiPDF Doc"
           lastUpdated="October 7, 2026"
           sources={[
@@ -40,12 +41,6 @@ export default function ToTextLayout({ children }: { children: React.ReactNode }
               url: "https://github.com/tesseract-ocr/tesseract",
               accessed: "September 2026",
             },
-            {
-              title: "Google Generative AI Document Processing Specifications",
-              publisher: "Google AI for Developers",
-              url: "https://ai.google.dev/gemini-api/docs/document-processing",
-              accessed: "September 2026",
-            },
           ]}
           sections={[
             {
@@ -57,11 +52,10 @@ export default function ToTextLayout({ children }: { children: React.ReactNode }
             },
             {
               heading: "2. The Multi-Layer Extraction Architecture",
-              content: `To offer a local default and a separately disclosed cloud option, MultiPDF Doc uses a 3-tier extraction pipeline:
+              content: `This static release uses two local extraction paths:
 
 1. Fast Local Text Layer (Mozilla PDF.js): Inspects native document streams inside browser memory. If selectable text exists, it is parsed directly.
-2. Local Scanned OCR (Tesseract.js WebAssembly): If a page is purely an image, the page is rendered onto an in-memory HTML5 Canvas and processed by Tesseract's neural LSTM model compiled to WebAssembly. The selected document is not uploaded for this operation; engine and language assets can download on first use.
-3. Cloud AI Deep Scan (Multimodal Vision API): Designed for non-standard cursive handwriting, historical archives, or damaged photocopies. Prominently informs the user before transmitting the document to secure neural vision endpoints.`,
+2. Local Scanned OCR (Tesseract.js WebAssembly): If a page is purely an image, the page is rendered onto an in-memory HTML5 Canvas and processed by Tesseract's LSTM model compiled to WebAssembly. The selected document is not uploaded for this operation; engine and language assets can download on first use.`,
             },
             {
               heading: "3. Best Practices for High OCR Recognition Accuracy",
@@ -83,9 +77,9 @@ export default function ToTextLayout({ children }: { children: React.ReactNode }
                 "No. When 'In-Browser Local Extraction' is selected, 100% of the extraction executes directly inside your browser using Mozilla PDF.js and Tesseract.js WebAssembly. Your files never touch an external server.",
             },
             {
-              question: "When should I use 'AI Deep Scan / Handwriting' mode?",
+              question: "Can I recognize handwriting or languages other than English?",
               answer:
-                "When the separately disclosed cloud feature is enabled, it may help with difficult layouts or handwriting, but results still need checking. Confirm the provider terms and eligibility first. Do not send confidential, medical or personal documents to an unpaid provider service that prohibits them. Local extraction remains the default.",
+                "This release uses a printed-English OCR model. Handwriting and other languages may produce incorrect results. Use a clearer printed scan or a suitable dedicated OCR application, and verify the transcript against the source.",
             },
             {
               question: "Why does scanned OCR take longer than digital extraction?",

@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Weighted and Unweighted GPA Calculator (4.0 Scale)",
-  description: "Convert high school AP, IB, and Honors courses to standard unweighted 4.0 GPA scale. Estimate credit-weighted GPA using the displayed grade scale; confirm your school’s rules.",
+  title: "Weighted & Unweighted GPA Calculator With Credits",
+  description: "Estimate weighted and unweighted GPA using letter grades, course levels and credits. Zero-credit courses are excluded; school-specific policies still apply.",
   alternates: {
     canonical: "https://multipdfdoc.com/calc/gpa",
   },
   openGraph: {
-    title: "Weighted to Unweighted GPA Converter | MultiPDF Doc",
-    description: "Convert weighted grades to standard 4.0 scale with optional AP/IB honors boosts and clearly stated assumptions.",
+    title: "Weighted & Unweighted GPA Calculator With Credits | MultiPDF Doc",
+    description: "Estimate weighted and unweighted GPA using letter grades, course levels and credits. Zero-credit courses are excluded; school-specific policies still apply.",
     url: "https://multipdfdoc.com/calc/gpa",
   },
 };
 
 export default function GpaLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["calc/gpa"]}
+  return <><ToolBreadcrumb name="GPA calculator" href="/calc/gpa" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["calc/gpa"]}
         toolName="Weighted to Unweighted GPA Converter"
         title="GPA Calculation Guide: High School GPA Scaling & College Admissions Conversion"
         subtitle="How the Common Application, UC admissions, and state universities interpret weighted vs unweighted GPA."

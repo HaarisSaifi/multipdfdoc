@@ -1,6 +1,6 @@
 # 🤖 Antigravity Agent Directives & Session Context
 ### *MultiPDF Doc (multipdfdoc.com): 100% Private In-Browser Document Suite*
-*Last Checkpointed: 2026-09-20 03:15 IST | Status: MultiPDF Doc Production Build (32 Routes Clean)*
+*Last Checkpointed: 2026-10-16 21:30 IST | Status: Live Deployed on Hostinger (415 Files, 29 URLs, 15 Tools, 7 Guides, Graphify Active, SSL 200 OK)*
 
 ---
 
@@ -11,13 +11,19 @@
    - Do NOT ask the user what the project is or reinvent the theme. The project is **MultiPDF Doc** (`https://multipdfdoc.com`), a client-side private document and utility suite.
 
 2. **SESSION RESUME PROTOCOL (WHEN USER SAYS "SHURU HO JAO"):**
-   - Give a warm, energetic recap of the completed 18-point architectural overhaul.
-   - Reaffirm the verified architecture: **100% Client-Side QPDF WebAssembly (AES-256 lock/unlock) + Mozilla PDF.js 300 DPI canvas rendering + Dual-Engine PDF.js / Tesseract.js WASM Local OCR + Gemini 2.5 Flash Multi-Key Failover Pool**.
-   - Reaffirm that all 32 routes compile cleanly with exit code 0.
-   - Immediately prompt to execute the 3 high-impact next steps:
-     1. Connect GitHub repo `HaarisSaifi/multipdfdoc` to Vercel/Cloudflare.
-     2. Claim domain on Google Search Console via DNS TXT and submit sitemap.
-     3. Deploy the pre-written Reddit `r/privacy` seed launch post.
+   - Give a warm, clear recap in simple Hindi/Hinglish of what has been completed:
+     1. **Live Deployed on Hostinger (Oct 16, 2026):** 415 files deployed directly to `public_html`, zero server backend costs, root `.htaccess` active, SSL 200 OK across all routes, Search Console token intact.
+     2. **100% In-Browser Engine Suite:** 15 client-side tools (QPDF AES-256, PDF.js, Tesseract.js WASM local OCR). Zero upload.
+     3. **Graphify Knowledge Graph Active:** 11,350 nodes, 26,571 edges (`graphify-out/graph.json`), `.agents/rules/graphify.md` always-on rule active.
+     4. **Technical SEO & High-CTR Copy Live:** `WebApplication` schema across all 15 tools; high-CTR intent titles live for homepage (`multipdf` query pos 8.2) and USCIS guide (pos 4.0); in-article conversion callout banners live.
+     5. **GSC Ground Truth:** 12 impressions across 6 pages ground-truth verified (Oct 7–13 export).
+     6. **AdSense Safe Mode:** `<AdPlaceholder />` strictly returns `null` in pre-approval mode.
+   - Prompt the 4 immediate action steps:
+     1. Search Console me homepage aur USCIS guide URL inspection karke **"Request Indexing"** submit karein.
+     2. Hostinger hPanel mein jaakar `support@multipdfdoc.com` mailbox create & test karein.
+     3. AlternativeTo aur Product Hunt par MultiPDF Doc list karein.
+     4. Google Search Console mein search impressions 50–100/day steady hone par AdSense apply karein.
+
 
 3. **MANDATORY DESIGN SYSTEM (LIGHT THEME SOFT CLAYMORPHISM):**
    - **Source of Truth:** [design.prd](file:///d:/adsense/design.prd).
@@ -37,6 +43,13 @@
 6. **CRITICAL TOOL EXECUTION RULE:**
    - NEVER trigger or launch `browser_subagent` unless the user explicitly commands it.
    - Verify server status and web endpoints using PowerShell commands (`curl`, `Invoke-WebRequest`) or dev server logs.
+
+7. **ADSENSE & GROWTH FAILURE DEFENSES (5 NON-NEGOTIABLES):**
+   - **Premature Submission Prevention:** Do NOT apply to AdSense with 0 clicks / 12 impressions. Google bot will reject with "Low value content". Wait until steady 50–100 daily impressions in GSC.
+   - **Publisher ID Deployment:** When ready to apply, user must supply `ca-pub-XXXXXXXXXXXXXXXX` in `.env.local`, re-run `npm run build`, and deploy via `scripts/deploy-ftp.py` to embed the verification tag.
+   - **Support Mailbox Verification:** Ensure `support@multipdfdoc.com` is created and active in Hostinger hPanel to pass human quality audits.
+   - **Authority Void Prevention:** Seed white-hat authority on AlternativeTo (`alternativeto.net/software/multipdfdoc`), Product Hunt, and the GitHub open-source repo.
+   - **Anti-Over-Engineering Rule:** Do NOT add speculative complexity or disrupt the 33 static routes. Maintain the 0-linter, clean exit-code-0 build baseline.
 
 ---
 

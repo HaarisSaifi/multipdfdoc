@@ -57,7 +57,7 @@ export default function AboutPage() {
                 100% In-Browser Privacy
               </div>
               <p className="text-slate-600 text-xs leading-relaxed">
-                Standard tools process document bytes locally. Some engines and language packs load on first use, so loading a page alone does not guarantee offline availability. Optional Cloud AI OCR requires a separate consent step and an internet connection.
+                Standard tools process document bytes locally. Some engines and language packs load on first use, so loading a page alone does not guarantee offline availability. PDF.js, OCR workers and English language files are served by this website. There is no document-upload API in this static release.
               </p>
             </div>
 

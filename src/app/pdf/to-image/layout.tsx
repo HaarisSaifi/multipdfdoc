@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Convert PDF to Images (300 DPI Ultra-Print & 150 DPI Web)",
-  description: "Render and export PDF pages to high-resolution JPEG and PNG images locally using hardware-accelerated Canvas. No files sent to cloud servers.",
+  title: "PDF to PNG or JPG — 150 & 300 DPI Export",
+  description: "Render PDF pages to PNG or JPG locally at 150 or 300 DPI. Download individual images or a ZIP without uploading your PDF.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/to-image",
   },
   openGraph: {
-    title: "Convert PDF to High-Res Images (300 DPI) | MultiPDF Doc",
-    description: "Export PDF pages to crisp PNG or JPEG images with 300 DPI print quality locally in your browser.",
+    title: "PDF to PNG or JPG — 150 & 300 DPI Export | MultiPDF Doc",
+    description: "Render PDF pages to PNG or JPG locally at 150 or 300 DPI. Download individual images or a ZIP without uploading your PDF.",
     url: "https://multipdfdoc.com/pdf/to-image",
   },
 };
 
 export default function ToImageLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper
+  return <><ToolBreadcrumb name="PDF to image" href="/pdf/to-image" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper
         title="High-Resolution PDF to Image Conversion Guide: 150 DPI vs 300 DPI"
         subtitle="How to render presentation slides and document pages as local images, with resolution and format checks."
         authorName="MultiPDF Doc"

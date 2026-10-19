@@ -1,15 +1,43 @@
 {
   "name": "multipdfdoc",
   "version": "1.0.0",
+  "description": "100% In-Browser Private Document Suite & PDF Utilities powered by WebAssembly (Zero Server Uploads)",
+  "homepage": "https://multipdfdoc.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HaarisSaifi/multipdfdoc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HaarisSaifi/multipdfdoc/issues"
+  },
+  "author": "Haaris Saifi <support@multipdfdoc.com>",
+  "license": "MIT",
+  "keywords": [
+    "pdf",
+    "multipdf",
+    "pdf-tools",
+    "webassembly",
+    "client-side",
+    "zero-upload",
+    "privacy-first",
+    "qpdf",
+    "tesseract-ocr",
+    "pdf-merger",
+    "pdf-compressor",
+    "invoice-generator",
+    "gpa-calculator"
+  ],
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/copy-pdfjs-assets.mjs && next build",
-    "start": "next start",
-    "postinstall": "node scripts/copy-pdfjs-assets.mjs",
+    "build": "node scripts/copy-pdfjs-assets.mjs && node scripts/copy-ocr-assets.mjs && next build",
+    "start": "node scripts/serve-static.mjs",
+    "postinstall": "node scripts/copy-pdfjs-assets.mjs && node scripts/copy-ocr-assets.mjs",
     "copy:pdfjs": "node scripts/copy-pdfjs-assets.mjs",
     "test": "node scripts/test-production.cjs && node scratch/test-core-invariants.js",
-    "test:browser": "node scripts/test-browser.mjs"
+    "test:browser": "node scripts/test-browser.mjs",
+    "postbuild": "node scripts/prepare-static.mjs",
+    "package:hostinger": "node scripts/package-hostinger.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

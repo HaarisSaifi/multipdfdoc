@@ -172,7 +172,8 @@ export function ValueWrapper({
           {sections.map((sec, idx) => (
             <div
               key={idx}
-              className="bubble-card p-6 sm:p-8 border border-slate-200/90 space-y-3"
+              id={`guide-section-${idx + 1}`}
+              className="bubble-card p-6 sm:p-8 border border-slate-200/90 space-y-3 scroll-mt-28"
             >
               <h3 className="text-base sm:text-lg font-display font-bold text-slate-900 flex items-center gap-2.5">
                 <span className="w-6 h-6 rounded-lg bg-violet-100 text-violet-700 text-xs font-mono font-bold flex items-center justify-center">

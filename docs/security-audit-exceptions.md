@@ -15,3 +15,7 @@ Build only reviewed repository inputs in isolated CI. Never expose a build servi
 A Tailwind 4 migration is the npm suggested major upgrade. It needs dedicated CSS, plugin and all-page visual compatibility verification; blindly forcing it during this release would trade a bounded build-time exception for unreviewed UI behavior. Re-check this advisory before release and schedule the migration or a maintained upstream fix. No unsupported fake patched version or local node_modules edit was applied.
 
 The earlier PostCSS exception document is superseded: those affected dependencies were upgraded rather than leaving the old exception in place. Audit counts are time-specific and do not certify all package behavior or future releases.
+
+## Static release scope
+
+The Hostinger Premium release exports public HTML/JS/WASM files. Next.js is a build dependency on the developer machine, not a runtime on Hostinger. Cloud OCR/contact API routes and their rate-limit/body helpers were removed. No server secrets are required by the export. Browser library behavior still requires testing; static hosting does not make client-side security issues disappear. The existing Tailwind build-input exception remains applicable to trusted local/CI builds.

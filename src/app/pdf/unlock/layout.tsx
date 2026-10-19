@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Unlock PDF Password & Remove Restrictions (In-Browser Decryption)",
-  description: "Remove passwords and printing or copying permission restrictions from secured PDFs locally in your browser memory at multipdfdoc.com.",
+  title: "Unlock PDF With Your Password — No Upload",
+  description: "Remove PDF password protection when you know the correct password and have permission. Decrypt locally without sending your PDF or password to a server.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/unlock",
   },
   openGraph: {
-    title: "Unlock PDF Password & Remove Restrictions | MultiPDF Doc",
-    description: "Instant in-browser password and permission removal without server uploads.",
+    title: "Unlock PDF With Your Password — No Upload | MultiPDF Doc",
+    description: "Remove PDF password protection when you know the correct password and have permission. Decrypt locally without sending your PDF or password to a server.",
     url: "https://multipdfdoc.com/pdf/unlock",
   },
 };
 
 export default function UnlockPdfLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/unlock"]}
+  return <><ToolBreadcrumb name="Unlock PDF" href="/pdf/unlock" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/unlock"]}
         toolName="Unlock PDF Password"
         title="PDF Security Architecture: How Permissions Dictionaries & Document Decryption Work"
         subtitle="Technical overview of PDF permissions removal, owner restrictions, and client-side privacy."

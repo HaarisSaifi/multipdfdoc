@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use or reference MultiPDF Doc in academic or professional research, please cite it as below."
+authors:
+  - family-names: "Saifi"
+    given-names: "Haaris"
+title: "MultiPDF Doc: Client-Side WebAssembly Architecture for Confidential In-Browser Document Processing"
+version: 1.0.0
+date-released: 2026-10-16
+url: "https://multipdfdoc.com"
+repository-code: "https://github.com/HaarisSaifi/multipdfdoc"
+license: "MIT"
+keywords:
+  - "pdf"
+  - "webassembly"
+  - "client-side"
+  - "privacy"
+  - "zero-upload"
+  - "cryptography"
+  - "tesseract-ocr"
+  - "qpdf"

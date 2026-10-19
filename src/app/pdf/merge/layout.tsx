@@ -1,22 +1,23 @@
+import { ToolBreadcrumb } from "@/components/seo/ToolBreadcrumb";
 import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Merge PDF Files Online (Local Processing, Zero Server Upload)",
-  description: "Combine multiple PDF documents into a single file locally in your browser memory. Fast drag-and-drop with visual card reordering at multipdfdoc.com.",
+  title: "Merge PDF Without Uploading — Free",
+  description: "Combine PDF files locally without signup or an added watermark. Reorder files, merge, and download a PDF while your documents stay in your browser.",
   alternates: {
     canonical: "https://multipdfdoc.com/pdf/merge",
   },
   openGraph: {
-    title: "Merge PDF Files Online (Zero Server Upload) | MultiPDF Doc",
-    description: "Combine multiple PDFs locally in your browser memory without uploading their contents.",
+    title: "Merge PDF Without Uploading — Free | MultiPDF Doc",
+    description: "Combine PDF files locally without signup or an added watermark. Reorder files, merge, and download a PDF while your documents stay in your browser.",
     url: "https://multipdfdoc.com/pdf/merge",
   },
 };
 
 export default function MergePdfLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/merge"]}
+  return <><ToolBreadcrumb name="Merge PDF" href="/pdf/merge" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["pdf/merge"]}
         title="Comprehensive Guide to Merging Sensitive PDF Documents Securely"
         subtitle="Step-by-step local merging, document ordering, and checks to make before sharing a combined PDF."
         sections={[
@@ -73,7 +74,7 @@ Download the merged file, reopen it in a PDF reader and inspect the beginning, e
           },
           {
             question: "Are my uploaded PDF files saved on your servers?",
-            answer: "The merger processes selected PDF contents locally with pdf-lib and does not upload them for merging. Website and engine assets may still load over the network. Optional Cloud OCR is a separate, disclosed workflow."
+            answer: "The merger processes selected PDF contents locally with pdf-lib and does not upload them for merging. Website and engine assets may still load over the network. Scanned-text OCR also runs locally in this release."
           },
           {
             question: "Can I merge password-protected PDF files?",

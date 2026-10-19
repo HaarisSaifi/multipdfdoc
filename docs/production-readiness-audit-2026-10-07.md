@@ -1,3 +1,5 @@
+> Historical Next.js server/API audit. The later Hostinger Premium static release removes Cloud OCR, contact APIs and Redis requirements. Read `static-release-plan-2026-10-07.md` and `hostinger-static-deployment.md` for the current architecture. These earlier performance samples are not static-release scores.
+
 # MultiPDF Doc production readiness audit
 
 Audit date: October 7, 2026. Workspace: `D:/adsense`. Scope: the Next.js app, every public sitemap page, shared layout, document engines, API routes, content, metadata, deployment configuration, dependency graph and the legacy backend directory.
@@ -26,7 +28,7 @@ No real document was uploaded to a provider, no email or promotional message was
 | Accessibility | Pointer-only file areas, unnamed fields, missing focus feedback and nonmodal search | Keyboard pickers, useful control names, visible focus, native dialogs, one main landmark, sequential heading levels, skip link and reduced motion |
 | Delivery | Missing defensive headers, script-closing injection risk in JSON-LD, inherited canonical and weak recovery pages | Basic security headers, escaped structured data, correct terms metadata, native FAQ content, useful 404 and recoverable error page; homepage FAQ and WebSite schema match visible content |
 | Ads | Dummy identifiers and blank ad inventory risk | Default-off real-ad configuration, reserved spacing only when enabled, valid publisher metadata and dynamic ads.txt without fabricated IDs |
-| Performance | Editorial text and large PDF libraries on the initial client path; external font import | Server-rendered guides, native FAQs, lazy document/OCR/ZIP engines, locally hosted licensed WOFF2 fonts and stable asset manifest; avoid loading unrelated route scripts speculatively while retaining navigation hover/touch prefetch |
+| Performance | Editorial text and large PDF libraries on the initial client path; external font import | Server-rendered guides, native FAQs, lazy document/OCR/ZIP engines, locally hosted licensed WOFF2 fonts and stable asset manifest; a server-rendered homepage with only the tool filter as a client island; avoid loading unrelated route scripts speculatively while retaining navigation hover/touch prefetch |
 | Repository hygiene | Outdated Oracle/dependency/growth claims presented as current | Updated README, cloud/security docs and measured growth plan; unused backend and deploy script stop by default |
 
 ## Verification evidence
@@ -35,10 +37,22 @@ No real document was uploaded to a provider, no email or promotional message was
 - TypeScript checks and a complete Next.js production build pass. The build lists twenty-six public content pages plus API, metadata and fallback routes; historical “32 routes” and generated-page counts are not interchangeable metrics.
 - Real QPDF WebAssembly verifies AES-256, rejects a wrong opening password and produces an unencrypted result with the correct password. ZIP construction is also checked.
 - `scripts/test-production.cjs` exercises actual helper modules and actual API handlers: strict page ranges, streamed body limits, trusted identity, production rate-limit failure, malformed Redis output, contact success/failure, Cloud OCR gating and truncation, multipage business PDFs and safe JSON-LD. External providers are mocked; this does not verify provider-account configuration or mailbox delivery.
-- The browser suite passes 130 page/viewport checks: all 26 public pages at widths 320, 375, 768, 1024 and 1440. It passes 18 workflow checks, including all 15 tools plus search, native PDF text extraction and recovery navigation. Axe WCAG 2/2.1 A/AA and best-practice checks report no detected violations on 52 initial page states and 15 completed tool states. No uncaught JavaScript exceptions or document-upload POST requests occurred in these fixture workflows. These automated checks do not establish complete accessibility or universal file support. Details are in `reports/production-browser-audit.json`.
+- The browser suite passes 130 page/viewport checks: all 26 public pages at widths 320, 375, 768, 1024 and 1440. It passes 19 workflow checks, including all 15 tools plus search, native PDF text extraction, recovery navigation and homepage category filtering. Axe WCAG 2/2.1 A/AA and best-practice checks report no detected violations on 52 initial page states and 16 completed tool/filter states. No uncaught JavaScript exceptions or document-upload POST requests occurred in these fixture workflows. These automated checks do not establish complete accessibility or universal file support. Details are in `reports/production-browser-audit.json`.
 - Local guides and articles are server rendered so procedural content and FAQ answers remain available in HTML. Rendered tool guides contain 813–994 words; independent article bodies contain 1,301–1,342 words. Word counts implement the project’s editorial brief, not a Google acceptance rule. Four article bodies were rewritten with original workflows and source-grounded factual summaries; they are AI-assisted and not independently peer-reviewed or exhaustively checked against every publication. Limited quoted-phrase web searches sampled the four new articles and did not identify an exact matching passage in the returned results; unrelated results and incomplete search indexing mean this is not an exhaustive plagiarism scan or an authorship certificate.
-- Large PDF-tool initial bundles decreased from approximately 283–285 kB in the intermediate build to approximately 108–110 kB by deferring engines. Website fonts no longer require Google Fonts requests. These are build measurements, not live Core Web Vitals. A separate local Lighthouse lab report is saved with its environment and metrics; its scores do not certify the live deployment.
+- Large PDF-tool initial bundles decreased from approximately 283–285 kB in the intermediate build to approximately 108–111 kB by deferring engines. The latest build reports 112 kB total first-load JavaScript for the homepage (5.72 kB route code) and 104 kB for article pages after reducing client component boundaries. Website fonts no longer require Google Fonts requests. These are build measurements, not live Core Web Vitals. A separate local Lighthouse lab report is saved with its environment and metrics; its scores do not certify the live deployment.
 - Current production-only dependency audit: zero advisories. Full audit: five high entries in the Tailwind build-time chain, documented in `security-audit-exceptions.md`. No untested forced major migration was performed.
+
+## Final local mobile Lighthouse samples
+
+The latest samples use Lighthouse 13.5.0, Chrome 142, default mobile simulation and the localhost production build. Runs were sequential after the browser suite completed, with no concurrent fixture workflow test. Ad serving and Cloud OCR remain off; these measurements do not predict those optional network services or certify live Core Web Vitals. Earlier local samples varied with host conditions, so do not treat one score as a permanent guarantee.
+
+| Page | Performance | Accessibility | Best practices | SEO | LCP | TBT | CLS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Homepage | 96 | 100 | 100 | 100 | 2.36s | 139ms | 0 |
+| PDF compression | 93 | 100 | 100 | 100 | 2.36s | 140ms | 0 |
+| Compression guide article | 96 | 100 | 100 | 100 | 2.35s | 131ms | 0 |
+
+Full environment, audits and metrics are saved in `reports/lighthouse-*-local.json`. The SEO score covers Lighthouse checks; it is not a ranking or indexing guarantee.
 
 ## Reproduce the local checks
 
