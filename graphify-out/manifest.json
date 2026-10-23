@@ -168,9 +168,9 @@
     "semantic_hash": "0d5e8f394e886be60a8a95f09bcd01a6"
   },
   "docs/reports/static-package.json": {
-    "mtime": 1792159532.7119274,
-    "seen": 1792167197.0374537,
-    "ast_hash": "10be590e398dd34c9c2d2a7e2ef5d469",
+    "mtime": 1792765345.3217604,
+    "seen": 1792765399.0840542,
+    "ast_hash": "b23d4c880d5ed101642465533f6a607c",
     "semantic_hash": ""
   },
   "docs/reports/ui-review-before.json": {
@@ -276,8 +276,8 @@
     "semantic_hash": "f27b1085f1bde66bc7a1eb79c524581a"
   },
   "public/vendor/pdfjs/version.json": {
-    "mtime": 1792412347.791563,
-    "seen": 1792412710.7436826,
+    "mtime": 1792765182.109923,
+    "seen": 1792765399.0840542,
     "ast_hash": "68d0f0b282796b79d539846b62dd77ca",
     "semantic_hash": "68d0f0b282796b79d539846b62dd77ca"
   },
@@ -480,10 +480,10 @@
     "semantic_hash": "274185919200308fbf24ebbb746db8a5"
   },
   "src/app/calc/gpa/layout.tsx": {
-    "mtime": 1791377923.7934887,
-    "seen": 1792148940.4404836,
-    "ast_hash": "e129c3de9bd312bb3de44b0a7b7aac53",
-    "semantic_hash": "e129c3de9bd312bb3de44b0a7b7aac53"
+    "mtime": 1792765053.9680474,
+    "seen": 1792765399.0840542,
+    "ast_hash": "3624b74ef04cc00fa9e3d1739f188dca",
+    "semantic_hash": ""
   },
   "src/app/calc/gpa/page.tsx": {
     "mtime": 1791368912.1678782,
@@ -534,10 +534,10 @@
     "semantic_hash": "8cfb393ad295e196ee44da5c884ce213"
   },
   "src/app/invoice/layout.tsx": {
-    "mtime": 1791377923.791594,
-    "seen": 1792148940.4404836,
-    "ast_hash": "bf75fe7e40f762d2881fcbaa0a3f434e",
-    "semantic_hash": "bf75fe7e40f762d2881fcbaa0a3f434e"
+    "mtime": 1792765079.6486838,
+    "seen": 1792765399.0840542,
+    "ast_hash": "32a7f8db61e7846c4d56ef5019c01175",
+    "semantic_hash": ""
   },
   "src/app/invoice/page.tsx": {
     "mtime": 1791368912.175906,
@@ -792,10 +792,10 @@
     "semantic_hash": "30c84237c34af6799d0920a6d85b4ff2"
   },
   "src/content/articles.ts": {
-    "mtime": 1792153845.6919143,
-    "seen": 1792154050.6997612,
-    "ast_hash": "cffba23902326cb90f697687a504c0db",
-    "semantic_hash": "cffba23902326cb90f697687a504c0db"
+    "mtime": 1792765031.3705356,
+    "seen": 1792765399.0840542,
+    "ast_hash": "f8d15a9662a4823e97202f65c45e5999",
+    "semantic_hash": ""
   },
   "src/content/tool-supplements.ts": {
     "mtime": 1791377842.0284362,
@@ -912,9 +912,9 @@
     "semantic_hash": ""
   },
   "brain.md": {
-    "mtime": 1792167085.1738067,
-    "seen": 1792167197.0374537,
-    "ast_hash": "ac15061147e62cd683d1de9e1af18599",
+    "mtime": 1792765115.505773,
+    "seen": 1792765399.0840542,
+    "ast_hash": "87275a24b246bc01d3220af0e7b2988a",
     "semantic_hash": ""
   },
   "docs/analytics-setup.md": {
@@ -1008,9 +1008,9 @@
     "semantic_hash": ""
   },
   "propermonth.md": {
-    "mtime": 1792167133.337791,
-    "seen": 1792167197.0374537,
-    "ast_hash": "2b15b59ec9d6399467a75263ca4bfe30",
+    "mtime": 1792765153.3846245,
+    "seen": 1792765399.0840542,
+    "ast_hash": "d4a1266961ae66daacf09f58f5694707",
     "semantic_hash": ""
   },
   "public/fonts/Plus-Jakarta-Sans-OFL.txt": {
@@ -1101,6 +1101,18 @@
     "mtime": 1792412495.8598022,
     "seen": 1792412710.7436826,
     "ast_hash": "deaf2d8e57ea9a2c695e3c8351ec7525",
+    "semantic_hash": ""
+  },
+  "scratch/compare_all.py": {
+    "mtime": 1792759190.6505666,
+    "seen": 1792765399.0840542,
+    "ast_hash": "d782ead4418287842c7e32aa84b2eb6a",
+    "semantic_hash": ""
+  },
+  "scratch/parse_gsc.py": {
+    "mtime": 1792759137.2533348,
+    "seen": 1792765399.0840542,
+    "ast_hash": "f2d3b71e41fb9c20160ef9059a96cc8e",
     "semantic_hash": ""
   }
 }

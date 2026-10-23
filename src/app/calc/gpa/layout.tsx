@@ -4,14 +4,14 @@ import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Weighted & Unweighted GPA Calculator With Credits",
-  description: "Estimate weighted and unweighted GPA using letter grades, course levels and credits. Zero-credit courses are excluded; school-specific policies still apply.",
+  title: "Weighted & Unweighted GPA Calculator — Cumulative & Course Credits",
+  description: "Calculate weighted, unweighted, and cumulative high school or college GPA with AP/IB honors credits. Understand preliminary GPA conversions with zero server uploads.",
   alternates: {
     canonical: "https://multipdfdoc.com/calc/gpa",
   },
   openGraph: {
-    title: "Weighted & Unweighted GPA Calculator With Credits | MultiPDF Doc",
-    description: "Estimate weighted and unweighted GPA using letter grades, course levels and credits. Zero-credit courses are excluded; school-specific policies still apply.",
+    title: "Weighted & Unweighted GPA Calculator — Cumulative & Course Credits | MultiPDF Doc",
+    description: "Calculate weighted, unweighted, and cumulative high school or college GPA with AP/IB honors credits. Understand preliminary GPA conversions with zero server uploads.",
     url: "https://multipdfdoc.com/calc/gpa",
   },
 };
@@ -29,6 +29,14 @@ export default function GpaLayout({ children }: { children: React.ReactNode }) {
           explanation: "The credit-weighted mean using the displayed grade-point assumptions. School policies can differ."
         }}
         faqs={[
+          {
+            question: "Is a cumulative GPA weighted or unweighted?",
+            answer: "A cumulative GPA can be either weighted or unweighted depending on your school district. An unweighted cumulative GPA measures grade performance strictly on a 4.0 scale across all terms, while a weighted cumulative GPA includes additional quality points (up to 5.0) for AP, IB, and Honors coursework."
+          },
+          {
+            question: "What is the meaning of a preliminary GPA?",
+            answer: "A preliminary GPA is an interim cumulative GPA calculated after the 6th semester (junior year) or 7th semester (senior fall). Colleges use preliminary GPAs on mid-year transcripts to evaluate applications before final graduation grades are certified."
+          },
           {
             question: "Do colleges care more about weighted or unweighted GPA?",
             answer: "Admissions officers evaluate both: unweighted GPA demonstrates your core grade consistency, while weighted GPA verifies that you challenged yourself with the most rigorous curriculum available at your school."

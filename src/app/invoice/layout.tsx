@@ -4,14 +4,14 @@ import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Free Invoice Generator — No Signup or Watermark",
-  description: "Create a PDF invoice with line items, currency, tax and payment notes. Calculate totals and download locally without signup or an added watermark.",
+  title: "Free PDF Invoice Generator & Editor Online — Unlimited, No Watermark",
+  description: "Create, edit, and download free PDF invoices online with zero watermark. Includes Net 15/Net 30 freelance payment terms, automatic tax calculation, and private in-browser generation.",
   alternates: {
     canonical: "https://multipdfdoc.com/invoice",
   },
   openGraph: {
-    title: "Free Invoice Generator — No Signup or Watermark | MultiPDF Doc",
-    description: "Create a PDF invoice with line items, currency, tax and payment notes. Calculate totals and download locally without signup or an added watermark.",
+    title: "Free PDF Invoice Generator & Editor Online — Unlimited, No Watermark | MultiPDF Doc",
+    description: "Create, edit, and download free PDF invoices online with zero watermark. Includes Net 15/Net 30 freelance payment terms, automatic tax calculation, and private in-browser generation.",
     url: "https://multipdfdoc.com/invoice",
   },
 };
@@ -30,6 +30,10 @@ export default function InvoiceLayout({ children }: { children: React.ReactNode 
           explanation: "Calculates an estimated invoice total where discounts are applied to the gross subtotal prior to the assessment of statutory sales tax or Value Added Tax (VAT)."
         }}
         faqs={[
+          {
+            question: "What are freelance payment terms and how do I set Net 30?",
+            answer: "Freelance payment terms establish when payment is due. Net 30 means the client must pay within 30 days of the invoice date. MultiPDF Doc allows you to set custom payment terms, due dates, and bank instructions directly on your PDF invoice."
+          },
           {
             question: "Is this invoice generator really 100% free without watermarks?",
             answer: "The current tool has no payment gate. The exported document includes a small page-identification footer. The exported PDF is a clean, professional, itemized document suitable for corporate submissions."
