@@ -168,9 +168,9 @@
     "semantic_hash": "0d5e8f394e886be60a8a95f09bcd01a6"
   },
   "docs/reports/static-package.json": {
-    "mtime": 1793013572.8705552,
-    "seen": 1793013650.5008438,
-    "ast_hash": "2053e6c8ae84879fe23ba72fc44b77a7",
+    "mtime": 1793014849.1316228,
+    "seen": 1793014909.4254777,
+    "ast_hash": "efe457012230546acb8cc18772a174f1",
     "semantic_hash": ""
   },
   "docs/reports/ui-review-before.json": {
@@ -276,8 +276,8 @@
     "semantic_hash": "f27b1085f1bde66bc7a1eb79c524581a"
   },
   "public/vendor/pdfjs/version.json": {
-    "mtime": 1793013430.9455254,
-    "seen": 1793013650.5008438,
+    "mtime": 1793014784.003749,
+    "seen": 1793014909.4254777,
     "ast_hash": "68d0f0b282796b79d539846b62dd77ca",
     "semantic_hash": "68d0f0b282796b79d539846b62dd77ca"
   },
@@ -912,9 +912,9 @@
     "semantic_hash": ""
   },
   "brain.md": {
-    "mtime": 1793011632.3705678,
-    "seen": 1793013650.5008438,
-    "ast_hash": "f3c86dff4cf84f5624900009c8c08adc",
+    "mtime": 1793013711.24842,
+    "seen": 1793014909.4254777,
+    "ast_hash": "cca251d0073ad802983d14a2657d5c5f",
     "semantic_hash": ""
   },
   "docs/analytics-setup.md": {
@@ -1128,21 +1128,69 @@
     "semantic_hash": ""
   },
   "src/app/author/haaris-saifi/layout.tsx": {
-    "mtime": 1793013173.6596265,
-    "seen": 1793013650.5008438,
-    "ast_hash": "02dfc17ee4db8598067d301259e2eeca",
+    "mtime": 1793014626.298096,
+    "seen": 1793014909.4254777,
+    "ast_hash": "9cc1274b4af05b4f3c9571e392aa5ac2",
     "semantic_hash": ""
   },
   "src/app/author/haaris-saifi/page.tsx": {
-    "mtime": 1793013230.088238,
-    "seen": 1793013650.5008438,
-    "ast_hash": "da147280aaa6d64c2dac0eca324f393d",
+    "mtime": 1793014774.345692,
+    "seen": 1793014909.4254777,
+    "ast_hash": "e563156dbb55fa5ef495a23b37dc25f9",
     "semantic_hash": ""
   },
   "docs/haaris-saifi-entity-seo-blueprint.md": {
-    "mtime": 1793013155.4738996,
-    "seen": 1793013650.5008438,
-    "ast_hash": "aba7bb6cfbe4e080bcd164dac4bda8f1",
+    "mtime": 1793014702.2049253,
+    "seen": 1793014909.4254777,
+    "ast_hash": "94d70223bfdbdfc0405389da16ee7b29",
+    "semantic_hash": ""
+  },
+  "scratch/check_logos.py": {
+    "mtime": 1793014452.4565644,
+    "seen": 1793014909.4254777,
+    "ast_hash": "02159122d195b4ba8b20d984359ee4e1",
+    "semantic_hash": ""
+  },
+  "scratch/download_portfolio_logos.py": {
+    "mtime": 1793014473.901404,
+    "seen": 1793014909.4254777,
+    "ast_hash": "e772841ad8757cebe093026ae5536fb7",
+    "semantic_hash": ""
+  },
+  "public/images/portfolio/iqra-logo.png": {
+    "mtime": 1793014481.6311147,
+    "seen": 1793014909.4254777,
+    "ast_hash": "4e28f2ed3ea6f9ff7f382acca7ceb3dd",
+    "semantic_hash": ""
+  },
+  "public/images/portfolio/legalzoo.svg": {
+    "mtime": 1793014481.414411,
+    "seen": 1793014909.4254777,
+    "ast_hash": "6f06d891b4fcca19bf1c333170618d94",
+    "semantic_hash": ""
+  },
+  "public/images/portfolio/nobleheat.png": {
+    "mtime": 1793014482.2530587,
+    "seen": 1793014909.4254777,
+    "ast_hash": "211250daca15649454c322a5dd9d18f7",
+    "semantic_hash": ""
+  },
+  "public/images/portfolio/officerecyclehub.png": {
+    "mtime": 1793014482.1231198,
+    "seen": 1793014909.4254777,
+    "ast_hash": "e838b7c22bc24f60b8e22347515add26",
+    "semantic_hash": ""
+  },
+  "public/images/portfolio/umazah-favicon.svg": {
+    "mtime": 1793014481.880204,
+    "seen": 1793014909.4254777,
+    "ast_hash": "495a3dd774917f2b7e780c97a572c584",
+    "semantic_hash": ""
+  },
+  "public/images/portfolio/umazah-logo.webp": {
+    "mtime": 1793014481.7967906,
+    "seen": 1793014909.4254777,
+    "ast_hash": "90ec0b8edca9be8caddeefb1973e8c8c",
     "semantic_hash": ""
   }
 }

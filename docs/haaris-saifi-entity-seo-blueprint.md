@@ -58,13 +58,21 @@ World-class Knowledge Graph specialists (such as Kalicube, WordLift, and Semanti
 - **Role:** Enterprise LegalTech Engineering.
 - **Entity Narrative:** Digital architect of case management, CNR tracking, and advocate chamber workflow software for Indian legal practitioners.
 
-### 4. IQRA Welfare Trust (`iqrawelfaretrust.in`) — Social Impact & Non-Profit Tech
+### 4. Umazah Care (`umazahcare.com`) — Global Healthcare & Medical Travel
+- **Role:** Digital Systems Architect.
+- **Entity Narrative:** Architect of specialized international medical tourism and healthcare coordination infrastructure, facilitating cross-border clinical reviews, specialist consultations, and patient travel logistics to premier Indian hospitals.
+
+### 5. IQRA Welfare Trust (`iqrawelfaretrust.in`) — Social Impact & Non-Profit Tech
 - **Role:** Philanthropic Digital Infrastructure.
 - **Entity Narrative:** Technology advisor and digital architect supporting non-profit web systems, child education platforms, and humanitarian community outreach.
 
-### 5. NobleHeat (`nobleheat.com`) & OfficeRecycleHub (`officerecyclehub.com`) — Industrial & Circular Economy Solutions
+### 6. NobleHeat (`nobleheat.com`) & OfficeRecycleHub (`officerecyclehub.com`) — Industrial & Circular Economy Solutions
 - **Role:** Industrial Engineering & Enterprise Asset Solutions.
 - **Entity Narrative:** Web technology consultant for industrial thermal process engineering and corporate asset disposal platforms across Delhi-NCR.
+
+### 7. Academic Foundation: Jamia Hamdard University (New Delhi)
+- **Role:** Computer Science & Engineering (B.Tech CSE) Alumnus.
+- **Entity Narrative:** Formally educated in Computer Science & Engineering at Jamia Hamdard University (NAAC 'A+' accredited deemed-to-be-university in New Delhi), bringing rigorous training in systems architecture, algorithmic complexity, information security, and distributed computing.
 
 ---
 
