@@ -16,10 +16,9 @@
   - **Canonical Author Entity Home:** Deployed `/author/haaris-saifi` with `ProfilePage` + `Person` Schema.org JSON-LD (`sameAs: [github.com/HaarisSaifi, saashub.com/multipdf-doc, umazahcare.com, legalzoo.in, iqrawelfaretrust.in, officerecyclehub.com, nobleheat.com]`).
   - **Academic Credentials Embedded:** B.Tech in Computer Science & Engineering (CSE) from Jamia Hamdard University (New Delhi) integrated into Schema.org (`alumniOf`, `hasCredential`) and UI hero badges.
   - **Real Brand Logos Live:** Replaced initial placeholders with real SVGs/PNGs from live servers for MultiPDF Doc, LegalZoo, Umazah Care, IQRA Welfare Trust, OfficeRecycleHub, and NobleHeat.
-  - **Photo-Ready Architecture:** Configured `/images/author/haaris-saifi.jpg` avatar with graceful monogram fallback, Schema `ImageObject`, and OpenGraph profile image tags.
-  - **Article Authorship Attributed:** Upgraded all 7 high-ranking pillar guides in `ArticleGuide.tsx` to `author: Person (Haaris Saifi)` with tactile author bylines and sitewide footer credits.
-  - **Live Deployed on Hostinger:** 430 files extracted live with 200 OK across all routes and verified schema tokens.
-  - Graphify AST knowledge graph synced: 11,680 nodes, 26,916 edges, 289 communities.
+  - **Official Author Photo Deployed Live:** Original portrait photo active at `/images/author/haaris-saifi.jpg`, embedded in sitemap.xml `<image:image>`, ProfilePage Schema, About founder capsule, and all 7 blog article byline avatars.
+  - **Live Deployed on Hostinger:** 432 files extracted live with 200 OK across all routes and verified image headers.
+  - Graphify AST knowledge graph synced: 11,681 nodes, 26,918 edges, 291 communities.
 
 ---
 
