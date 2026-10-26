@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Navbar } from "@/components/layout/Navbar";
@@ -89,6 +90,27 @@ export default function RootLayout({
         <link rel="preload" href="/fonts/local-7.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       </head>
       <body className="min-h-screen flex flex-col antialiased">
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+            />
+            <Script
+              id="google-analytics-init"
+              strategy="afterInteractive"
+            >
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
         <ThemeProvider>
           <Navbar />
           <main id="main-content" tabIndex={-1} className="flex-1">{children}</main>

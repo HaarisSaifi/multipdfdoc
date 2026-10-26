@@ -1,4 +1,3 @@
-import { AnalyticsConsent } from "@/components/privacy/AnalyticsConsent";
 import React from "react";
 import { ShieldCheck, FileText, UserCheck, Mail, Lock, CheckCircle2, BookOpen } from "lucide-react";
 
@@ -163,8 +162,6 @@ export function Footer() {
             </ul>
           </div>
         </div>
-
-        <AnalyticsConsent measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
 
         <div className="mt-12 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
           <p>© {new Date().getFullYear()} MultiPDF Doc. Architected by <a href="/author/haaris-saifi" className="hover:text-violet-700 underline font-medium text-slate-600">Haaris Saifi</a>. Core document tools run locally in your browser.</p>
