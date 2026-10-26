@@ -148,12 +148,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog/extract-text-mixed-scanned-pdf`, lastModified: new Date("2026-10-11T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.75 },
     { url: `${baseUrl}/blog/pdf-compression-keep-text-selectable`, lastModified: new Date("2026-10-11T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.75 },
 
-    // 6. E-E-A-T, Trust & Legal
+    // 6. E-E-A-T, Leadership & Author Entity
+    {
+      url: `${baseUrl}/author/haaris-saifi`,
+      lastModified: new Date("2026-10-26T00:00:00.000Z"),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
     {
       url: `${baseUrl}/about`,
       lastModified: stableDate,
       changeFrequency: "yearly",
-      priority: 0.6,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/editorial-policy`,

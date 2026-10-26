@@ -168,9 +168,9 @@
     "semantic_hash": "0d5e8f394e886be60a8a95f09bcd01a6"
   },
   "docs/reports/static-package.json": {
-    "mtime": 1793008767.5674317,
-    "seen": 1793008840.1622384,
-    "ast_hash": "3200677f78d4b21fc95a48c99f122880",
+    "mtime": 1793013572.8705552,
+    "seen": 1793013650.5008438,
+    "ast_hash": "2053e6c8ae84879fe23ba72fc44b77a7",
     "semantic_hash": ""
   },
   "docs/reports/ui-review-before.json": {
@@ -276,8 +276,8 @@
     "semantic_hash": "f27b1085f1bde66bc7a1eb79c524581a"
   },
   "public/vendor/pdfjs/version.json": {
-    "mtime": 1793008637.5372827,
-    "seen": 1793008840.1622384,
+    "mtime": 1793013430.9455254,
+    "seen": 1793013650.5008438,
     "ast_hash": "68d0f0b282796b79d539846b62dd77ca",
     "semantic_hash": "68d0f0b282796b79d539846b62dd77ca"
   },
@@ -408,9 +408,9 @@
     "semantic_hash": "182f53407a7a24dd7414c7157f8ebb26"
   },
   "src/app/about/page.tsx": {
-    "mtime": 1793008590.0678117,
-    "seen": 1793008840.1622384,
-    "ast_hash": "eef8c2892616337fef3c9b4011c21e7a",
+    "mtime": 1793013287.5474052,
+    "seen": 1793013650.5008438,
+    "ast_hash": "0324acb3f196a4914513e9b52b4db6e1",
     "semantic_hash": ""
   },
   "src/app/blog/compress-pdf-200kb-uscis-passport-guide/page.tsx": {
@@ -522,10 +522,10 @@
     "semantic_hash": "59ee3e491a026bcb973a74d802f4cead"
   },
   "src/app/editorial-policy/page.tsx": {
-    "mtime": 1791377975.9321663,
-    "seen": 1792148940.4404836,
-    "ast_hash": "9a16a0367794ab53bacaa306e176c3ff",
-    "semantic_hash": "9a16a0367794ab53bacaa306e176c3ff"
+    "mtime": 1793013350.3446798,
+    "seen": 1793013650.5008438,
+    "ast_hash": "12caf416438a506232164c896f2d97b7",
+    "semantic_hash": ""
   },
   "src/app/error.tsx": {
     "mtime": 1791368912.1738992,
@@ -546,10 +546,10 @@
     "semantic_hash": "13485d4aa810350edc3178d92afe677c"
   },
   "src/app/layout.tsx": {
-    "mtime": 1792153619.1730707,
-    "seen": 1792154050.6997612,
-    "ast_hash": "239b4e1609dbc2b546d4a73682b42868",
-    "semantic_hash": "239b4e1609dbc2b546d4a73682b42868"
+    "mtime": 1793013384.7433932,
+    "seen": 1793013650.5008438,
+    "ast_hash": "a8b2fc6339cec27dca953c7edaa36926",
+    "semantic_hash": ""
   },
   "src/app/loading.tsx": {
     "mtime": 1791368912.1769092,
@@ -714,10 +714,10 @@
     "semantic_hash": "e892eec1521ec3e433b320b1eb6faaa9"
   },
   "src/app/sitemap.ts": {
-    "mtime": 1791666210.373042,
-    "seen": 1792148940.4404836,
-    "ast_hash": "8d662051b4468b46dc1be9d267f9ebca",
-    "semantic_hash": "8d662051b4468b46dc1be9d267f9ebca"
+    "mtime": 1793013244.7100122,
+    "seen": 1793013650.5008438,
+    "ast_hash": "b98f28c9a18eb2dc1121b737cc41e31a",
+    "semantic_hash": ""
   },
   "src/app/terms/page.tsx": {
     "mtime": 1791377842.0098138,
@@ -732,9 +732,9 @@
     "semantic_hash": "1d9fe22f6cd7ac2d9261b702411ba96e"
   },
   "src/components/layout/Footer.tsx": {
-    "mtime": 1793008567.30024,
-    "seen": 1793008840.1622384,
-    "ast_hash": "9e214fd5ddf506a0e4539b1206cb2979",
+    "mtime": 1793013372.0801713,
+    "seen": 1793013650.5008438,
+    "ast_hash": "83167d2ef55b2f0fa97513a90bedf17d",
     "semantic_hash": ""
   },
   "src/components/layout/MasterShell.tsx": {
@@ -768,10 +768,10 @@
     "semantic_hash": "c4a6342fec62067c2b08609ce134c8a7"
   },
   "src/components/seo/ArticleGuide.tsx": {
-    "mtime": 1792153872.2308507,
-    "seen": 1792154050.6997612,
-    "ast_hash": "6c2d4b79e64173d00378b56bccce55c0",
-    "semantic_hash": "6c2d4b79e64173d00378b56bccce55c0"
+    "mtime": 1793013332.1713784,
+    "seen": 1793013650.5008438,
+    "ast_hash": "6092603e1ab821994e2c67423f2f7fab",
+    "semantic_hash": ""
   },
   "src/components/seo/JsonLd.tsx": {
     "mtime": 1791368912.2188284,
@@ -912,9 +912,9 @@
     "semantic_hash": ""
   },
   "brain.md": {
-    "mtime": 1792765115.505773,
-    "seen": 1792765399.0840542,
-    "ast_hash": "87275a24b246bc01d3220af0e7b2988a",
+    "mtime": 1793011632.3705678,
+    "seen": 1793013650.5008438,
+    "ast_hash": "f3c86dff4cf84f5624900009c8c08adc",
     "semantic_hash": ""
   },
   "docs/analytics-setup.md": {
@@ -1008,9 +1008,9 @@
     "semantic_hash": ""
   },
   "propermonth.md": {
-    "mtime": 1792765153.3846245,
-    "seen": 1792765399.0840542,
-    "ast_hash": "d4a1266961ae66daacf09f58f5694707",
+    "mtime": 1793008885.6551006,
+    "seen": 1793013650.5008438,
+    "ast_hash": "66fb04fcf5a42771b101652aa5dd5992",
     "semantic_hash": ""
   },
   "public/fonts/Plus-Jakarta-Sans-OFL.txt": {
@@ -1125,6 +1125,24 @@
     "mtime": 1793006335.1204276,
     "seen": 1793008840.1622384,
     "ast_hash": "81aa60b4451f3037106feec91927d278",
+    "semantic_hash": ""
+  },
+  "src/app/author/haaris-saifi/layout.tsx": {
+    "mtime": 1793013173.6596265,
+    "seen": 1793013650.5008438,
+    "ast_hash": "02dfc17ee4db8598067d301259e2eeca",
+    "semantic_hash": ""
+  },
+  "src/app/author/haaris-saifi/page.tsx": {
+    "mtime": 1793013230.088238,
+    "seen": 1793013650.5008438,
+    "ast_hash": "da147280aaa6d64c2dac0eca324f393d",
+    "semantic_hash": ""
+  },
+  "docs/haaris-saifi-entity-seo-blueprint.md": {
+    "mtime": 1793013155.4738996,
+    "seen": 1793013650.5008438,
+    "ast_hash": "aba7bb6cfbe4e080bcd164dac4bda8f1",
     "semantic_hash": ""
   }
 }

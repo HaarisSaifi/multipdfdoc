@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { UserCheck, ShieldCheck, Cpu, Code2, CheckCircle2, Github, BookOpen, Mail } from "lucide-react";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export const metadata = {
   title: "About Us & Engineering Mission — MultiPDF Doc",
@@ -12,8 +13,33 @@ export const metadata = {
 };
 
 export default function AboutPage() {
+  const aboutSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About MultiPDF Doc",
+    url: "https://multipdfdoc.com/about",
+    mainEntity: {
+      "@type": "Organization",
+      name: "MultiPDF Doc",
+      url: "https://multipdfdoc.com",
+      logo: "https://multipdfdoc.com/icon.svg",
+      founder: {
+        "@type": "Person",
+        name: "Haaris Saifi",
+        alternateName: ["Haaris", "Mohammad Haaris Saifi"],
+        jobTitle: "Founder & Lead Systems Architect",
+        url: "https://multipdfdoc.com/author/haaris-saifi",
+        sameAs: [
+          "https://github.com/HaarisSaifi",
+          "https://www.saashub.com/multipdf-doc",
+        ],
+      },
+    },
+  };
+
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+      <JsonLd data={aboutSchema} />
       <div className="bubble-card p-8 sm:p-12 border border-slate-200/90 space-y-8 text-xs sm:text-sm text-slate-600 leading-relaxed">
         {/* Header */}
         <div className="border-b border-slate-200 pb-6">
@@ -30,7 +56,7 @@ export default function AboutPage() {
         </div>
 
         {/* Section 1: The Founder & Genesis */}
-        <section className="space-y-3">
+        <section className="space-y-4">
           <h2 className="font-display font-bold text-base sm:text-lg text-slate-900">
             Who Built MultiPDF Doc
           </h2>
@@ -43,6 +69,26 @@ export default function AboutPage() {
           <p>
             MultiPDF Doc was created to prove a better alternative: by using local JavaScript engines and WebAssembly (including <strong>QPDF v12</strong>, <strong>Mozilla PDF.js</strong>, and <strong>Tesseract.js</strong>), everyday document workflows can run entirely inside the user’s browser with <strong>zero server document uploads</strong>.
           </p>
+
+          {/* Founder Profile Capsule */}
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-violet-50/80 via-white to-indigo-50/60 border border-violet-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-violet-600 text-white font-bold flex items-center justify-center font-display text-xs">
+                HS
+              </div>
+              <div>
+                <p className="font-bold text-slate-900 text-xs">Haaris Saifi</p>
+                <p className="text-[11px] text-slate-500">Founder &amp; Lead Systems Architect • HaarisSaifi/multipdfdoc</p>
+              </div>
+            </div>
+            <Link
+              href="/author/haaris-saifi"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-violet-600 text-white text-xs font-semibold hover:bg-violet-700 transition shadow-sm whitespace-nowrap"
+            >
+              <span>View Founder Profile</span>
+              <span>→</span>
+            </Link>
+          </div>
         </section>
 
         {/* Section 2: Core Engineering Pillars */}

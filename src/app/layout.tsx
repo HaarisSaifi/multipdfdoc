@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     "convert pdf to 300 dpi image",
     "rotate pdf pages online free",
   ],
-  authors: [{ name: "Haaris Saifi", url: "https://multipdfdoc.com/about" }],
+  authors: [{ name: "Haaris Saifi", url: "https://multipdfdoc.com/author/haaris-saifi" }],
   creator: "Haaris Saifi",
   publisher: "MultiPDF Doc",
   verification: { google: process.env.GOOGLE_SITE_VERIFICATION },

@@ -26,7 +26,11 @@ export default function EditorialPolicyPage() {
             Editorial, Testing &amp; Corrections Policy
           </h1>
           <p className="text-xs text-slate-500 mt-1.5 font-medium">
-            Published September 2026 • Maintained by Haaris Saifi (Founder &amp; Principal Engineer)
+            Published September 2026 • Maintained by{" "}
+            <a href="/author/haaris-saifi" className="text-violet-700 hover:underline font-semibold">
+              Haaris Saifi
+            </a>{" "}
+            (Founder &amp; Principal Engineer)
           </p>
         </div>
 

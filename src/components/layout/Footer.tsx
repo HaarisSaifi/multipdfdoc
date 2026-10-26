@@ -146,6 +146,11 @@ export function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/author/haaris-saifi" className="hover:text-violet-600 transition-colors flex items-center gap-2">
+                  <UserCheck className="w-3.5 h-3.5 text-violet-600" /> Founder: Haaris Saifi
+                </a>
+              </li>
+              <li>
                 <a href="/editorial-policy" className="hover:text-violet-600 transition-colors flex items-center gap-2">
                   <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" /> Editorial &amp; Testing Policy
                 </a>
@@ -162,7 +167,7 @@ export function Footer() {
         <AnalyticsConsent measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
 
         <div className="mt-12 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-          <p>© {new Date().getFullYear()} MultiPDF Doc (multipdfdoc.com). Core document tools run locally in your browser.</p>
+          <p>© {new Date().getFullYear()} MultiPDF Doc. Architected by <a href="/author/haaris-saifi" className="hover:text-violet-700 underline font-medium text-slate-600">Haaris Saifi</a>. Core document tools run locally in your browser.</p>
           <p className="flex items-center gap-1.5 font-medium text-slate-700">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>Free Core Tools • No Account Required</span>

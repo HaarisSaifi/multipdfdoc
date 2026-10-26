@@ -34,10 +34,25 @@ export function ArticleGuide({ article, slug }: { article: ArticleContent; slug:
           <p className="text-xs font-semibold text-slate-500">Published {article.published} · Updated {updatedLabel} · {Math.ceil(words / 200)} min read</p>
           <h1 className="font-display text-3xl sm:text-5xl font-bold tracking-tight leading-tight text-slate-900">{article.title}</h1>
           <p className="text-lg text-slate-600 leading-relaxed">{article.description}</p>
-          <p className="text-sm text-slate-500">Prepared with AI assistance and maintained by MultiPDF Doc. <a href="/editorial-policy" className="text-violet-700 underline">Editorial and corrections policy</a>.</p>
+          <div className="flex items-center gap-3 py-1">
+            <div className="w-9 h-9 rounded-xl bg-violet-600 text-white font-bold flex items-center justify-center font-display text-xs shrink-0 shadow-sm">
+              HS
+            </div>
+            <div className="text-xs">
+              <p className="font-bold text-slate-900">
+                Written &amp; Maintained by{" "}
+                <a href="/author/haaris-saifi" className="text-violet-700 hover:underline">
+                  Haaris Saifi
+                </a>
+              </p>
+              <p className="text-slate-500 text-[11px]">
+                Founder &amp; Systems Architect • <a href="/editorial-policy" className="text-slate-600 underline">Editorial &amp; Testing Governance</a>
+              </p>
+            </div>
+          </div>
           <a href={article.tool.href} className="btn-bubble btn-bubble-violet px-6 py-3 whitespace-nowrap">{article.tool.label} →</a>
         </header>
-        <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.description, datePublished: article.published, dateModified: updated, author: { "@type": "Organization", name: "MultiPDF Doc", url: "https://multipdfdoc.com/about" }, publisher: { "@type": "Organization", name: "MultiPDF Doc", logo: { "@type": "ImageObject", url: "https://multipdfdoc.com/icon.svg" } }, image: "https://multipdfdoc.com/og-image.png", mainEntityOfPage: `https://multipdfdoc.com/blog/${slug}` }} />
+        <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.description, datePublished: article.published, dateModified: updated, author: { "@type": "Person", name: "Haaris Saifi", jobTitle: "Founder & Lead Systems Architect", url: "https://multipdfdoc.com/author/haaris-saifi", sameAs: ["https://github.com/HaarisSaifi", "https://www.saashub.com/multipdf-doc"] }, publisher: { "@type": "Organization", name: "MultiPDF Doc", logo: { "@type": "ImageObject", url: "https://multipdfdoc.com/icon.svg" } }, image: "https://multipdfdoc.com/og-image.png", mainEntityOfPage: `https://multipdfdoc.com/blog/${slug}` }} />
         <nav aria-label="On this page" className="bubble-card my-8 p-6"><h2 className="font-bold text-slate-900 mb-3">On this page</h2><ol className="list-decimal pl-5 space-y-2 text-sm">{article.sections.map((section, i) => <li key={section.heading}><a href={`#guide-section-${i + 1}`} className="text-violet-700 underline">{section.heading}</a></li>)}</ol></nav>
         <div className="bubble-card p-6 my-8 bg-gradient-to-r from-violet-50/80 via-white to-sky-50/80 border border-violet-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
