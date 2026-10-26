@@ -13,11 +13,13 @@
   - **Categories Assigned:** Mapped across 8 core categories (`PDF Tools`, `Document Management`, `Productivity`, `PDF Editor`, `PDF Creator`, `PDF Converter`, `PDF`, `Document Management System`) and 15 market alternatives.
   - **Trust Badges Embedded:** Embedded official `"Approved on SaaSHub"` color badge in `src/components/layout/Footer.tsx` and `src/app/about/page.tsx` for AdSense human reviewer credibility.
 - **Haaris Saifi Personal Knowledge Graph, Entity SEO, GEO & AEO Launch (Oct 26, 2026):**
-  - **Canonical Author Entity Home:** Deployed `/author/haaris-saifi` with `ProfilePage` + `Person` Schema.org JSON-LD (`sameAs: [github.com/HaarisSaifi, saashub.com/multipdf-doc]`).
-  - **Multi-Domain Synergy Ecosystem:** Featured verified engineering background across LegalTech (`legalzoo.in` litigation systems), non-profit platforms (`iqrawelfaretrust.in` NGO portal), circular asset solutions (`officerecyclehub.com`), and industrial engineering (`nobleheat.com`).
+  - **Canonical Author Entity Home:** Deployed `/author/haaris-saifi` with `ProfilePage` + `Person` Schema.org JSON-LD (`sameAs: [github.com/HaarisSaifi, saashub.com/multipdf-doc, umazahcare.com, legalzoo.in, iqrawelfaretrust.in, officerecyclehub.com, nobleheat.com]`).
+  - **Academic Credentials Embedded:** B.Tech in Computer Science & Engineering (CSE) from Jamia Hamdard University (New Delhi) integrated into Schema.org (`alumniOf`, `hasCredential`) and UI hero badges.
+  - **Real Brand Logos Live:** Replaced initial placeholders with real SVGs/PNGs from live servers for MultiPDF Doc, LegalZoo, Umazah Care, IQRA Welfare Trust, OfficeRecycleHub, and NobleHeat.
+  - **Photo-Ready Architecture:** Configured `/images/author/haaris-saifi.jpg` avatar with graceful monogram fallback, Schema `ImageObject`, and OpenGraph profile image tags.
   - **Article Authorship Attributed:** Upgraded all 7 high-ranking pillar guides in `ArticleGuide.tsx` to `author: Person (Haaris Saifi)` with tactile author bylines and sitewide footer credits.
-  - **Live Deployed on Hostinger:** 422 files extracted live with 200 OK across all routes and verified schema tokens.
-  - Graphify AST knowledge graph synced: 11,674 nodes, 26,907 edges, 293 communities.
+  - **Live Deployed on Hostinger:** 430 files extracted live with 200 OK across all routes and verified schema tokens.
+  - Graphify AST knowledge graph synced: 11,680 nodes, 26,916 edges, 289 communities.
 
 ---
 
