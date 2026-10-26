@@ -12,10 +12,10 @@
   - **Officially Approved:** Verified and listed on SaaSHub ([saashub.com/multipdf-doc](https://www.saashub.com/multipdf-doc)) with `UP` status and `Visit website` authority backlink.
   - **Categories Assigned:** Mapped across 8 core categories (`PDF Tools`, `Document Management`, `Productivity`, `PDF Editor`, `PDF Creator`, `PDF Converter`, `PDF`, `Document Management System`) and 15 market alternatives.
   - **Trust Badges Embedded:** Embedded official `"Approved on SaaSHub"` color badge in `src/components/layout/Footer.tsx` and `src/app/about/page.tsx` for AdSense human reviewer credibility.
-- **Production Safety & Invariant Status:**
+- **Production Safety & Live Deployment Status:**
   - `npm test`: All 5 core architectural invariants and regression suites pass 100%.
   - `npm run build`: Static export pre-renders all 34 pages with Exit Code 0.
-  - `artifacts/multipdfdoc-hostinger.zip`: 362 public files, 14.9MB, `.htaccess` verified.
+  - **Live Deployed to Hostinger (Oct 26, 2026):** 415 files extracted directly to `public_html` via automated release. All live endpoints returning 200 OK with active SaaSHub verification badges and preserved GSC token.
   - Graphify AST knowledge graph synced: 11,653 nodes, 26,879 edges, 280 communities.
 
 ---
