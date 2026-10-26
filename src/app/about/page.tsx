@@ -82,20 +82,46 @@ export default function AboutPage() {
           <p>
             MultiPDF Doc is licensed under the MIT License and maintains a public GitHub repository. Anyone can inspect our client-side WebAssembly implementation, file validation routines, and zero-PII logging architecture:
           </p>
-          <div className="p-4 rounded-2xl bg-violet-50/60 border border-violet-100 flex items-center justify-between gap-4">
-            <div>
-              <p className="font-bold text-slate-900 text-xs">Public GitHub Repository</p>
-              <p className="text-[11px] text-slate-500">HaarisSaifi/multipdfdoc • Verified Production Build</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-4 rounded-2xl bg-violet-50/60 border border-violet-100 flex items-center justify-between gap-4">
+              <div>
+                <p className="font-bold text-slate-900 text-xs">Public GitHub Repository</p>
+                <p className="text-[11px] text-slate-500">HaarisSaifi/multipdfdoc • Open Source</p>
+              </div>
+              <a
+                href="https://github.com/HaarisSaifi/multipdfdoc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition shadow-sm"
+              >
+                <Github className="w-3.5 h-3.5" />
+                <span>View Source</span>
+              </a>
             </div>
-            <a
-              href="https://github.com/HaarisSaifi/multipdfdoc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white text-xs font-semibold hover:bg-slate-800 transition shadow-sm"
-            >
-              <Github className="w-3.5 h-3.5" />
-              <span>View Source</span>
-            </a>
+
+            <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-100 flex items-center justify-between gap-4">
+              <div>
+                <p className="font-bold text-slate-900 text-xs">Verified Software Suite</p>
+                <p className="text-[11px] text-slate-500">Approved Listing on SaaSHub</p>
+              </div>
+              <a
+                href="https://www.saashub.com/multipdf-doc?utm_source=badge&utm_campaign=badge&utm_content=multipdf-doc&badge_variant=color&badge_kind=approved"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block hover:opacity-90 transition shrink-0"
+                title="MultiPDFDoc Approved on SaaSHub"
+              >
+                <img
+                  src="https://cdn-b.saashub.com/img/badges/approved-color.png?v=1"
+                  alt="MultiPDFDoc badge"
+                  width={130}
+                  height={35}
+                  style={{ maxWidth: "130px" }}
+                  className="h-auto"
+                  loading="lazy"
+                />
+              </a>
+            </div>
           </div>
         </section>
 

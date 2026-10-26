@@ -24,6 +24,25 @@ export function Footer() {
               <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>Engineered for client-side privacy with local in-browser document processing.</span>
             </div>
+            <div className="pt-2">
+              <a
+                href="https://www.saashub.com/multipdf-doc?utm_source=badge&utm_campaign=badge&utm_content=multipdf-doc&badge_variant=color&badge_kind=approved"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block hover:opacity-90 transition"
+                title="MultiPDFDoc Approved on SaaSHub"
+              >
+                <img
+                  src="https://cdn-b.saashub.com/img/badges/approved-color.png?v=1"
+                  alt="MultiPDFDoc badge"
+                  width={140}
+                  height={38}
+                  style={{ maxWidth: "140px" }}
+                  className="h-auto"
+                  loading="lazy"
+                />
+              </a>
+            </div>
           </div>
 
           {/* Quick PDF & Document Tools */}

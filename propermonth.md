@@ -110,3 +110,18 @@ Evidence: searchconsole/https___multipdfdoc.com_-Performance-on-Search-2026-10-2
    - Optimized /calc/gpa metadata title & description for cumulative and preliminary GPA queries.
    - Optimized /invoice metadata title & description for pdf invoice editor online free and ree unlimited invoice maker.
    - Enhanced freelance payment terms FAQs across articles and tools.
+
+## October 26, 2026 — SaaSHub Verification & 63 Impressions Ground Truth Checkpoint
+
+Evidence: searchconsole/https___multipdfdoc.com_-Performance-on-Search-2026-10-26.xlsx, SaaSHub verified listing https://www.saashub.com/multipdf-doc.
+
+1. **GSC Performance Evidence (Oct 7 – Oct 26, 2026):**
+   - Total Impressions: **63 impressions** (+425% overall growth, +53.6% in 3 days) across 18 countries.
+   - All-Time Record: **10 impressions in 1 day on Oct 23**.
+   - Top Page: /blog/weighted-vs-unweighted-gpa-college-admissions (21 impressions, avg pos 14.43).
+   - Tool on Page 1: /calc/gpa (3 impressions, avg pos 9.0).
+   - US Tier-1 Traffic: **31 impressions** (49.2% of total traffic).
+   - New Head Query: pdf invoice generator (2 impressions, pos 73.0).
+2. **SaaSHub Verified Software Suite:**
+   - Approved & listed on SaaSHub across 8 categories and 15 market alternatives.
+   - Official 'Approved on SaaSHub' color badge embedded in Footer and About page.
