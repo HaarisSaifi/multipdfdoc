@@ -154,6 +154,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date("2026-10-26T00:00:00.000Z"),
       changeFrequency: "weekly",
       priority: 0.85,
+      images: [`${baseUrl}/images/author/haaris-saifi.jpg`],
     },
     {
       url: `${baseUrl}/about`,

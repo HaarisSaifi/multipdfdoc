@@ -48,8 +48,13 @@ export default function AuthorProfilePage() {
       url: "https://multipdfdoc.com/author/haaris-saifi",
       image: {
         "@type": "ImageObject",
+        "@id": "https://multipdfdoc.com/images/author/haaris-saifi.jpg#primaryimage",
         url: "https://multipdfdoc.com/images/author/haaris-saifi.jpg",
-        caption: "Haaris Saifi — Systems Architect & Founder, Jamia Hamdard University CSE Graduate",
+        contentUrl: "https://multipdfdoc.com/images/author/haaris-saifi.jpg",
+        caption: "Haaris Saifi — Systems Architect & Founder, CSE Graduate from Jamia Hamdard University",
+        representativeOfPage: true,
+        width: 940,
+        height: 898,
       },
       jobTitle: "Founder & Lead Systems Architect",
       worksFor: {
@@ -152,23 +157,25 @@ export default function AuthorProfilePage() {
         <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-violet-100/60 via-indigo-50/40 to-transparent rounded-bl-full pointer-events-none" />
 
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 sm:gap-8 relative z-10">
-          {/* Avatar Container: Displays real photo or graceful initials fallback */}
-          <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-sky-500 p-1 shadow-clay-card shrink-0">
+          {/* Avatar Container: Displays real photo with verified shield */}
+          <div className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-3xl bg-gradient-to-tr from-violet-600 via-indigo-600 to-sky-500 p-1 shadow-clay-card shrink-0 group">
             <div className="w-full h-full rounded-[22px] bg-slate-950 overflow-hidden flex flex-col items-center justify-center text-white font-display relative">
               <img
                 src="/images/author/haaris-saifi.jpg"
                 alt="Haaris Saifi — Systems Architect & Founder, CSE Graduate from Jamia Hamdard University"
-                width={128}
-                height={128}
-                className="w-full h-full object-cover rounded-[22px] relative z-10"
-                onError={(e) => {
-                  (e.currentTarget as HTMLElement).style.display = "none";
-                }}
+                width={144}
+                height={144}
+                className="w-full h-full object-cover rounded-[22px] relative z-10 transition-transform duration-300 group-hover:scale-105"
+                loading="eager"
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white pointer-events-none z-0">
                 <span className="text-3xl sm:text-4xl font-extrabold tracking-tighter">HS</span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-violet-400 mt-0.5">Architect</span>
               </div>
+            </div>
+            <div className="absolute -bottom-2 -right-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-violet-600 text-white shadow-md border-2 border-white flex items-center gap-1 z-20">
+              <ShieldCheck className="w-3 h-3 text-emerald-300" />
+              <span>Verified</span>
             </div>
           </div>
 

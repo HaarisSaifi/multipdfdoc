@@ -168,9 +168,9 @@
     "semantic_hash": "0d5e8f394e886be60a8a95f09bcd01a6"
   },
   "docs/reports/static-package.json": {
-    "mtime": 1793014849.1316228,
-    "seen": 1793014909.4254777,
-    "ast_hash": "efe457012230546acb8cc18772a174f1",
+    "mtime": 1793016233.386381,
+    "seen": 1793016312.3381026,
+    "ast_hash": "385fb63181f228a1862a90a1dad92cb2",
     "semantic_hash": ""
   },
   "docs/reports/ui-review-before.json": {
@@ -276,8 +276,8 @@
     "semantic_hash": "f27b1085f1bde66bc7a1eb79c524581a"
   },
   "public/vendor/pdfjs/version.json": {
-    "mtime": 1793014784.003749,
-    "seen": 1793014909.4254777,
+    "mtime": 1793016136.1085768,
+    "seen": 1793016312.3381026,
     "ast_hash": "68d0f0b282796b79d539846b62dd77ca",
     "semantic_hash": "68d0f0b282796b79d539846b62dd77ca"
   },
@@ -408,9 +408,9 @@
     "semantic_hash": "182f53407a7a24dd7414c7157f8ebb26"
   },
   "src/app/about/page.tsx": {
-    "mtime": 1793013287.5474052,
-    "seen": 1793013650.5008438,
-    "ast_hash": "0324acb3f196a4914513e9b52b4db6e1",
+    "mtime": 1793016041.6978526,
+    "seen": 1793016312.3381026,
+    "ast_hash": "6461b1d4aa5aca3bc8f3d730851edff2",
     "semantic_hash": ""
   },
   "src/app/blog/compress-pdf-200kb-uscis-passport-guide/page.tsx": {
@@ -714,9 +714,9 @@
     "semantic_hash": "e892eec1521ec3e433b320b1eb6faaa9"
   },
   "src/app/sitemap.ts": {
-    "mtime": 1793013244.7100122,
-    "seen": 1793013650.5008438,
-    "ast_hash": "b98f28c9a18eb2dc1121b737cc41e31a",
+    "mtime": 1793016102.5235274,
+    "seen": 1793016312.3381026,
+    "ast_hash": "e287fe5186398a7a935131df2570acfa",
     "semantic_hash": ""
   },
   "src/app/terms/page.tsx": {
@@ -768,9 +768,9 @@
     "semantic_hash": "c4a6342fec62067c2b08609ce134c8a7"
   },
   "src/components/seo/ArticleGuide.tsx": {
-    "mtime": 1793013332.1713784,
-    "seen": 1793013650.5008438,
-    "ast_hash": "6092603e1ab821994e2c67423f2f7fab",
+    "mtime": 1793016031.4030979,
+    "seen": 1793016312.3381026,
+    "ast_hash": "70e54756c577b214c37b1d35ef94ebbb",
     "semantic_hash": ""
   },
   "src/components/seo/JsonLd.tsx": {
@@ -912,9 +912,9 @@
     "semantic_hash": ""
   },
   "brain.md": {
-    "mtime": 1793013711.24842,
-    "seen": 1793014909.4254777,
-    "ast_hash": "cca251d0073ad802983d14a2657d5c5f",
+    "mtime": 1793014999.9039068,
+    "seen": 1793016312.3381026,
+    "ast_hash": "f76ba7a86741d9383d02a8d9f2f5df58",
     "semantic_hash": ""
   },
   "docs/analytics-setup.md": {
@@ -1134,9 +1134,9 @@
     "semantic_hash": ""
   },
   "src/app/author/haaris-saifi/page.tsx": {
-    "mtime": 1793014774.345692,
-    "seen": 1793014909.4254777,
-    "ast_hash": "e563156dbb55fa5ef495a23b37dc25f9",
+    "mtime": 1793016085.6912408,
+    "seen": 1793016312.3381026,
+    "ast_hash": "268f9bd3b0e64000b43303260d7214ea",
     "semantic_hash": ""
   },
   "docs/haaris-saifi-entity-seo-blueprint.md": {
@@ -1191,6 +1191,18 @@
     "mtime": 1793014481.7967906,
     "seen": 1793014909.4254777,
     "ast_hash": "90ec0b8edca9be8caddeefb1973e8c8c",
+    "semantic_hash": ""
+  },
+  "scratch/verify_live_author.py": {
+    "mtime": 1793014954.3757403,
+    "seen": 1793016312.3381026,
+    "ast_hash": "d296dde2632a3dd0567de68ef8fcc604",
+    "semantic_hash": ""
+  },
+  "public/images/author/haaris-saifi.jpg": {
+    "mtime": 1793015965.4514525,
+    "seen": 1793016312.3381026,
+    "ast_hash": "c07ab47595349d38866160e6a31adc9a",
     "semantic_hash": ""
   }
 }

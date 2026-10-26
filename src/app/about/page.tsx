@@ -73,8 +73,15 @@ export default function AboutPage() {
           {/* Founder Profile Capsule */}
           <div className="p-4 rounded-2xl bg-gradient-to-r from-violet-50/80 via-white to-indigo-50/60 border border-violet-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-violet-600 text-white font-bold flex items-center justify-center font-display text-xs">
-                HS
+              <div className="w-11 h-11 rounded-xl overflow-hidden shrink-0 border border-violet-200 shadow-sm bg-slate-900">
+                <img
+                  src="/images/author/haaris-saifi.jpg"
+                  alt="Haaris Saifi — Founder & Systems Architect"
+                  width={44}
+                  height={44}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
               </div>
               <div>
                 <p className="font-bold text-slate-900 text-xs">Haaris Saifi</p>

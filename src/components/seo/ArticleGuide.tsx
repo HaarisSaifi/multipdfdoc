@@ -35,8 +35,15 @@ export function ArticleGuide({ article, slug }: { article: ArticleContent; slug:
           <h1 className="font-display text-3xl sm:text-5xl font-bold tracking-tight leading-tight text-slate-900">{article.title}</h1>
           <p className="text-lg text-slate-600 leading-relaxed">{article.description}</p>
           <div className="flex items-center gap-3 py-1">
-            <div className="w-9 h-9 rounded-xl bg-violet-600 text-white font-bold flex items-center justify-center font-display text-xs shrink-0 shadow-sm">
-              HS
+            <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-violet-200 shadow-sm bg-slate-900">
+              <img
+                src="/images/author/haaris-saifi.jpg"
+                alt="Haaris Saifi — Founder & Systems Architect"
+                width={40}
+                height={40}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
             <div className="text-xs">
               <p className="font-bold text-slate-900">
