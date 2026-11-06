@@ -45,6 +45,19 @@ async function test(name, fn) { await fn(); checks++; console.log(`PASS ${name}`
     await assert.rejects(createBusinessDocument({ ...data, notes: ["हिंदी"] }), /does not support/);
     assert.equal(roundMoney(1.005), 1.01);
   });
+  await test("preliminary GPA excludes in-progress courses and never divides by zero", () => {
+    const { computeGpa } = require("../src/lib/gpa.ts");
+    const rows = [
+      { grade: "A", level: "ap_ib", credits: 1, status: "completed" },
+      { grade: "B", level: "regular", credits: 1, status: "completed" },
+      { grade: "F", level: "ap_ib", credits: 1, status: "in_progress" },
+      { grade: "A", level: "honors", credits: 0, status: "completed" },
+    ];
+    const all = computeGpa(rows), done = computeGpa(rows, { completedOnly: true });
+    assert.equal(done.credits, 2); assert.equal(done.unweighted, 3.5); assert.equal(done.weighted, 4.0);
+    assert.equal(all.credits, 3); assert.ok(Math.abs(all.unweighted - 7 / 3) < 1e-9); assert.ok(Math.abs(all.weighted - 8 / 3) < 1e-9); // F earns no AP bonus
+    assert.deepEqual(computeGpa([{ grade: "A", level: "regular", credits: 0 }]), { credits: 0, unweighted: null, weighted: null });
+  });
   await test("JSON-LD safely encodes closing script sequences", () => {
     const React = require("react"), { renderToStaticMarkup } = require("react-dom/server");
     const { JsonLd } = require("../src/components/seo/JsonLd.tsx");

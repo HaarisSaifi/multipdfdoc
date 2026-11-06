@@ -1,3 +1,54 @@
+# Current checkpoint: November 5, 2026 — Round 2 (Cumulative-vs-Weighted Table, Preliminary GPA Mode, Invoice Anchors, Face Guide)
+
+- **Why:** GSC 28-day data — `cumulative gpa vs weighted gpa` 12 imp at pos 31; `what is the difference between cumulative and weighted gpa` pos 10.7; `/calc/gpa` pos 17.8; `/invoice` pos 76 (title alone cannot move this).
+- **GPA article (`src/content/articles.ts`, `ArticleGuide.tsx`):**
+  - Section 2 rewritten as H2 `Cumulative GPA vs. weighted GPA: what is the difference?` (cumulative = which terms, weighted = scale; worked AP-A + regular-B example 3.50 vs 4.00).
+  - New optional `comparison` field on `ArticleContent` renders a real `<table>` (`#comparison`): Unweighted / Weighted / Cumulative / Semester / Preliminary GPA.
+  - New FAQ `What is the difference between cumulative and weighted GPA?`. Tool CTA deep-links `/calc/gpa#preliminary`.
+- **`/calc/gpa` Preliminary GPA mode:** math moved to pure `src/lib/gpa.ts` (`computeGpa`, `completedOnly`). Per-course Completed / In progress status; main cards = completed-only preliminary GPA; amber Projected panel shows GPA incl. in-progress + delta. `#preliminary` hash auto-enables. H1 + absolute title `Weighted, Unweighted & Preliminary GPA Calculator (AP, IB, Honors)`; new guide section + FAQ `How do I calculate my preliminary GPA?`. Unit test added to `scripts/test-production.cjs`.
+- **Invoice:** H1 `Free PDF Invoice Generator` (matches title); homepage hero button, footer, directory, navbar search and related-tool anchors now say "PDF invoice generator"; freelance article gets `related` links + CTA `Open the free PDF invoice generator`.
+- **Resizer:** on-screen face guide (US visa: head 50–69%, eyes 56–69% from bottom, verified against State Dept photo composition template; 3.5×4.5: chin-to-crown ≈70–80%). Guide never written to output (tested: 0 non-white px on white source).
+- **Binder:** optional "Page X of Y" footers (physical numbering, skips contents page; rotated pages skipped and reported). Mobile fix: download button label shortened, row controls wrap.
+- **Homepage schema:** WebSite `alternateName` [MultiPDF, multipdfdoc, multipdfdoc.com]; Organization raster logo `apple-touch-icon.png` (180×180 verified), founder, sameAs (GitHub repo, SaaSHub).
+- **Verification (cloud):** strict `tsc` clean; 31/31 headless-Chromium checks on real bundles of `/calc/gpa`, binder, resizer (GPA 3.80/4.40 → preliminary 3.75/4.38, projection +0.05; binder 6-page output, rotated-page report, broken-PDF error, over-limit card; resizer 49.8 KB ≤ 50 KB at 413×531, impossible-target error, PNG explanation, signature 8.8 KB with paper whitened; no page errors/dialogs; no overflow at 320/375 px with files loaded).
+- **Not run (device shell unavailable — hardware virtualization off):** `npm run build`, `npm test`, `npm run test:browser`, `graphify update .`. Run these, then deploy.
+
+---
+
+# Current checkpoint: November 5, 2026 (CTR Leak Fix + 2 Student Tools + Related-Tools Mesh)
+
+- **Search Console Nov 5 Ground Truth (`Performance-on-Search-2026-11-05*.xlsx`):**
+  - **28 days:** 326 impressions, 2 clicks. Daily range 17–43 (record 43 on Oct 28). **Last 7 days:** 194 impressions, 1 click. **Last 24h:** 32 impressions.
+  - **US share:** 215 of 326 impressions (66%) over 28 days; 140 of 194 (72%) over 7 days.
+  - **Top page:** `/blog/weighted-vs-unweighted-gpa-college-admissions` — 199 impressions, 1 click, avg pos 7.8.
+  - **CTR leak:** `what is preliminary gpa` (13 imp, pos 3.1), `preliminary gpa meaning` (11, pos 4.6), `what is a preliminary gpa` (9, pos 3.8), `preliminary gpas` (6, pos 1.2) — all 0 clicks. Cause: SERP title never said "preliminary GPA".
+  - `/invoice`: 34 impressions at avg pos 76 (`pdf invoice generator`, `invoice pdf generator`, `free pdf invoice maker`). `/author/haaris-saifi`: 20 impressions, pos 5.4.
+- **Stage 1 — SERP / AEO changes:**
+  - GPA article retitled `Preliminary GPA Meaning & Calculator: Weighted vs. Unweighted High School Guide`; new meta description; `updated: 2026-11-05`.
+  - New optional `quickAnswer` field on `ArticleContent` (`src/components/seo/ArticleGuide.tsx`) renders a claymorphic **Quick definition** box directly under the H1 (45-word answer to "What is a preliminary GPA?") plus `speakable` on the Article JSON-LD.
+  - FAQPage now leads with the exact question `What is a preliminary GPA?` plus two new transcript/weighting FAQs. Preliminary + cumulative sections moved to the top, with a worked 6th→7th semester example. Definition hedged: terminology varies by district.
+  - Blog hub card + footer label updated to the new title.
+  - `/invoice` title (absolute, no suffix): `Free PDF Invoice Generator (No Watermark, Instant Vector Download)`; new description.
+- **Stage 2 — two new client-side tools (now 17 tools):**
+  - `/pdf/college-application-binder` — pdf-lib packet builder: PDF/JPG/PNG/WebP, drag + arrow reorder, section labels, optional contents page, photo downscale/quality, live gauge vs 1.9MB / 2MB / 5MB / 10MB / custom. Guide is honest that Common App transcripts/LORs are sent by counselors/recommenders; 1.9MB figure cited from Overgrad's Common App docs.
+  - `/image/portal-resizer` — canvas crop (drag/arrow pan, zoom), presets 3.5×4.5 cm (413×531), 600/1200 px square (US visa, verified against travel.state.gov: square JPEG 600–1200 px, ≤240 kB), signature strips; JPEG quality binary search to 20/50/100/240/custom KB, optional min KB, signature paper whitening. No silent dimension changes.
+  - Both: dedicated `layout.tsx` metadata, `<ValueWrapper />` (1,344 / 1,382 rendered guide words), FAQPage + WebApplication + BreadcrumbList schema, inline `errorMsg` only.
+- **Discovery mesh:** `ToolBreadcrumb.tsx` now renders a **Related tools** pill row on every tool page (17-node workflow map). New tools added to ToolDirectory (new `Image` filter; counts now computed), Navbar search list, Footer, sitemap (GPA article + invoice lastModified 2026-11-05).
+- **Tests:** `scripts/test-browser.mjs` homepage-filter expectations updated to 17 tools (PDF 11, Image 1).
+- **Live Deployed to Hostinger (Nov 5, 2026):**
+  - Ran `npm run build` cleanly with Exit Code 0 (all 37 static routes compiled into `out/`).
+  - Packaged via `npm run package:hostinger` into `artifacts/multipdfdoc-hostinger.zip` (15.55 MB).
+  - Executed automated FTP deployment via `scripts/deploy-ftp.py` (Host: `82.25.120.193`, User: `u379193775.multipdfdoc.com`).
+  - **444 files extracted live directly to `public_html`** with 200 OK verified across homepage, both new tools (`/pdf/college-application-binder`, `/image/portal-resizer`), the updated GPA article, `/invoice`, and Search Console verification token `googlec4493f5791f8eb92.html`.
+  - Graphify AST knowledge graph refreshed cleanly: 11,724 nodes, 27,022 edges, 297 communities.
+- **Immediate GSC Action for User:** In Google Search Console, submit URL inspection & "Request Indexing" for:
+  1. `https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions` (CTR Leak fix + Quick Definition box live)
+  2. `https://multipdfdoc.com/invoice` (Commercial title live)
+  3. `https://multipdfdoc.com/pdf/college-application-binder` (New tool)
+  4. `https://multipdfdoc.com/image/portal-resizer` (New tool)
+
+---
+
 # Current checkpoint: October 26, 2026 (SaaSHub Verified & Search Console 63 Impressions Surge)
 
 - **Search Console Oct 26 Ground Truth (`Performance-on-Search-2026-10-26.xlsx`):**

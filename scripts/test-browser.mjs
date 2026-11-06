@@ -192,16 +192,16 @@ try {
   const footers=await evaluate("(async()=>{const lib=await import('/vendor/pdfjs/pdf.min.mjs');lib.GlobalWorkerOptions.workerSrc='/vendor/pdfjs/pdf.worker.min.mjs';const data=new Uint8Array(await(await fetch(document.querySelector('a[download][href^=blob]').href)).arrayBuffer());const pdf=await lib.getDocument({data}).promise;const lines=[];for(let i=1;i<=pdf.numPages;i++){const text=await(await pdf.getPage(i)).getTextContent();lines.push(text.items.filter(x=>x.transform?.[5]<50).map(x=>x.str).join(' ').trim())}await pdf.destroy();return lines})()");
   if(JSON.stringify(footers)!==JSON.stringify(['','','Page 1 of 3','Page 2 of 3','Page 3 of 3']))throw Error('Stamped numbering does not match published example: '+JSON.stringify(footers));
  });
- await workflow('Homepage category filters preserve all 15 tool links',async()=>{
+ await workflow('Homepage category filters preserve all 17 tool links',async()=>{
   await navigate('/');
-  for(const [label,count,prefix] of [['Academic (3)',3,'/calc/'],['Business (2)',2,null],['PDF Tools (',10,'/pdf/']]){
+  for(const [label,count,prefix] of [['Academic (3)',3,'/calc/'],['Business (2)',2,null],['PDF Tools (',11,'/pdf/'],['Image (1)',1,'/image/']]){
    await clickText(label);await waitFor(`document.querySelectorAll('#tools a').length===${count}`);
    if(prefix&&!await evaluate(`Array.from(document.querySelectorAll('#tools a')).every(a=>a.getAttribute('href').startsWith(${JSON.stringify(prefix)}))`))throw Error('Wrong filtered tool category');
   }
   await evaluate(`Array.from(document.querySelectorAll('#tools button')).find(b=>b.textContent.includes('All Tools')).focus()`);
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,text:'\r'});
   await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});
-  await waitFor(`document.querySelectorAll('#tools a').length===15`);
+  await waitFor(`document.querySelectorAll('#tools a').length===17`);
  });
  await workflow('Merge two PDFs into four pages',async()=>{await navigate('/pdf/merge');await upload([fixturePath,fixturePath]);await clickText('Merge');const bytes=await downloadPdf();if((await PDFDocument.load(bytes)).getPageCount()!==4)throw Error('Wrong merge page count')});
  await workflow('Split strict selection into one page',async()=>{await navigate('/pdf/split');await upload();await setInput('input[type=text]','2');await clickText('Extract');const bytes=await downloadPdf();if((await PDFDocument.load(bytes)).getPageCount()!==1)throw Error('Wrong split page count');await setInput('input[type=text]','1x');await clickText('Extract');await sleep(400);if(await evaluate('!!document.querySelector("a[download][href^=blob]")'))throw Error('Invalid selection kept a stale output')});

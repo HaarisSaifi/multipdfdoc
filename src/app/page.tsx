@@ -25,9 +25,9 @@ const homeFaqs = [
 export default function HomePage() {
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", "@id": "https://multipdfdoc.com/#website", name: "MultiPDF Doc", url: "https://multipdfdoc.com/", publisher: { "@id": "https://multipdfdoc.com/#organization" } }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", "@id": "https://multipdfdoc.com/#website", name: "MultiPDF Doc", alternateName: ["MultiPDF", "multipdfdoc", "multipdfdoc.com"], url: "https://multipdfdoc.com/", inLanguage: "en-US", publisher: { "@id": "https://multipdfdoc.com/#organization" } }} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: homeFaqs.map(({ question, answer }) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) }} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "Organization", "@id": "https://multipdfdoc.com/#organization", name: "MultiPDF Doc", url: "https://multipdfdoc.com/", logo: "https://multipdfdoc.com/icon.svg" }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "Organization", "@id": "https://multipdfdoc.com/#organization", name: "MultiPDF Doc", alternateName: "MultiPDF", url: "https://multipdfdoc.com/", description: "Free PDF, invoice, image and student utilities that process files locally in the browser.", logo: { "@type": "ImageObject", url: "https://multipdfdoc.com/apple-touch-icon.png", width: 180, height: 180 }, founder: { "@type": "Person", name: "Haaris Saifi", url: "https://multipdfdoc.com/author/haaris-saifi" }, sameAs: ["https://github.com/HaarisSaifi/multipdfdoc", "https://www.saashub.com/multipdf-doc"] }} />
       {/* Hero Section */}
       <section className="text-center space-y-6 pt-8 pb-4">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold uppercase tracking-wider shadow-sm">
@@ -53,9 +53,9 @@ export default function HomePage() {
           </a>
           <a
             href="/invoice"
-            className="px-8 py-4 rounded-full text-sm sm:text-base font-bold btn-bubble btn-bubble-secondary flex items-center gap-2 shadow-clay-pill-secondary"
+            className="px-8 py-4 rounded-full text-sm sm:text-base font-bold btn-bubble btn-bubble-secondary flex items-center gap-2 shadow-clay-pill-secondary whitespace-nowrap"
           >
-            Free Invoice Maker
+            Free PDF Invoice Generator
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>

@@ -56,3 +56,7 @@ yarn-error.log*
 # Graphify AST cache
 graphify-out/cache/
 
+# Local Search Console performance exports and temporary scripts
+/searchconsole/
+/scratch/
+

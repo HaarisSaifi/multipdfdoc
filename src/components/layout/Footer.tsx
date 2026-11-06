@@ -62,7 +62,7 @@ export function Footer() {
               </li>
               <li>
                 <a href="/invoice" className="hover:text-violet-600 transition-colors font-medium text-violet-700">
-                  Free Invoice Generator
+                  Free PDF Invoice Generator
                 </a>
               </li>
               <li>
@@ -83,6 +83,16 @@ export function Footer() {
               <li>
                 <a href="/calc/gpa" className="hover:text-violet-600 transition-colors">
                   Weighted GPA Converter
+                </a>
+              </li>
+              <li>
+                <a href="/pdf/college-application-binder" className="hover:text-violet-600 transition-colors">
+                  Application PDF Binder
+                </a>
+              </li>
+              <li>
+                <a href="/image/portal-resizer" className="hover:text-violet-600 transition-colors">
+                  Photo &amp; Signature Resizer
                 </a>
               </li>
             </ul>
@@ -112,7 +122,7 @@ export function Footer() {
               </li>
               <li>
                 <a href="/blog/weighted-vs-unweighted-gpa-college-admissions" className="hover:text-violet-600 transition-colors line-clamp-1">
-                  Weighted vs Unweighted GPA
+                  Preliminary GPA Meaning
                 </a>
               </li>
               <li>

@@ -165,10 +165,10 @@ export default function InvoiceGeneratorPage() {
           <span>Free to use • Local PDF export</span>
         </div>
         <h1 className="font-display font-extrabold text-3xl sm:text-5xl text-slate-900 tracking-tight">
-          Professional PDF Invoice Generator
+          Free PDF Invoice Generator <span className="block text-lg sm:text-2xl font-bold text-violet-600 mt-2 font-sans tracking-normal">No Watermark • Instant Vector Download</span>
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-          Create, customize, and export itemized business invoices in seconds. All mathematical calculations and PDF byte compilation execute 100% client-side in your browser at <strong className="text-slate-800">multipdfdoc.com</strong>.
+          Create an itemized invoice and download it as a vector PDF with no watermark and no signup. Tax, discount and totals are calculated, and the PDF is built, entirely in your browser at <strong className="text-slate-800">multipdfdoc.com</strong>.
         </p>
       </div>
 

@@ -10,6 +10,18 @@ export const toolSources: Record<string, SourceCitation[]> = {
 ], "receipt": [irs
 ], "calc/gpa": [uc
 ], "calc/final-grade": [{ title: "Weighted arithmetic mean", publisher: "NIST Dataplot", url: "https://www.itl.nist.gov/div898/software/dataplot/refman2/ch2/weigmean.pdf" }], "calc/words-to-pages": [{ title: "Paper formatting guidance", publisher: "APA Style", url: "https://apastyle.apa.org/style-grammar-guidelines/paper-format" }], "pdf/compress": [qpdf, pdfjs], "pdf/to-image": [pdfjs], "pdf/to-text": [pdfjs],
+  "pdf/college-application-binder": [
+    { title: "Submitting documents (applicant support)", publisher: "Common App", url: "https://appsupport.commonapp.org/applicantsupport/s/article/submitting-documents-chuugsdy" },
+    { title: "Error messages when sending Common App documents (1.9 MB maximum)", publisher: "Overgrad Support", url: "https://help.overgrad.com/support/solutions/articles/24000061159-overview-of-error-messages-for-sending-common-app-documents" },
+    pdf,
+    { title: "ISO 32000-1:2008 Portable Document Format", publisher: "ISO", url: "https://www.iso.org/standard/51502.html" },
+  ],
+  "image/portal-resizer": [
+    { title: "Digital image requirements for visa photos", publisher: "U.S. Department of State", url: "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos/digital-image-requirements.html" },
+    { title: "Photo composition template (head and eye height)", publisher: "U.S. Department of State", url: "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos/photo-composition-template.html" },
+    { title: "HTMLCanvasElement.toBlob() quality parameter", publisher: "Mozilla MDN", url: "https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob" },
+    { title: "Doc 9303 Machine Readable Travel Documents", publisher: "ICAO", url: "https://www.icao.int/publications/pages/publication.aspx?docnum=9303" },
+  ],
 };
 
 export const supplements: Record<string, SectionItem[]> = {

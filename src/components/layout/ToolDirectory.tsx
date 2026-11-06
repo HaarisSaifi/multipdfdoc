@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FileText, Layers, Scissors, Minimize2, Image as ImageIcon, RotateCw, Lock, Sparkles, ArrowRight, Receipt, GraduationCap, Hash, Unlock, Clock, TrendingUp } from "lucide-react";
+import { FileText, Layers, Scissors, Minimize2, Image as ImageIcon, RotateCw, Lock, Sparkles, ArrowRight, Receipt, GraduationCap, Hash, Unlock, Clock, TrendingUp, FolderOpen, Crop } from "lucide-react";
 
 export function ToolDirectory() {
-  const [selectedCategory, setSelectedCategory] = useState<"all" | "pdf" | "business" | "academic">("all");
+  const [selectedCategory, setSelectedCategory] = useState<"all" | "pdf" | "image" | "business" | "academic">("all");
 
   const tools = [
     // PDF Tools
@@ -140,11 +140,40 @@ export function ToolDirectory() {
       badgeColor: "bg-purple-50 text-purple-700 border-purple-200",
     },
 
+    {
+      id: "college-application-binder",
+      category: "pdf",
+      title: "College Application PDF Binder",
+      description: "Bundle a resume, essays, certificates and phone scans into one ordered PDF with a contents page and a live 1.9MB / 2MB upload gauge.",
+      href: "/pdf/college-application-binder",
+      icon: FolderOpen,
+      iconColor: "text-violet-600",
+      iconBg: "bg-violet-50 border-violet-100",
+      borderHover: "hover:border-violet-300",
+      badge: "STUDENT PACKET",
+      badgeColor: "bg-violet-50 text-violet-700 border-violet-200",
+    },
+
+    // Image Tools
+    {
+      id: "portal-resizer",
+      category: "image",
+      title: "Exam Photo & Signature Resizer",
+      description: "Crop to 3.5×4.5 cm or 600×600 px and compress photos or signatures under 20KB, 50KB, 100KB or a custom portal limit.",
+      href: "/image/portal-resizer",
+      icon: Crop,
+      iconColor: "text-sky-600",
+      iconBg: "bg-sky-50 border-sky-100",
+      borderHover: "hover:border-sky-300",
+      badge: "20KB · 50KB",
+      badgeColor: "bg-sky-50 text-sky-700 border-sky-200",
+    },
+
     // Business Suite
     {
       id: "invoice",
       category: "business",
-      title: "Free Invoice Generator",
+      title: "Free PDF Invoice Generator",
       description: "Create professional business invoices with multi-currency (USD, EUR, GBP, INR), tax calculations, and zero watermarks.",
       href: "/invoice",
       icon: FileText,
@@ -185,8 +214,8 @@ export function ToolDirectory() {
     {
       id: "gpa",
       category: "academic",
-      title: "4.0 GPA Converter",
-      description: "Convert AP (+1.0) and Honors (+0.5) classes between weighted 5.0 and unweighted 4.0 scales with US admissions guidance.",
+      title: "GPA & Preliminary GPA Calculator",
+      description: "Convert AP (+1.0) and Honors (+0.5) classes between weighted 5.0 and unweighted 4.0 scales, or calculate a preliminary GPA from completed semesters.",
       href: "/calc/gpa",
       icon: TrendingUp,
       iconColor: "text-sky-600",
@@ -231,8 +260,9 @@ export function ToolDirectory() {
             {[
               { id: "all", label: `All Tools (${tools.length})` },
               { id: "pdf", label: `PDF Tools (${tools.filter((tool) => tool.category === "pdf").length})` },
-              { id: "business", label: "Business (2)" },
-              { id: "academic", label: "Academic (3)" },
+              { id: "image", label: `Image (${tools.filter((tool) => tool.category === "image").length})` },
+              { id: "business", label: `Business (${tools.filter((tool) => tool.category === "business").length})` },
+              { id: "academic", label: `Academic (${tools.filter((tool) => tool.category === "academic").length})` },
             ].map((cat) => (
               <button
                 key={cat.id}

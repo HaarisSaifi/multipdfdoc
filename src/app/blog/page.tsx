@@ -84,9 +84,9 @@ export default function BlogIndexPage() {
     },
     {
       slug: "weighted-vs-unweighted-gpa-college-admissions",
-      title: "Weighted and Unweighted GPA: Calculate from Courses, Then Check College Rules",
+      title: "Preliminary GPA Meaning & Calculator: Weighted vs. Unweighted High School Guide",
       description:
-        "Understand the critical differences between a 4.0 unweighted GPA and a 5.0 weighted GPA, including AP/IB honor boosts and institution-specific calculation rules.",
+        "What a preliminary (6th/7th-semester) GPA means on a transcript, how cumulative weighted and unweighted GPAs differ, and how to calculate both from your courses.",
       category: "Academics",
       readTime: "7 min read",
       date: "September 14, 2026",

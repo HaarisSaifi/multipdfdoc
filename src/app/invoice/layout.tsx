@@ -4,14 +4,14 @@ import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Free PDF Invoice Generator & Editor Online — Unlimited, No Watermark",
-  description: "Create, edit, and download free PDF invoices online with zero watermark. Includes Net 15/Net 30 freelance payment terms, automatic tax calculation, and private in-browser generation.",
+  title: { absolute: "Free PDF Invoice Generator (No Watermark, Instant Vector Download)" },
+  description: "Free PDF invoice generator and maker: create an invoice PDF with no watermark and no signup. Auto tax, discount and Net 30 terms, built privately in your browser.",
   alternates: {
     canonical: "https://multipdfdoc.com/invoice",
   },
   openGraph: {
-    title: "Free PDF Invoice Generator & Editor Online — Unlimited, No Watermark | MultiPDF Doc",
-    description: "Create, edit, and download free PDF invoices online with zero watermark. Includes Net 15/Net 30 freelance payment terms, automatic tax calculation, and private in-browser generation.",
+    title: "Free PDF Invoice Generator (No Watermark, Instant Vector Download)",
+    description: "Free PDF invoice generator and maker: create an invoice PDF with no watermark and no signup. Auto tax, discount and Net 30 terms, built privately in your browser.",
     url: "https://multipdfdoc.com/invoice",
   },
 };

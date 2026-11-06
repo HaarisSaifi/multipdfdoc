@@ -138,10 +138,10 @@
     "semantic_hash": "f659097dc8078c920e9e926934bf8ef4"
   },
   "docs/reports/static-browser-audit.json": {
-    "mtime": 1791667787.387835,
-    "seen": 1792148940.4404836,
-    "ast_hash": "6267dd63130ccfa5bb0162e6bc5d8c79",
-    "semantic_hash": "6267dd63130ccfa5bb0162e6bc5d8c79"
+    "mtime": 1793883416.2174816,
+    "seen": 1793883482.1847365,
+    "ast_hash": "7f59a6e2dd88a5611f677e895792c8f0",
+    "semantic_hash": ""
   },
   "docs/reports/static-export-security.json": {
     "mtime": 1792765467.3915825,
@@ -168,9 +168,9 @@
     "semantic_hash": "0d5e8f394e886be60a8a95f09bcd01a6"
   },
   "docs/reports/static-package.json": {
-    "mtime": 1793016233.386381,
-    "seen": 1793016312.3381026,
-    "ast_hash": "385fb63181f228a1862a90a1dad92cb2",
+    "mtime": 1793891208.8899078,
+    "seen": 1793891330.1190927,
+    "ast_hash": "9194626b40bca6222aa7e376e4a02a8c",
     "semantic_hash": ""
   },
   "docs/reports/ui-review-before.json": {
@@ -276,8 +276,8 @@
     "semantic_hash": "f27b1085f1bde66bc7a1eb79c524581a"
   },
   "public/vendor/pdfjs/version.json": {
-    "mtime": 1793016136.1085768,
-    "seen": 1793016312.3381026,
+    "mtime": 1793891106.0133653,
+    "seen": 1793891330.1190927,
     "ast_hash": "68d0f0b282796b79d539846b62dd77ca",
     "semantic_hash": "68d0f0b282796b79d539846b62dd77ca"
   },
@@ -372,10 +372,10 @@
     "semantic_hash": "a69fc8e01cc2c8a64a9da1edc1f198b5"
   },
   "scripts/test-browser.mjs": {
-    "mtime": 1791667318.2105381,
-    "seen": 1792148940.4404836,
-    "ast_hash": "e96ca08aa277c24cabdf0373a989babb",
-    "semantic_hash": "e96ca08aa277c24cabdf0373a989babb"
+    "mtime": 1793882890.3043032,
+    "seen": 1793883482.1847365,
+    "ast_hash": "91abea8480099e25604d6e2b2c1559f8",
+    "semantic_hash": ""
   },
   "scripts/test-http.mjs": {
     "mtime": 1791666591.4383245,
@@ -396,10 +396,10 @@
     "semantic_hash": "58bed4639a37ac0f64d38d6b02b8501e"
   },
   "scripts/test-production.cjs": {
-    "mtime": 1791378217.1716583,
-    "seen": 1792148940.4404836,
-    "ast_hash": "0b8e94d3e37d48c5678942e79b3c9ed2",
-    "semantic_hash": "0b8e94d3e37d48c5678942e79b3c9ed2"
+    "mtime": 1793888101.214942,
+    "seen": 1793891330.1190927,
+    "ast_hash": "05a22233c5dc51b3782ef63f3e17b8ee",
+    "semantic_hash": ""
   },
   "scripts/verify-hostinger.py": {
     "mtime": 1791667575.2185812,
@@ -438,10 +438,10 @@
     "semantic_hash": "aa522f9fcaa3636bf9cf627fb45f01a6"
   },
   "src/app/blog/page.tsx": {
-    "mtime": 1791666210.3680253,
-    "seen": 1792148940.4404836,
-    "ast_hash": "bca829c68f31872b7f34e505539a7fd5",
-    "semantic_hash": "bca829c68f31872b7f34e505539a7fd5"
+    "mtime": 1793882889.4891236,
+    "seen": 1793883482.1847365,
+    "ast_hash": "9c109283d9c434298bee57930d38dc56",
+    "semantic_hash": ""
   },
   "src/app/blog/pdf-compression-keep-text-selectable/page.tsx": {
     "mtime": 1791659085.4163568,
@@ -480,16 +480,16 @@
     "semantic_hash": "274185919200308fbf24ebbb746db8a5"
   },
   "src/app/calc/gpa/layout.tsx": {
-    "mtime": 1792765053.9680474,
-    "seen": 1792765399.0840542,
-    "ast_hash": "3624b74ef04cc00fa9e3d1739f188dca",
+    "mtime": 1793888095.1392322,
+    "seen": 1793891330.1190927,
+    "ast_hash": "fda7152760386346c15373bcbda7a8e2",
     "semantic_hash": ""
   },
   "src/app/calc/gpa/page.tsx": {
-    "mtime": 1791368912.1678782,
-    "seen": 1792148940.4404836,
-    "ast_hash": "de77ded09d9ff84d47c01e7ccbe1bc14",
-    "semantic_hash": "de77ded09d9ff84d47c01e7ccbe1bc14"
+    "mtime": 1793888094.687502,
+    "seen": 1793891330.1190927,
+    "ast_hash": "99a2a80a498fd162b0e7060a2bccf34f",
+    "semantic_hash": ""
   },
   "src/app/calc/words-to-pages/layout.tsx": {
     "mtime": 1791377923.7934887,
@@ -534,21 +534,21 @@
     "semantic_hash": "8cfb393ad295e196ee44da5c884ce213"
   },
   "src/app/invoice/layout.tsx": {
-    "mtime": 1792765079.6486838,
-    "seen": 1792765399.0840542,
-    "ast_hash": "32a7f8db61e7846c4d56ef5019c01175",
+    "mtime": 1793882888.135015,
+    "seen": 1793883482.1847365,
+    "ast_hash": "65c3100b2a6306deede0bb15895b75c9",
     "semantic_hash": ""
   },
   "src/app/invoice/page.tsx": {
-    "mtime": 1791368912.175906,
-    "seen": 1792148940.4404836,
-    "ast_hash": "13485d4aa810350edc3178d92afe677c",
-    "semantic_hash": "13485d4aa810350edc3178d92afe677c"
+    "mtime": 1793891546.024344,
+    "seen": 1793972577.056349,
+    "ast_hash": "66b0c9226ce49147698b89bef86cf4dc",
+    "semantic_hash": ""
   },
   "src/app/layout.tsx": {
-    "mtime": 1793013384.7433932,
-    "seen": 1793013650.5008438,
-    "ast_hash": "a8b2fc6339cec27dca953c7edaa36926",
+    "mtime": 1793016801.8920639,
+    "seen": 1793883482.1847365,
+    "ast_hash": "59fe6fd936ec0bbd79eecd8ce2aeb838",
     "semantic_hash": ""
   },
   "src/app/loading.tsx": {
@@ -564,10 +564,10 @@
     "semantic_hash": "86337fc53eb64c643956a6564cf36497"
   },
   "src/app/page.tsx": {
-    "mtime": 1791666210.374045,
-    "seen": 1792148940.4404836,
-    "ast_hash": "b04483ab49ff916bbdb36419295cbb1d",
-    "semantic_hash": "b04483ab49ff916bbdb36419295cbb1d"
+    "mtime": 1793888096.4065876,
+    "seen": 1793891330.1190927,
+    "ast_hash": "9560e11c8123e92c5716ab91ba1dc32e",
+    "semantic_hash": ""
   },
   "src/app/pdf/compress/layout.tsx": {
     "mtime": 1791377923.7815602,
@@ -606,10 +606,10 @@
     "semantic_hash": "d3ec0309847a8a77df7ffa359e811a66"
   },
   "src/app/pdf/organize/layout.tsx": {
-    "mtime": 1791377923.7855747,
-    "seen": 1792148940.4404836,
-    "ast_hash": "741a1f7f11d11f4489c4b37f7ee2aa9d",
-    "semantic_hash": "741a1f7f11d11f4489c4b37f7ee2aa9d"
+    "mtime": 1793891546.6144547,
+    "seen": 1793972577.056349,
+    "ast_hash": "6e7f34ea21718c67f9c6aab351d07a3b",
+    "semantic_hash": ""
   },
   "src/app/pdf/organize/page.tsx": {
     "mtime": 1791368912.1837854,
@@ -714,9 +714,9 @@
     "semantic_hash": "e892eec1521ec3e433b320b1eb6faaa9"
   },
   "src/app/sitemap.ts": {
-    "mtime": 1793016102.5235274,
-    "seen": 1793016312.3381026,
-    "ast_hash": "e287fe5186398a7a935131df2570acfa",
+    "mtime": 1793882888.5609758,
+    "seen": 1793883482.1847365,
+    "ast_hash": "1a3332ed458f0be19ddabafe084e38c9",
     "semantic_hash": ""
   },
   "src/app/terms/page.tsx": {
@@ -732,9 +732,9 @@
     "semantic_hash": "1d9fe22f6cd7ac2d9261b702411ba96e"
   },
   "src/components/layout/Footer.tsx": {
-    "mtime": 1793013372.0801713,
-    "seen": 1793013650.5008438,
-    "ast_hash": "83167d2ef55b2f0fa97513a90bedf17d",
+    "mtime": 1793888099.3758228,
+    "seen": 1793891330.1282597,
+    "ast_hash": "62e7d88cda2dd59966f4dd5f3dbb5dd5",
     "semantic_hash": ""
   },
   "src/components/layout/MasterShell.tsx": {
@@ -744,10 +744,10 @@
     "semantic_hash": "35922b9fbac308d1d9767ba290d6ea13"
   },
   "src/components/layout/Navbar.tsx": {
-    "mtime": 1791377842.0068035,
-    "seen": 1792148940.4404836,
-    "ast_hash": "af85e1fbd48a6e594f1353d6f26cda2d",
-    "semantic_hash": "af85e1fbd48a6e594f1353d6f26cda2d"
+    "mtime": 1793888099.843882,
+    "seen": 1793891330.1282597,
+    "ast_hash": "4623da12cba0fe40e419b3cdfed28ee6",
+    "semantic_hash": ""
   },
   "src/components/layout/ThemeProvider.tsx": {
     "mtime": 1791368912.2156415,
@@ -756,10 +756,10 @@
     "semantic_hash": "97dd73d0547050fcb8200f94941dd514"
   },
   "src/components/layout/ToolDirectory.tsx": {
-    "mtime": 1791377842.0068035,
-    "seen": 1792148940.4404836,
-    "ast_hash": "6b7a70040fc2178eb9a210a90cdb3f70",
-    "semantic_hash": "6b7a70040fc2178eb9a210a90cdb3f70"
+    "mtime": 1793888100.3098052,
+    "seen": 1793891330.1282597,
+    "ast_hash": "81705fb3b8bff79cce4a9384fd13ce6e",
+    "semantic_hash": ""
   },
   "src/components/privacy/AnalyticsConsent.tsx": {
     "mtime": 1791666538.4422245,
@@ -768,9 +768,9 @@
     "semantic_hash": "c4a6342fec62067c2b08609ce134c8a7"
   },
   "src/components/seo/ArticleGuide.tsx": {
-    "mtime": 1793016031.4030979,
-    "seen": 1793016312.3381026,
-    "ast_hash": "70e54756c577b214c37b1d35ef94ebbb",
+    "mtime": 1793888096.7907977,
+    "seen": 1793891330.1282597,
+    "ast_hash": "ac1fb2fb451bff20e0edf848fb39d560",
     "semantic_hash": ""
   },
   "src/components/seo/JsonLd.tsx": {
@@ -780,10 +780,10 @@
     "semantic_hash": "440f6935868ce4240ef9f12f36be29c7"
   },
   "src/components/seo/ToolBreadcrumb.tsx": {
-    "mtime": 1792153590.5585282,
-    "seen": 1792154050.6997612,
-    "ast_hash": "d6b94ca6889397171569e3b7f9e3f90c",
-    "semantic_hash": "d6b94ca6889397171569e3b7f9e3f90c"
+    "mtime": 1793888100.79433,
+    "seen": 1793891330.1282597,
+    "ast_hash": "7fb372adcff3b0ffb8c805592d5ea994",
+    "semantic_hash": ""
   },
   "src/components/seo/ValueWrapper.tsx": {
     "mtime": 1791666181.3430667,
@@ -792,16 +792,16 @@
     "semantic_hash": "30c84237c34af6799d0920a6d85b4ff2"
   },
   "src/content/articles.ts": {
-    "mtime": 1792765031.3705356,
-    "seen": 1792765399.0840542,
-    "ast_hash": "f8d15a9662a4823e97202f65c45e5999",
+    "mtime": 1793888094.236946,
+    "seen": 1793891330.1282597,
+    "ast_hash": "900fb0848af0da3483291a213e79e745",
     "semantic_hash": ""
   },
   "src/content/tool-supplements.ts": {
-    "mtime": 1791377842.0284362,
-    "seen": 1792148940.4404836,
-    "ast_hash": "c28ce00306e8838f59e5da6ed52cee8f",
-    "semantic_hash": "c28ce00306e8838f59e5da6ed52cee8f"
+    "mtime": 1793888098.958307,
+    "seen": 1793891330.1282597,
+    "ast_hash": "8ca7503fc06b9e7e755c63810dbfdf68",
+    "semantic_hash": ""
   },
   "src/content/workflow-guides.ts": {
     "mtime": 1791666210.3750486,
@@ -906,15 +906,15 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1792412486.2337537,
-    "seen": 1792412710.7436826,
-    "ast_hash": "d39e78c2c29c9ab0be7fb96d51f442ac",
+    "mtime": 1793972504.1207767,
+    "seen": 1793972577.056349,
+    "ast_hash": "be169cfe7da16e0ff77b618ea093e37d",
     "semantic_hash": ""
   },
   "brain.md": {
-    "mtime": 1793014999.9039068,
-    "seen": 1793016312.3381026,
-    "ast_hash": "f76ba7a86741d9383d02a8d9f2f5df58",
+    "mtime": 1793888101.627784,
+    "seen": 1793891330.1282597,
+    "ast_hash": "d35129f1a0b6c73e6c7f2ddf05bafbf4",
     "semantic_hash": ""
   },
   "docs/analytics-setup.md": {
@@ -1104,9 +1104,9 @@
     "semantic_hash": ""
   },
   "scratch/compare_all.py": {
-    "mtime": 1792759190.6505666,
-    "seen": 1792765399.0840542,
-    "ast_hash": "d782ead4418287842c7e32aa84b2eb6a",
+    "mtime": 1793097083.6402833,
+    "seen": 1793883482.1847365,
+    "ast_hash": "cc051a25cd5f69479442827b484fb451",
     "semantic_hash": ""
   },
   "scratch/parse_gsc.py": {
@@ -1194,15 +1194,51 @@
     "semantic_hash": ""
   },
   "scratch/verify_live_author.py": {
-    "mtime": 1793014954.3757403,
-    "seen": 1793016312.3381026,
-    "ast_hash": "d296dde2632a3dd0567de68ef8fcc604",
+    "mtime": 1793016370.1254709,
+    "seen": 1793883482.1847365,
+    "ast_hash": "4a9631af027e4f73e0774b5a058ad77b",
     "semantic_hash": ""
   },
   "public/images/author/haaris-saifi.jpg": {
     "mtime": 1793015965.4514525,
     "seen": 1793016312.3381026,
     "ast_hash": "c07ab47595349d38866160e6a31adc9a",
+    "semantic_hash": ""
+  },
+  "scratch/verify_live_ga.py": {
+    "mtime": 1793017001.2131643,
+    "seen": 1793883482.1847365,
+    "ast_hash": "a9cd5dfa9f6c42e2e9296d6ce7b4ba8e",
+    "semantic_hash": ""
+  },
+  "src/app/image/portal-resizer/layout.tsx": {
+    "mtime": 1793888097.6583872,
+    "seen": 1793891330.1190927,
+    "ast_hash": "aad158136c646b1bb86a3ab972db00b1",
+    "semantic_hash": ""
+  },
+  "src/app/image/portal-resizer/page.tsx": {
+    "mtime": 1793888097.2232993,
+    "seen": 1793891330.1190927,
+    "ast_hash": "fbf435e633b6c6a34ad0d9337ea4f938",
+    "semantic_hash": ""
+  },
+  "src/app/pdf/college-application-binder/layout.tsx": {
+    "mtime": 1793888098.4743865,
+    "seen": 1793891330.1190927,
+    "ast_hash": "6fdb3a5da37da7011ce00da9a0bb10ad",
+    "semantic_hash": ""
+  },
+  "src/app/pdf/college-application-binder/page.tsx": {
+    "mtime": 1793888098.0739558,
+    "seen": 1793891330.1190927,
+    "ast_hash": "c4cc16b7838428d00f68e0cabdf82ae3",
+    "semantic_hash": ""
+  },
+  "src/lib/gpa.ts": {
+    "mtime": 1793888095.5213327,
+    "seen": 1793891330.1282597,
+    "ast_hash": "eeb824f982a31cc3564e2fdb91be937c",
     "semantic_hash": ""
   }
 }

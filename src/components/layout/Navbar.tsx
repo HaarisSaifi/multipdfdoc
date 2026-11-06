@@ -92,7 +92,9 @@ export function Navbar() {
     { title: "Merge PDF Files", desc: "Combine multiple PDFs into one document locally", href: "/pdf/merge", badge: "POPULAR" },
     { title: "Split PDF Pages", desc: "Extract specific page spans or single chapters", href: "/pdf/split", badge: "FAST" },
     { title: "Compress PDF to 200KB / 100KB", desc: "Reduce file size for government and job portals", href: "/pdf/compress", badge: "TARGET" },
-    { title: "Invoice Generator (No Watermark)", desc: "Create and download a PDF invoice without signup", href: "/invoice", badge: "FREE" },
+    { title: "College Application PDF Binder", desc: "Bundle resume, essays and scans into one PDF under 2MB", href: "/pdf/college-application-binder", badge: "STUDENT" },
+    { title: "Photo & Signature Resizer (20KB / 50KB)", desc: "Crop and compress exam, visa and job portal photos", href: "/image/portal-resizer", badge: "PORTAL" },
+    { title: "PDF Invoice Generator (No Watermark)", desc: "Create and download a PDF invoice without signup", href: "/invoice", badge: "FREE" },
     { title: "Expense Voucher & Record Log", desc: "Contemporaneous expense vouchers & recordkeeping logs for tax & reimbursement", href: "/receipt", badge: "EXPENSE" },
     { title: "Convert PDF to Images", desc: "High-resolution 300 DPI canvas image exporter", href: "/pdf/to-image", badge: "300 DPI" },
     { title: "Images to PDF Compiler", desc: "Batch photos and receipts into a single PDF", href: "/pdf/from-image", badge: "BATCH" },
@@ -101,7 +103,7 @@ export function Navbar() {
     { title: "Unlock PDF Password", desc: "Locally remove passwords from secured PDFs", href: "/pdf/unlock", badge: "DECRYPT" },
     { title: "Add Page Numbers to PDF", desc: "Stamp custom Bates header/footer pagination", href: "/pdf/page-numbers", badge: "PAGINATE" },
     { title: "Final Exam Grade Target Calculator", desc: "Panic vs Chill simulator for required final exam score", href: "/calc/final-grade", badge: "STUDENT" },
-    { title: "Weighted to Unweighted GPA Converter", desc: "Convert AP/IB credits to 4.0 scale using the displayed grade scale", href: "/calc/gpa", badge: "COLLEGE" },
+    { title: "Weighted, Unweighted & Preliminary GPA Calculator", desc: "Convert AP/IB credits or calculate GPA from completed semesters", href: "/calc/gpa", badge: "COLLEGE" },
     { title: "Words to Pages & Speech Timer", desc: "Estimated page count and speech duration", href: "/calc/words-to-pages", badge: "PAGES" },
   ];
 

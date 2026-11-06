@@ -4,6 +4,12 @@
   <a href="https://multipdfdoc.com" target="_blank" rel="noopener noreferrer">
     <img src="https://img.shields.io/badge/Live_Application-multipdfdoc.com-0284c7?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Live Application" />
   </a>
+  <a href="https://sourceforge.net/projects/multipdfdoc/" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/SourceForge-multipdfdoc-EE5E18?style=for-the-badge&logo=sourceforge&logoColor=white" alt="SourceForge Project" />
+  </a>
+  <a href="https://www.openhub.net/p/multipdfdoc" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Open_Hub-multipdfdoc-00A4E4?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="Black Duck Open Hub" />
+  </a>
   <a href="https://github.com/HaarisSaifi/multipdfdoc/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="License: MIT" />
   </a>
@@ -31,14 +37,16 @@ Your files never leave your device, no network bandwidth is wasted on server upl
 
 ## 🚀 Live Tool Directory & Direct Links
 
-Explore all 15 free, watermark-free utilities directly on **[multipdfdoc.com](https://multipdfdoc.com)**:
+Explore all 17 free, watermark-free utilities directly on **[multipdfdoc.com](https://multipdfdoc.com)**:
 
 ### 📄 1. Core PDF Processing Utilities (100% Client-Side)
 * **[Compress PDF to Target Size](https://multipdfdoc.com/pdf/compress):** Dual-engine compression combining lossless structural QPDF WebAssembly optimization with an adaptive canvas raster loop to strictly meet target thresholds (**100KB, 200KB, 500KB, 1MB, or Custom**).
 * **[Merge PDF Files Online](https://multipdfdoc.com/pdf/merge):** Drag-and-drop multiple PDF files, reorder pages visually, and combine them into a single unified document with zero upload limits.
 * **[Split PDF & Extract Pages](https://multipdfdoc.com/pdf/split):** Extract isolated chapters, single pages, or custom non-contiguous ranges (e.g., `1-3, 5, 8-10`) instantly in-browser.
+* **[College Application Packet Binder](https://multipdfdoc.com/pdf/college-application-binder):** Merge high school transcripts, recommendation letters, personal statements, and essays into an ordered PDF packet with sequential "Page X of Y" pagination, live size budget gauges (1.9MB Common App preset, 2MB, 5MB), and optional table of contents.
 * **[Convert PDF to High-Res Images](https://multipdfdoc.com/pdf/to-image):** Render vector PDF pages into crisp **150 DPI & 300 DPI PNG/JPEG** images via Mozilla PDF.js, with one-click JSZip multi-image download.
 * **[Convert Images to PDF](https://multipdfdoc.com/pdf/from-image):** Transform JPG, PNG, and WebP photos or phone scans into standardized multi-page PDF documents.
+* **[USCIS & Passport Photo Portal Resizer](https://multipdfdoc.com/image/portal-resizer):** Client-side canvas photo cropping with official US State Department face proportion guides (50%–69% head height oval & eye level band), signature whitening, and binary search JPEG compression for strict portal file size limits (20KB, 50KB, 100KB, 240KB).
 * **[Organize, Rotate & Delete Pages](https://multipdfdoc.com/pdf/organize):** Visual 3D page cards to rotate pages 90°/180°, reorder page flow, and delete unwanted pages before export.
 * **[Password Protect PDF (256-bit AES)](https://multipdfdoc.com/pdf/protect):** Real cryptographic encryption powered by QPDF WebAssembly, setting standard user and owner passwords with 256-bit security keys.
 * **[Unlock & Decrypt PDF](https://multipdfdoc.com/pdf/unlock):** Decrypt and remove password restrictions from your authorized PDF files locally without sending the password to any server.
@@ -50,7 +58,7 @@ Explore all 15 free, watermark-free utilities directly on **[multipdfdoc.com](ht
 * **[Expense Voucher & Bookkeeping Generator](https://multipdfdoc.com/receipt):** Generate contemporaneous personal expense records and bookkeeping logs conforming to IRS Publication 463 standards.
 
 ### 🎓 3. Academic & Productivity Calculators
-* **[Weighted to Unweighted 4.0 GPA Converter](https://multipdfdoc.com/calc/gpa):** Dynamic course roster supporting AP/IB (+1.0) and Honors (+0.5) weighting, 4.0 vs 5.0 scorecards, and Top 50 US University admissions cutoffs.
+* **[Weighted, Unweighted & Preliminary GPA Calculator](https://multipdfdoc.com/calc/gpa):** Dynamic course roster supporting completed vs in-progress coursework, AP/IB (+1.0) and Honors (+0.5) weighting, preliminary high school GPA scorecards, and Top 50 US University admissions cutoffs.
 * **[Final Exam Target Grade Calculator](https://multipdfdoc.com/calc/final-grade):** Target grade calculator with Panic vs. Chill speedometer gauge and curve buffer simulation.
 * **[Words to Pages & Speech Delivery Timer](https://multipdfdoc.com/calc/words-to-pages):** Academic word-to-page converter with standard font spacing metrics and oral speech pacing timers (110–150 wpm).
 
@@ -80,6 +88,16 @@ MultiPDF Doc publishes comprehensive, fact-grounded guides covering document com
 | **Subscription Paywall** | $9 – $15/month after 2 free tasks | **100% Free & Open Source (MIT Licensed)** |
 | **Watermarks** | Forced branded watermarks on free tiers | **Zero watermarks — clean vector output** |
 | **Server Bandwidth** | Uploads full multi-megabyte files over network | **Instant execution; zero document upload bandwidth** |
+
+---
+
+## 🏅 Official Open Source Listings & Repositories
+
+| Directory / Registry | Authority Status | Listing Link |
+| :--- | :--- | :--- |
+| **SourceForge** | ✅ Verified Project Listing | [sourceforge.net/projects/multipdfdoc](https://sourceforge.net/projects/multipdfdoc/) |
+| **Black Duck Open Hub** | ✅ Registered FOSS Project | [openhub.net/p/multipdfdoc](https://www.openhub.net/p/multipdfdoc) |
+| **GitHub** | 🌟 Official Source Code | [github.com/HaarisSaifi/multipdfdoc](https://github.com/HaarisSaifi/multipdfdoc) |
 
 ---
 
