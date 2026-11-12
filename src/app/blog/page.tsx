@@ -84,9 +84,9 @@ export default function BlogIndexPage() {
     },
     {
       slug: "weighted-vs-unweighted-gpa-college-admissions",
-      title: "Preliminary GPA Meaning & Calculator: Weighted vs. Unweighted High School Guide",
+      title: "What Is a Preliminary GPA? (Do Colleges Care? + Free Calculator)",
       description:
-        "What a preliminary (6th/7th-semester) GPA means on a transcript, how cumulative weighted and unweighted GPAs differ, and how to calculate both from your courses.",
+        "Discover how colleges use your 6th and 7th semester GPAs, whether conditional offers get rescinded, and calculate your exact GPA for free.",
       category: "Academics",
       readTime: "7 min read",
       date: "September 14, 2026",

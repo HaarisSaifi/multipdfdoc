@@ -168,9 +168,9 @@
     "semantic_hash": "0d5e8f394e886be60a8a95f09bcd01a6"
   },
   "docs/reports/static-package.json": {
-    "mtime": 1793891208.8899078,
-    "seen": 1793891330.1190927,
-    "ast_hash": "9194626b40bca6222aa7e376e4a02a8c",
+    "mtime": 1794492812.6671484,
+    "seen": 1794493124.6642516,
+    "ast_hash": "523097eb62dc5d5cfd4e3e68d28ca85a",
     "semantic_hash": ""
   },
   "docs/reports/ui-review-before.json": {
@@ -276,8 +276,8 @@
     "semantic_hash": "f27b1085f1bde66bc7a1eb79c524581a"
   },
   "public/vendor/pdfjs/version.json": {
-    "mtime": 1793891106.0133653,
-    "seen": 1793891330.1190927,
+    "mtime": 1794492659.1881266,
+    "seen": 1794493124.6642516,
     "ast_hash": "68d0f0b282796b79d539846b62dd77ca",
     "semantic_hash": "68d0f0b282796b79d539846b62dd77ca"
   },
@@ -408,9 +408,9 @@
     "semantic_hash": "182f53407a7a24dd7414c7157f8ebb26"
   },
   "src/app/about/page.tsx": {
-    "mtime": 1793016041.6978526,
-    "seen": 1793016312.3381026,
-    "ast_hash": "6461b1d4aa5aca3bc8f3d730851edff2",
+    "mtime": 1794492570.3482387,
+    "seen": 1794493124.6642516,
+    "ast_hash": "3b4fa76eeadf1f7edf44c2390a764b41",
     "semantic_hash": ""
   },
   "src/app/blog/compress-pdf-200kb-uscis-passport-guide/page.tsx": {
@@ -438,9 +438,9 @@
     "semantic_hash": "aa522f9fcaa3636bf9cf627fb45f01a6"
   },
   "src/app/blog/page.tsx": {
-    "mtime": 1793882889.4891236,
-    "seen": 1793883482.1847365,
-    "ast_hash": "9c109283d9c434298bee57930d38dc56",
+    "mtime": 1794492471.6307254,
+    "seen": 1794493124.6642516,
+    "ast_hash": "994c2e3a66f7177da039663c261bcd9d",
     "semantic_hash": ""
   },
   "src/app/blog/pdf-compression-keep-text-selectable/page.tsx": {
@@ -534,9 +534,9 @@
     "semantic_hash": "8cfb393ad295e196ee44da5c884ce213"
   },
   "src/app/invoice/layout.tsx": {
-    "mtime": 1793882888.135015,
-    "seen": 1793883482.1847365,
-    "ast_hash": "65c3100b2a6306deede0bb15895b75c9",
+    "mtime": 1794492524.34919,
+    "seen": 1794493124.6642516,
+    "ast_hash": "99ae32b5a95c4b9999838e9215281a0f",
     "semantic_hash": ""
   },
   "src/app/invoice/page.tsx": {
@@ -732,9 +732,9 @@
     "semantic_hash": "1d9fe22f6cd7ac2d9261b702411ba96e"
   },
   "src/components/layout/Footer.tsx": {
-    "mtime": 1793888099.3758228,
-    "seen": 1793891330.1282597,
-    "ast_hash": "62e7d88cda2dd59966f4dd5f3dbb5dd5",
+    "mtime": 1794492612.2171803,
+    "seen": 1794493124.6642516,
+    "ast_hash": "163e2090201b681d1ecb311582663b6e",
     "semantic_hash": ""
   },
   "src/components/layout/MasterShell.tsx": {
@@ -792,9 +792,9 @@
     "semantic_hash": "30c84237c34af6799d0920a6d85b4ff2"
   },
   "src/content/articles.ts": {
-    "mtime": 1793888094.236946,
-    "seen": 1793891330.1282597,
-    "ast_hash": "900fb0848af0da3483291a213e79e745",
+    "mtime": 1794492426.4029384,
+    "seen": 1794493124.6642516,
+    "ast_hash": "e12a852cef7d9c61b765993cda9d48f8",
     "semantic_hash": ""
   },
   "src/content/tool-supplements.ts": {
@@ -906,8 +906,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1793972504.1207767,
-    "seen": 1793972577.056349,
+    "mtime": 1793976907.9602902,
+    "seen": 1794493124.6642516,
     "ast_hash": "be169cfe7da16e0ff77b618ea093e37d",
     "semantic_hash": ""
   },
@@ -1212,9 +1212,9 @@
     "semantic_hash": ""
   },
   "src/app/image/portal-resizer/layout.tsx": {
-    "mtime": 1793888097.6583872,
-    "seen": 1793891330.1190927,
-    "ast_hash": "aad158136c646b1bb86a3ab972db00b1",
+    "mtime": 1794492498.183821,
+    "seen": 1794493124.6642516,
+    "ast_hash": "b1ad101967058720b0ac6f9f39f96e42",
     "semantic_hash": ""
   },
   "src/app/image/portal-resizer/page.tsx": {

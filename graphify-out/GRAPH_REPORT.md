@@ -1,7 +1,7 @@
-# Graph Report - adsense  (2026-11-06)
+# Graph Report - adsense  (2026-11-12)
 
 ## Corpus Check
-- 188 files · ~751,228 words
+- 188 files · ~751,626 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 209 file(s) not represented in the graph (top: .bcmap 168, (none) 10, .pfb 10)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9af8a639`
+- Built from commit: `76d6963e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

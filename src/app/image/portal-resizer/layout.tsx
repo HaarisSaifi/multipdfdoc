@@ -3,8 +3,8 @@ import { ValueWrapper } from "@/components/seo/ValueWrapper";
 import { toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
-const title = "Resize Photo & Signature to 20KB, 50KB or 100KB — Exam Portal Tool";
-const description = "Crop a photo to 3.5×4.5 cm or 600×600 px and compress it under 20KB, 50KB, 100KB or a custom limit for exam, visa and job portals. Free, private, no upload.";
+const title = "Signature & Photo Resizer (Max 100KB, 50KB, 20KB) — Free Exam & Portal Tool";
+const description = "Resize and compress signature and photo to maximum 100KB, 50KB, or 20KB for government, exam, and passport portals. 100% private in-browser canvas crop with background whitening.";
 
 export const metadata: Metadata = {
   title: { absolute: title },
@@ -66,6 +66,7 @@ The output contains no camera metadata, because canvas re-encoding drops EXIF da
       ["300 × 100 px signature", "300 × 100 px", "Generic 3 : 1 signature field"],
     ]}
     faqs={[
+      { question: "How do I make my signature file size maximum 100KB or 50KB for application portals?", answer: "Select Signature mode, choose 3.5×1.5 cm or 300×100 px, enable 'Whiten paper background' to clear shadows, set the maximum size limit to 100KB or 50KB, and click 'Resize & Compress'. The browser uses an adaptive binary search compression loop to guarantee your signature is strictly under the required kilobyte cap without blurring the ink." },
       { question: "How do I reduce a photo to under 50 KB without changing its size in pixels?", answer: "Choose the required dimensions, set the maximum to 50 KB and use JPEG. The tool keeps the pixel dimensions fixed and lowers only the JPEG quality, choosing the highest quality that fits under 50 KB." },
       { question: "What size is a 3.5 cm × 4.5 cm photo in pixels?", answer: "At 300 DPI it is about 413 × 531 pixels, which is the preset used here. At 200 DPI it is about 276 × 354 pixels. Use the pixel values printed in your official instructions when they are given; you can enter them with Custom px." },
       { question: "What are the US visa photo file requirements?", answer: "According to the U.S. Department of State, a digital visa photo must be a square JPEG from 600×600 to 1200×1200 pixels, in color, and no larger than 240 kB. Composition rules such as head size and background also apply." },

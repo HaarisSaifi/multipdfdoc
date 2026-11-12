@@ -102,16 +102,16 @@ Open every page of the output and inspect long descriptions and notes. Ensure th
 };
 
 export const gpaArticle: ArticleContent = {
-  title: "Preliminary GPA Meaning & Calculator: Weighted vs. Unweighted High School Guide",
-  description: "What is a preliminary GPA? Learn how colleges use 6th/7th semester GPAs, calculate unweighted vs. weighted scores, and convert cumulative high school grades.",
+  title: "What Is a Preliminary GPA? (Do Colleges Care? + Free 6th/7th Semester Calculator)",
+  description: "What is a preliminary GPA? Discover how colleges use your 6th and 7th semester grades, whether conditional offers get rescinded, and calculate your exact GPA for free.",
   published: "2026-09-14",
-  updated: "2026-11-05",
+  updated: "2026-11-12",
   quickAnswer: {
     question: "What is a preliminary GPA?",
-    answer: "A preliminary GPA is an interim cumulative grade point average calculated before high school is finished, usually after junior year (six semesters) or the first senior semester (seven semesters). Schools report it on transcripts sent to colleges, which later confirm it against your final GPA.",
-    note: "Terminology and included terms vary by school district. Your counselor or school profile is the authority for your transcript.",
+    answer: "A preliminary GPA is an interim cumulative grade point average calculated before high school graduation, usually after junior year (six semesters) or the first senior semester (seven semesters). Colleges use it for early action and regular admission decisions, later verifying it against your final graduation transcript.",
+    note: "Terminology varies by school district (also called mid-year or interim GPA). Admission offers based on preliminary GPAs are conditional upon maintaining satisfactory senior grades.",
   },
-  tool: { href: "/calc/gpa#preliminary", label: "Calculate your preliminary GPA" },
+  tool: { href: "/calc/gpa#preliminary", label: "Calculate your 6th vs 7th semester preliminary GPA" },
   comparison: {
     heading: "Cumulative GPA vs. weighted GPA vs. preliminary GPA",
     intro: "These terms describe different things: weighted and unweighted describe the scale, while cumulative, semester and preliminary describe which terms are included. That is why a single GPA can be cumulative and weighted at the same time.",
@@ -172,6 +172,8 @@ When submitting an application, use the institution's stated reporting instructi
   ],
   faqs: [
     { question: "What is a preliminary GPA?", answer: "A preliminary GPA is an interim cumulative grade point average calculated before high school is finished, usually after junior year (six semesters) or the first senior semester (seven semesters). Schools report it on transcripts sent to colleges, which later confirm it against your final GPA." },
+    { question: "Do colleges care about your preliminary GPA?", answer: "Yes. College admissions officers rely heavily on preliminary GPAs (especially 6th semester junior-year and 7th semester mid-year transcripts) for Early Action, Early Decision, and Regular Decision cutoffs because final senior-year spring grades do not exist when admission decisions are released." },
+    { question: "Can a college rescind your acceptance based on preliminary vs final GPA?", answer: "Yes. Nearly all college admission offers are conditional. If your final senior GPA drops significantly below your preliminary GPA (especially dropping by 0.3+ points or receiving D/F grades due to senioritis), universities can issue academic warnings, revoke financial aid, or rescind the admission offer." },
     { question: "What does preliminary GPA mean on a high school transcript?", answer: "It labels the cumulative GPA through the most recent completed term, before graduation. Courses you are currently taking are shown as in progress and are not yet included. Some schools call the same figure a mid-year or seventh-semester GPA." },
     { question: "Is a preliminary GPA weighted or unweighted?", answer: "Either, depending on the school. A preliminary GPA describes timing (calculated before graduation), not the scale. Many transcripts print both a weighted and an unweighted preliminary GPA; report the one an application asks for, exactly as printed." },
     { question: "What is the difference between cumulative and weighted GPA?", answer: "Cumulative describes which terms are included (all completed terms), while weighted describes the scale (extra points for Honors, AP or IB). They are not alternatives: a cumulative GPA can be weighted or unweighted, and many transcripts show both." },

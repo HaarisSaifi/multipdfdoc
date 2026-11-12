@@ -4,14 +4,14 @@ import { supplements, toolSources } from "@/content/tool-supplements";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: { absolute: "Free PDF Invoice Generator (No Watermark, Instant Vector Download)" },
-  description: "Free PDF invoice generator and maker: create an invoice PDF with no watermark and no signup. Auto tax, discount and Net 30 terms, built privately in your browser.",
+  title: { absolute: "Free PDF Invoice Generator with Calculations (No Watermark, Instant PDF)" },
+  description: "Create PDF invoices with calculations: auto sales tax, discounts, line-item totals, and Net 30 terms. 100% free with no watermark and instant vector download.",
   alternates: {
     canonical: "https://multipdfdoc.com/invoice",
   },
   openGraph: {
-    title: "Free PDF Invoice Generator (No Watermark, Instant Vector Download)",
-    description: "Free PDF invoice generator and maker: create an invoice PDF with no watermark and no signup. Auto tax, discount and Net 30 terms, built privately in your browser.",
+    title: "Free PDF Invoice Generator with Calculations (No Watermark, Instant PDF)",
+    description: "Create PDF invoices with calculations: auto sales tax, discounts, line-item totals, and Net 30 terms. 100% free with no watermark and instant vector download.",
     url: "https://multipdfdoc.com/invoice",
   },
 };
@@ -30,6 +30,10 @@ export default function InvoiceLayout({ children }: { children: React.ReactNode 
           explanation: "Calculates an estimated invoice total where discounts are applied to the gross subtotal prior to the assessment of statutory sales tax or Value Added Tax (VAT)."
         }}
         faqs={[
+          {
+            question: "How do I create a PDF invoice with automatic calculations?",
+            answer: "MultiPDF Doc automatically computes line-item subtotals, applies custom discount percentages, and assesses statutory sales tax or VAT in real time. Enter your quantities and unit rates, and the formula computes the exact Grand Total with zero manual math."
+          },
           {
             question: "What are freelance payment terms and how do I set Net 30?",
             answer: "Freelance payment terms establish when payment is due. Net 30 means the client must pay within 30 days of the invoice date. MultiPDF Doc allows you to set custom payment terms, due dates, and bank instructions directly on your PDF invoice."

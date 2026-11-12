@@ -23,6 +23,12 @@ export default function AboutPage() {
       name: "MultiPDF Doc",
       url: "https://multipdfdoc.com",
       logo: "https://multipdfdoc.com/icon.svg",
+      sameAs: [
+        "https://github.com/HaarisSaifi/multipdfdoc",
+        "https://sourceforge.net/projects/multipdfdoc/",
+        "https://www.openhub.net/p/multipdfdoc",
+        "https://www.saashub.com/multipdf-doc",
+      ],
       founder: {
         "@type": "Person",
         name: "Haaris Saifi",
@@ -149,6 +155,36 @@ export default function AboutPage() {
               >
                 <Github className="w-3.5 h-3.5" />
                 <span>View Source</span>
+              </a>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-100 flex items-center justify-between gap-4">
+              <div>
+                <p className="font-bold text-slate-900 text-xs">SourceForge Project</p>
+                <p className="text-[11px] text-slate-500">Verified FOSS Software Listing</p>
+              </div>
+              <a
+                href="https://sourceforge.net/projects/multipdfdoc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-600 text-white text-xs font-semibold hover:bg-orange-700 transition shadow-sm"
+              >
+                <span>SourceForge</span>
+              </a>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-sky-50/60 border border-sky-100 flex items-center justify-between gap-4">
+              <div>
+                <p className="font-bold text-slate-900 text-xs">Black Duck Open Hub</p>
+                <p className="text-[11px] text-slate-500">Registered Open-Source Project</p>
+              </div>
+              <a
+                href="https://www.openhub.net/p/multipdfdoc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-600 text-white text-xs font-semibold hover:bg-sky-700 transition shadow-sm"
+              >
+                <span>Open Hub</span>
               </a>
             </div>
 

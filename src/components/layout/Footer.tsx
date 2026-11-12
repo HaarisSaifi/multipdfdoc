@@ -169,6 +169,37 @@ export function Footer() {
                   <Mail className="w-3.5 h-3.5 text-rose-600" /> Contact &amp; Support
                 </a>
               </li>
+              <li className="pt-2 border-t border-slate-100 flex items-center gap-2.5 text-[11px]">
+                <a
+                  href="https://sourceforge.net/projects/multipdfdoc/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-orange-600 transition-colors font-medium text-slate-500"
+                  title="SourceForge Project"
+                >
+                  SourceForge
+                </a>
+                <span className="text-slate-300">•</span>
+                <a
+                  href="https://www.openhub.net/p/multipdfdoc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-sky-600 transition-colors font-medium text-slate-500"
+                  title="Black Duck Open Hub"
+                >
+                  Open Hub
+                </a>
+                <span className="text-slate-300">•</span>
+                <a
+                  href="https://github.com/HaarisSaifi/multipdfdoc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-slate-900 transition-colors font-medium text-slate-500"
+                  title="GitHub Repository"
+                >
+                  GitHub
+                </a>
+              </li>
             </ul>
           </div>
         </div>
