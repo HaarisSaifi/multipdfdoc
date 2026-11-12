@@ -37,7 +37,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/invoice`,
-      lastModified: new Date("2026-11-05T00:00:00.000Z"),
+      lastModified: new Date("2026-11-12T00:00:00.000Z"),
       changeFrequency: "weekly",
       priority: 0.9,
     },
@@ -93,7 +93,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
 
     { url: `${baseUrl}/pdf/college-application-binder`, lastModified: new Date("2026-11-05T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.85 },
-    { url: `${baseUrl}/image/portal-resizer`, lastModified: new Date("2026-11-05T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.85 },
+    { url: `${baseUrl}/image/portal-resizer`, lastModified: new Date("2026-11-12T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.85 },
 
     // 4. Academic & Long-Tail Calculators
     {
@@ -136,7 +136,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/blog/weighted-vs-unweighted-gpa-college-admissions`,
-      lastModified: new Date("2026-11-05T00:00:00.000Z"),
+      lastModified: new Date("2026-11-12T00:00:00.000Z"),
       changeFrequency: "monthly",
       priority: 0.75,
     },
@@ -161,9 +161,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: stableDate,
-      changeFrequency: "yearly",
-      priority: 0.7,
+      lastModified: new Date("2026-11-12T00:00:00.000Z"),
+      changeFrequency: "monthly",
+      priority: 0.75,
     },
     {
       url: `${baseUrl}/editorial-policy`,
