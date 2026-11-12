@@ -1,3 +1,36 @@
+# Current checkpoint: November 12, 2026 (509 Impressions Record, Breakout Resizer, High-CTR Psychological Titles, Live Hostinger Deployed)
+
+- **Search Console Ground Truth Audit (`Performance-on-Search-2026-11-12*.xlsx`):**
+  - **28-Day Impressions:** Surged from 326 to **509 (+56.1% growth)**; Clicks grew to 3.
+  - **Daily Peak:** Nov 9 hit 42 impressions + 1 click; Nov 10 hit **Position 6.6** (all-time site record!).
+  - **Breakout Tool:** `/image/portal-resizer` (launched Nov 6) indexed in 4 days, capturing 15 impressions at **Position 10.5** for `signature size should be maximum 100kb`.
+  - **Invoice Tool (`/invoice`):** Surged from 34 to **58 impressions**, jumping from Pos 76.2 to **Pos 56.2** (+20 positions forward) on queries like `create pdf invoice with calculations` (Pos 26.4).
+  - **Top Rankings Maintained:** `preliminary gpas` (Pos 1.1), `what is a preliminary gpa` (Pos 2.8), `preliminary gpa meaning` (Pos 3.7).
+- **Core Upgrades Implemented & Live Deployed:**
+  1. **GPA Article CTR Overhaul:**
+     - Title upgraded to high-curiosity psychological hook: `What Is a Preliminary GPA? (Do Colleges Care? + Free 6th/7th Semester Calculator)`.
+     - Description targeted to anxiety over conditional offers & rescinded admissions.
+     - Added 2 new urgent FAQs: "Do colleges care about your preliminary GPA?" and "Can a college rescind your acceptance based on preliminary vs final GPA?".
+  2. **Portal Resizer Signature Intent:**
+     - Title updated to: `Signature & Photo Resizer (Max 100KB, 50KB, 20KB) — Free Exam & Portal Tool`.
+     - Added targeted FAQ for government portal 100KB & 50KB signature caps with background whitening.
+  3. **Invoice Generator Calculations Intent:**
+     - Title updated to: `Free PDF Invoice Generator with Calculations (No Watermark, Instant PDF)`.
+     - Added FAQ for automated line-item math, tax, and discount percentages.
+  4. **Authority & Knowledge Graph Mesh:**
+     - Added SourceForge and Open Hub verified project cards to `/about`.
+     - Connected `sameAs` array in Organization schema on `/about` linking GitHub, SourceForge, and Open Hub.
+     - Added SourceForge, Open Hub, and GitHub cross-links to site `Footer.tsx`.
+- **Build & Verification Baseline:**
+  - `npm test`: 100% PASS (6 production groups, 5 core WASM cryptographic invariants).
+  - `npm run build`: Exit Code 0, 37 static routes generated.
+  - `npm run package:hostinger`: 381 public files packaged into `artifacts/multipdfdoc-hostinger.zip` (15.58 MB).
+  - `scripts/deploy-ftp.py`: 444 files extracted live directly into Hostinger `public_html`. Verified 200 OK on live site.
+  - GitHub sync: Pushed cleanly to `origin main` (`7c96e7a`).
+  - Graphify: 11,725 nodes, 27,011 edges, 304 communities updated.
+
+---
+
 # Current checkpoint: November 5, 2026 — Round 2 (Cumulative-vs-Weighted Table, Preliminary GPA Mode, Invoice Anchors, Face Guide)
 
 - **Why:** GSC 28-day data — `cumulative gpa vs weighted gpa` 12 imp at pos 31; `what is the difference between cumulative and weighted gpa` pos 10.7; `/calc/gpa` pos 17.8; `/invoice` pos 76 (title alone cannot move this).
