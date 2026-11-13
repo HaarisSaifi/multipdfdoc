@@ -168,9 +168,9 @@
     "semantic_hash": "0d5e8f394e886be60a8a95f09bcd01a6"
   },
   "docs/reports/static-package.json": {
-    "mtime": 1794492812.6671484,
-    "seen": 1794493124.6642516,
-    "ast_hash": "523097eb62dc5d5cfd4e3e68d28ca85a",
+    "mtime": 1794554464.483154,
+    "seen": 1794558197.3751762,
+    "ast_hash": "786e9496e0a3ab1a2478663c8676fd32",
     "semantic_hash": ""
   },
   "docs/reports/ui-review-before.json": {
@@ -276,8 +276,8 @@
     "semantic_hash": "f27b1085f1bde66bc7a1eb79c524581a"
   },
   "public/vendor/pdfjs/version.json": {
-    "mtime": 1794492659.1881266,
-    "seen": 1794493124.6642516,
+    "mtime": 1794554386.0094342,
+    "seen": 1794558197.3751762,
     "ast_hash": "68d0f0b282796b79d539846b62dd77ca",
     "semantic_hash": "68d0f0b282796b79d539846b62dd77ca"
   },
@@ -438,9 +438,9 @@
     "semantic_hash": "aa522f9fcaa3636bf9cf627fb45f01a6"
   },
   "src/app/blog/page.tsx": {
-    "mtime": 1794492471.6307254,
-    "seen": 1794493124.6642516,
-    "ast_hash": "994c2e3a66f7177da039663c261bcd9d",
+    "mtime": 1794554112.9393837,
+    "seen": 1794558197.3751762,
+    "ast_hash": "5b996cf0991c0cfe266d81eac674014c",
     "semantic_hash": ""
   },
   "src/app/blog/pdf-compression-keep-text-selectable/page.tsx": {
@@ -480,15 +480,15 @@
     "semantic_hash": "274185919200308fbf24ebbb746db8a5"
   },
   "src/app/calc/gpa/layout.tsx": {
-    "mtime": 1793888095.1392322,
-    "seen": 1793891330.1190927,
-    "ast_hash": "fda7152760386346c15373bcbda7a8e2",
+    "mtime": 1794558090.8971765,
+    "seen": 1794558197.3751762,
+    "ast_hash": "ebda30a99fcf527d2b33d86eb13e6e27",
     "semantic_hash": ""
   },
   "src/app/calc/gpa/page.tsx": {
-    "mtime": 1793888094.687502,
-    "seen": 1793891330.1190927,
-    "ast_hash": "99a2a80a498fd162b0e7060a2bccf34f",
+    "mtime": 1794554307.9993098,
+    "seen": 1794558197.3751762,
+    "ast_hash": "9e24d98592ab1bbb3de35c44738c8c32",
     "semantic_hash": ""
   },
   "src/app/calc/words-to-pages/layout.tsx": {
@@ -534,21 +534,21 @@
     "semantic_hash": "8cfb393ad295e196ee44da5c884ce213"
   },
   "src/app/invoice/layout.tsx": {
-    "mtime": 1794492524.34919,
-    "seen": 1794493124.6642516,
-    "ast_hash": "99ae32b5a95c4b9999838e9215281a0f",
+    "mtime": 1794558091.355839,
+    "seen": 1794558197.3751762,
+    "ast_hash": "bf7378f63a9295195aca2d012b251405",
     "semantic_hash": ""
   },
   "src/app/invoice/page.tsx": {
-    "mtime": 1793891546.024344,
-    "seen": 1793972577.056349,
-    "ast_hash": "66b0c9226ce49147698b89bef86cf4dc",
+    "mtime": 1794554260.2675176,
+    "seen": 1794558197.3751762,
+    "ast_hash": "11314a6d2e3f5290cdb7390b2c3e872e",
     "semantic_hash": ""
   },
   "src/app/layout.tsx": {
-    "mtime": 1793016801.8920639,
-    "seen": 1793883482.1847365,
-    "ast_hash": "59fe6fd936ec0bbd79eecd8ce2aeb838",
+    "mtime": 1794553946.5008612,
+    "seen": 1794558197.3751762,
+    "ast_hash": "f035efee0956380be6761e52d707f125",
     "semantic_hash": ""
   },
   "src/app/loading.tsx": {
@@ -714,9 +714,9 @@
     "semantic_hash": "e892eec1521ec3e433b320b1eb6faaa9"
   },
   "src/app/sitemap.ts": {
-    "mtime": 1793882888.5609758,
-    "seen": 1793883482.1847365,
-    "ast_hash": "1a3332ed458f0be19ddabafe084e38c9",
+    "mtime": 1794554165.3235085,
+    "seen": 1794558197.3751762,
+    "ast_hash": "3421e9d526c910b1c0ce56c079876b17",
     "semantic_hash": ""
   },
   "src/app/terms/page.tsx": {
@@ -792,9 +792,9 @@
     "semantic_hash": "30c84237c34af6799d0920a6d85b4ff2"
   },
   "src/content/articles.ts": {
-    "mtime": 1794492426.4029384,
-    "seen": 1794493124.6642516,
-    "ast_hash": "e12a852cef7d9c61b765993cda9d48f8",
+    "mtime": 1794554087.8406086,
+    "seen": 1794558197.3751762,
+    "ast_hash": "41c77d0ad0e0c70a07d8b49edb44eaef",
     "semantic_hash": ""
   },
   "src/content/tool-supplements.ts": {
@@ -912,9 +912,9 @@
     "semantic_hash": ""
   },
   "brain.md": {
-    "mtime": 1793888101.627784,
-    "seen": 1793891330.1282597,
-    "ast_hash": "d35129f1a0b6c73e6c7f2ddf05bafbf4",
+    "mtime": 1794493230.6287687,
+    "seen": 1794558197.3751762,
+    "ast_hash": "c880f51cfb4ec6147e0c7aefa5f2c561",
     "semantic_hash": ""
   },
   "docs/analytics-setup.md": {
@@ -1212,15 +1212,15 @@
     "semantic_hash": ""
   },
   "src/app/image/portal-resizer/layout.tsx": {
-    "mtime": 1794492498.183821,
-    "seen": 1794493124.6642516,
+    "mtime": 1794501044.167171,
+    "seen": 1794558197.3751762,
     "ast_hash": "b1ad101967058720b0ac6f9f39f96e42",
     "semantic_hash": ""
   },
   "src/app/image/portal-resizer/page.tsx": {
-    "mtime": 1793888097.2232993,
-    "seen": 1793891330.1190927,
-    "ast_hash": "fbf435e633b6c6a34ad0d9337ea4f938",
+    "mtime": 1794558091.273965,
+    "seen": 1794558197.3751762,
+    "ast_hash": "2978ccb60fbd6117e5a3c52851ebf10d",
     "semantic_hash": ""
   },
   "src/app/pdf/college-application-binder/layout.tsx": {
@@ -1239,6 +1239,24 @@
     "mtime": 1793888095.5213327,
     "seen": 1793891330.1282597,
     "ast_hash": "eeb824f982a31cc3564e2fdb91be937c",
+    "semantic_hash": ""
+  },
+  "src/app/blog/signature-photo-resize-100kb-50kb-exam-portals/page.tsx": {
+    "mtime": 1794554353.269723,
+    "seen": 1794558197.3751762,
+    "ast_hash": "7a14515bb7709363fa16ceea81968bc0",
+    "semantic_hash": ""
+  },
+  "public/llms-full.txt": {
+    "mtime": 1794554352.8625908,
+    "seen": 1794558197.3751762,
+    "ast_hash": "f9f369572400bfceb885282dc967337e",
+    "semantic_hash": ""
+  },
+  "public/llms.txt": {
+    "mtime": 1794554352.9862344,
+    "seen": 1794558197.3751762,
+    "ast_hash": "14561e84495d3a76a819ec0170c036b2",
     "semantic_hash": ""
   }
 }

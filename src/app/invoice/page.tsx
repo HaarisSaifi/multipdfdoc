@@ -60,6 +60,73 @@ export default function InvoiceGeneratorPage() {
   const [discountPercent, setDiscountPercent] = useState<number>(0);
   const [notes, setNotes] = useState("");
   const [paymentDetails, setPaymentDetails] = useState("");
+  const [isDraftLoaded, setIsDraftLoaded] = useState(false);
+
+  // Restore draft safely from localStorage on client mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("multipdf_invoice_draft");
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.invoiceNumber !== undefined) setInvoiceNumber(data.invoiceNumber);
+        if (data.fromName !== undefined) setFromName(data.fromName);
+        if (data.fromEmail !== undefined) setFromEmail(data.fromEmail);
+        if (data.fromAddress !== undefined) setFromAddress(data.fromAddress);
+        if (data.toName !== undefined) setToName(data.toName);
+        if (data.toEmail !== undefined) setToEmail(data.toEmail);
+        if (data.toAddress !== undefined) setToAddress(data.toAddress);
+        if (Array.isArray(data.items) && data.items.length > 0) setItems(data.items);
+        if (data.taxPercent !== undefined) setTaxPercent(data.taxPercent);
+        if (data.discountPercent !== undefined) setDiscountPercent(data.discountPercent);
+        if (data.notes !== undefined) setNotes(data.notes);
+        if (data.paymentDetails !== undefined) setPaymentDetails(data.paymentDetails);
+        if (data.currency) setCurrency(data.currency);
+      }
+    } catch {
+      // Ignore parse or storage errors
+    }
+    setIsDraftLoaded(true);
+  }, []);
+
+  // Auto-save draft on any user change after initial load
+  useEffect(() => {
+    if (!isDraftLoaded) return;
+    try {
+      const draft = {
+        invoiceNumber,
+        fromName,
+        fromEmail,
+        fromAddress,
+        toName,
+        toEmail,
+        toAddress,
+        items,
+        taxPercent,
+        discountPercent,
+        notes,
+        paymentDetails,
+        currency,
+      };
+      localStorage.setItem("multipdf_invoice_draft", JSON.stringify(draft));
+    } catch {
+      // Ignore quota errors
+    }
+  }, [
+    isDraftLoaded,
+    invoiceNumber,
+    fromName,
+    fromEmail,
+    fromAddress,
+    toName,
+    toEmail,
+    toAddress,
+    items,
+    taxPercent,
+    discountPercent,
+    notes,
+    paymentDetails,
+    currency,
+  ]);
 
   const loadSampleData = () => {
     setInvoiceNumber("INV-004291");
@@ -82,6 +149,11 @@ export default function InvoiceGeneratorPage() {
   };
 
   const clearAllFields = () => {
+    try {
+      localStorage.removeItem("multipdf_invoice_draft");
+    } catch {
+      // Ignore
+    }
     setInvoiceNumber("");
     setFromName("");
     setFromEmail("");
@@ -205,6 +277,10 @@ export default function InvoiceGeneratorPage() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5">
+              <span className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/80">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Draft auto-saved</span>
+              </span>
               <button
                 type="button"
                 onClick={loadSampleData}

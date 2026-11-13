@@ -1,0 +1,43 @@
+# MultiPDF Doc
+
+> MultiPDF Doc (https://multipdfdoc.com) is a 100% private, client-side document processing suite and open-source web application. All operations—including PDF compression, merging, splitting, Bates numbering, dual-engine OCR, image/signature resizing, and invoice generation—execute locally inside the user's browser via WebAssembly (qpdf v12 & Tesseract.js) and HTML5 Canvas. Zero document bytes are ever uploaded to any server.
+
+## Architectural Invariants & Privacy Model
+- **Zero Server Uploads:** Files never leave the client's local device memory. No network API calls for document processing.
+- **Engines:** Mozilla PDF.js (vector rendering), `pdfstudio` (QPDF WebAssembly v12 for AES-256 encryption & structural optimization), `tesseract.js` (local WebAssembly LSTM OCR), `pdf-lib` (stream concatenation), HTML5 Canvas (high-precision image/signature manipulation).
+- **License & Governance:** MIT Licensed open-source software created by Haaris Saifi. Verified on SourceForge, Black Duck Open Hub, and GitHub.
+- **Commercial Independence:** Watermark-free, payment-wall-free, and signup-free.
+
+## Core Document & PDF Utilities
+- [PDF Compressor](https://multipdfdoc.com/pdf/compress): Dual-engine client-side compression targeting 100KB, 200KB, 500KB, 1MB, or custom thresholds.
+- [PDF Merger](https://multipdfdoc.com/pdf/merge): Visual drag-and-drop client-side PDF combiner with zero upload limits.
+- [PDF Splitter](https://multipdfdoc.com/pdf/split): Extract isolated chapters, single pages, or non-contiguous ranges (e.g., 1-3, 5, 8-10).
+- [Dual-Engine OCR to Text](https://multipdfdoc.com/pdf/to-text): Engine 1 extracts native vector text; Engine 2 runs local Tesseract.js WASM OCR for scanned pages.
+- [Organize & Rotate Pages](https://multipdfdoc.com/pdf/organize): 3D visual cards to rotate (90°/180°), reorder, or delete PDF pages before export.
+- [Password Protect PDF](https://multipdfdoc.com/pdf/protect): Real 256-bit AES cryptographic encryption powered by QPDF WebAssembly.
+- [Unlock & Decrypt PDF](https://multipdfdoc.com/pdf/unlock): In-browser password decryption via QPDF WebAssembly.
+- [Bates & Page Numbering](https://multipdfdoc.com/pdf/page-numbers): Legal Bates stamping and standard pagination ("Page X of Y").
+- [PDF to High-Res Images](https://multipdfdoc.com/pdf/to-image): Render vector pages to 150 & 300 DPI PNG/JPEG with JSZip bundling.
+- [Convert Images to PDF](https://multipdfdoc.com/pdf/from-image): Convert multi-format photos (JPG, PNG, WebP) into standardized PDFs.
+- [College Application Packet Binder](https://multipdfdoc.com/pdf/college-application-binder): Client-side application packet builder with 1.9MB Common App budget gauge and sequential pagination.
+- [Signature & Photo Portal Resizer](https://multipdfdoc.com/image/portal-resizer): Canvas cropper with State Dept 50–69% face guide, signature whitening, and binary search JPEG compression for strict portal caps (20KB, 50KB, 100KB, 240KB).
+
+## Business & Academic Suite
+- [Free PDF Invoice Generator](https://multipdfdoc.com/invoice): Professional client invoice generator with auto-calculations for line-item math, discounts, tax/VAT, and Net 30 terms. No watermark.
+- [Expense Voucher & Bookkeeping Generator](https://multipdfdoc.com/receipt): IRS Publication 463 contemporaneous bookkeeping and reimbursement log generator.
+- [Preliminary & Weighted GPA Calculator](https://multipdfdoc.com/calc/gpa): Dynamic transcript calculator supporting 6th & 7th semester preliminary GPAs, unweighted vs weighted 4.0/5.0 scales, and AP/IB (+1.0) / Honors (+0.5) weighting.
+- [Final Exam Target Grade Calculator](https://multipdfdoc.com/calc/final-grade): Target exam score calculator with Panic vs Chill speedometer gauge.
+- [Words to Pages & Speech Timer](https://multipdfdoc.com/calc/words-to-pages): Academic word-to-page converter with oral speech pacing metrics.
+
+## Authoritative Procedural Guides
+- [Preliminary GPA Meaning & College Guide](https://multipdfdoc.com/blog/weighted-vs-unweighted-gpa-college-admissions): How universities evaluate 6th & 7th semester GPAs and senioritis conditional offer rules.
+- [USCIS & Passport 200KB Compression Guide](https://multipdfdoc.com/blog/compress-pdf-200kb-uscis-passport-guide): Official government portal compression standards and legibility limits.
+- [Freelance Invoice Payment Terms & IRS 1099 Rules](https://multipdfdoc.com/blog/freelance-invoice-payment-terms-guide): Guide to Net 30/60 terms, late payment enforcement, and updated 2026 IRS threshold requirements.
+- [Zero-Knowledge PDF Privacy & Cloud Converter Risks](https://multipdfdoc.com/blog/zero-knowledge-pdf-privacy-cloud-converter-risks): Technical comparison of server-side converters vs client-side WebAssembly execution.
+
+## Official Registries & Verification
+- SourceForge: https://sourceforge.net/projects/multipdfdoc/
+- Black Duck Open Hub: https://www.openhub.net/p/multipdfdoc
+- GitHub Repository: https://github.com/HaarisSaifi/multipdfdoc
+- Editorial & Testing Governance: https://multipdfdoc.com/editorial-policy
+

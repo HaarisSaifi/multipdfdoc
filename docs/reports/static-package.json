@@ -1,8 +1,8 @@
 {
   "artifact": "artifacts/multipdfdoc-hostinger.zip",
-  "files": 381,
-  "bytes": 16338473,
-  "sha256": "ece22d14ab0fe262361c8f3bf544c72a9798e4f7806f75dbce97f8a40b078753",
+  "files": 387,
+  "bytes": 16389729,
+  "sha256": "0e7d0e39f8b4f6e1150a2adccf26665414dcddbe78c05fb101baecadd9089811",
   "containsHtaccess": true,
   "includesApplicationServer": false
 }

@@ -18,6 +18,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 type Mode = "photo" | "signature";
 type Format = "jpeg" | "png";
@@ -272,19 +273,112 @@ export default function PortalResizerPage() {
     return `px-3.5 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap transition-all shadow-sm ${map[tone]}`;
   };
 
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Resize and Compress a Signature to Maximum 100KB or 50KB",
+    description: "Step-by-step procedural instructions to crop, whiten paper background, and compress signature images under 100KB or 50KB for application portals.",
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Select Signature Mode",
+        text: "Click Signature and pick a standard dimension preset (300×100 px or 3.5×1.5 cm) or enter custom pixels.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Upload Signature Photo",
+        text: "Select your photograph of your handwritten signature on plain white paper.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Enable Background Whitening",
+        text: "Keep 'Whiten paper background' active and adjust the threshold slider so gray phone shadows vanish while dark ink remains sharp.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Set Target KB Cap",
+        text: "Choose 100KB, 50KB, or 20KB to engage the client-side binary search JPEG compression engine.",
+      },
+      {
+        "@type": "HowToStep",
+        name: "Download Clean Vector Output",
+        text: "Click 'Resize & Compress' to instantly generate and download your portal-compliant image.",
+      },
+    ],
+  };
+
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"><fieldset disabled={processing} className="contents" aria-busy={processing}>
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+      <JsonLd data={howToSchema} />
+      <fieldset disabled={processing} className="contents" aria-busy={processing}>
       <div className="text-center space-y-4 mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-bold uppercase tracking-wider shadow-sm whitespace-nowrap">
           <ShieldCheck className="w-4 h-4 text-emerald-600" />
           100% In-Browser • Zero Uploads
         </div>
         <h1 className="text-3xl sm:text-5xl font-display font-extrabold text-slate-900 tracking-tight">
-          Exam & Portal <span className="text-violet-600">Photo Resizer</span>
+          Exam &amp; Portal <span className="text-violet-600">Signature &amp; Photo Resizer</span>
         </h1>
         <p className="text-slate-600 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
           Crop a photo or signature to exact pixel dimensions, then compress it under 20 KB, 50 KB, 100 KB or your own limit for exam, visa and job application portals. Your image never leaves this device.
         </p>
+
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+          <span className="text-xs font-semibold text-slate-500 mr-1 flex items-center gap-1">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            Quick Presets:
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              setMode("signature");
+              setPresetId("px300x100");
+              setTargetKb(100);
+              setWhiten(true);
+              invalidate();
+            }}
+            className="px-3 py-1 rounded-full text-xs font-semibold bg-white border border-slate-200 hover:border-violet-300 hover:bg-violet-50/50 text-slate-700 transition shadow-sm"
+          >
+            ✍️ 100KB Signature
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMode("signature");
+              setPresetId("px300x100");
+              setTargetKb(50);
+              setWhiten(true);
+              invalidate();
+            }}
+            className="px-3 py-1 rounded-full text-xs font-semibold bg-white border border-slate-200 hover:border-violet-300 hover:bg-violet-50/50 text-slate-700 transition shadow-sm"
+          >
+            ✍️ 50KB Signature
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMode("photo");
+              setPresetId("cm35x45");
+              setTargetKb(50);
+              invalidate();
+            }}
+            className="px-3 py-1 rounded-full text-xs font-semibold bg-white border border-slate-200 hover:border-violet-300 hover:bg-violet-50/50 text-slate-700 transition shadow-sm"
+          >
+            📷 50KB Photo (3.5×4.5 cm)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMode("photo");
+              setPresetId("cm35x45");
+              setTargetKb(20);
+              invalidate();
+            }}
+            className="px-3 py-1 rounded-full text-xs font-semibold bg-white border border-slate-200 hover:border-violet-300 hover:bg-violet-50/50 text-slate-700 transition shadow-sm"
+          >
+            📷 20KB Photo (Govt Exam)
+          </button>
+        </div>
       </div>
 
       <AdPlaceholder slot="top-leaderboard" format="horizontal" />

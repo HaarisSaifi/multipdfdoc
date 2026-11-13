@@ -17,7 +17,47 @@ export const metadata: Metadata = {
 };
 
 export default function InvoiceLayout({ children }: { children: React.ReactNode }) {
-  return <><ToolBreadcrumb name="Invoice generator" href="/invoice" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["invoice"]}
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Create a PDF Invoice with Automatic Calculations",
+    "description": "Step-by-step procedure to generate an itemized PDF invoice with automatic tax, discount, line-item totals, and vector PDF download in your browser.",
+    "totalTime": "PT2M",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter Issuer & Client Information",
+        "text": "Add your business name, billing email, address, and client invoicing details along with invoice number and issue/due dates."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Add Itemized Service or Product Rows",
+        "text": "Provide descriptions, quantities, and unit rates. MultiPDF Doc automatically computes line subtotals with high floating-point precision."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Configure Tax and Discount Percentages",
+        "text": "Input applicable sales tax or VAT and discounts. The real-time commercial formula updates taxable totals and Grand Total instantly."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Generate & Download Vector PDF",
+        "text": "Click 'Generate Invoice PDF' to build an ISO 32000 compliant vector PDF locally in your browser with zero watermark and zero upload."
+      }
+    ]
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <ToolBreadcrumb name="Invoice generator" href="/invoice" />
+      {children}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10">
+        <ValueWrapper
+          sources={toolSources["invoice"]}
         toolName="Free Professional Invoice Generator"
         title="Official Procedural Standards: Business Invoicing, Tax Deductibility & Audit Governance"
         subtitle="Comprehensive legal and financial guidelines for freelancers, contractors, and SMBs generating valid tax invoices."
@@ -55,5 +95,6 @@ export default function InvoiceLayout({ children }: { children: React.ReactNode 
             answer: "The tool formats the information you enter; it does not certify tax compliance. Check local required fields, tax treatment and electronic-invoicing obligations with an appropriate adviser."
           }
         ]}
-      /></div></>;
+      /></div></>
+  );
 }

@@ -17,7 +17,47 @@ export const metadata: Metadata = {
 };
 
 export default function GpaLayout({ children }: { children: React.ReactNode }) {
-  return <><ToolBreadcrumb name="GPA calculator" href="/calc/gpa" />{children}<div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10"><ValueWrapper sources={toolSources["calc/gpa"]}
+  const howToSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Weighted, Unweighted and Preliminary GPA",
+    "description": "Step-by-step method to compute high school cumulative GPA on a 4.0 and 5.0 scale, including 6th and 7th semester preliminary GPA for college applications.",
+    "totalTime": "PT2M",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter Course Names and Credit Values",
+        "text": "List high school or college courses along with their assigned semester credits (usually 0.5 or 1.0 credit per term)."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Assign Letter Grades and Course Rigor Levels",
+        "text": "Select your letter grade (A through F) and designate whether the course is Regular (4.0 max), Honors (+0.5 weight), or AP / IB / Dual Enrollment (+1.0 weight)."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Toggle Preliminary GPA Mode for Early College Admissions",
+        "text": "For 6th or 7th semester college application deadlines, toggle Preliminary GPA mode and mark senior spring courses as 'In Progress' to calculate your interim GPA from completed terms only."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Review Dual Unweighted and Weighted Results",
+        "text": "View real-time dual score rings displaying your exact unweighted GPA (out of 4.00) and weighted GPA (out of 5.00) with zero server uploads."
+      }
+    ]
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <ToolBreadcrumb name="GPA calculator" href="/calc/gpa" />
+      {children}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-10">
+        <ValueWrapper
+          sources={toolSources["calc/gpa"]}
         toolName="Weighted, Unweighted & Preliminary GPA Calculator"
         title="GPA Calculation Guide: High School GPA Scaling & College Admissions Conversion"
         subtitle="How the Common Application, UC admissions, and state universities interpret weighted vs unweighted GPA."
@@ -55,5 +95,6 @@ export default function GpaLayout({ children }: { children: React.ReactNode }) {
             answer: "No. MultiPDF Doc processes all grade inputs locally in your browser with zero server data collection or transmission."
           }
         ]}
-      /></div></>;
+      /></div></>
+  );
 }

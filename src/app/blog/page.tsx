@@ -108,6 +108,19 @@ export default function BlogIndexPage() {
       featuredTool: "Private PDF Merger",
       featuredToolHref: "/pdf/merge",
     },
+    {
+      slug: "signature-photo-resize-100kb-50kb-exam-portals",
+      title: "How to Resize Signature & Photo to Under 100KB or 50KB for Government Portals",
+      description:
+        "Complete procedural guide to resizing handwritten signatures and passport photos under 100KB, 50KB, or 20KB without quality loss or portal upload rejections.",
+      category: "Immigration & Legal",
+      readTime: "6 min read",
+      date: "November 13, 2026",
+      badge: "GOVERNMENT PORTALS",
+      badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      featuredTool: "Photo & Signature Resizer",
+      featuredToolHref: "/image/portal-resizer",
+    },
   ];
 
   const categories = [

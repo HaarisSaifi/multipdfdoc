@@ -22,7 +22,11 @@ export const metadata: Metadata = {
     "Merge, compress, convert, and manage multi-PDF documents 100% locally in your browser. Zero server uploads, instant WebAssembly speed, and private document processing.",
   alternates: {
     canonical: "https://multipdfdoc.com",
+    types: {
+      "text/plain": "https://multipdfdoc.com/llms.txt",
+    },
   },
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },

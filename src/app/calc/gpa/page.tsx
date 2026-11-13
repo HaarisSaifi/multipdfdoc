@@ -12,6 +12,7 @@ import {
   School,
   TrendingUp,
   Clock,
+  Share2,
 } from "lucide-react";
 import { AdPlaceholder } from "@/components/ads/AdPlaceholder";
 import { computeGpa, GRADE_POINTS, type CourseLevel, type CourseStatus } from "@/lib/gpa";
@@ -36,6 +37,7 @@ export default function GpaConverterPage() {
     { id: "5", name: "Spanish III Honors", grade: "A", level: "honors", credits: 1, status: "in_progress" },
   ]);
   const [preliminary, setPreliminary] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   // Deep link from guides: /calc/gpa#preliminary opens preliminary mode.
   useEffect(() => {
@@ -71,6 +73,24 @@ export default function GpaConverterPage() {
   const totalCredits = all.credits;
   const inProgressCount = courses.filter((c) => c.status === "in_progress" && c.credits > 0).length;
   const primary = preliminary ? done : all;
+
+  const copySummary = () => {
+    try {
+      const summaryText =
+        `MultiPDF Doc — High School GPA Calculation Summary\n` +
+        `Mode: ${preliminary ? "Preliminary GPA (Completed Terms Only)" : "Cumulative GPA"}\n` +
+        `Unweighted GPA: ${fmt(primary.unweighted)} / 4.00\n` +
+        `Weighted GPA: ${fmt(primary.weighted)} / 5.00\n` +
+        `Credits Included: ${primary.credits}\n` +
+        (preliminary && inProgressCount > 0 ? `Projected (After in-progress classes): Unweighted ${fmt(all.unweighted)}, Weighted ${fmt(all.weighted)}\n` : "") +
+        `Calculate 100% free and private in-browser at: https://multipdfdoc.com/calc/gpa`;
+      navigator.clipboard.writeText(summaryText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Fallback
+    }
+  };
 
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-12">
@@ -216,6 +236,24 @@ export default function GpaConverterPage() {
               </div>
             </div>
             <p className="text-[11px] font-mono text-slate-500">{primary.credits} credits included{preliminary ? ` • ${inProgressCount} in progress excluded` : ""}</p>
+
+            <button
+              type="button"
+              onClick={copySummary}
+              className="w-full py-2.5 px-4 rounded-full text-xs font-bold btn-bubble btn-bubble-violet flex items-center justify-center gap-2 shadow-clay-pill transition-all"
+            >
+              {copied ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  <span>Copied Summary to Clipboard!</span>
+                </>
+              ) : (
+                <>
+                  <Share2 className="w-4 h-4" />
+                  <span>Copy GPA Summary to Share</span>
+                </>
+              )}
+            </button>
 
             {preliminary && inProgressCount > 0 && all.credits > 0 && (
               <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-left space-y-2">

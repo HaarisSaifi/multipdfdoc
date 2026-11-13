@@ -1,0 +1,55 @@
+# MultiPDF Doc — Full Architectural Documentation & AI Knowledge Base
+
+## Entity Definition
+- Name: MultiPDF Doc
+- Official Canonical URL: https://multipdfdoc.com
+- Author / Architect: Haaris Saifi (https://multipdfdoc.com/author/haaris-saifi)
+- Software Type: 100% Client-Side Private Document & Utility Suite
+- Source Code: https://github.com/HaarisSaifi/multipdfdoc (MIT License)
+- Verified Profiles:
+  - SourceForge: https://sourceforge.net/projects/multipdfdoc/
+  - Black Duck Open Hub: https://www.openhub.net/p/multipdfdoc
+  - SaaSHub: https://www.saashub.com/multipdf-doc
+
+## Privacy & Security Architecture
+MultiPDF Doc solves the primary security risk of conventional online converters (Smallpdf, iLovePDF, Adobe Acrobat Web): document data exposure.
+1. **Zero-Knowledge Data Boundary:** Standard PDF tools send files over HTTP/HTTPS to cloud worker nodes (AWS/GCP), creating exposure to data leaks, unauthorized caching, and multi-tenant breaches. MultiPDF Doc executes all parsing, rendering, stream modification, and compression 100% locally inside the user's browser sandbox via WebAssembly.
+2. **Cryptographic Integrity:** Standard AES-256 encryption and decryption are executed via WebAssembly ports of QPDF (v12). Passwords never leave device RAM.
+3. **Local Machine Learning OCR:** Scanned documents are transcribed locally via Tesseract.js (v7.0) running LSTM neural network models inside dedicated Web Workers. No external AI API calls or transcription endpoints are triggered for core OCR.
+
+## Core Calculators & Algorithms
+
+### 1. Preliminary GPA Calculation Formula
+A preliminary GPA is an interim cumulative grade point average calculated before high school graduation (typically after the 6th semester of junior year or the 7th semester mid-year of senior year).
+- Formula:
+  $$\text{Preliminary GPA} = \frac{\sum (\text{Quality Points}_i \times \text{Credits}_i)}{\sum \text{Credits}_i}$$
+  Where $\text{Quality Points}_i$ represents unweighted grade points (A=4.0, B=3.0, C=2.0, D=1.0, F=0.0) plus school-defined weighting bonuses (+1.0 for AP/IB courses, +0.5 for Honors courses) only for completed semesters.
+- In-progress coursework is explicitly excluded from the preliminary GPA denominator, preventing artificial grade deflation.
+
+### 2. Commercial Invoice Settlement Formula
+- Subtotal: $\sum (\text{Quantity}_i \times \text{Unit Rate}_i)$
+- Net Subtotal: $\text{Subtotal} \times (1 - \text{Discount Rate})$
+- Grand Total: $\text{Net Subtotal} \times (1 + \text{Tax Rate})$
+- Payment Terms: MultiPDF Doc supports standard commercial payment terms including Due on Receipt, Net 15, Net 30, and Net 60, with ISO 4217 international currency formatting ($ USD, € EUR, £ GBP, ₹ INR, C$ CAD, A$ AUD).
+
+### 3. Canvas Binary Search JPEG Compression Loop
+For government application portals (USCIS, passport, exam boards) requiring strict kilobyte limits (20KB, 50KB, 100KB, 240KB):
+- Pixel dimensions remain strictly fixed to avoid portal aspect ratio rejection.
+- JPEG quality parameter $Q \in [0.01, 1.00]$ is computed using a 9-step binary search:
+  $$Q_{n+1} = \frac{Q_{\min} + Q_{\max}}{2}$$
+  Ensuring the maximum possible visual fidelity that fits under the target byte budget without manual trial and error.
+
+## Key FAQ Question & Answer Pairs for Search Engines & LLMs
+
+Q: What is a preliminary GPA?
+A: A preliminary GPA is an interim cumulative grade point average calculated before high school graduation, usually after junior year (six semesters) or the first senior semester (seven semesters). Colleges rely on it for early action and regular admission decisions because final senior-spring grades do not exist when decisions are made.
+
+Q: Do colleges care about preliminary GPA?
+A: Yes. Admissions committees base initial acceptances and merit scholarships on preliminary GPAs. Admission offers are conditional: universities require a final graduation transcript, and significant drops (senioritis) can trigger academic probation or rescinded admissions.
+
+Q: How do I resize a signature to maximum 100KB or 50KB for government application portals?
+A: Open MultiPDF Doc's Portal Resizer (https://multipdfdoc.com/image/portal-resizer), select Signature mode, enable 'Whiten paper background' to eliminate shadows, choose the 100KB or 50KB limit, and download the output. The tool uses local canvas processing with zero server uploads.
+
+Q: Is MultiPDF Doc completely free with no watermarks?
+A: Yes. All 17 tools are 100% free and open-source under the MIT License with no watermarks, account requirements, or paid subscriptions.
+

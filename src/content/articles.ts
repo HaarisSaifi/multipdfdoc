@@ -240,3 +240,88 @@ If you need a cloud-only capability, decide whether the document is appropriate 
     { title: "QPDF encryption documentation", publisher: "QPDF project", url: "https://qpdf.readthedocs.io/en/stable/encryption.html" },
   ],
 };
+
+export const signatureArticle: ArticleContent = {
+  title: "How to Resize Signature & Photo to Under 100KB or 50KB for Government Portals",
+  description: "Complete guide to resizing handwritten signatures and passport photos under 100KB, 50KB, or 20KB. Fix phone shadows, maintain aspect ratios, and pass portal upload validation.",
+  published: "2026-11-13",
+  updated: "2026-11-13",
+  quickAnswer: {
+    question: "How do I resize a signature to maximum 100KB or 50KB for online portals?",
+    answer: "Photograph your signature on clean white paper in daylight, crop it to the portal's required pixel aspect ratio (such as 300×100 px or 3.5×1.5 cm), apply background whitening to eliminate camera shadows, and compress using an adaptive binary search JPEG loop to strictly meet the 100KB or 50KB cap without blurring ink lines.",
+    note: "Never shrink pixel dimensions below portal minimums just to reduce file size, as automated validators reject altered aspect ratios.",
+  },
+  tool: { href: "/image/portal-resizer", label: "Open the 100KB/50KB Signature & Photo Resizer" },
+  comparison: {
+    heading: "Government & Exam Portal Photo / Signature Size Standards",
+    intro: "Different application portals enforce strict, independent rules for pixel dimensions, aspect ratios, and file size in kilobytes. Failing any single parameter causes an immediate upload error.",
+    headers: ["Portal / Exam Category", "Photo KB Cap", "Signature KB Cap", "Required Dimension Standard"],
+    rows: [
+      ["U.S. Visa & Passport Portals", "≤ 240 KB", "N/A (DS-160 upload)", "600×600 to 1200×1200 px (1:1 Square)"],
+      ["UPSC & SSC Central Portals", "20 KB – 50 KB", "10 KB – 20 KB", "Photo: 3.5×4.5 cm (300 DPI); Sign: 4.0×2.0 cm"],
+      ["State Public Service & Police", "≤ 100 KB", "≤ 50 KB / 100 KB", "Photo: 350×450 px; Sign: 300×100 px"],
+      ["Banking (IBPS, SBI) Portals", "20 KB – 50 KB", "10 KB – 20 KB", "Photo: 200×230 px; Sign: 140×60 px"],
+      ["University & Common App", "≤ 2 MB / 500 KB", "≤ 100 KB", "Standard portrait ratio / clear contrast signature"],
+    ],
+    note: "Always check the specific notification PDF for your examination or portal, as dimensional rules are strictly enforced by automated image validators.",
+  },
+  related: [
+    { href: "/image/portal-resizer", label: "Resize photos & signatures under 20KB, 50KB, or 100KB" },
+    { href: "/pdf/compress", label: "Compress application PDF packets to 200KB or 100KB" },
+    { href: "/pdf/college-application-binder", label: "Bundle transcripts, recommendation letters & essays into one PDF" },
+  ],
+  sections: [
+    {
+      heading: "Why government portals reject photo and signature uploads",
+      content: `Automated application portals validate uploads using server-side image processing libraries (such as ImageMagick or libjpeg). When you click submit, the system checks three independent invariants: file container format (strictly JPEG/JPG), exact pixel dimensions (or strict aspect ratio), and total file size in bytes.
+
+Passing two rules while failing the third results in an immediate rejection error. For example, a crisp signature photograph taken on a modern smartphone often has 4000×3000 pixels and a file size of 3.8 megabytes—far exceeding typical 20 KB, 50 KB, or 100 KB portal limits. Conversely, if a candidate forcefully downsizes an image in basic paint software, the pixel dimensions may shrink to 80×30, which triggers an automated 'Image resolution too low' or 'Unacceptable aspect ratio' error.
+
+To guarantee acceptance, you must satisfy all three criteria simultaneously: maintain the official pixel dimensions, whiten the paper background so the file compresses efficiently, and use an adaptive compression loop that optimizes the JPEG quantization tables rather than degrading the image geometry.`
+    },
+    {
+      heading: "How smartphone camera shadows ruin signature compression",
+      content: `When you photograph a handwritten signature on paper, ambient room light or the shadow of your hand and phone creates an uneven gray gradient across the background. To the human eye, the ink looks legible. But to a JPEG compression algorithm, continuous subtle variations in lighting represent high-entropy data that cannot be compressed easily.
+
+The discrete cosine transform (DCT) used in JPEG compression treats paper shadows, grain, and lighting gradients as complex frequencies. A shadowed photo of a signature might take 280 KB even at low quality settings. If you force the quality down to reach 20 KB or 50 KB without clearing the background, the ink strokes become artifact-ridden, pixelated, and unreadable.
+
+The solution is background whitening via threshold segmentation. MultiPDF Doc's portal resizer analyzes the luminance of non-ink pixels. By adjusting the threshold slider, slightly gray paper pixels are mapped to pure white (#FFFFFF). Pure white areas compress to almost zero bytes in JPEG, allowing the algorithm to allocate the entire kilobyte budget to the dark ink strokes, keeping the signature needle-sharp.`
+    },
+    {
+      heading: "The mathematics of adaptive binary search compression",
+      content: `Most basic photo tools offer an arbitrary quality slider from 1 to 100. Users are forced into frustrating trial-and-error: guessing quality 60, saving the file, finding it is 54 KB (rejected by a 50 KB cap), lowering quality to 40, finding it is 18 KB (blurry), and repeating.
+
+MultiPDF Doc eliminates manual guesswork through an automated binary search over the JPEG quality space Q in [0.05, 0.98]. The algorithm renders the exact crop onto an HTML5 canvas at target pixel dimensions. In step 1, it tests the midpoint quality Q=0.51. If the generated blob size is less than or equal to the target byte cap, the lower bound is updated; otherwise, the upper bound is reduced.
+
+Within nine iterations, the algorithm narrows the quality setting to within 0.1% accuracy. The output is the highest possible visual fidelity that mathematically fits beneath the 20 KB, 50 KB, or 100 KB ceiling. If an image physically cannot fit within the byte limit at minimum acceptable quality, the tool alerts you with an explicit message rather than silently destroying the pixel dimensions.`
+    },
+    {
+      heading: "Step-by-step instructions: from paper signature to verified upload",
+      content: `Follow this 5-step procedure to create a guaranteed-accepted portal signature:
+
+1. Sign with black or dark blue ink on clean, unruled white paper. Avoid textured or colored paper.
+2. Photograph the signature from directly above under good daylight, ensuring your hand does not cast a sharp shadow across the writing.
+3. Open MultiPDF Doc's Signature Resizer (https://multipdfdoc.com/image/portal-resizer) and select the Signature tab. Choose the 300×100 px or 3.5×1.5 cm preset according to your examination notice.
+4. Keep 'Whiten paper background' turned on. Adjust the threshold slider until the background is pure paper-white and the ink remains crisp.
+5. Select your target cap (100 KB, 50 KB, or 20 KB) and click 'Resize & Compress'. Download your output and inspect the result before final submission.`
+    },
+    {
+      heading: "Biometric privacy and client-side processing security",
+      content: `Handwritten signatures and passport facial photographs are legally binding biometric identifiers. Uploading them to random online conversion servers poses severe identity theft risks. Many free utility sites retain uploaded files in temporary cloud storage buckets, where they are vulnerable to scraping or breach.
+
+MultiPDF Doc processes all image decoding, cropping, threshold filtering, and JPEG encoding 100% inside your browser's sandboxed Canvas API. Zero document bytes are transmitted to any remote server. Furthermore, the HTML5 canvas re-encoding process automatically strips all EXIF metadata—including GPS geolocation, smartphone camera model, and timestamp data—protecting your personal privacy when submitting official documents.`
+    }
+  ],
+  faqs: [
+    { question: "How do I make my signature file size maximum 100KB or 50KB?", answer: "Open MultiPDF Doc's Portal Resizer, select Signature mode, enable background whitening, pick the 100KB or 50KB target cap, and click Resize & Compress. The in-browser binary search engine locks the file strictly under the cap." },
+    { question: "Why do government portals reject photos that are under the KB limit?", answer: "Portals validate pixel dimensions and aspect ratios alongside file size. If an image is 45 KB but has a 4:3 ratio instead of a required 3.5×4.5 cm portrait ratio, automated validator scripts reject the upload." },
+    { question: "How do I remove the gray shadow behind my signature photo?", answer: "Enable the 'Whiten paper background' option in our tool. The threshold slider turns paper grain and shadows pure white (#FFFFFF), drastically reducing file size while leaving ink lines sharp." },
+    { question: "Is my signature uploaded to any server?", answer: "No. All canvas rendering and compression happen 100% locally in your browser. No files or signatures are ever uploaded to any server." },
+    { question: "Can I resize a signature to 10KB to 20KB for SSC or UPSC exams?", answer: "Yes. Choose Signature mode, select the 300×100 px preset, enable background whitening, set the target cap to 20KB, and add an optional 10KB minimum limit to meet strict portal ranges." }
+  ],
+  sources: [
+    { title: "U.S. Department of State: Digital Image Requirements", publisher: "Travel.State.Gov", url: "https://travel.state.gov/content/travel/en/us-visas/visa-information-resources/photos/digital-image-requirements.html" },
+    { title: "ICAO Doc 9303: Machine Readable Travel Documents", publisher: "International Civil Aviation Organization", url: "https://www.icao.int/publications/pages/publication.aspx?docnum=9303" },
+    { title: "ISO/IEC 10918-1: Information technology — Digital compression of continuous-tone still images", publisher: "International Organization for Standardization", url: "https://www.iso.org/standard/18902.html" },
+  ],
+};

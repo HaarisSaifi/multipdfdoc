@@ -150,6 +150,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog/pdf-page-numbers-skip-cover`, lastModified: new Date("2026-10-11T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.75 },
     { url: `${baseUrl}/blog/extract-text-mixed-scanned-pdf`, lastModified: new Date("2026-10-11T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.75 },
     { url: `${baseUrl}/blog/pdf-compression-keep-text-selectable`, lastModified: new Date("2026-10-11T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.75 },
+    { url: `${baseUrl}/blog/signature-photo-resize-100kb-50kb-exam-portals`, lastModified: new Date("2026-11-13T00:00:00.000Z"), changeFrequency: "monthly", priority: 0.8 },
 
     // 6. E-E-A-T, Leadership & Author Entity
     {

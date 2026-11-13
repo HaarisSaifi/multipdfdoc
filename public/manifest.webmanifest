@@ -1,0 +1,29 @@
+{
+  "name": "MultiPDF Doc — 100% Private In-Browser Document Suite",
+  "short_name": "MultiPDF",
+  "description": "100% in-browser private document suite & PDF tools powered by WebAssembly. Zero document uploads.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#FFFFFF",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": [
+    "utilities",
+    "productivity",
+    "business"
+  ]
+}
+
